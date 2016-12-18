@@ -1,0 +1,131 @@
+$tabs-order                   ?= 9
+$tabs-padding                 ?= 8px 20px
+$tabs-big-screen-side-padding ?= 12px
+$tabs-color                   ?= $toolbar-faded-color
+$tabs-active-color            ?= $toolbar-color
+$tabs-background              ?= $toolbar-background
+$tabs-highlight-color         ?= opposite-non-color($tabs-background)
+$tabs-container-border-bottom ?= 1px solid $grey-3
+$tabs-min-height              ?= 61px
+
+$tabs-font-size               ?= .95rem
+$tabs-icon-font-size          ?= 1.7rem
+$tabs-font-weight             ?= 400
+$tabs-label-margin            ?= 5px 0 0 0
+$tabs-label-font-size         ?= .7rem
+
+.q-tabs-scroller
+  overflow hidden
+
+.q-tab
+  display flex
+  flex-direction column
+  min-height $tabs-min-height
+  padding $tabs-padding
+  cursor pointer
+  transition all .3s
+  white-space nowrap
+  user-select none
+
+  .q-tabs-icon
+    font-size $tabs-icon-font-size
+  .q-tabs-icon + .q-tab-label
+    margin $tabs-label-margin
+  &.active
+    color $tabs-active-color
+  &:active
+    background $tabs-highlight-color
+
+@media only screen and (max-width $layout-medium-max)
+  .q-tabs:not(.scrollable)
+    .q-tabs-scroller, .q-tab
+      flex 1 1 auto
+
+.q-tabs
+  min-height $tabs-min-height
+  overflow hidden
+  color $tabs-color
+  background $tabs-background
+  font-size $tabs-font-size
+  font-weight $tabs-font-weight
+  transition color .18s ease-in, box-shadow .18s ease-in
+  border-radius $generic-border-radius
+  position relative
+  justify-content center
+
+  &:not(.scrollable)
+    .left-scroll, .right-scroll
+      display none !important
+
+  .left-scroll, .right-scroll
+    position absolute
+    height 100%
+    min-width 25px
+    cursor pointer
+    color white
+    text-shadow 0 0 10px black
+    font-size (1.4 * $tabs-icon-font-size)
+
+    &.disabled
+      visibility hidden
+
+  .left-scroll
+    left 0
+  .right-scroll
+    right 0
+
+  .left-scroll
+    left 0
+  .right-scroll
+    right 0
+
+  &.inverted
+    background white
+    border-radius 0
+
+  &.justified
+    .q-tabs-scroller, .q-tab
+      flex 1 1 auto
+
+  for $name, $color in $colors
+    if $name == 'light' || $name == 'white'
+      &.{$name}
+        color composite-color($color)
+        background $color
+        .q-tab
+          &.active, &:active
+            color $grey-8
+          &:active
+            background $grey-8
+        &.inverted
+          color $color
+          background composite-color($color)
+          .q-tab
+            &.active, &:active
+              color white
+            &:active
+              background white
+    if $name != 'light' && $name != 'white'
+      &.{$name}
+        &.inverted
+          color lighten($color, 45%)
+        &:not(.inverted)
+          color composite-color($color)
+          background $color
+
+        &.inverted .q-tab
+          &.active, &:active
+            color $color
+          &:active
+            background-color $color
+        &:not(.inverted) .q-tab
+          &.active, &:active
+            color white
+          &:active
+            background white
+
+body.mobile .q-tabs-scroller
+  overflow-y hidden
+  overflow-x auto
+  -webkit-overflow-scrolling touch
+  will-change scroll-position
