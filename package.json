@@ -14,7 +14,7 @@
     "dev": "node build/script.dev.js",
     "build": "node build/script.build.js",
     "lint": "eslint --ext .js,.vue src dev",
-    "nightly": "npm run build simple && rm -rf deploy && mkdir deploy && cp -R dist src LICENSE package.json deploy && cp README-nightly.md deploy && node_modules/git-directory-deploy/bin/git-directory-deploy.sh -ddeploy -bmaster -rgit@github.com:quasarframework/quasar-nightly.git && rm -rf deploy"
+    "edge": "npm run build simple && rm -rf deploy && mkdir deploy && cp -R dist src LICENSE package.json deploy && cp build/README-edge.md deploy/README.md && node_modules/git-directory-deploy/bin/git-directory-deploy.sh -ddeploy -bmaster -rgit@github.com:quasarframework/quasar-edge.git && rm -rf deploy"
   },
   "repository": {
     "type": "git",
