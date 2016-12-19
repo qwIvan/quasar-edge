@@ -6,7 +6,7 @@
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var Velocity$1 = _interopDefault(require('velocity-animate'));
-var moment = _interopDefault(require('moment'));
+var moment$1 = _interopDefault(require('moment'));
 var FastClick = _interopDefault(require('fastclick'));
 
 function getUserAgent() {
@@ -2980,6 +2980,30 @@ var Scroll = {
   }
 };
 
+var sortMethod = {
+  string: function string(a, b) {
+    return a.localeCompare(b);
+  },
+  number: function number(a, b) {
+    return a - b;
+  },
+  date: function date(a, b) {
+    return new Date(a) - new Date(b);
+  },
+  moment: function moment(a, b) {
+    return moment$1(a) - moment$1(b);
+  },
+  boolean: function boolean(a, b) {
+    if (a && !b) {
+      return -1;
+    }
+    if (!a && b) {
+      return 1;
+    }
+    return 0;
+  }
+};
+
 function nextDirection(dir) {
   if (dir === 0) {
     return 1;
@@ -2990,12 +3014,22 @@ function nextDirection(dir) {
   return 0;
 }
 
+function getSortFn(sort, type) {
+  if (typeof sort === 'function') {
+    return sort;
+  }
+  if (type && sortMethod[type]) {
+    return sortMethod[type];
+  }
+}
+
 var Sort = {
   data: function data() {
     return {
       sorting: {
         field: '',
-        dir: 0
+        dir: 0,
+        fn: false
       }
     };
   },
@@ -3006,8 +3040,8 @@ var Sort = {
     }
   },
   methods: {
-    setSortField: function setSortField(field) {
-      if (this.sorting.field === field) {
+    setSortField: function setSortField(col) {
+      if (this.sorting.field === col.field) {
         this.sorting.dir = nextDirection(this.sorting.dir);
         if (this.sorting.dir === 0) {
           this.sorting.field = '';
@@ -3015,32 +3049,22 @@ var Sort = {
         return;
       }
 
-      this.sorting.field = field;
+      this.sorting.field = col.field;
       this.sorting.dir = 1;
+      this.sorting.fn = getSortFn(col.sort, col.type);
     },
     sort: function sort(rows) {
-      var _this = this;
+      var sortFn = this.sorting.fn;
+      var field = this.sorting.field,
+          dir = this.sorting.dir;
 
-      if (typeof rows[0][this.sorting.field] === 'string') {
-        rows.sort(function (a, b) {
-          var f1 = a[_this.sorting.field],
-              f2 = b[_this.sorting.field];
-
-          return (_this.sorting.dir === 1 ? 1 : -1) * f1.localeCompare(f2);
-        });
-        return;
+      if (!sortFn) {
+        sortFn = sortMethod[_typeof(rows[0][field])] || function (a, b) {
+          return a - b;
+        };
       }
       rows.sort(function (a, b) {
-        var f1 = a[_this.sorting.field],
-            f2 = b[_this.sorting.field];
-
-        if (f1 < f2) {
-          return _this.sorting.dir === 1 ? -1 : 1;
-        }
-        if (f1 === f2) {
-          return 0;
-        }
-        return _this.sorting.dir === 1 ? 1 : -1;
+        return dir * sortFn(a[field], b[field]);
       });
     }
   }
@@ -3096,7 +3120,7 @@ var TableSticky = { render: function render() {
     },
     sort: function sort(col) {
       if (col.sort) {
-        this.$emit('sort', col.field);
+        this.$emit('sort', col);
       }
     }
   },
@@ -3179,7 +3203,7 @@ var TableContent = { render: function render() {
   methods: {
     sort: function sort(col) {
       if (col.sort) {
-        this.$emit('sort', col.field);
+        this.$emit('sort', col);
       }
     }
   },
@@ -3270,6 +3294,13 @@ var DataTable = { render: function render() {
 
   computed: {
     rows: function rows() {
+      var length = this.data.length;
+      this.pagination.entries = length;
+
+      if (!length) {
+        return [];
+      }
+
       var rows = Utils.clone(this.data);
 
       rows.forEach(function (row, i) {
@@ -3283,8 +3314,6 @@ var DataTable = { render: function render() {
       if (this.sorting.field) {
         this.sort(rows);
       }
-
-      this.pagination.entries = rows.length;
 
       if (this.pagination.rowsPerPage > 0) {
         rows = this.paginate(rows);
@@ -3450,7 +3479,7 @@ var Datetime = { render: function render() {
         format = 'YYYY-MM-DD HH:mm:ss';
       }
 
-      return this.value ? moment(this.value).format(format) : '';
+      return this.value ? moment$1(this.value).format(format) : '';
     }
   },
   methods: {
@@ -3474,15 +3503,15 @@ var Datetime = { render: function render() {
     },
     __normalizeValue: function __normalizeValue(value) {
       if (this.min) {
-        value = moment.max(moment(this.min).clone(), value);
+        value = moment$1.max(moment$1(this.min).clone(), value);
       }
       if (this.max) {
-        value = moment.min(moment(this.max).clone(), value);
+        value = moment$1.min(moment$1(this.max).clone(), value);
       }
       return value;
     },
     __setModel: function __setModel() {
-      this.model = this.value || this.__normalizeValue(moment()).format(this.format);
+      this.model = this.value || this.__normalizeValue(moment$1()).format(this.format);
     },
     __update: function __update() {
       this.$emit('input', this.model);
@@ -3582,12 +3611,12 @@ var InlineDatetimeMaterial = { render: function render() {
     });
     return {
       view: view,
-      date: moment(this.value || undefined),
+      date: moment$1(this.value || undefined),
       dragging: false,
       centerClockPosition: 0,
-      firstDayOfWeek: moment.localeData().firstDayOfWeek(),
-      daysList: moment.weekdaysShort(true),
-      monthsList: moment.months()
+      firstDayOfWeek: moment$1.localeData().firstDayOfWeek(),
+      daysList: moment$1.weekdaysShort(true),
+      monthsList: moment$1.months()
     };
   },
 
@@ -3598,7 +3627,7 @@ var InlineDatetimeMaterial = { render: function render() {
       }
     },
     model: function model(value) {
-      this.date = this.__normalizeValue(moment(value || undefined));
+      this.date = this.__normalizeValue(moment$1(value || undefined));
     },
     min: function min() {
       var _this2 = this;
@@ -3637,10 +3666,10 @@ var InlineDatetimeMaterial = { render: function render() {
       }
     },
     pmin: function pmin() {
-      return this.min ? moment(this.min) : '';
+      return this.min ? moment$1(this.min) : '';
     },
     pmax: function pmax() {
-      return this.max ? moment(this.max) : '';
+      return this.max ? moment$1(this.max) : '';
     },
     typeHasDate: function typeHasDate() {
       return this.type === 'date' || this.type === 'datetime';
@@ -3865,10 +3894,10 @@ var InlineDatetimeMaterial = { render: function render() {
     },
     __normalizeValue: function __normalizeValue(value) {
       if (this.pmin) {
-        value = moment.max(this.pmin.clone(), value);
+        value = moment$1.max(this.pmin.clone(), value);
       }
       if (this.pmax) {
-        value = moment.min(this.pmax.clone(), value);
+        value = moment$1.min(this.pmax.clone(), value);
       }
       return value;
     },
@@ -3963,20 +3992,20 @@ var InlineDatetimeIOS = { render: function render() {
       _this.date = _this.__normalizeValue(_this.date);
     });
     return {
-      date: moment(this.value || undefined),
+      date: moment$1(this.value || undefined),
       monthDragOffset: 0,
       dateDragOffset: 0,
       yearDragOffset: 0,
       hourDragOffset: 0,
       minuteDragOffset: 0,
-      monthsList: moment.months(),
+      monthsList: moment$1.months(),
       dragging: false
     };
   },
 
   watch: {
     model: function model(value) {
-      this.date = this.__normalizeValue(moment(value || undefined));
+      this.date = this.__normalizeValue(moment$1(value || undefined));
       this.__updateAllPositions();
     },
     min: function min(value) {
@@ -4006,10 +4035,10 @@ var InlineDatetimeIOS = { render: function render() {
       }
     },
     pmin: function pmin() {
-      return this.min ? moment(this.min) : false;
+      return this.min ? moment$1(this.min) : false;
     },
     pmax: function pmax() {
-      return this.max ? moment(this.max) : false;
+      return this.max ? moment$1(this.max) : false;
     },
     typeHasDate: function typeHasDate() {
       return this.type === 'date' || this.type === 'datetime';
@@ -4254,10 +4283,10 @@ var InlineDatetimeIOS = { render: function render() {
     },
     __normalizeValue: function __normalizeValue(value) {
       if (this.pmin) {
-        value = moment.max(this.pmin.clone(), value);
+        value = moment$1.max(this.pmin.clone(), value);
       }
       if (this.pmax) {
-        value = moment.min(this.pmax.clone(), value);
+        value = moment$1.min(this.pmax.clone(), value);
       }
       return value;
     },
