@@ -2972,10 +2972,10 @@ var DataTable = {render: function(){var _vm=this;var _h=_vm.$createElement;var _
       }
 
       if (this.filtering.terms) {
-        return this.config.messages.noDataAfterFiltering || '<i>warning</i> No results. Please refine your search terms.'
+        return (this.config.messages && this.config.messages.noDataAfterFiltering) || '<i>warning</i> No results. Please refine your search terms.'
       }
 
-      return this.config.message.noData || '<i>warning</i> No data available to show.'
+      return (this.config.messages && this.config.messages.noData) || '<i>warning</i> No data available to show.'
     },
     hasToolbar () {
       return this.config.title || this.config.filter || this.config.columnPicker || this.config.refresh
