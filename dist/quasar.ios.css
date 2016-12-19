@@ -11892,7 +11892,7 @@ body.platform-android .platform-android-hide {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: local('Material Icons'), local('MaterialIcons-Regular'), url("~material-design-icons/iconfont/MaterialIcons-Regular.woff") format('woff');
+  src: url("~material-design-icons/iconfont/MaterialIcons-Regular.woff") format('woff');
 }
 i {
   user-select: none;
