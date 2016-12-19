@@ -3026,18 +3026,21 @@ var Sort = {
           var f1 = a[_this.sorting.field],
               f2 = b[_this.sorting.field];
 
-          return _this.sorting.dir === 1 ? f1.localeCompare(f2) : f2.localeCompare(f1);
+          return (_this.sorting.dir === 1 ? 1 : -1) * f1.localeCompare(f2);
         });
         return;
       }
       rows.sort(function (a, b) {
-        if (a < b) {
-          return -1;
+        var f1 = a[_this.sorting.field],
+            f2 = b[_this.sorting.field];
+
+        if (f1 < f2) {
+          return _this.sorting.dir === 1 ? -1 : 1;
         }
-        if (a === b) {
+        if (f1 === f2) {
           return 0;
         }
-        return 1;
+        return _this.sorting.dir === 1 ? 1 : -1;
       });
     }
   }
