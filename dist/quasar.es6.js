@@ -1146,9 +1146,11 @@ types.forEach(type => {
 });
 
 function install$2 (_Vue) {
-  let node = document.createElement('div');
-  document.body.appendChild(node);
-  toast = new _Vue(Toast).$mount(node);
+  Utils.dom.ready(() => {
+    let node = document.createElement('div');
+    document.body.appendChild(node);
+    toast = new _Vue(Toast).$mount(node);
+  });
 }
 
 var toast$1 = {
@@ -6929,7 +6931,9 @@ window.onerror = function (message, source, lineno, colno, error) {
 };
 
 if (Platform.has.touch) {
-  FastClick.attach(document.body);
+  Utils.dom.ready(() => {
+    FastClick.attach(document.body);
+  });
 }
 
 if (Platform.is.mobile && !Platform.is.cordova) {

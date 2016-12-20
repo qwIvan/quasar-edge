@@ -1283,9 +1283,11 @@ types.forEach(function (type) {
 });
 
 function install$2(_Vue) {
-  var node = document.createElement('div');
-  document.body.appendChild(node);
-  toast = new _Vue(Toast$1).$mount(node);
+  Utils.dom.ready(function () {
+    var node = document.createElement('div');
+    document.body.appendChild(node);
+    toast = new _Vue(Toast$1).$mount(node);
+  });
 }
 
 var Toast = {
@@ -7613,7 +7615,9 @@ window.onerror = function (message, source, lineno, colno, error) {
 };
 
 if (Platform.has.touch) {
-  FastClick.attach(document.body);
+  Utils.dom.ready(function () {
+    FastClick.attach(document.body);
+  });
 }
 
 if (Platform.is.mobile && !Platform.is.cordova) {
