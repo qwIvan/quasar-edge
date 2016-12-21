@@ -6401,7 +6401,7 @@ var Select = { render: function render() {
         return _this.model.includes(opt.value);
       });
     },
-    multiple: function multiple() {
+    multipleSelection: function multipleSelection() {
       return ['checkbox', 'toggle'].includes(this.type);
     },
     actualValue: function actualValue() {

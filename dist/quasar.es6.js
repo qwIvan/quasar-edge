@@ -5765,7 +5765,7 @@ var Select = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       /* Used by multiple selection only */
       return this.options.map(opt => this.model.includes(opt.value))
     },
-    multiple () {
+    multipleSelection () {
       return ['checkbox', 'toggle'].includes(this.type)
     },
     actualValue () {
