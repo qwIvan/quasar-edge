@@ -6385,7 +6385,7 @@ var Select = { render: function render() {
   computed: {
     model: {
       get: function get() {
-        if (this.multiple && !Array.isArray(this.value)) {
+        if (this.multipleSelection && !Array.isArray(this.value)) {
           console.error('Select model needs to be an array when using multiple selection.');
         }
         return this.value;
@@ -6401,13 +6401,13 @@ var Select = { render: function render() {
         return _this.model.includes(opt.value);
       });
     },
-    singleSelection: function singleSelection() {
-      return ['radio', 'list'].includes(this.type);
+    multiple: function multiple() {
+      return ['checkbox', 'toggle'].includes(this.type);
     },
     actualValue: function actualValue() {
       var _this2 = this;
 
-      if (!this.multiple) {
+      if (!this.multipleSelection) {
         var option = this.options.find(function (option) {
           return option.value === _this2.model;
         });

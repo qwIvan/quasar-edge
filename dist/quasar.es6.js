@@ -5752,7 +5752,7 @@ var Select = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
   computed: {
     model: {
       get () {
-        if (this.multiple && !Array.isArray(this.value)) {
+        if (this.multipleSelection && !Array.isArray(this.value)) {
           console.error('Select model needs to be an array when using multiple selection.');
         }
         return this.value
@@ -5765,11 +5765,11 @@ var Select = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       /* Used by multiple selection only */
       return this.options.map(opt => this.model.includes(opt.value))
     },
-    singleSelection () {
-      return ['radio', 'list'].includes(this.type)
+    multiple () {
+      return ['checkbox', 'toggle'].includes(this.type)
     },
     actualValue () {
-      if (!this.multiple) {
+      if (!this.multipleSelection) {
         let option = this.options.find(option => option.value === this.model);
         return option ? option.label : ''
       }
