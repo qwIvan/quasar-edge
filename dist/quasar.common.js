@@ -6341,7 +6341,7 @@ var Select = { render: function render() {
       return _vm.type === 'radio' ? _c('label', { staticClass: "item", on: { "click": _vm.close } }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "val": radio.value }, domProps: { "value": _vm.model }, on: { "input": function input($event) {
             _vm.model = $event;
           } } })]), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(radio.label) } })])]) : _vm._e();
-    }), _vm.type === 'list' ? _c('div', { staticClass: "list no-border highlight", class: { 'item-delimiter': _vm.delimiter }, staticStyle: { "min-width": "150px", "max-height": "300px" } }, _vm._l(_vm.options, function (opt) {
+    }), _vm.type === 'list' ? _c('div', { staticClass: "list no-border highlight", class: { 'item-delimiter': _vm.delimiter }, staticStyle: { "min-width": "100px" } }, _vm._l(_vm.options, function (opt) {
       return _c('q-list-item', { attrs: { "item": opt, "link": "", "active": _vm.model === opt.value }, nativeOn: { "click": function click($event) {
             _vm.__setAndClose(opt.value);
           } } });
@@ -6363,8 +6363,8 @@ var Select = { render: function render() {
       type: Array,
       required: true,
       validator: function validator(options) {
-        return !options.some(function (option) {
-          return typeof option.label === 'undefined' || typeof option.value === 'undefined';
+        return !options.some(function (opt) {
+          return typeof opt.label === 'undefined' || typeof opt.value === 'undefined';
         });
       }
     },
@@ -6385,6 +6385,9 @@ var Select = { render: function render() {
   computed: {
     model: {
       get: function get() {
+        if (this.multiple && !Array.isArray(this.value)) {
+          console.error('Select model needs to be an array when using multiple selection.');
+        }
         return this.value;
       },
       set: function set(value) {
@@ -6398,20 +6401,23 @@ var Select = { render: function render() {
         return _this.model.includes(opt.value);
       });
     },
+    singleSelection: function singleSelection() {
+      return ['radio', 'list'].includes(this.type);
+    },
     actualValue: function actualValue() {
       var _this2 = this;
 
-      if (this.type === 'radio') {
+      if (!this.multiple) {
         var option = this.options.find(function (option) {
           return option.value === _this2.model;
         });
         return option ? option.label : '';
       }
 
-      var options = this.options.filter(function (option) {
-        return _this2.model.includes(option.value);
-      }).map(function (option) {
-        return option.label;
+      var options = this.options.filter(function (opt) {
+        return _this2.model.includes(opt.value);
+      }).map(function (opt) {
+        return opt.label;
       });
 
       return !options.length ? '' : options.join(', ');

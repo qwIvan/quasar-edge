@@ -5721,7 +5721,7 @@ var Search = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
   }
 };
 
-var Select = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('q-picker-textfield',{attrs:{"disable":_vm.disable,"readonly":_vm.readonly,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"value":_vm.actualValue}},[_c('q-popover',{ref:"popover",attrs:{"disable":_vm.disable || _vm.readonly}},[_c('div',{staticClass:"q-select-popover list highlight"},[_vm._l((_vm.options),function(radio){return (_vm.type === 'radio')?_c('label',{staticClass:"item",on:{"click":_vm.close}},[_c('div',{staticClass:"item-primary"},[_c('q-radio',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"val":radio.value},domProps:{"value":(_vm.model)},on:{"input":function($event){_vm.model=$event;}}})]),_c('div',{staticClass:"item-content"},[_c('div',{domProps:{"innerHTML":_vm._s(radio.label)}})])]):_vm._e()}),(_vm.type === 'list')?_c('div',{staticClass:"list no-border highlight",class:{'item-delimiter': _vm.delimiter},staticStyle:{"min-width":"150px","max-height":"300px"}},_vm._l((_vm.options),function(opt){return _c('q-list-item',{attrs:{"item":opt,"link":"","active":_vm.model === opt.value},nativeOn:{"click":function($event){_vm.__setAndClose(opt.value);}}})})):_vm._e(),_vm._l((_vm.options),function(checkbox,index){return (_vm.type === 'checkbox')?_c('label',{staticClass:"item"},[_c('div',{staticClass:"item-primary"},[_c('q-checkbox',{attrs:{"value":_vm.optModel[index]},on:{"input":function($event){_vm.toggleValue(checkbox.value);}}})]),_c('div',{staticClass:"item-content"},[_c('div',{domProps:{"innerHTML":_vm._s(checkbox.label)}})])]):_vm._e()}),_vm._l((_vm.options),function(toggle,index){return (_vm.type === 'toggle')?_c('label',{staticClass:"item"},[_c('div',{staticClass:"item-content has-secondary"},[_c('div',{domProps:{"innerHTML":_vm._s(toggle.label)}})]),_c('div',{staticClass:"item-secondary"},[_c('q-toggle',{attrs:{"value":_vm.optModel[index]},on:{"input":function($event){_vm.toggleValue(toggle.value);}}})])]):_vm._e()})],true)])])},staticRenderFns: [],
+var Select = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('q-picker-textfield',{attrs:{"disable":_vm.disable,"readonly":_vm.readonly,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"value":_vm.actualValue}},[_c('q-popover',{ref:"popover",attrs:{"disable":_vm.disable || _vm.readonly}},[_c('div',{staticClass:"q-select-popover list highlight"},[_vm._l((_vm.options),function(radio){return (_vm.type === 'radio')?_c('label',{staticClass:"item",on:{"click":_vm.close}},[_c('div',{staticClass:"item-primary"},[_c('q-radio',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"val":radio.value},domProps:{"value":(_vm.model)},on:{"input":function($event){_vm.model=$event;}}})]),_c('div',{staticClass:"item-content"},[_c('div',{domProps:{"innerHTML":_vm._s(radio.label)}})])]):_vm._e()}),(_vm.type === 'list')?_c('div',{staticClass:"list no-border highlight",class:{'item-delimiter': _vm.delimiter},staticStyle:{"min-width":"100px"}},_vm._l((_vm.options),function(opt){return _c('q-list-item',{attrs:{"item":opt,"link":"","active":_vm.model === opt.value},nativeOn:{"click":function($event){_vm.__setAndClose(opt.value);}}})})):_vm._e(),_vm._l((_vm.options),function(checkbox,index){return (_vm.type === 'checkbox')?_c('label',{staticClass:"item"},[_c('div',{staticClass:"item-primary"},[_c('q-checkbox',{attrs:{"value":_vm.optModel[index]},on:{"input":function($event){_vm.toggleValue(checkbox.value);}}})]),_c('div',{staticClass:"item-content"},[_c('div',{domProps:{"innerHTML":_vm._s(checkbox.label)}})])]):_vm._e()}),_vm._l((_vm.options),function(toggle,index){return (_vm.type === 'toggle')?_c('label',{staticClass:"item"},[_c('div',{staticClass:"item-content has-secondary"},[_c('div',{domProps:{"innerHTML":_vm._s(toggle.label)}})]),_c('div',{staticClass:"item-secondary"},[_c('q-toggle',{attrs:{"value":_vm.optModel[index]},on:{"input":function($event){_vm.toggleValue(toggle.value);}}})])]):_vm._e()})],true)])])},staticRenderFns: [],
   props: {
     value: {
       required: true
@@ -5730,8 +5730,8 @@ var Select = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       type: Array,
       required: true,
       validator (options) {
-        return !options.some(option =>
-          typeof option.label === 'undefined' || typeof option.value === 'undefined'
+        return !options.some(opt =>
+          typeof opt.label === 'undefined' || typeof opt.value === 'undefined'
         )
       }
     },
@@ -5752,6 +5752,9 @@ var Select = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
   computed: {
     model: {
       get () {
+        if (this.multiple && !Array.isArray(this.value)) {
+          console.error('Select model needs to be an array when using multiple selection.');
+        }
         return this.value
       },
       set (value) {
@@ -5762,15 +5765,18 @@ var Select = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       /* Used by multiple selection only */
       return this.options.map(opt => this.model.includes(opt.value))
     },
+    singleSelection () {
+      return ['radio', 'list'].includes(this.type)
+    },
     actualValue () {
-      if (this.type === 'radio') {
+      if (!this.multiple) {
         let option = this.options.find(option => option.value === this.model);
         return option ? option.label : ''
       }
 
       let options = this.options
-        .filter(option => this.model.includes(option.value))
-        .map(option => option.label);
+        .filter(opt => this.model.includes(opt.value))
+        .map(opt => opt.label);
 
       return !options.length ? '' : options.join(', ')
     }
