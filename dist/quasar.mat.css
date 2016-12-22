@@ -6,17 +6,17 @@
 @font-face {
   font-family: 'Roboto';
   font-weight: 200;
-  src: local(Roboto Thin), url("~roboto-fontface/fonts/Roboto/Roboto-Thin.woff") format('woff');
+  src: url("~roboto-fontface/fonts/Roboto/Roboto-Thin.woff") format('woff');
 }
 @font-face {
   font-family: 'Roboto';
   font-weight: 300;
-  src: local(Roboto Light), url("~roboto-fontface/fonts/Roboto/Roboto-Light.woff") format('woff');
+  src: url("~roboto-fontface/fonts/Roboto/Roboto-Light.woff") format('woff');
 }
 @font-face {
   font-family: 'Roboto';
   font-weight: 400;
-  src: local(Roboto Regular), url("~roboto-fontface/fonts/Roboto/Roboto-Regular.woff") format('woff');
+  src: url("~roboto-fontface/fonts/Roboto/Roboto-Regular.woff") format('woff');
 }
 @font-face {
   font-family: 'Roboto';
