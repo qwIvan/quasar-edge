@@ -2567,7 +2567,7 @@ var ColumnSelection = {
 var TableFilter = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_c('q-search', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.terms, expression: "filtering.terms" }], staticStyle: { "min-width": "250px" }, domProps: { "value": _vm.filtering.terms }, on: { "input": function input($event) {
           _vm.filtering.terms = $event;
-        } } }), _c('div', { staticClass: "row items-center group" }, [_c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.field, expression: "filtering.field" }], staticClass: "text-right", attrs: { "type": "radio", "options": _vm.filterFields }, domProps: { "value": _vm.filtering.field }, on: { "input": function input($event) {
+        } } }), _c('div', { staticClass: "row items-center group" }, [_c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.field, expression: "filtering.field" }], staticClass: "text-right", attrs: { "type": "list", "options": _vm.filterFields }, domProps: { "value": _vm.filtering.field }, on: { "input": function input($event) {
           _vm.filtering.field = $event;
         } } }), _c('button', { staticClass: "primary clear", on: { "click": function click($event) {
           _vm.close();
