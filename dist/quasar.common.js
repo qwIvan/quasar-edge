@@ -432,89 +432,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var get$1 = function get$1(object, property, receiver) {
-  if (object === null) object = Function.prototype;
-  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
-
-    if (parent === null) {
-      return undefined;
-    } else {
-      return get$1(parent, property, receiver);
-    }
-  } else if ("value" in desc) {
-    return desc.value;
-  } else {
-    var getter = desc.get;
-
-    if (getter === undefined) {
-      return undefined;
-    }
-
-    return getter.call(receiver);
-  }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var set$1 = function set$1(object, property, value, receiver) {
-  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
-
-    if (parent !== null) {
-      set$1(parent, property, value, receiver);
-    }
-  } else if ("value" in desc && desc.writable) {
-    desc.value = value;
-  } else {
-    var setter = desc.set;
-
-    if (setter !== undefined) {
-      setter.call(receiver, value);
-    }
-  }
-
-  return value;
-};
-
 var toString = Object.prototype.toString;
 var hasOwn = Object.prototype.hasOwnProperty;
 var class2type = {};
@@ -652,24 +569,24 @@ var Dialog$1 = { render: function render() {
             }el.model = $event.target.value;
           } } }), _c('label', { domProps: { "innerHTML": _vm._s(el.label) } })]) : _vm._e(), el.type === 'numeric' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-numeric', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], attrs: { "min": el.min, "max": el.max, "step": el.step }, domProps: { "value": el.model }, on: { "input": function input($event) {
             el.model = $event;
-          } } })]) : _vm._e(), el.type === 'chips' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-chips', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], domProps: { "value": el.model }, on: { "input": function input($event) {
+          } } })], 1) : _vm._e(), el.type === 'chips' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-chips', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], domProps: { "value": el.model }, on: { "input": function input($event) {
             el.model = $event;
-          } } })]) : _vm._e(), _vm._l(el.items, function (radio) {
+          } } })], 1) : _vm._e(), _vm._l(el.items, function (radio) {
         return el.type === 'radio' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], attrs: { "val": radio.value }, domProps: { "value": el.model }, on: { "input": function input($event) {
               el.model = $event;
-            } } })]), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(radio.label) } })]) : _vm._e();
+            } } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(radio.label) } })]) : _vm._e();
       }), _vm._l(el.items, function (checkbox) {
         return el.type === 'checkbox' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: checkbox.model, expression: "checkbox.model" }], domProps: { "value": checkbox.model }, on: { "input": function input($event) {
               checkbox.model = $event;
-            } } })]), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(checkbox.label) } })]) : _vm._e();
+            } } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(checkbox.label) } })]) : _vm._e();
       }), _vm._l(el.items, function (toggle) {
         return el.type === 'toggle' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-content has-secondary", domProps: { "innerHTML": _vm._s(toggle.label) } }), _c('div', { staticClass: "item-secondary" }, [_c('q-toggle', { directives: [{ name: "model", rawName: "v-model", value: toggle.model, expression: "toggle.model" }], domProps: { "value": toggle.model }, on: { "input": function input($event) {
               toggle.model = $event;
-            } } })])]) : _vm._e();
+            } } })], 1)]) : _vm._e();
       }), el.type === 'rating' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-rating', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], style: { fontSize: el.size || '2rem' }, attrs: { "max": el.max, "icon": el.icon }, domProps: { "value": el.model }, on: { "input": function input($event) {
             el.model = $event;
-          } } })]) : _vm._e()];
-    })], true) : _vm._e(), _vm.progress ? _c('div', { staticClass: "modal-body" }, [_c('q-progress', { staticClass: "primary stripe animate", class: { indeterminate: _vm.progress.indeterminate }, attrs: { "percentage": _vm.progress.model } }), !_vm.progress.indeterminate ? _c('span', [_vm._v(_vm._s(_vm.progress.model) + " %")]) : _vm._e()]) : _vm._e(), _vm.buttons ? _c('div', { staticClass: "modal-buttons", class: { row: !_vm.stackButtons, column: _vm.stackButtons } }, _vm._l(_vm.buttons, function (button) {
+          } } })], 1) : _vm._e()];
+    })], 2) : _vm._e(), _vm.progress ? _c('div', { staticClass: "modal-body" }, [_c('q-progress', { staticClass: "primary stripe animate", class: { indeterminate: _vm.progress.indeterminate }, attrs: { "percentage": _vm.progress.model } }), !_vm.progress.indeterminate ? _c('span', [_vm._v(_vm._s(_vm.progress.model) + " %")]) : _vm._e()], 1) : _vm._e(), _vm.buttons ? _c('div', { staticClass: "modal-buttons", class: { row: !_vm.stackButtons, column: _vm.stackButtons } }, _vm._l(_vm.buttons, function (button) {
       return _c('button', { class: button.classes || 'primary clear', style: button.style, domProps: { "innerHTML": _vm._s(typeof button === 'string' ? button : button.label) }, on: { "click": function click($event) {
             _vm.trigger(button.handler);
           } } });
@@ -2137,11 +2054,11 @@ var Autocomplete = { render: function render() {
           if ($event.target.composing) {
             return;
           }_vm.model = $event.target.value;
-        } } })]), _c('q-popover', { ref: "popover", attrs: { "anchor-click": false } }, [_vm.searching ? _c('div', { staticClass: "row justify-center", style: { minWidth: _vm.width, padding: '3px 10px' } }, [_c('spinner', { attrs: { "name": "dots", "size": 40 } })]) : _c('div', { staticClass: "list no-border", class: { 'item-delimiter': _vm.delimiter }, style: _vm.computedWidth }, _vm._l(_vm.computedResults, function (result, index) {
+        } } })]), _c('q-popover', { ref: "popover", attrs: { "anchor-click": false } }, [_vm.searching ? _c('div', { staticClass: "row justify-center", style: { minWidth: _vm.width, padding: '3px 10px' } }, [_c('spinner', { attrs: { "name": "dots", "size": 40 } })], 1) : _c('div', { staticClass: "list no-border", class: { 'item-delimiter': _vm.delimiter }, style: _vm.computedWidth }, _vm._l(_vm.computedResults, function (result, index) {
       return _c('q-list-item', { attrs: { "item": result, "link": "", "active": _vm.selectedIndex === index }, nativeOn: { "click": function click($event) {
             _vm.setValue(result.value);
           } } });
-    }))])], true);
+    }))])], 2);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -2352,7 +2269,7 @@ var Chips = { render: function render() {
           }_vm.input = $event.target.value;
         } } }), _vm._v(" "), _c('button', { staticClass: "small", class: { invisible: !_vm.input.length }, on: { "click": function click($event) {
           _vm.add();
-        } } }, [_c('i', [_vm._v("send")])])])], true);
+        } } }, [_c('i', [_vm._v("send")])])])], 2);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -2397,7 +2314,7 @@ var Collapsible = { render: function render() {
           _vm.__toggleItem();
         } } }, [_vm.icon ? _c('i', { staticClass: "item-primary", domProps: { "textContent": _vm._s(_vm.icon) } }) : _vm._e(), _vm._v(" "), _vm.img ? _c('img', { staticClass: "item-primary thumbnail", attrs: { "src": _vm.img } }) : _vm._e(), _vm.avatar ? _c('img', { staticClass: "item-primary", attrs: { "src": _vm.avatar } }) : _vm._e(), _c('div', { staticClass: "item-content has-secondary" }, [_c('div', [_vm._v(_vm._s(_vm.label))])]), _c('i', { staticClass: "item-secondary", class: { 'rotate-180': _vm.active }, on: { "click": function click($event) {
           $event.stopPropagation();_vm.toggle();
-        } } }, [_vm._v("keyboard_arrow_down")])]), _c('q-transition', { attrs: { "name": "slide" } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.active, expression: "active" }], staticClass: "q-collapsible-sub-item" }, [_vm._t("default")], true)])]);
+        } } }, [_vm._v("keyboard_arrow_down")])]), _c('q-transition', { attrs: { "name": "slide" } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.active, expression: "active" }], staticClass: "q-collapsible-sub-item" }, [_vm._t("default")], 2)])], 1);
   }, staticRenderFns: [],
   props: {
     opened: Boolean,
@@ -2437,7 +2354,7 @@ var Collapsible = { render: function render() {
 };
 
 var ContextMenuDesktop = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-popover', { ref: "popover", attrs: { "anchor-click": false } }, [_vm._t("default")], true);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-popover', { ref: "popover", attrs: { "anchor-click": false } }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     disable: Boolean
@@ -2462,7 +2379,7 @@ var ContextMenuDesktop = { render: function render() {
 };
 
 var ContextMenuMobile = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-modal', { ref: "dialog", staticClass: "minimized" }, [_vm._t("default")], true);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-modal', { ref: "dialog", staticClass: "minimized" }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     disable: Boolean
@@ -2571,7 +2488,7 @@ var TableFilter = { render: function render() {
           _vm.filtering.field = $event;
         } } }), _c('button', { staticClass: "primary clear", on: { "click": function click($event) {
           _vm.close();
-        } } }, [_c('i', [_vm._v("close")])])])]);
+        } } }, [_c('i', [_vm._v("close")])])], 1)], 1);
   }, staticRenderFns: [],
   props: ['filtering', 'columns'],
   computed: {
@@ -2641,9 +2558,9 @@ var Filter = {
 var TablePagination = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end" }, [_c('div', [_vm._v("Rows"), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.rowsPerPage, expression: "pagination.rowsPerPage" }], staticClass: "text-right", attrs: { "type": "radio", "options": _vm.pagination.options }, domProps: { "value": _vm.pagination.rowsPerPage }, on: { "input": [function ($event) {
           _vm.pagination.rowsPerPage = $event;
-        }, _vm.resetPage] } })]), _vm.entries > 0 ? _c('div', [_vm._v(_vm._s(_vm.start) + " - " + _vm._s(_vm.end) + " / " + _vm._s(_vm.entries))]) : _vm._e(), _vm.pagination.rowsPerPage > 0 ? _c('q-pagination', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.page, expression: "pagination.page" }], attrs: { "max": _vm.max }, domProps: { "value": _vm.pagination.page }, on: { "input": function input($event) {
+        }, _vm.resetPage] } })], 1), _vm.entries > 0 ? _c('div', [_vm._v(_vm._s(_vm.start) + " - " + _vm._s(_vm.end) + " / " + _vm._s(_vm.entries))]) : _vm._e(), _vm.pagination.rowsPerPage > 0 ? _c('q-pagination', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.page, expression: "pagination.page" }], attrs: { "max": _vm.max }, domProps: { "value": _vm.pagination.page }, on: { "input": function input($event) {
           _vm.pagination.page = $event;
-        } } }) : _vm._e()]);
+        } } }) : _vm._e()], 1);
   }, staticRenderFns: [],
   props: ['pagination', 'entries'],
   watch: {
@@ -3092,11 +3009,11 @@ var SortIcon = { render: function render() {
 var TableSticky = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('table', { staticClass: "q-table horizontal-delimiter" }, [_c('colgroup', [_vm.selection ? _c('col', { staticStyle: { "width": "45px" } }) : _vm._e(), _vm._l(_vm.cols, function (col) {
       return _c('col', { style: { width: col.width } });
-    })], true), _c('thead', [_c('tr', [_vm.selection ? _c('th', [_vm._v(" ")]) : _vm._e(), _vm._l(_vm.cols, function (col, index) {
+    })], 2), _c('thead', [_c('tr', [_vm.selection ? _c('th', [_vm._v(" ")]) : _vm._e(), _vm._l(_vm.cols, function (col, index) {
       return _c('th', { class: { invisible: _vm.hidden(index), sortable: col.sort }, on: { "click": function click($event) {
             _vm.sort(col);
-          } } }, [!_vm.hidden(index) ? [col.sort ? _c('sort-icon', { attrs: { "field": col.field, "sorting": _vm.sorting } }) : _vm._e(), _c('span', { domProps: { "innerHTML": _vm._s(col.label) } })] : _vm._e()], true);
-    })], true)]), !_vm.head ? _c('tbody', [_vm._t("default")], true) : _vm._e()]);
+          } } }, [!_vm.hidden(index) ? [col.sort ? _c('sort-icon', { attrs: { "field": col.field, "sorting": _vm.sorting } }) : _vm._e(), _c('span', { domProps: { "innerHTML": _vm._s(col.label) } })] : _vm._e()], 2);
+    })], 2)]), !_vm.head ? _c('tbody', [_vm._t("default")], 2) : _vm._e()]);
   }, staticRenderFns: [],
   props: {
     stickyCols: Number,
@@ -3182,11 +3099,11 @@ var StickyColumns = {
 var TableContent = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('table', { staticClass: "q-table horizontal-delimiter", style: _vm.tableStyle }, [_c('colgroup', [_vm.selection ? _c('col', { staticStyle: { "width": "45px" } }) : _vm._e(), _vm._l(_vm.cols, function (col) {
       return _c('col', { style: { width: col.width } });
-    }), _vm.head && _vm.scroll.horiz ? _c('col', { style: { width: _vm.scroll.horiz } }) : _vm._e()], true), _vm.head ? _c('thead', [_c('tr', [_vm.selection ? _c('th', [_vm._v(" ")]) : _vm._e(), _vm._l(_vm.cols, function (col) {
+    }), _vm.head && _vm.scroll.horiz ? _c('col', { style: { width: _vm.scroll.horiz } }) : _vm._e()], 2), _vm.head ? _c('thead', [_c('tr', [_vm.selection ? _c('th', [_vm._v(" ")]) : _vm._e(), _vm._l(_vm.cols, function (col) {
       return _c('th', { class: { sortable: col.sort }, on: { "click": function click($event) {
             _vm.sort(col);
-          } } }, [col.sort ? _c('sort-icon', { attrs: { "field": col.field, "sorting": _vm.sorting } }) : _vm._e(), _c('span', { domProps: { "innerHTML": _vm._s(col.label) } })]);
-    }), _vm.head && _vm.scroll.horiz ? _c('th') : _vm._e()], true)]) : _c('tbody', [_vm._t("default")], true)]);
+          } } }, [col.sort ? _c('sort-icon', { attrs: { "field": col.field, "sorting": _vm.sorting } }) : _vm._e(), _c('span', { domProps: { "innerHTML": _vm._s(col.label) } })], 1);
+    }), _vm.head && _vm.scroll.horiz ? _c('th') : _vm._e()], 2)]) : _c('tbody', [_vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     cols: Array,
@@ -3219,11 +3136,11 @@ var DataTable = { render: function render() {
           _vm.toolbar = 'filter';
         } } }, [_c('i', [_vm._v("filter_list")])]) : _vm._e(), _vm.config.columnPicker ? _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.columnSelection, expression: "columnSelection" }], staticClass: "text-right", staticStyle: { "margin-left": "10px" }, attrs: { "type": "toggle", "options": _vm.columnSelectionOptions, "static-label": "Columns" }, domProps: { "value": _vm.columnSelection }, on: { "input": function input($event) {
           _vm.columnSelection = $event;
-        } } }) : _vm._e()])]) : _vm._e(), _vm.toolbar === 'filter' ? _c('table-filter', { attrs: { "filtering": _vm.filtering, "columns": _vm.cols }, on: { "close": function close($event) {
+        } } }) : _vm._e()], 1)]) : _vm._e(), _vm.toolbar === 'filter' ? _c('table-filter', { attrs: { "filtering": _vm.filtering, "columns": _vm.cols }, on: { "close": function close($event) {
           _vm.toolbar = '';
         } } }) : _vm._e(), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbar === 'selection', expression: "toolbar === 'selection'" }], staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" }, [_c('div', { staticClass: "auto" }, [_vm._v(_vm._s(_vm.rowsSelected) + " item"), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.rowsSelected > 1, expression: "rowsSelected > 1" }] }, [_vm._v("s")]), _vm._v(" selected. "), _c('button', { staticClass: "primary clear small", on: { "click": function click($event) {
           _vm.clearSelection();
-        } } }, [_vm._v("Clear")])]), _c('div', [_vm._t("selection", null, { rows: _vm.selectedRows })], true)]), _vm.responsive ? [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('div', { staticStyle: { "overflow": "auto" }, style: _vm.bodyStyle }, [_c('table', { ref: "body", staticClass: "q-table horizontal-delimiter responsive" }, [_c('tbody', _vm._l(_vm.rows, function (row, index) {
+        } } }, [_vm._v("Clear")])]), _c('div', [_vm._t("selection", null, { rows: _vm.selectedRows })], 2)]), _vm.responsive ? [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('div', { staticStyle: { "overflow": "auto" }, style: _vm.bodyStyle }, [_c('table', { ref: "body", staticClass: "q-table horizontal-delimiter responsive" }, [_c('tbody', _vm._l(_vm.rows, function (row, index) {
       return _c('tr', [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: _vm.rowSelection[index], expression: "rowSelection[index]" }], domProps: { "value": _vm.rowSelection[index] }, on: { "input": function input($event) {
             var $$exp = _vm.rowSelection,
                 $$idx = index;if (!Array.isArray($$exp)) {
@@ -3238,14 +3155,14 @@ var DataTable = { render: function render() {
             } else {
               $$exp.splice($$idx, 1, $event);
             }
-          } } })]) : _vm._e(), _vm._l(_vm.cols, function (col) {
-        return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]), attrs: { "data-th": col.label } }, [!_vm.$scopedSlots['col-' + col.field] ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } }) : _vm._e(), _vm.$scopedSlots['col-' + col.field] ? _vm._t('col-' + col.field, null, { row: row, col: col, data: row[col.field] }) : _vm._e()], true);
-      })], true);
-    }))])])] : _c('div', { staticClass: "q-data-table-container", on: { "mousewheel": _vm.mouseWheel, "dommousescroll": _vm.mouseWheel } }, [_c('div', { ref: "head", staticClass: "q-data-table-head", style: { marginRight: _vm.scroll.vert } }, [_c('table-content', { attrs: { "head": "", "cols": _vm.cols, "sorting": _vm.sorting, "scroll": _vm.scroll, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })]), _c('div', { ref: "body", staticClass: "q-data-table-body", style: _vm.bodyStyle, on: { "scroll": _vm.scrollHandler } }, [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('table-content', { attrs: { "cols": _vm.cols, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row) {
+          } } })], 1) : _vm._e(), _vm._l(_vm.cols, function (col) {
+        return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]), attrs: { "data-th": col.label } }, [!_vm.$scopedSlots['col-' + col.field] ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } }) : _vm._e(), _vm.$scopedSlots['col-' + col.field] ? _vm._t('col-' + col.field, null, { row: row, col: col, data: row[col.field] }) : _vm._e()], 2);
+      })], 2);
+    }))])])] : _c('div', { staticClass: "q-data-table-container", on: { "mousewheel": _vm.mouseWheel, "dommousescroll": _vm.mouseWheel } }, [_c('div', { ref: "head", staticClass: "q-data-table-head", style: { marginRight: _vm.scroll.vert } }, [_c('table-content', { attrs: { "head": "", "cols": _vm.cols, "sorting": _vm.sorting, "scroll": _vm.scroll, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1), _c('div', { ref: "body", staticClass: "q-data-table-body", style: _vm.bodyStyle, on: { "scroll": _vm.scrollHandler } }, [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('table-content', { attrs: { "cols": _vm.cols, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row) {
       return _c('tr', { style: _vm.rowStyle }, [_vm.config.selection ? _c('td') : _vm._e(), _vm.leftStickyColumns ? _c('td', { attrs: { "colspan": _vm.leftStickyColumns } }) : _vm._e(), _vm._l(_vm.regularCols, function (col) {
-        return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [!_vm.$scopedSlots['col-' + col.field] ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } }) : _vm._e(), _vm.$scopedSlots['col-' + col.field] ? _vm._t('col-' + col.field, null, { row: row, col: col, data: row[col.field] }) : _vm._e()], true);
-      }), _vm.rightStickyColumns ? _c('td', { attrs: { "colspan": _vm.rightStickyColumns } }) : _vm._e()], true);
-    }))]), !_vm.message && (_vm.leftStickyColumns || _vm.config.selection) ? [_c('div', { ref: "stickyLeft", staticClass: "q-data-table-sticky-left", style: { bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "sticky-cols": _vm.leftStickyColumns, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row, index) {
+        return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [!_vm.$scopedSlots['col-' + col.field] ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } }) : _vm._e(), _vm.$scopedSlots['col-' + col.field] ? _vm._t('col-' + col.field, null, { row: row, col: col, data: row[col.field] }) : _vm._e()], 2);
+      }), _vm.rightStickyColumns ? _c('td', { attrs: { "colspan": _vm.rightStickyColumns } }) : _vm._e()], 2);
+    }))], 1), !_vm.message && (_vm.leftStickyColumns || _vm.config.selection) ? [_c('div', { ref: "stickyLeft", staticClass: "q-data-table-sticky-left", style: { bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "sticky-cols": _vm.leftStickyColumns, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row, index) {
       return _c('tr', { style: _vm.rowStyle }, [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: _vm.rowSelection[index], expression: "rowSelection[index]" }], domProps: { "value": _vm.rowSelection[index] }, on: { "input": function input($event) {
             var $$exp = _vm.rowSelection,
                 $$idx = index;if (!Array.isArray($$exp)) {
@@ -3260,14 +3177,14 @@ var DataTable = { render: function render() {
             } else {
               $$exp.splice($$idx, 1, $event);
             }
-          } } })]) : _vm._e(), _vm._l(_vm.leftCols, function (col) {
-        return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [!_vm.$scopedSlots['col-' + col.field] ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } }) : _vm._e(), _vm.$scopedSlots['col-' + col.field] ? _vm._t('col-' + col.field, null, { row: row, col: col, data: row[col.field] }) : _vm._e()], true);
-      })], true);
-    }))]), _c('div', { staticClass: "q-data-table-sticky-left", style: { bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "head": "", "sticky-cols": _vm.leftStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })])] : _vm._e(), !_vm.message && _vm.rightStickyColumns ? [_c('div', { ref: "stickyRight", staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert, bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "right": "", "sticky-cols": _vm.rightStickyColumns, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row) {
+          } } })], 1) : _vm._e(), _vm._l(_vm.leftCols, function (col) {
+        return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [!_vm.$scopedSlots['col-' + col.field] ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } }) : _vm._e(), _vm.$scopedSlots['col-' + col.field] ? _vm._t('col-' + col.field, null, { row: row, col: col, data: row[col.field] }) : _vm._e()], 2);
+      })], 2);
+    }))], 1), _c('div', { staticClass: "q-data-table-sticky-left", style: { bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "head": "", "sticky-cols": _vm.leftStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1)] : _vm._e(), !_vm.message && _vm.rightStickyColumns ? [_c('div', { ref: "stickyRight", staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert, bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "right": "", "sticky-cols": _vm.rightStickyColumns, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row) {
       return _c('tr', { style: _vm.rowStyle }, [_vm.config.selection ? _c('td', { staticClass: "invisible" }) : _vm._e(), _c('td', { staticClass: "invisible", attrs: { "colspan": _vm.cols.length - _vm.rightStickyColumns } }), _vm._l(_vm.rightCols, function (col) {
-        return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [!_vm.$scopedSlots['col-' + col.field] ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } }) : _vm._e(), _vm.$scopedSlots['col-' + col.field] ? _vm._t('col-' + col.field, null, { row: row, col: col, data: row[col.field] }) : _vm._e()], true);
-      })], true);
-    }))]), _c('div', { staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert } }, [_c('table-sticky', { attrs: { "right": "", "head": "", "sticky-cols": _vm.rightStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })])] : _vm._e()], true), _vm.config.pagination ? _c('table-pagination', { attrs: { "pagination": _vm.pagination, "entries": _vm.pagination.entries } }) : _vm._e()], true);
+        return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [!_vm.$scopedSlots['col-' + col.field] ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } }) : _vm._e(), _vm.$scopedSlots['col-' + col.field] ? _vm._t('col-' + col.field, null, { row: row, col: col, data: row[col.field] }) : _vm._e()], 2);
+      })], 2);
+    }))], 1), _c('div', { staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert } }, [_c('table-sticky', { attrs: { "right": "", "head": "", "sticky-cols": _vm.rightStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1)] : _vm._e()], 2), _vm.config.pagination ? _c('table-pagination', { attrs: { "pagination": _vm.pagination, "entries": _vm.pagination.entries } }) : _vm._e()], 1);
   }, staticRenderFns: [],
   mixins: [ColumnSelection, Filter, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
   props: {
@@ -3408,7 +3325,7 @@ var Datetime = { render: function render() {
           _vm.close();
         } } }), _vm._v(" "), _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.okLabel) }, on: { "click": function click($event) {
           _vm.close(_vm.__update);
-        } } })])])]) : _c('q-modal', { ref: "popup", staticClass: "with-backdrop", class: _vm.classNames, attrs: { "transition": _vm.transition, "position-classes": _vm.position, "content-css": _vm.css } }, [_c('q-inline-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "no-border full-width", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm.model }, on: { "input": function input($event) {
+        } } })])])], 1) : _c('q-modal', { ref: "popup", staticClass: "with-backdrop", class: _vm.classNames, attrs: { "transition": _vm.transition, "position-classes": _vm.position, "content-css": _vm.css } }, [_c('q-inline-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "no-border full-width", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm.model }, on: { "input": function input($event) {
           _vm.model = $event;
         } } }, [_c('div', { staticClass: "modal-buttons row full-width" }, [!_vm.noClear ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.clearLabel) }, on: { "click": function click($event) {
           _vm.clear();
@@ -3416,7 +3333,7 @@ var Datetime = { render: function render() {
           _vm.close();
         } } }), _vm._v(" "), _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.okLabel) }, on: { "click": function click($event) {
           _vm.close(_vm.__update);
-        } } })])])])]);
+        } } })])])], 1)], 1);
   }, staticRenderFns: [],
   props: {
     type: {
@@ -3564,11 +3481,11 @@ var InlineDatetimeMaterial = { render: function render() {
           } } }, [_vm._v(_vm._s(monthDay))]);
     }), _vm._l(_vm.aferMaxDays, function (fillerDay) {
       return _vm.max ? _c('div', { staticClass: "flex items-center content-center justify-center disabled" }, [_vm._v(_vm._s(fillerDay + _vm.maxDay))]) : _vm._e();
-    })], true)]) : _vm._e(), _vm.view === 'hour' || _vm.view === 'minute' ? _c('div', { ref: "clock", staticClass: "column items-center content-center justify-center" }, [_vm.view === 'hour' ? _c('div', { staticClass: "q-datetime-clock cursor-pointer", on: { "mousedown": _vm.__dragStart, "mousemove": _vm.__dragMove, "mouseup": _vm.__dragStop, "touchstart": _vm.__dragStart, "touchmove": _vm.__dragMove, "touchend": _vm.__dragStop } }, [_c('div', { staticClass: "q-datetime-clock-circle full-width full-height" }, [_c('div', { staticClass: "q-datetime-clock-center" }), _c('div', { staticClass: "q-datetime-clock-pointer", class: { hidden: !_vm.value }, style: _vm.clockPointerStyle }, [_c('span')]), _vm._l(12, function (n) {
+    })], 2)]) : _vm._e(), _vm.view === 'hour' || _vm.view === 'minute' ? _c('div', { ref: "clock", staticClass: "column items-center content-center justify-center" }, [_vm.view === 'hour' ? _c('div', { staticClass: "q-datetime-clock cursor-pointer", on: { "mousedown": _vm.__dragStart, "mousemove": _vm.__dragMove, "mouseup": _vm.__dragStop, "touchstart": _vm.__dragStart, "touchmove": _vm.__dragMove, "touchend": _vm.__dragStop } }, [_c('div', { staticClass: "q-datetime-clock-circle full-width full-height" }, [_c('div', { staticClass: "q-datetime-clock-center" }), _c('div', { staticClass: "q-datetime-clock-pointer", class: { hidden: !_vm.value }, style: _vm.clockPointerStyle }, [_c('span')]), _vm._l(12, function (n) {
       return _c('div', { staticClass: "q-datetime-clock-position", class: ['q-datetime-clock-pos-' + n, _vm.value && n === _vm.hour ? 'active' : ''] }, [_vm._v(_vm._s(n))]);
-    })], true)]) : _vm._e(), _vm.view === 'minute' ? _c('div', { staticClass: "q-datetime-clock cursor-pointer", on: { "mousedown": _vm.__dragStart, "mousemove": _vm.__dragMove, "mouseup": _vm.__dragStop, "touchstart": _vm.__dragStart, "touchmove": _vm.__dragMove, "touchend": _vm.__dragStop } }, [_c('div', { staticClass: "q-datetime-clock-circle full-width full-height" }, [_c('div', { staticClass: "q-datetime-clock-center" }), _c('div', { staticClass: "q-datetime-clock-pointer", style: _vm.clockPointerStyle }, [_c('span')]), _vm._l(12, function (n) {
+    })], 2)]) : _vm._e(), _vm.view === 'minute' ? _c('div', { staticClass: "q-datetime-clock cursor-pointer", on: { "mousedown": _vm.__dragStart, "mousemove": _vm.__dragMove, "mouseup": _vm.__dragStop, "touchstart": _vm.__dragStart, "touchmove": _vm.__dragMove, "touchend": _vm.__dragStop } }, [_c('div', { staticClass: "q-datetime-clock-circle full-width full-height" }, [_c('div', { staticClass: "q-datetime-clock-center" }), _c('div', { staticClass: "q-datetime-clock-pointer", style: _vm.clockPointerStyle }, [_c('span')]), _vm._l(12, function (n) {
       return _c('div', { staticClass: "q-datetime-clock-position", class: ['q-datetime-clock-pos-' + (n - 1), (n - 1) * 5 === _vm.minute ? 'active' : ''] }, [_vm._v(_vm._s((n - 1) * 5))]);
-    })], true)]) : _vm._e()]) : _vm._e()]), _vm._t("default")], true)]);
+    })], 2)]) : _vm._e()]) : _vm._e()]), _vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -3960,7 +3877,7 @@ var InlineDatetimeIOS = { render: function render() {
       return _c('div', { staticClass: "q-datetime-item", on: { "click": function click($event) {
             _vm.setMinute(n + _vm.minuteMin - 1);
           } } }, [_vm._v(_vm._s(_vm.__pad(n + _vm.minuteMin - 1)))]);
-    }))])] : _vm._e(), _c('div', { staticClass: "q-datetime-highlight row items-center justify-center", class: { 'q-datetime-no-selection': !_vm.value } }, [!_vm.value && _vm.typeHasDate ? [_c('div', { staticClass: "q-datetime-col-month" }, [_vm._v("-----")]), _c('div', { staticClass: "q-datetime-col-day" }, [_vm._v("--")]), _c('div', { staticClass: "q-datetime-col-year" }, [_vm._v("----")])] : _vm._e(), !_vm.value && _vm.typeHasTime ? [_c('div', { staticClass: "q-datetime-col-hour" }, [_vm._v("--")]), _c('div', { staticClass: "q-datetime-col-minute" }, [_vm._v("--")])] : _vm._e()], true)], true), _c('div', { staticClass: "q-datetime-mask" })])], true);
+    }))])] : _vm._e(), _c('div', { staticClass: "q-datetime-highlight row items-center justify-center", class: { 'q-datetime-no-selection': !_vm.value } }, [!_vm.value && _vm.typeHasDate ? [_c('div', { staticClass: "q-datetime-col-month" }, [_vm._v("-----")]), _c('div', { staticClass: "q-datetime-col-day" }, [_vm._v("--")]), _c('div', { staticClass: "q-datetime-col-year" }, [_vm._v("----")])] : _vm._e(), !_vm.value && _vm.typeHasTime ? [_c('div', { staticClass: "q-datetime-col-hour" }, [_vm._v("--")]), _c('div', { staticClass: "q-datetime-col-minute" }, [_vm._v("--")])] : _vm._e()], 2)], 2), _c('div', { staticClass: "q-datetime-mask" })])], 2);
   }, staticRenderFns: [function () {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-datetime-col-divider" }, [_c('div', { staticClass: "q-datetime-col-wrapper full-height row items-center justify-center" }, [_c('div', [_vm._v(":")])])]);
   }],
@@ -4330,7 +4247,7 @@ function getBetween(value, min, max) {
 var Drawer = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "drawer", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide } }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__openByTouch, expression: "__openByTouch", modifiers: { "horizontal": true } }], staticClass: "drawer-opener touch-only mobile-only", class: { 'fixed-left': !_vm.rightSide, 'fixed-right': _vm.rightSide } }, [_vm._v(" ")]), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "backdrop", staticClass: "drawer-backdrop fullscreen", staticStyle: { "background": "rgba(0, 0, 0, 0.01)" }, on: { "click": function click($event) {
           _vm.setState(false);
-        } } }), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "content", staticClass: "drawer-content", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide } }, [_vm._t("default")], true)]);
+        } } }), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "content", staticClass: "drawer-content", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide } }, [_vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     'right-side': Boolean,
@@ -4603,7 +4520,7 @@ var Drawer = { render: function render() {
 };
 
 var DrawerLink = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { directives: [{ name: "link", rawName: "v-link.delay", value: _vm.to, expression: "to", modifiers: { "delay": true } }], staticClass: "item item-link drawer-closer" }, [_vm.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(_vm.icon))]) : _vm._e(), _c('div', { staticClass: "item-content" }, [_vm._t("default")], true)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { directives: [{ name: "link", rawName: "v-link.delay", value: _vm.to, expression: "to", modifiers: { "delay": true } }], staticClass: "item item-link drawer-closer" }, [_vm.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(_vm.icon))]) : _vm._e(), _c('div', { staticClass: "item-content" }, [_vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: ['icon', 'to']
 };
@@ -4613,7 +4530,7 @@ var Fab = { render: function render() {
           _vm.toggle(true);
         } } }), _c('button', { staticClass: "circular raised", class: _vm.classNames, on: { "click": function click($event) {
           _vm.toggle();
-        } } }, [_c('i', { staticClass: "q-fab-icon" }, [_vm._v(_vm._s(_vm.icon))]), _vm._v(" "), _c('i', { staticClass: "q-fab-active-icon" }, [_vm._v(_vm._s(_vm.activeIcon))])]), _c('div', { staticClass: "q-fab-actions flex inline items-center", class: [_vm.direction] }, [_vm._t("default")], true)]);
+        } } }, [_c('i', { staticClass: "q-fab-icon" }, [_vm._v(_vm._s(_vm.icon))]), _vm._v(" "), _c('i', { staticClass: "q-fab-active-icon" }, [_vm._v(_vm._s(_vm.activeIcon))])]), _c('div', { staticClass: "q-fab-actions flex inline items-center", class: [_vm.direction] }, [_vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     classNames: {
@@ -4686,7 +4603,7 @@ var Fab = { render: function render() {
 var SmallFab = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('button', { staticClass: "circular small raised", on: { "click": function click($event) {
           _vm.$parent.close();
-        } } }, [_c('i', [_vm._v(_vm._s(_vm.icon))]), _vm._t("default")], true);
+        } } }, [_c('i', [_vm._v(_vm._s(_vm.icon))]), _vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     icon: {
@@ -4724,7 +4641,7 @@ var GallerySlider = { render: function render() {
       return _c('div', { key: index }, [_c('img', { class: { active: _vm.currentSlide === index }, attrs: { "src": img }, on: { "click": function click($event) {
             _vm.selectImage(index);
           } } })]);
-    }))], true);
+    }))], 2);
   }, staticRenderFns: [],
   props: {
     src: {
@@ -4754,7 +4671,7 @@ var GallerySlider = { render: function render() {
 };
 
 var InfiniteScroll = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-infinite-scroll" }, [_c('div', { ref: "content", staticClass: "q-infinite-scroll-content" }, [_vm._t("default")], true), _c('br'), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.fetching, expression: "fetching" }], staticClass: "q-infinite-scroll-message" }, [_vm._t("message")], true)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-infinite-scroll" }, [_c('div', { ref: "content", staticClass: "q-infinite-scroll-content" }, [_vm._t("default")], 2), _c('br'), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.fetching, expression: "fetching" }], staticClass: "q-infinite-scroll-message" }, [_vm._t("message")], 2)]);
   }, staticRenderFns: [],
   props: {
     handler: {
@@ -4960,7 +4877,7 @@ var Knob = { render: function render() {
 };
 
 var Layout = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "layout" }, [_c('div', { staticClass: "layout-header" }, [_vm._t("header"), _vm.$quasar.theme !== 'ios' ? _vm._t("navigation") : _vm._e()], true), _c('div', { staticClass: "layout-content" }, [_vm._t("default")], true), _c('div', { staticClass: "layout-footer" }, [_vm._t("footer"), _vm.$quasar.theme === 'ios' ? _vm._t("navigation") : _vm._e()], true)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "layout" }, [_c('div', { staticClass: "layout-header" }, [_vm._t("header"), _vm.$quasar.theme !== 'ios' ? _vm._t("navigation") : _vm._e()], 2), _c('div', { staticClass: "layout-content" }, [_vm._t("default")], 2), _c('div', { staticClass: "layout-footer" }, [_vm._t("footer"), _vm.$quasar.theme === 'ios' ? _vm._t("navigation") : _vm._e()], 2)]);
   }, staticRenderFns: [] };
 
 var ListItem = { render: function render() {
@@ -4987,7 +4904,7 @@ var ListItem = { render: function render() {
 };
 
 var ToolbarTitle = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "toolbar-content" }, [_c('div', { staticClass: "toolbar-title", class: ['padding-' + _vm.padding] }, [_c('div', [_vm._t("default")], true)])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "toolbar-content" }, [_c('div', { staticClass: "toolbar-title", class: ['padding-' + _vm.padding] }, [_c('div', [_vm._t("default")], 2)])]);
   }, staticRenderFns: [],
   props: {
     padding: {
@@ -5032,7 +4949,7 @@ var Modal = { render: function render() {
           _vm.click();
         } } }, [_c('div', { ref: "content", staticClass: "modal-content", style: _vm.contentCss, on: { "click": function click($event) {
           $event.stopPropagation();
-        } } }, [_vm._t("default")], true)])]);
+        } } }, [_vm._t("default")], 2)])]);
   }, staticRenderFns: [],
   props: {
     transition: {
@@ -5323,7 +5240,7 @@ var Pagination$1 = { render: function render() {
 var Parallax = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-parallax column items-center justify-center", style: { height: _vm.height + 'px' } }, [_c('div', { staticClass: "q-parallax-image" }, [_c('img', { ref: "img", class: { ready: _vm.imageHasBeenLoaded }, staticStyle: { "transform": "translate3D(-50%, 0, 0)" }, attrs: { "src": _vm.src }, on: { "load": function load($event) {
           _vm.__processImage();
-        } } })]), _c('div', { staticClass: "q-parallax-text" }, [!_vm.imageHasBeenLoaded ? _vm._t("loading") : _vm._t("default")], true)]);
+        } } })]), _c('div', { staticClass: "q-parallax-text" }, [!_vm.imageHasBeenLoaded ? _vm._t("loading") : _vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     src: {
@@ -5427,7 +5344,7 @@ var Parallax = { render: function render() {
 };
 
 var PickerTextfield = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-picker-textfield cursor-pointer textfield caret", class: { disabled: _vm.disable, readonly: _vm.readonly, active: _vm.active, 'with-label': _vm.label } }, [_c('div', { staticClass: "q-picker-textfield-label ellipsis", domProps: { "innerHTML": _vm._s(_vm.label) } }), _c('div', { staticClass: "q-picker-textfield-value ellipsis", domProps: { "innerHTML": _vm._s(_vm.actualValue) } }), _vm._t("default")], true);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-picker-textfield cursor-pointer textfield caret", class: { disabled: _vm.disable, readonly: _vm.readonly, active: _vm.active, 'with-label': _vm.label } }, [_c('div', { staticClass: "q-picker-textfield-label ellipsis", domProps: { "innerHTML": _vm._s(_vm.label) } }), _c('div', { staticClass: "q-picker-textfield-value ellipsis", domProps: { "innerHTML": _vm._s(_vm.actualValue) } }), _vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     label: String,
@@ -5450,7 +5367,7 @@ var PickerTextfield = { render: function render() {
 var Popover = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-popover animate-scale", style: _vm.transformCSS, on: { "click": function click($event) {
           $event.stopPropagation();
-        } } }, [_vm._t("default")], true);
+        } } }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     anchor: {
@@ -5599,7 +5516,7 @@ var Progress = { render: function render() {
 };
 
 var ProgressButton = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('button', { staticClass: "q-progress-button", class: { active: _vm.active, indeterminate: _vm.indeterminate } }, [!_vm.indeterminate ? _c('span', { staticClass: "q-progress-button-filler", class: { 'q-progress-button-dark-filler': _vm.darkFiller }, style: { width: _vm.computedPercentage } }) : _vm._e(), _c('div', { staticClass: "q-progress-button-content", class: _vm.stateClass }, [_c('div', { staticClass: "q-progress-button-error" }, [_c('i', [_vm._v(_vm._s(_vm.errorIcon))])]), _c('div', { staticClass: "q-progress-button-label" }, [_vm._t("default")], true), _c('div', { staticClass: "q-progress-button-success" }, [_c('i', [_vm._v(_vm._s(_vm.successIcon))])])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('button', { staticClass: "q-progress-button", class: { active: _vm.active, indeterminate: _vm.indeterminate } }, [!_vm.indeterminate ? _c('span', { staticClass: "q-progress-button-filler", class: { 'q-progress-button-dark-filler': _vm.darkFiller }, style: { width: _vm.computedPercentage } }) : _vm._e(), _c('div', { staticClass: "q-progress-button-content", class: _vm.stateClass }, [_c('div', { staticClass: "q-progress-button-error" }, [_c('i', [_vm._v(_vm._s(_vm.errorIcon))])]), _c('div', { staticClass: "q-progress-button-label" }, [_vm._t("default")], 2), _c('div', { staticClass: "q-progress-button-success" }, [_c('i', [_vm._v(_vm._s(_vm.successIcon))])])])]);
   }, staticRenderFns: [],
   props: {
     percentage: {
@@ -5647,7 +5564,7 @@ var ProgressButton = { render: function render() {
 };
 
 var PullToRefresh = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "pull-to-refresh" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.vertical.scroll", value: _vm.__pull, expression: "__pull", modifiers: { "vertical": true, "scroll": true } }], staticClass: "pull-to-refresh-container", style: _vm.style }, [_c('div', { staticClass: "pull-to-refresh-message row items-center justify-center" }, [_c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.state !== 'refreshing', expression: "state !== 'refreshing'" }], class: { 'rotate-180': _vm.state === 'pulled' } }, [_vm._v("arrow_downward")]), _vm._v(" "), _c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.state === 'refreshing', expression: "state === 'refreshing'" }], staticClass: "animate-spin" }, [_vm._v(_vm._s(_vm.refreshIcon))]), _vm._v("    "), _c('span', { domProps: { "innerHTML": _vm._s(_vm.message) } })]), _vm._t("default")], true)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "pull-to-refresh" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.vertical.scroll", value: _vm.__pull, expression: "__pull", modifiers: { "vertical": true, "scroll": true } }], staticClass: "pull-to-refresh-container", style: _vm.style }, [_c('div', { staticClass: "pull-to-refresh-message row items-center justify-center" }, [_c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.state !== 'refreshing', expression: "state !== 'refreshing'" }], class: { 'rotate-180': _vm.state === 'pulled' } }, [_vm._v("arrow_downward")]), _vm._v(" "), _c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.state === 'refreshing', expression: "state === 'refreshing'" }], staticClass: "animate-spin" }, [_vm._v(_vm._s(_vm.refreshIcon))]), _vm._v("    "), _c('span', { domProps: { "innerHTML": _vm._s(_vm.message) } })]), _vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     handler: {
@@ -5827,7 +5744,7 @@ var Range = { render: function render() {
           $event.preventDefault();_vm.__update($event);
         } } }, [_c('div', { ref: "handle", staticClass: "q-range-handle-container" }, [_c('div', { staticClass: "q-range-track" }), _vm._l((_vm.max - _vm.min) / _vm.step + 1, function (n) {
       return _vm.markers ? _c('div', { staticClass: "q-range-mark", style: { left: (n - 1) * 100 * _vm.step / (_vm.max - _vm.min) + '%' } }) : _vm._e();
-    }), _c('div', { staticClass: "q-range-track active-track", class: { 'no-transition': _vm.dragging, 'handle-at-minimum': _vm.value === _vm.min }, style: { width: _vm.percentage } }), _c('div', { staticClass: "q-range-handle", class: { dragging: _vm.dragging, 'handle-at-minimum': _vm.value === _vm.min }, style: { left: _vm.percentage } }, [_vm.label || _vm.labelAlways ? _c('div', { staticClass: "q-range-label", class: { 'label-always': _vm.labelAlways } }, [_vm._v(_vm._s(_vm.value))]) : _vm._e()])], true)]);
+    }), _c('div', { staticClass: "q-range-track active-track", class: { 'no-transition': _vm.dragging, 'handle-at-minimum': _vm.value === _vm.min }, style: { width: _vm.percentage } }), _c('div', { staticClass: "q-range-handle", class: { dragging: _vm.dragging, 'handle-at-minimum': _vm.value === _vm.min }, style: { left: _vm.percentage } }, [_vm.label || _vm.labelAlways ? _c('div', { staticClass: "q-range-label", class: { 'label-always': _vm.labelAlways } }, [_vm._v(_vm._s(_vm.value))]) : _vm._e()])], 2)]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -5956,7 +5873,7 @@ var DoubleRange = { render: function render() {
           $event.preventDefault();_vm.__update($event);
         } } }, [_c('div', { ref: "handle", staticClass: "q-range-handle-container" }, [_c('div', { staticClass: "q-range-track" }), _vm._l((_vm.max - _vm.min) / _vm.step + 1, function (n) {
       return _vm.markers ? _c('div', { staticClass: "q-range-mark", style: { left: (n - 1) * 100 * _vm.step / (_vm.max - _vm.min) + '%' } }) : _vm._e();
-    }), _c('div', { staticClass: "q-range-track active-track", class: { dragging: _vm.dragging, 'track-draggable': _vm.dragRange }, style: { left: _vm.percentageMin * 100 + '%', width: _vm.activeTrackWidth } }), _c('div', { staticClass: "q-range-handle q-range-handle-min", class: { dragging: _vm.dragging, 'handle-at-minimum': _vm.value.min === _vm.min, undraggable: _vm.disableMin }, style: { left: _vm.percentageMin * 100 + '%' } }, [_vm.label || _vm.labelAlways ? _c('div', { staticClass: "q-range-label", class: { 'label-always': _vm.labelAlways } }, [_vm._v(_vm._s(_vm.value.min))]) : _vm._e()]), _c('div', { staticClass: "q-range-handle q-range-handle-max", class: { dragging: _vm.dragging, 'handle-at-maximum': _vm.value.max === _vm.max, undraggable: _vm.disableMax }, style: { left: _vm.percentageMax * 100 + '%' } }, [_vm.label || _vm.labelAlways ? _c('div', { staticClass: "q-range-label", class: { 'label-always': _vm.labelAlways } }, [_vm._v(_vm._s(_vm.value.max))]) : _vm._e()])], true)]);
+    }), _c('div', { staticClass: "q-range-track active-track", class: { dragging: _vm.dragging, 'track-draggable': _vm.dragRange }, style: { left: _vm.percentageMin * 100 + '%', width: _vm.activeTrackWidth } }), _c('div', { staticClass: "q-range-handle q-range-handle-min", class: { dragging: _vm.dragging, 'handle-at-minimum': _vm.value.min === _vm.min, undraggable: _vm.disableMin }, style: { left: _vm.percentageMin * 100 + '%' } }, [_vm.label || _vm.labelAlways ? _c('div', { staticClass: "q-range-label", class: { 'label-always': _vm.labelAlways } }, [_vm._v(_vm._s(_vm.value.min))]) : _vm._e()]), _c('div', { staticClass: "q-range-handle q-range-handle-max", class: { dragging: _vm.dragging, 'handle-at-maximum': _vm.value.max === _vm.max, undraggable: _vm.disableMax }, style: { left: _vm.percentageMax * 100 + '%' } }, [_vm.label || _vm.labelAlways ? _c('div', { staticClass: "q-range-label", class: { 'label-always': _vm.labelAlways } }, [_vm._v(_vm._s(_vm.value.max))]) : _vm._e()])], 2)]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -6340,7 +6257,7 @@ var Select = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue } }, [_c('q-popover', { ref: "popover", attrs: { "disable": _vm.disable || _vm.readonly } }, [_c('div', { staticClass: "q-select-popover list highlight" }, [_vm._l(_vm.options, function (radio) {
       return _vm.type === 'radio' ? _c('label', { staticClass: "item", on: { "click": _vm.close } }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "val": radio.value }, domProps: { "value": _vm.model }, on: { "input": function input($event) {
             _vm.model = $event;
-          } } })]), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(radio.label) } })])]) : _vm._e();
+          } } })], 1), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(radio.label) } })])]) : _vm._e();
     }), _vm.type === 'list' ? _c('div', { staticClass: "list no-border highlight", class: { 'item-delimiter': _vm.delimiter }, staticStyle: { "min-width": "100px" } }, _vm._l(_vm.options, function (opt) {
       return _c('q-list-item', { attrs: { "item": opt, "link": "", "active": _vm.model === opt.value }, nativeOn: { "click": function click($event) {
             _vm.__setAndClose(opt.value);
@@ -6348,12 +6265,12 @@ var Select = { render: function render() {
     })) : _vm._e(), _vm._l(_vm.options, function (checkbox, index) {
       return _vm.type === 'checkbox' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-checkbox', { attrs: { "value": _vm.optModel[index] }, on: { "input": function input($event) {
             _vm.toggleValue(checkbox.value);
-          } } })]), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(checkbox.label) } })])]) : _vm._e();
+          } } })], 1), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(checkbox.label) } })])]) : _vm._e();
     }), _vm._l(_vm.options, function (toggle, index) {
       return _vm.type === 'toggle' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-content has-secondary" }, [_c('div', { domProps: { "innerHTML": _vm._s(toggle.label) } })]), _c('div', { staticClass: "item-secondary" }, [_c('q-toggle', { attrs: { "value": _vm.optModel[index] }, on: { "input": function input($event) {
             _vm.toggleValue(toggle.value);
-          } } })])]) : _vm._e();
-    })], true)])]);
+          } } })], 1)]) : _vm._e();
+    })], 2)])], 1);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -6546,7 +6463,7 @@ var DialogSelect = { render: function render() {
 };
 
 var Slider = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-slider", class: { fullscreen: _vm.inFullscreen } }, [_c('div', { staticClass: "q-slider-inner" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__pan, expression: "__pan", modifiers: { "horizontal": true } }], ref: "track", staticClass: "q-slider-track", class: { 'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar } }, [_vm._t("slide")], true), _vm.arrows ? _c('div', { staticClass: "q-slider-left-button row items-center justify-center", class: { hidden: _vm.slide === 0 } }, [_c('i', { on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-slider", class: { fullscreen: _vm.inFullscreen } }, [_c('div', { staticClass: "q-slider-inner" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__pan, expression: "__pan", modifiers: { "horizontal": true } }], ref: "track", staticClass: "q-slider-track", class: { 'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar } }, [_vm._t("slide")], 2), _vm.arrows ? _c('div', { staticClass: "q-slider-left-button row items-center justify-center", class: { hidden: _vm.slide === 0 } }, [_c('i', { on: { "click": function click($event) {
           _vm.goToSlide(_vm.slide - 1);
         } } }, [_vm._v("keyboard_arrow_left")])]) : _vm._e(), _vm.arrows ? _c('div', { staticClass: "q-slider-right-button row items-center justify-center", class: { hidden: _vm.slide === _vm.slidesNumber - 1 }, on: { "click": function click($event) {
           _vm.goToSlide(_vm.slide + 1);
@@ -6556,7 +6473,7 @@ var Slider = { render: function render() {
           } } }) : _vm._e();
     })), _c('div', { staticClass: "row items-center" }, [_vm._t("action"), _vm.fullscreen ? _c('i', { on: { "click": function click($event) {
           _vm.toggleFullscreen();
-        } } }, [_c('span', { directives: [{ name: "show", rawName: "v-show", value: !_vm.inFullscreen, expression: "!inFullscreen" }] }, [_vm._v("fullscreen")]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.inFullscreen, expression: "inFullscreen" }] }, [_vm._v("fullscreen_exit")])]) : _vm._e()], true)]) : _vm._e(), _vm._t("default")], true)]);
+        } } }, [_c('span', { directives: [{ name: "show", rawName: "v-show", value: !_vm.inFullscreen, expression: "!inFullscreen" }] }, [_vm._v("fullscreen")]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.inFullscreen, expression: "inFullscreen" }] }, [_vm._v("fullscreen_exit")])]) : _vm._e()], 2)]) : _vm._e(), _vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     arrows: Boolean,
@@ -6669,7 +6586,7 @@ var SBars = { render: function render() {
 };
 
 var SCircles = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 135 135", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('path', { attrs: { "d": "M67.447 58c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10zm9.448 9.447c0 5.523 4.477 10 10 10 5.522 0 10-4.477 10-10s-4.478-10-10-10c-5.523 0-10 4.477-10 10zm-9.448 9.448c-5.523 0-10 4.477-10 10 0 5.522 4.477 10 10 10s10-4.478 10-10c0-5.523-4.477-10-10-10zM58 67.447c0-5.523-4.477-10-10-10s-10 4.477-10 10 4.477 10 10 10 10-4.477 10-10z" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 67 67", "to": "-360 67 67", "dur": "2.5s", "repeatCount": "indefinite" } })]), _c('path', { attrs: { "d": "M28.19 40.31c6.627 0 12-5.374 12-12 0-6.628-5.373-12-12-12-6.628 0-12 5.372-12 12 0 6.626 5.372 12 12 12zm30.72-19.825c4.686 4.687 12.284 4.687 16.97 0 4.686-4.686 4.686-12.284 0-16.97-4.686-4.687-12.284-4.687-16.97 0-4.687 4.686-4.687 12.284 0 16.97zm35.74 7.705c0 6.627 5.37 12 12 12 6.626 0 12-5.373 12-12 0-6.628-5.374-12-12-12-6.63 0-12 5.372-12 12zm19.822 30.72c-4.686 4.686-4.686 12.284 0 16.97 4.687 4.686 12.285 4.686 16.97 0 4.687-4.686 4.687-12.284 0-16.97-4.685-4.687-12.283-4.687-16.97 0zm-7.704 35.74c-6.627 0-12 5.37-12 12 0 6.626 5.373 12 12 12s12-5.374 12-12c0-6.63-5.373-12-12-12zm-30.72 19.822c-4.686-4.686-12.284-4.686-16.97 0-4.686 4.687-4.686 12.285 0 16.97 4.686 4.687 12.284 4.687 16.97 0 4.687-4.685 4.687-12.283 0-16.97zm-35.74-7.704c0-6.627-5.372-12-12-12-6.626 0-12 5.373-12 12s5.374 12 12 12c6.628 0 12-5.373 12-12zm-19.823-30.72c4.687-4.686 4.687-12.284 0-16.97-4.686-4.686-12.284-4.686-16.97 0-4.687 4.686-4.687 12.284 0 16.97 4.686 4.687 12.284 4.687 16.97 0z" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 67 67", "to": "360 67 67", "dur": "8s", "repeatCount": "indefinite" } })])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 135 135", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('path', { attrs: { "d": "M67.447 58c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10zm9.448 9.447c0 5.523 4.477 10 10 10 5.522 0 10-4.477 10-10s-4.478-10-10-10c-5.523 0-10 4.477-10 10zm-9.448 9.448c-5.523 0-10 4.477-10 10 0 5.522 4.477 10 10 10s10-4.478 10-10c0-5.523-4.477-10-10-10zM58 67.447c0-5.523-4.477-10-10-10s-10 4.477-10 10 4.477 10 10 10 10-4.477 10-10z" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 67 67", "to": "-360 67 67", "dur": "2.5s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M28.19 40.31c6.627 0 12-5.374 12-12 0-6.628-5.373-12-12-12-6.628 0-12 5.372-12 12 0 6.626 5.372 12 12 12zm30.72-19.825c4.686 4.687 12.284 4.687 16.97 0 4.686-4.686 4.686-12.284 0-16.97-4.686-4.687-12.284-4.687-16.97 0-4.687 4.686-4.687 12.284 0 16.97zm35.74 7.705c0 6.627 5.37 12 12 12 6.626 0 12-5.373 12-12 0-6.628-5.374-12-12-12-6.63 0-12 5.372-12 12zm19.822 30.72c-4.686 4.686-4.686 12.284 0 16.97 4.687 4.686 12.285 4.686 16.97 0 4.687-4.686 4.687-12.284 0-16.97-4.685-4.687-12.283-4.687-16.97 0zm-7.704 35.74c-6.627 0-12 5.37-12 12 0 6.626 5.373 12 12 12s12-5.374 12-12c0-6.63-5.373-12-12-12zm-30.72 19.822c-4.686-4.686-12.284-4.686-16.97 0-4.686 4.687-4.686 12.285 0 16.97 4.686 4.687 12.284 4.687 16.97 0 4.687-4.685 4.687-12.283 0-16.97zm-35.74-7.704c0-6.627-5.372-12-12-12-6.626 0-12 5.373-12 12s5.374 12 12 12c6.628 0 12-5.373 12-12zm-19.823-30.72c4.687-4.686 4.687-12.284 0-16.97-4.686-4.686-12.284-4.686-16.97 0-4.687 4.686-4.687 12.284 0 16.97 4.686 4.687 12.284 4.687 16.97 0z" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 67 67", "to": "360 67 67", "dur": "8s", "repeatCount": "indefinite" } })], 1)]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
@@ -6681,13 +6598,13 @@ var SDots = { render: function render() {
 };
 
 var SFacebook = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "xmlns": "http://www.w3.org/2000/svg", "preserveAspectRatio": "xMidYMid" } }, [_c('g', { attrs: { "transform": "translate(20 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.6" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })])]), _c('g', { attrs: { "transform": "translate(50 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.8" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0.1s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })])]), _c('g', { attrs: { "transform": "translate(80 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.9" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0.2s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "xmlns": "http://www.w3.org/2000/svg", "preserveAspectRatio": "xMidYMid" } }, [_c('g', { attrs: { "transform": "translate(20 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.6" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })], 1)]), _c('g', { attrs: { "transform": "translate(50 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.8" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0.1s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })], 1)]), _c('g', { attrs: { "transform": "translate(80 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.9" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0.2s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })], 1)])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SGears = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "translate(-20,-20)" } }, [_c('path', { attrs: { "d": "M79.9,52.6C80,51.8,80,50.9,80,50s0-1.8-0.1-2.6l-5.1-0.4c-0.3-2.4-0.9-4.6-1.8-6.7l4.2-2.9c-0.7-1.6-1.6-3.1-2.6-4.5 L70,35c-1.4-1.9-3.1-3.5-4.9-4.9l2.2-4.6c-1.4-1-2.9-1.9-4.5-2.6L59.8,27c-2.1-0.9-4.4-1.5-6.7-1.8l-0.4-5.1C51.8,20,50.9,20,50,20 s-1.8,0-2.6,0.1l-0.4,5.1c-2.4,0.3-4.6,0.9-6.7,1.8l-2.9-4.1c-1.6,0.7-3.1,1.6-4.5,2.6l2.1,4.6c-1.9,1.4-3.5,3.1-5,4.9l-4.5-2.1 c-1,1.4-1.9,2.9-2.6,4.5l4.1,2.9c-0.9,2.1-1.5,4.4-1.8,6.8l-5,0.4C20,48.2,20,49.1,20,50s0,1.8,0.1,2.6l5,0.4 c0.3,2.4,0.9,4.7,1.8,6.8l-4.1,2.9c0.7,1.6,1.6,3.1,2.6,4.5l4.5-2.1c1.4,1.9,3.1,3.5,5,4.9l-2.1,4.6c1.4,1,2.9,1.9,4.5,2.6l2.9-4.1 c2.1,0.9,4.4,1.5,6.7,1.8l0.4,5.1C48.2,80,49.1,80,50,80s1.8,0,2.6-0.1l0.4-5.1c2.3-0.3,4.6-0.9,6.7-1.8l2.9,4.2 c1.6-0.7,3.1-1.6,4.5-2.6L65,69.9c1.9-1.4,3.5-3,4.9-4.9l4.6,2.2c1-1.4,1.9-2.9,2.6-4.5L73,59.8c0.9-2.1,1.5-4.4,1.8-6.7L79.9,52.6 z M50,65c-8.3,0-15-6.7-15-15c0-8.3,6.7-15,15-15s15,6.7,15,15C65,58.3,58.3,65,50,65z", "fill": _vm.color } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "90 50 50", "to": "0 50 50", "dur": "1s", "repeatCount": "indefinite" } })])]), _c('g', { attrs: { "transform": "translate(20,20) rotate(15 50 50)" } }, [_c('path', { attrs: { "d": "M79.9,52.6C80,51.8,80,50.9,80,50s0-1.8-0.1-2.6l-5.1-0.4c-0.3-2.4-0.9-4.6-1.8-6.7l4.2-2.9c-0.7-1.6-1.6-3.1-2.6-4.5 L70,35c-1.4-1.9-3.1-3.5-4.9-4.9l2.2-4.6c-1.4-1-2.9-1.9-4.5-2.6L59.8,27c-2.1-0.9-4.4-1.5-6.7-1.8l-0.4-5.1C51.8,20,50.9,20,50,20 s-1.8,0-2.6,0.1l-0.4,5.1c-2.4,0.3-4.6,0.9-6.7,1.8l-2.9-4.1c-1.6,0.7-3.1,1.6-4.5,2.6l2.1,4.6c-1.9,1.4-3.5,3.1-5,4.9l-4.5-2.1 c-1,1.4-1.9,2.9-2.6,4.5l4.1,2.9c-0.9,2.1-1.5,4.4-1.8,6.8l-5,0.4C20,48.2,20,49.1,20,50s0,1.8,0.1,2.6l5,0.4 c0.3,2.4,0.9,4.7,1.8,6.8l-4.1,2.9c0.7,1.6,1.6,3.1,2.6,4.5l4.5-2.1c1.4,1.9,3.1,3.5,5,4.9l-2.1,4.6c1.4,1,2.9,1.9,4.5,2.6l2.9-4.1 c2.1,0.9,4.4,1.5,6.7,1.8l0.4,5.1C48.2,80,49.1,80,50,80s1.8,0,2.6-0.1l0.4-5.1c2.3-0.3,4.6-0.9,6.7-1.8l2.9,4.2 c1.6-0.7,3.1-1.6,4.5-2.6L65,69.9c1.9-1.4,3.5-3,4.9-4.9l4.6,2.2c1-1.4,1.9-2.9,2.6-4.5L73,59.8c0.9-2.1,1.5-4.4,1.8-6.7L79.9,52.6 z M50,65c-8.3,0-15-6.7-15-15c0-8.3,6.7-15,15-15s15,6.7,15,15C65,58.3,58.3,65,50,65z", "fill": _vm.color } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "90 50 50", "dur": "1s", "repeatCount": "indefinite" } })])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "translate(-20,-20)" } }, [_c('path', { attrs: { "d": "M79.9,52.6C80,51.8,80,50.9,80,50s0-1.8-0.1-2.6l-5.1-0.4c-0.3-2.4-0.9-4.6-1.8-6.7l4.2-2.9c-0.7-1.6-1.6-3.1-2.6-4.5 L70,35c-1.4-1.9-3.1-3.5-4.9-4.9l2.2-4.6c-1.4-1-2.9-1.9-4.5-2.6L59.8,27c-2.1-0.9-4.4-1.5-6.7-1.8l-0.4-5.1C51.8,20,50.9,20,50,20 s-1.8,0-2.6,0.1l-0.4,5.1c-2.4,0.3-4.6,0.9-6.7,1.8l-2.9-4.1c-1.6,0.7-3.1,1.6-4.5,2.6l2.1,4.6c-1.9,1.4-3.5,3.1-5,4.9l-4.5-2.1 c-1,1.4-1.9,2.9-2.6,4.5l4.1,2.9c-0.9,2.1-1.5,4.4-1.8,6.8l-5,0.4C20,48.2,20,49.1,20,50s0,1.8,0.1,2.6l5,0.4 c0.3,2.4,0.9,4.7,1.8,6.8l-4.1,2.9c0.7,1.6,1.6,3.1,2.6,4.5l4.5-2.1c1.4,1.9,3.1,3.5,5,4.9l-2.1,4.6c1.4,1,2.9,1.9,4.5,2.6l2.9-4.1 c2.1,0.9,4.4,1.5,6.7,1.8l0.4,5.1C48.2,80,49.1,80,50,80s1.8,0,2.6-0.1l0.4-5.1c2.3-0.3,4.6-0.9,6.7-1.8l2.9,4.2 c1.6-0.7,3.1-1.6,4.5-2.6L65,69.9c1.9-1.4,3.5-3,4.9-4.9l4.6,2.2c1-1.4,1.9-2.9,2.6-4.5L73,59.8c0.9-2.1,1.5-4.4,1.8-6.7L79.9,52.6 z M50,65c-8.3,0-15-6.7-15-15c0-8.3,6.7-15,15-15s15,6.7,15,15C65,58.3,58.3,65,50,65z", "fill": _vm.color } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "90 50 50", "to": "0 50 50", "dur": "1s", "repeatCount": "indefinite" } })], 1)]), _c('g', { attrs: { "transform": "translate(20,20) rotate(15 50 50)" } }, [_c('path', { attrs: { "d": "M79.9,52.6C80,51.8,80,50.9,80,50s0-1.8-0.1-2.6l-5.1-0.4c-0.3-2.4-0.9-4.6-1.8-6.7l4.2-2.9c-0.7-1.6-1.6-3.1-2.6-4.5 L70,35c-1.4-1.9-3.1-3.5-4.9-4.9l2.2-4.6c-1.4-1-2.9-1.9-4.5-2.6L59.8,27c-2.1-0.9-4.4-1.5-6.7-1.8l-0.4-5.1C51.8,20,50.9,20,50,20 s-1.8,0-2.6,0.1l-0.4,5.1c-2.4,0.3-4.6,0.9-6.7,1.8l-2.9-4.1c-1.6,0.7-3.1,1.6-4.5,2.6l2.1,4.6c-1.9,1.4-3.5,3.1-5,4.9l-4.5-2.1 c-1,1.4-1.9,2.9-2.6,4.5l4.1,2.9c-0.9,2.1-1.5,4.4-1.8,6.8l-5,0.4C20,48.2,20,49.1,20,50s0,1.8,0.1,2.6l5,0.4 c0.3,2.4,0.9,4.7,1.8,6.8l-4.1,2.9c0.7,1.6,1.6,3.1,2.6,4.5l4.5-2.1c1.4,1.9,3.1,3.5,5,4.9l-2.1,4.6c1.4,1,2.9,1.9,4.5,2.6l2.9-4.1 c2.1,0.9,4.4,1.5,6.7,1.8l0.4,5.1C48.2,80,49.1,80,50,80s1.8,0,2.6-0.1l0.4-5.1c2.3-0.3,4.6-0.9,6.7-1.8l2.9,4.2 c1.6-0.7,3.1-1.6,4.5-2.6L65,69.9c1.9-1.4,3.5-3,4.9-4.9l4.6,2.2c1-1.4,1.9-2.9,2.6-4.5L73,59.8c0.9-2.1,1.5-4.4,1.8-6.7L79.9,52.6 z M50,65c-8.3,0-15-6.7-15-15c0-8.3,6.7-15,15-15s15,6.7,15,15C65,58.3,58.3,65,50,65z", "fill": _vm.color } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "90 50 50", "dur": "1s", "repeatCount": "indefinite" } })], 1)])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
@@ -6705,7 +6622,7 @@ var SHearts = { render: function render() {
 };
 
 var SHourglass = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', [_c('path', { staticClass: "glass", attrs: { "fill": "none", "stroke": _vm.color, "stroke-width": "5", "stroke-miterlimit": "10", "d": "M58.4,51.7c-0.9-0.9-1.4-2-1.4-2.3s0.5-0.4,1.4-1.4 C70.8,43.8,79.8,30.5,80,15.5H70H30H20c0.2,15,9.2,28.1,21.6,32.3c0.9,0.9,1.4,1.2,1.4,1.5s-0.5,1.6-1.4,2.5 C29.2,56.1,20.2,69.5,20,85.5h10h40h10C79.8,69.5,70.8,55.9,58.4,51.7z" } }), _c('clipPath', { attrs: { "id": "uil-hourglass-clip1" } }, [_c('rect', { staticClass: "clip", attrs: { "x": "15", "y": "20", "width": "70", "height": "25" } }, [_c('animate', { attrs: { "attributeName": "height", "from": "25", "to": "0", "dur": "1s", "repeatCount": "indefinite", "vlaues": "25;0;0", "keyTimes": "0;0.5;1" } }), _c('animate', { attrs: { "attributeName": "y", "from": "20", "to": "45", "dur": "1s", "repeatCount": "indefinite", "vlaues": "20;45;45", "keyTimes": "0;0.5;1" } })])]), _c('clipPath', { attrs: { "id": "uil-hourglass-clip2" } }, [_c('rect', { staticClass: "clip", attrs: { "x": "15", "y": "55", "width": "70", "height": "25" } }, [_c('animate', { attrs: { "attributeName": "height", "from": "0", "to": "25", "dur": "1s", "repeatCount": "indefinite", "vlaues": "0;25;25", "keyTimes": "0;0.5;1" } }), _c('animate', { attrs: { "attributeName": "y", "from": "80", "to": "55", "dur": "1s", "repeatCount": "indefinite", "vlaues": "80;55;55", "keyTimes": "0;0.5;1" } })])]), _c('path', { staticClass: "sand", attrs: { "d": "M29,23c3.1,11.4,11.3,19.5,21,19.5S67.9,34.4,71,23H29z", "clip-path": "url(#uil-hourglass-clip1)", "fill": _vm.color } }), _c('path', { staticClass: "sand", attrs: { "d": "M71.6,78c-3-11.6-11.5-20-21.5-20s-18.5,8.4-21.5,20H71.6z", "clip-path": "url(#uil-hourglass-clip2)", "fill": _vm.color } }), _c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "180 50 50", "repeatCount": "indefinite", "dur": "1s", "values": "0 50 50;0 50 50;180 50 50", "keyTimes": "0;0.7;1" } })])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', [_c('path', { staticClass: "glass", attrs: { "fill": "none", "stroke": _vm.color, "stroke-width": "5", "stroke-miterlimit": "10", "d": "M58.4,51.7c-0.9-0.9-1.4-2-1.4-2.3s0.5-0.4,1.4-1.4 C70.8,43.8,79.8,30.5,80,15.5H70H30H20c0.2,15,9.2,28.1,21.6,32.3c0.9,0.9,1.4,1.2,1.4,1.5s-0.5,1.6-1.4,2.5 C29.2,56.1,20.2,69.5,20,85.5h10h40h10C79.8,69.5,70.8,55.9,58.4,51.7z" } }), _c('clipPath', { attrs: { "id": "uil-hourglass-clip1" } }, [_c('rect', { staticClass: "clip", attrs: { "x": "15", "y": "20", "width": "70", "height": "25" } }, [_c('animate', { attrs: { "attributeName": "height", "from": "25", "to": "0", "dur": "1s", "repeatCount": "indefinite", "vlaues": "25;0;0", "keyTimes": "0;0.5;1" } }), _c('animate', { attrs: { "attributeName": "y", "from": "20", "to": "45", "dur": "1s", "repeatCount": "indefinite", "vlaues": "20;45;45", "keyTimes": "0;0.5;1" } })])]), _c('clipPath', { attrs: { "id": "uil-hourglass-clip2" } }, [_c('rect', { staticClass: "clip", attrs: { "x": "15", "y": "55", "width": "70", "height": "25" } }, [_c('animate', { attrs: { "attributeName": "height", "from": "0", "to": "25", "dur": "1s", "repeatCount": "indefinite", "vlaues": "0;25;25", "keyTimes": "0;0.5;1" } }), _c('animate', { attrs: { "attributeName": "y", "from": "80", "to": "55", "dur": "1s", "repeatCount": "indefinite", "vlaues": "80;55;55", "keyTimes": "0;0.5;1" } })])]), _c('path', { staticClass: "sand", attrs: { "d": "M29,23c3.1,11.4,11.3,19.5,21,19.5S67.9,34.4,71,23H29z", "clip-path": "url(#uil-hourglass-clip1)", "fill": _vm.color } }), _c('path', { staticClass: "sand", attrs: { "d": "M71.6,78c-3-11.6-11.5-20-21.5-20s-18.5,8.4-21.5,20H71.6z", "clip-path": "url(#uil-hourglass-clip2)", "fill": _vm.color } }), _c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "180 50 50", "repeatCount": "indefinite", "dur": "1s", "values": "0 50 50;0 50 50;180 50 50", "keyTimes": "0;0.7;1" } })], 1)]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
@@ -6723,13 +6640,13 @@ var SIos = { render: function render() {
 };
 
 var SOval = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "stroke": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 38 38", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "translate(1 1)", "stroke-width": "2", "fill": "none", "fill-rule": "evenodd" } }, [_c('circle', { attrs: { "stroke-opacity": ".5", "cx": "18", "cy": "18", "r": "18" } }), _c('path', { attrs: { "d": "M36 18c0-9.94-8.06-18-18-18" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "1s", "repeatCount": "indefinite" } })])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "stroke": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 38 38", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "translate(1 1)", "stroke-width": "2", "fill": "none", "fill-rule": "evenodd" } }, [_c('circle', { attrs: { "stroke-opacity": ".5", "cx": "18", "cy": "18", "r": "18" } }), _c('path', { attrs: { "d": "M36 18c0-9.94-8.06-18-18-18" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "1s", "repeatCount": "indefinite" } })], 1)])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SPie = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('path', { attrs: { "d": "M0 50A50 50 0 0 1 50 0L50 50L0 50", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "0.8s", "repeatCount": "indefinite" } })]), _c('path', { attrs: { "d": "M50 0A50 50 0 0 1 100 50L50 50L50 0", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "1.6s", "repeatCount": "indefinite" } })]), _c('path', { attrs: { "d": "M100 50A50 50 0 0 1 50 100L50 50L100 50", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "2.4s", "repeatCount": "indefinite" } })]), _c('path', { attrs: { "d": "M50 100A50 50 0 0 1 0 50L50 50L50 100", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "3.2s", "repeatCount": "indefinite" } })])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('path', { attrs: { "d": "M0 50A50 50 0 0 1 50 0L50 50L0 50", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "0.8s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M50 0A50 50 0 0 1 100 50L50 50L50 0", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "1.6s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M100 50A50 50 0 0 1 50 100L50 50L100 50", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "2.4s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M50 100A50 50 0 0 1 0 50L50 50L50 100", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "3.2s", "repeatCount": "indefinite" } })], 1)]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
@@ -6753,7 +6670,7 @@ var SRings = { render: function render() {
 };
 
 var STail = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 38 38", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('defs', [_c('linearGradient', { attrs: { "x1": "8.042%", "y1": "0%", "x2": "65.682%", "y2": "23.865%", "id": "a" } }, [_c('stop', { attrs: { "stop-color": _vm.color, "stop-opacity": "0", "offset": "0%" } }), _c('stop', { attrs: { "stop-color": _vm.color, "stop-opacity": ".631", "offset": "63.146%" } }), _c('stop', { attrs: { "stop-color": _vm.color, "offset": "100%" } })])]), _c('g', { attrs: { "transform": "translate(1 1)", "fill": "none", "fill-rule": "evenodd" } }, [_c('path', { attrs: { "d": "M36 18c0-9.94-8.06-18-18-18", "stroke": "url(#a)", "stroke-width": "2" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "0.9s", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "fill": _vm.color, "cx": "36", "cy": "18", "r": "1" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "0.9s", "repeatCount": "indefinite" } })])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 38 38", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('defs', [_c('linearGradient', { attrs: { "x1": "8.042%", "y1": "0%", "x2": "65.682%", "y2": "23.865%", "id": "a" } }, [_c('stop', { attrs: { "stop-color": _vm.color, "stop-opacity": "0", "offset": "0%" } }), _c('stop', { attrs: { "stop-color": _vm.color, "stop-opacity": ".631", "offset": "63.146%" } }), _c('stop', { attrs: { "stop-color": _vm.color, "offset": "100%" } })], 1)], 1), _c('g', { attrs: { "transform": "translate(1 1)", "fill": "none", "fill-rule": "evenodd" } }, [_c('path', { attrs: { "d": "M36 18c0-9.94-8.06-18-18-18", "stroke": "url(#a)", "stroke-width": "2" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "0.9s", "repeatCount": "indefinite" } })], 1), _c('circle', { attrs: { "fill": _vm.color, "cx": "36", "cy": "18", "r": "1" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "0.9s", "repeatCount": "indefinite" } })], 1)])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
@@ -6798,7 +6715,7 @@ var Spinner = { render: function render() {
 };
 
 var State = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('span', [_vm.active ? _vm._t("active") : _vm._t("default")], true);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('span', [_vm.active ? _vm._t("active") : _vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     active: {
@@ -6809,7 +6726,7 @@ var State = { render: function render() {
 };
 
 var Stepper = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-stepper timeline primary" }, [_vm._t("default")], true);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-stepper timeline primary" }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     backLabel: {
@@ -6868,7 +6785,7 @@ var Step = { render: function render() {
           _vm.nextStep();
         } } }, [_vm._v(_vm._s(_vm.stepper && _vm.step === _vm.stepper.steps ? _vm.$parent.finishLabel : _vm.$parent.nextLabel))]), _vm._v(" "), _vm.step > 1 ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.$parent.backLabel) }, on: { "click": function click($event) {
           _vm.previousStep();
-        } } }) : _vm._e()])], true)])]);
+        } } }) : _vm._e()])], 2)])], 1);
   }, staticRenderFns: [],
   props: {
     title: {
@@ -6909,9 +6826,9 @@ var Step = { render: function render() {
 var Tab = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _vm.route ? _c('router-link', { ref: "routerLink", staticClass: "q-tab items-center justify-center", class: { active: _vm.isActive, hidden: _vm.hidden, disabled: _vm.disable, hideIcon: _vm.hide === 'icon', hideLabel: _vm.hide === 'label' }, attrs: { "to": _vm.route, "replace": _vm.replace, "append": _vm.append, "exact": _vm.exact, "tag": "div" }, on: { "click": function click($event) {
           $event.stopPropagation();$event.preventDefault();_vm.activate();
-        } } }, [_vm.icon ? _c('i', { staticClass: "q-tabs-icon" }, [_vm._v(_vm._s(_vm.icon))]) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "q-tab-label" }, [_vm._t("default")], true)]) : _c('div', { staticClass: "q-tab items-center justify-center", class: { active: _vm.isActive, hidden: _vm.hidden, disabled: _vm.disable, hideIcon: _vm.hide === 'icon', hideLabel: _vm.hide === 'label' }, on: { "click": function click($event) {
+        } } }, [_vm.icon ? _c('i', { staticClass: "q-tabs-icon" }, [_vm._v(_vm._s(_vm.icon))]) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "q-tab-label" }, [_vm._t("default")], 2)]) : _c('div', { staticClass: "q-tab items-center justify-center", class: { active: _vm.isActive, hidden: _vm.hidden, disabled: _vm.disable, hideIcon: _vm.hide === 'icon', hideLabel: _vm.hide === 'label' }, on: { "click": function click($event) {
           _vm.activate();
-        } } }, [_vm.icon ? _c('i', { staticClass: "q-tabs-icon" }, [_vm._v(_vm._s(_vm.icon))]) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "q-tab-label" }, [_vm._t("default")], true)]);
+        } } }, [_vm.icon ? _c('i', { staticClass: "q-tabs-icon" }, [_vm._v(_vm._s(_vm.icon))]) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "q-tab-label" }, [_vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     label: String,
@@ -7003,7 +6920,7 @@ var scrollNavigationSpeed = 5;
 var debounceDelay = 50;
 
 var Tabs = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-tabs row" }, [_c('div', { ref: "leftScroll", staticClass: "row items-center justify-center left-scroll" }, [_c('i', [_vm._v("chevron_left")])]), _c('div', { ref: "scroller", staticClass: "q-tabs-scroller row" }, [_vm._t("default")], true), _c('div', { ref: "rightScroll", staticClass: "row items-center justify-center right-scroll" }, [_c('i', [_vm._v("chevron_right")])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-tabs row" }, [_c('div', { ref: "leftScroll", staticClass: "row items-center justify-center left-scroll" }, [_c('i', [_vm._v("chevron_left")])]), _c('div', { ref: "scroller", staticClass: "q-tabs-scroller row" }, [_vm._t("default")], 2), _c('div', { ref: "rightScroll", staticClass: "row items-center justify-center right-scroll" }, [_c('i', [_vm._v("chevron_right")])])]);
   }, staticRenderFns: [],
   props: {
     refs: {
@@ -7265,7 +7182,7 @@ var Toggle = { render: function render() {
 };
 
 var Tooltip = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('span', { staticClass: "q-tooltip animate-scale", style: _vm.transformCSS }, [_vm._t("default")], true);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('span', { staticClass: "q-tooltip animate-scale", style: _vm.transformCSS }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     anchor: {
@@ -7358,7 +7275,7 @@ var Tooltip = { render: function render() {
 var QTreeItem = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('li', { staticClass: "q-tree-item" }, [_c('div', { class: { 'q-tree-expandable-item': _vm.isExpandable, 'q-tree-link': _vm.model.handler }, on: { "click": _vm.toggle } }, [_vm.model.icon ? _c('i', [_vm._v(_vm._s(_vm.model.icon))]) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "q-tree-label" }, [_vm._v(_vm._s(_vm.model.title))]), _vm._v(" "), _vm.isExpandable ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.model.expanded ? _vm.contractHtml : _vm.expandHtml) } }) : _vm._e()]), _c('q-transition', { attrs: { "name": "slide" } }, [_c('ul', { directives: [{ name: "show", rawName: "v-show", value: _vm.isExpandable && _vm.model.expanded, expression: "isExpandable && model.expanded" }] }, _vm._l(_vm.model.children, function (item) {
       return _c('q-tree-item', { attrs: { "model": item, "contract-html": _vm.contractHtml, "expand-html": _vm.expandHtml } });
-    }))])]);
+    }))])], 1);
   }, staticRenderFns: [],
   name: 'q-tree-item',
   props: ['model', 'contract-html', 'expand-html'],
@@ -7408,7 +7325,7 @@ var Tree = { render: function render() {
 };
 
 var Video = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "video" }, [_c('iframe', { attrs: { "src": _vm.src, "frameborder": "0", "allowfullscreen": "" } })]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "video" }, [_c('iframe', { attrs: { "src": _vm.src, "frameborder": "0", "allowfullscreen": "" } })], 1);
   }, staticRenderFns: [],
   props: ['src']
 };
@@ -7962,7 +7879,7 @@ var Cookies = {
 };
 
 var Loading$1 = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-loading animate-fade fullscreen column items-center justify-center z-absolute" }, [_c('spinner', { attrs: { "name": _vm.spinner, "color": _vm.spinnerColor, "size": _vm.spinnerSize } }), _vm.message ? _c('div', { style: { color: _vm.messageColor } }, [_vm._v(_vm._s(_vm.message))]) : _vm._e()]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-loading animate-fade fullscreen column items-center justify-center z-absolute" }, [_c('spinner', { attrs: { "name": _vm.spinner, "color": _vm.spinnerColor, "size": _vm.spinnerSize } }), _vm.message ? _c('div', { style: { color: _vm.messageColor } }, [_vm._v(_vm._s(_vm.message))]) : _vm._e()], 1);
   }, staticRenderFns: [],
   props: {
     message: [String, Boolean],
