@@ -7826,18 +7826,19 @@ function set$3(key, value) {
   var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
   var days = options.expires,
-      time = options.expires = new Date();
+      time = void 0;
 
   if (typeof options.expires === 'number') {
+    time = new Date();
     time.setMilliseconds(time.getMilliseconds() + days * 864e+5);
   }
 
-  document.cookie = [encode(key), '=', stringifyCookieValue(value), options.expires ? ' expires=' + options.expires.toUTCString() : '', options.path ? ' path=' + options.path : '', options.domain ? ' domain=' + options.domain : '', options.secure ? ' secure' : ''].join('');
+  document.cookie = [encode(key), '=', stringifyCookieValue(value), time ? '; expires=' + time.toUTCString() : '', options.path ? '; path=' + options.path : '', options.domain ? '; domain=' + options.domain : '', options.secure ? '; secure' : ''].join('');
 }
 
 function get$3(key) {
   var result = key ? undefined : {},
-      cookies = document.cookie ? document.cookie.split(' ') : [],
+      cookies = document.cookie ? document.cookie.split('; ') : [],
       i = 0,
       l = cookies.length,
       parts = void 0,
