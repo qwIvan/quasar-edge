@@ -3456,6 +3456,70 @@ var Datetime = { render: function render() {
   }
 };
 
+var DatetimeRange = { render: function render() {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.min, expression: "model.min" }], attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.model.max || _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.min }, on: { "input": function input($event) {
+          _vm.model.min = $event;
+        } } }), _c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.max, expression: "model.max" }], attrs: { "type": _vm.type, "min": _vm.model.min || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.max }, on: { "input": function input($event) {
+          _vm.model.max = $event;
+        } } })], 1);
+  }, staticRenderFns: [],
+  props: {
+    value: {
+      type: Object,
+      validator: function validator(val) {
+        if (typeof val.min !== 'string' || typeof val.max !== 'string') {
+          console.error('DatetimeRange requires a {min, max} model.');
+          return false;
+        }
+        return true;
+      },
+
+      required: true
+    },
+    type: {
+      type: String,
+      default: 'date'
+    },
+    min: {
+      type: String,
+      default: ''
+    },
+    max: {
+      type: String,
+      default: ''
+    },
+    format: String,
+    noClear: Boolean,
+    clearLabel: {
+      type: String,
+      default: 'Clear'
+    },
+    okLabel: {
+      type: String,
+      default: 'Set'
+    },
+    cancelLabel: {
+      type: String,
+      default: 'Cancel'
+    },
+    label: String,
+    placeholder: String,
+    staticLabel: String,
+    readonly: Boolean,
+    disable: Boolean
+  },
+  computed: {
+    model: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit('input', value);
+      }
+    }
+  }
+};
+
 function convertToAmPm(hour) {
   return hour === 0 ? 12 : hour >= 13 ? hour - 12 : hour;
 }
@@ -7354,7 +7418,7 @@ function registerDirectives(_Vue) {
 
 function registerComponents(_Vue) {
   _Vue.component('spinner', Spinner);
-  _Vue.component('q-transition', Transition);[['ajax-bar', AjaxBar], ['autocomplete', Autocomplete], ['checkbox', Checkbox], ['chips', Chips], ['collapsible', Collapsible], ['context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile], ['data-table', DataTable], ['inline-datetime', current === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial], ['datetime', Datetime], ['drawer', Drawer], ['drawer-link', DrawerLink], ['fab', Fab], ['small-fab', SmallFab], ['gallery', Gallery], ['gallery-slider', GallerySlider], ['checkbox', Checkbox], ['infinite-scroll', InfiniteScroll], ['knob', Knob], ['layout', Layout], ['list-item', ListItem], ['toolbar-title', ToolbarTitle], ['modal', Modal], ['numeric', Numeric], ['pagination', Pagination$1], ['parallax', Parallax], ['picker-textfield', PickerTextfield], ['popover', Popover], ['progress', Progress], ['progress-button', ProgressButton], ['pull-to-refresh', PullToRefresh], ['radio', Radio], ['range', Range], ['double-range', DoubleRange], ['rating', Rating], ['search', Search], ['select', Select], ['dialog-select', DialogSelect], ['slider', Slider], ['state', State], ['stepper', Stepper], ['step', Step], ['tab', Tab], ['tabs', Tabs], ['toggle', Toggle], ['tooltip', Tooltip], ['tree', Tree], ['video', Video]].forEach(function (c) {
+  _Vue.component('q-transition', Transition);[['ajax-bar', AjaxBar], ['autocomplete', Autocomplete], ['checkbox', Checkbox], ['chips', Chips], ['collapsible', Collapsible], ['context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile], ['data-table', DataTable], ['inline-datetime', current === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial], ['datetime', Datetime], ['datetime-range', DatetimeRange], ['drawer', Drawer], ['drawer-link', DrawerLink], ['fab', Fab], ['small-fab', SmallFab], ['gallery', Gallery], ['gallery-slider', GallerySlider], ['checkbox', Checkbox], ['infinite-scroll', InfiniteScroll], ['knob', Knob], ['layout', Layout], ['list-item', ListItem], ['toolbar-title', ToolbarTitle], ['modal', Modal], ['numeric', Numeric], ['pagination', Pagination$1], ['parallax', Parallax], ['picker-textfield', PickerTextfield], ['popover', Popover], ['progress', Progress], ['progress-button', ProgressButton], ['pull-to-refresh', PullToRefresh], ['radio', Radio], ['range', Range], ['double-range', DoubleRange], ['rating', Rating], ['search', Search], ['select', Select], ['dialog-select', DialogSelect], ['slider', Slider], ['state', State], ['stepper', Stepper], ['step', Step], ['tab', Tab], ['tabs', Tabs], ['toggle', Toggle], ['tooltip', Tooltip], ['tree', Tree], ['video', Video]].forEach(function (c) {
     _Vue.component('q-' + c[0], c[1]);
   });
 }

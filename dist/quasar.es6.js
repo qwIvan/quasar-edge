@@ -3157,6 +3157,63 @@ var Datetime = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
   }
 };
 
+var DatetimeRange = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('q-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model.min),expression:"model.min"}],attrs:{"type":_vm.type,"min":_vm.min,"max":_vm.model.max || _vm.max,"format":_vm.format,"no-clear":_vm.noClear,"clear-label":_vm.clearLabel,"ok-label":_vm.okLabel,"cancel-label":_vm.cancelLabel,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"readonly":_vm.readonly,"disable":_vm.disable},domProps:{"value":(_vm.model.min)},on:{"input":function($event){_vm.model.min=$event;}}}),_c('q-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model.max),expression:"model.max"}],attrs:{"type":_vm.type,"min":_vm.model.min || _vm.min,"max":_vm.max,"format":_vm.format,"no-clear":_vm.noClear,"clear-label":_vm.clearLabel,"ok-label":_vm.okLabel,"cancel-label":_vm.cancelLabel,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"readonly":_vm.readonly,"disable":_vm.disable},domProps:{"value":(_vm.model.max)},on:{"input":function($event){_vm.model.max=$event;}}})],1)},staticRenderFns: [],
+  props: {
+    value: {
+      type: Object,
+      validator (val) {
+        if (typeof val.min !== 'string' || typeof val.max !== 'string') {
+          console.error('DatetimeRange requires a {min, max} model.');
+          return false
+        }
+        return true
+      },
+      required: true
+    },
+    type: {
+      type: String,
+      default: 'date'
+    },
+    min: {
+      type: String,
+      default: ''
+    },
+    max: {
+      type: String,
+      default: ''
+    },
+    format: String,
+    noClear: Boolean,
+    clearLabel: {
+      type: String,
+      default: 'Clear'
+    },
+    okLabel: {
+      type: String,
+      default: 'Set'
+    },
+    cancelLabel: {
+      type: String,
+      default: 'Cancel'
+    },
+    label: String,
+    placeholder: String,
+    staticLabel: String,
+    readonly: Boolean,
+    disable: Boolean
+  },
+  computed: {
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value);
+      }
+    }
+  }
+};
+
 function convertToAmPm (hour) {
   return hour === 0 ? 12 : (hour >= 13 ? hour - 12 : hour)
 }
@@ -6708,6 +6765,7 @@ function registerComponents (_Vue) {
     ['data-table', DataTable],
     ['inline-datetime', current === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial],
     ['datetime', Datetime],
+    ['datetime-range', DatetimeRange],
     ['drawer', Drawer],
     ['drawer-link', DrawerLink],
     ['fab', Fab],
