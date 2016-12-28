@@ -137,6 +137,8 @@ var Platform = {
   }
 };
 
+Platform.has.popstate = !Platform.within.iframe && !Platform.is.electron;
+
 var bus = void 0;
 
 function install$1(_Vue) {
@@ -552,7 +554,7 @@ var ModalGenerator = function (VueComponent) {
 };
 
 var Dialog$1 = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-modal', { ref: "dialog", staticClass: "minimized", attrs: { "no-backdrop-dismiss": _vm.noBackdropDismiss, "no-esc-dismiss": _vm.noEscDismiss }, on: { "close": function close($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-modal', { ref: "dialog", staticClass: "minimized", attrs: { "no-backdrop-dismiss": _vm.noBackdropDismiss, "no-esc-dismiss": _vm.noEscDismiss }, on: { "close": function close($event) {
           _vm.__dismiss();
         } } }, [_c('div', { staticClass: "modal-header", domProps: { "innerHTML": _vm._s(_vm.title || '') } }), _vm.message ? _c('div', { staticClass: "modal-body modal-scroll", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _vm._e(), _vm.form ? _c('div', { staticClass: "modal-body modal-scroll" }, [_vm._l(_vm.form, function (el) {
       return [el.type === 'heading' ? _c('h6', { domProps: { "innerHTML": _vm._s(el.label) } }) : _vm._e(), el.type === 'textbox' ? _c('div', { staticClass: "floating-label", staticStyle: { "margin-bottom": "10px" } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], staticClass: "full-width", attrs: { "type": "text", "placeholder": el.placeholder, "required": "" }, domProps: { "value": _vm._s(el.model) }, on: { "input": function input($event) {
@@ -1076,7 +1078,7 @@ function parseOptions(opts, defaults) {
 }
 
 var Toast$1 = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-toast-container", class: { active: _vm.active } }, [_vm.stack[0] ? _c('div', { staticClass: "q-toast row no-wrap items-center non-selectable", class: _vm.classes, style: { color: _vm.stack[0].color, background: _vm.stack[0].bgColor } }, [_vm.stack[0].icon ? _c('i', [_vm._v(_vm._s(_vm.stack[0].icon))]) : _vm._e(), _vm._v(" "), _vm.stack[0].image ? _c('img', { attrs: { "src": _vm.stack[0].image } }) : _vm._e(), _c('div', { staticClass: "q-toast-message auto", domProps: { "innerHTML": _vm._s(_vm.stack[0].html) } }), _vm.stack[0].button && _vm.stack[0].button.label ? _c('a', { style: { color: _vm.stack[0].button.color }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-toast-container", class: { active: _vm.active } }, [_vm.stack[0] ? _c('div', { staticClass: "q-toast row no-wrap items-center non-selectable", class: _vm.classes, style: { color: _vm.stack[0].color, background: _vm.stack[0].bgColor } }, [_vm.stack[0].icon ? _c('i', [_vm._v(_vm._s(_vm.stack[0].icon))]) : _vm._e(), _vm._v(" "), _vm.stack[0].image ? _c('img', { attrs: { "src": _vm.stack[0].image } }) : _vm._e(), _c('div', { staticClass: "q-toast-message auto", domProps: { "innerHTML": _vm._s(_vm.stack[0].html) } }), _vm.stack[0].button && _vm.stack[0].button.label ? _c('a', { style: { color: _vm.stack[0].button.color }, on: { "click": function click($event) {
           _vm.dismiss(_vm.stack[0].button.handler);
         } } }, [_vm._v(_vm._s(_vm.stack[0].button.label) + " ")]) : _vm._e(), _c('a', { style: { color: _vm.stack[0].button.color }, on: { "click": function click($event) {
           _vm.dismiss();
@@ -1922,7 +1924,7 @@ function restoreAjax() {
 }
 
 var AjaxBar = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-loading-bar shadow-1", class: [_vm.position, _vm.animate ? '' : 'no-transition'], style: _vm.containerStyle }, [_c('div', { staticClass: "q-loading-bar-inner", style: _vm.innerStyle })]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-loading-bar shadow-1", class: [_vm.position, _vm.animate ? '' : 'no-transition'], style: _vm.containerStyle }, [_c('div', { staticClass: "q-loading-bar-inner", style: _vm.innerStyle })]);
   }, staticRenderFns: [],
   props: {
     position: {
@@ -2050,7 +2052,7 @@ var AjaxBar = { render: function render() {
 };
 
 var Autocomplete = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('span', [_vm._t("default", [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "text" }, domProps: { "value": _vm._s(_vm.model) }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', [_vm._t("default", [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "text" }, domProps: { "value": _vm._s(_vm.model) }, on: { "input": function input($event) {
           if ($event.target.composing) {
             return;
           }_vm.model = $event.target.value;
@@ -2069,7 +2071,7 @@ var Autocomplete = { render: function render() {
       type: Number,
       default: 1
     },
-    resultsLimit: {
+    maxResults: {
       type: Number,
       default: 6
     },
@@ -2105,8 +2107,8 @@ var Autocomplete = { render: function render() {
       }
     },
     computedResults: function computedResults() {
-      if (this.resultsLimit && this.results.length > 0) {
-        return this.results.slice(0, this.resultsLimit);
+      if (this.maxResults && this.results.length > 0) {
+        return this.results.slice(0, this.maxResults);
       }
     },
     computedWidth: function computedWidth() {
@@ -2133,26 +2135,37 @@ var Autocomplete = { render: function render() {
           return;
         }
 
-        _this.$refs.popover.open();
-
-        if (_this.staticData) {
-          _this.searchId = '';
-          _this.results = Utils.filter(_this.model, _this.staticData);
-          return;
-        }
-
-        _this.$emit('search', _this.model, function (results) {
-          if (results && _this.searchId === searchId) {
+        _this.$refs.popover.close();
+        setTimeout(function () {
+          if (_this.staticData) {
             _this.searchId = '';
-
-            if (Array.isArray(results) && results.length > 0) {
-              _this.results = results;
-              return;
-            }
-
-            _this.close();
+            _this.results = Utils.filter(_this.model, _this.staticData);
+            _this.$refs.popover.open();
+            return;
           }
-        });
+
+          _this.$refs.popover.open();
+          _this.$emit('search', _this.model, function (results) {
+            if (results && _this.searchId === searchId) {
+              _this.searchId = '';
+
+              if (Array.isArray(results) && results.length > 0) {
+                _this.$refs.popover.close();
+                _this.$nextTick(function () {
+                  _this.results = results;
+                  setTimeout(function () {
+                    if (_this.$refs && _this.$refs.popover) {
+                      _this.$refs.popover.open();
+                    }
+                  }, 10);
+                });
+                return;
+              }
+
+              _this.close();
+            }
+          });
+        }, 10);
       });
     },
     close: function close() {
@@ -2216,7 +2229,7 @@ var Autocomplete = { render: function render() {
 };
 
 var Checkbox = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('label', { staticClass: "q-checkbox", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm._q(_vm.model, true) }, on: { "change": function change($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { staticClass: "q-checkbox", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm._q(_vm.model, true) }, on: { "change": function change($event) {
           var $$a = _vm.model,
               $$el = $event.target,
               $$c = $$el.checked ? true : false;if (Array.isArray($$a)) {
@@ -2251,7 +2264,7 @@ var Checkbox = { render: function render() {
 };
 
 var Chips = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-chips group textfield", class: { active: _vm.active, disabled: _vm.disable, readonly: _vm.readonly }, on: { "click": _vm.focus } }, [_vm._l(_vm.value, function (label, index) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-chips group textfield", class: { active: _vm.active, disabled: _vm.disable, readonly: _vm.readonly }, on: { "click": _vm.focus } }, [_vm._l(_vm.value, function (label, index) {
       return _c('span', { key: index, staticClass: "chip label bg-light text-grey-9" }, [_vm._v(_vm._s(label) + " "), _c('i', { staticClass: "on-right", on: { "click": function click($event) {
             _vm.remove(index);
           } } }, [_vm._v("close")])]);
@@ -2310,7 +2323,7 @@ var Chips = { render: function render() {
 };
 
 var Collapsible = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-collapsible" }, [_c('div', { staticClass: "item item-link non-selectable item-collapsible", on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-collapsible" }, [_c('div', { staticClass: "item item-link non-selectable item-collapsible", on: { "click": function click($event) {
           _vm.__toggleItem();
         } } }, [_vm.icon ? _c('i', { staticClass: "item-primary", domProps: { "textContent": _vm._s(_vm.icon) } }) : _vm._e(), _vm._v(" "), _vm.img ? _c('img', { staticClass: "item-primary thumbnail", attrs: { "src": _vm.img } }) : _vm._e(), _vm.avatar ? _c('img', { staticClass: "item-primary", attrs: { "src": _vm.avatar } }) : _vm._e(), _c('div', { staticClass: "item-content has-secondary" }, [_c('div', [_vm._v(_vm._s(_vm.label))])]), _c('i', { staticClass: "item-secondary", class: { 'rotate-180': _vm.active }, on: { "click": function click($event) {
           $event.stopPropagation();_vm.toggle();
@@ -2354,7 +2367,7 @@ var Collapsible = { render: function render() {
 };
 
 var ContextMenuDesktop = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-popover', { ref: "popover", attrs: { "anchor-click": false } }, [_vm._t("default")], 2);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-popover', { ref: "popover", attrs: { "anchor-click": false } }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     disable: Boolean
@@ -2379,7 +2392,7 @@ var ContextMenuDesktop = { render: function render() {
 };
 
 var ContextMenuMobile = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-modal', { ref: "dialog", staticClass: "minimized" }, [_vm._t("default")], 2);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-modal', { ref: "dialog", staticClass: "minimized" }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     disable: Boolean
@@ -2482,7 +2495,7 @@ var ColumnSelection = {
 };
 
 var TableFilter = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_c('q-search', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.terms, expression: "filtering.terms" }], staticStyle: { "min-width": "250px" }, domProps: { "value": _vm.filtering.terms }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_c('q-search', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.terms, expression: "filtering.terms" }], staticStyle: { "min-width": "250px" }, domProps: { "value": _vm.filtering.terms }, on: { "input": function input($event) {
           _vm.filtering.terms = $event;
         } } }), _c('div', { staticClass: "row items-center group" }, [_c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.field, expression: "filtering.field" }], staticClass: "text-right", attrs: { "type": "list", "options": _vm.filterFields }, domProps: { "value": _vm.filtering.field }, on: { "input": function input($event) {
           _vm.filtering.field = $event;
@@ -2556,7 +2569,7 @@ var Filter = {
 };
 
 var TablePagination = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end" }, [_c('div', [_vm._v("Rows"), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.rowsPerPage, expression: "pagination.rowsPerPage" }], staticClass: "text-right", attrs: { "type": "radio", "options": _vm.pagination.options }, domProps: { "value": _vm.pagination.rowsPerPage }, on: { "input": [function ($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end" }, [_c('div', [_vm._v("Rows"), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.rowsPerPage, expression: "pagination.rowsPerPage" }], staticClass: "text-right", attrs: { "type": "radio", "options": _vm.pagination.options }, domProps: { "value": _vm.pagination.rowsPerPage }, on: { "input": [function ($event) {
           _vm.pagination.rowsPerPage = $event;
         }, _vm.resetPage] } })], 1), _vm.entries > 0 ? _c('div', [_vm._v(_vm._s(_vm.start) + " - " + _vm._s(_vm.end) + " / " + _vm._s(_vm.entries))]) : _vm._e(), _vm.pagination.rowsPerPage > 0 ? _c('q-pagination', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.page, expression: "pagination.page" }], attrs: { "max": _vm.max }, domProps: { "value": _vm.pagination.page }, on: { "input": function input($event) {
           _vm.pagination.page = $event;
@@ -2990,7 +3003,7 @@ var Sort = {
 };
 
 var SortIcon = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('i', { staticClass: "cursor-pointer" }, [_vm._v(_vm._s(_vm.icon))]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('i', { staticClass: "cursor-pointer" }, [_vm._v(_vm._s(_vm.icon))]);
   }, staticRenderFns: [],
   props: {
     field: String,
@@ -3007,7 +3020,7 @@ var SortIcon = { render: function render() {
 };
 
 var TableSticky = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('table', { staticClass: "q-table horizontal-delimiter" }, [_c('colgroup', [_vm.selection ? _c('col', { staticStyle: { "width": "45px" } }) : _vm._e(), _vm._l(_vm.cols, function (col) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('table', { staticClass: "q-table horizontal-delimiter" }, [_c('colgroup', [_vm.selection ? _c('col', { staticStyle: { "width": "45px" } }) : _vm._e(), _vm._l(_vm.cols, function (col) {
       return _c('col', { style: { width: col.width } });
     })], 2), _c('thead', [_c('tr', [_vm.selection ? _c('th', [_vm._v(" ")]) : _vm._e(), _vm._l(_vm.cols, function (col, index) {
       return _c('th', { class: { invisible: _vm.hidden(index), sortable: col.sort }, on: { "click": function click($event) {
@@ -3097,7 +3110,7 @@ var StickyColumns = {
 };
 
 var TableContent = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('table', { staticClass: "q-table horizontal-delimiter", style: _vm.tableStyle }, [_c('colgroup', [_vm.selection ? _c('col', { staticStyle: { "width": "45px" } }) : _vm._e(), _vm._l(_vm.cols, function (col) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('table', { staticClass: "q-table horizontal-delimiter", style: _vm.tableStyle }, [_c('colgroup', [_vm.selection ? _c('col', { staticStyle: { "width": "45px" } }) : _vm._e(), _vm._l(_vm.cols, function (col) {
       return _c('col', { style: { width: col.width } });
     }), _vm.head && _vm.scroll.horiz ? _c('col', { style: { width: _vm.scroll.horiz } }) : _vm._e()], 2), _vm.head ? _c('thead', [_c('tr', [_vm.selection ? _c('th', [_vm._v(" ")]) : _vm._e(), _vm._l(_vm.cols, function (col) {
       return _c('th', { class: { sortable: col.sort }, on: { "click": function click($event) {
@@ -3132,7 +3145,7 @@ var TableContent = { render: function render() {
 };
 
 var DataTable = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-data-table shadow-1" }, [_vm.hasToolbar && _vm.toolbar === '' ? _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_vm.config.title ? _c('div', { staticClass: "q-data-table-title ellipsis auto", domProps: { "innerHTML": _vm._s(_vm.config.title) } }) : _vm._e(), _c('div', { staticClass: "row items-center" }, [_vm.config.refresh && !_vm.refreshing ? _c('button', { staticClass: "primary clear", on: { "click": _vm.refresh } }, [_c('i', [_vm._v("refresh")])]) : _vm._e(), _vm._v(" "), _vm.refreshing ? _c('button', { staticClass: "disabled" }, [_c('i', { staticClass: "animate-spin-reverse" }, [_vm._v("cached")])]) : _vm._e(), _vm._v(" "), _vm.config.filter ? _c('button', { staticClass: "primary clear", on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table shadow-1" }, [_vm.hasToolbar && _vm.toolbar === '' ? _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_vm.config.title ? _c('div', { staticClass: "q-data-table-title ellipsis auto", domProps: { "innerHTML": _vm._s(_vm.config.title) } }) : _vm._e(), _c('div', { staticClass: "row items-center" }, [_vm.config.refresh && !_vm.refreshing ? _c('button', { staticClass: "primary clear", on: { "click": _vm.refresh } }, [_c('i', [_vm._v("refresh")])]) : _vm._e(), _vm._v(" "), _vm.refreshing ? _c('button', { staticClass: "disabled" }, [_c('i', { staticClass: "animate-spin-reverse" }, [_vm._v("cached")])]) : _vm._e(), _vm._v(" "), _vm.config.filter ? _c('button', { staticClass: "primary clear", on: { "click": function click($event) {
           _vm.toolbar = 'filter';
         } } }, [_c('i', [_vm._v("filter_list")])]) : _vm._e(), _vm.config.columnPicker ? _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.columnSelection, expression: "columnSelection" }], staticClass: "text-right", staticStyle: { "margin-left": "10px" }, attrs: { "type": "toggle", "options": _vm.columnSelectionOptions, "static-label": "Columns" }, domProps: { "value": _vm.columnSelection }, on: { "input": function input($event) {
           _vm.columnSelection = $event;
@@ -3313,7 +3326,7 @@ var contentCSS = {
 };
 
 var Datetime = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue }, nativeOn: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue }, nativeOn: { "click": function click($event) {
           _vm.__open();
         } } }, [_vm.desktop ? _c('q-popover', { ref: "popup", attrs: { "disable": _vm.disable || _vm.readonly }, on: { "open": function open($event) {
           _vm.__setModel();
@@ -3443,7 +3456,7 @@ function convertToAmPm(hour) {
 }
 
 var InlineDatetimeMaterial = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-datetime inline column gt-md-row", class: { disabled: _vm.disable, readonly: _vm.readonly } }, [!_vm.value ? _c('div', { staticClass: "q-datetime-header column justify-center" }, [_vm._v(" ")]) : _c('div', { staticClass: "q-datetime-header column justify-center" }, [_vm.typeHasDate ? _c('div', [_c('div', { staticClass: "q-datetime-weekdaystring" }, [_vm._v(_vm._s(_vm.weekDayString))]), _c('div', { staticClass: "q-datetime-datestring row gt-md-column items-center justify-center" }, [_c('span', { staticClass: "q-datetime-link small", class: { active: _vm.view === 'month' }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime inline column gt-md-row", class: { disabled: _vm.disable, readonly: _vm.readonly } }, [!_vm.value ? _c('div', { staticClass: "q-datetime-header column justify-center" }, [_vm._v(" ")]) : _c('div', { staticClass: "q-datetime-header column justify-center" }, [_vm.typeHasDate ? _c('div', [_c('div', { staticClass: "q-datetime-weekdaystring" }, [_vm._v(_vm._s(_vm.weekDayString))]), _c('div', { staticClass: "q-datetime-datestring row gt-md-column items-center justify-center" }, [_c('span', { staticClass: "q-datetime-link small", class: { active: _vm.view === 'month' }, on: { "click": function click($event) {
           _vm.view = 'month';
         } } }, [_vm._v(_vm._s(_vm.monthString) + " ")]), _c('span', { staticClass: "q-datetime-link", class: { active: _vm.view === 'day' }, on: { "click": function click($event) {
           _vm.view = 'day';
@@ -3827,7 +3840,7 @@ var InlineDatetimeMaterial = { render: function render() {
 };
 
 var InlineDatetimeIOS = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-datetime", class: ['type-' + _vm.type, _vm.disable ? 'disabled' : '', _vm.readonly ? 'readonly' : ''] }, [_vm._t("default"), _c('div', { staticClass: "q-datetime-content non-selectable" }, [_c('div', { staticClass: "q-datetime-inner full-height flex justify-center" }, [_vm.typeHasDate ? [_c('div', { staticClass: "q-datetime-col q-datetime-col-month", on: { "touchstart": function touchstart($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime", class: ['type-' + _vm.type, _vm.disable ? 'disabled' : '', _vm.readonly ? 'readonly' : ''] }, [_vm._t("default"), _c('div', { staticClass: "q-datetime-content non-selectable" }, [_c('div', { staticClass: "q-datetime-inner full-height flex justify-center" }, [_vm.typeHasDate ? [_c('div', { staticClass: "q-datetime-col q-datetime-col-month", on: { "touchstart": function touchstart($event) {
           _vm.__dragStart($event, 'month');
         }, "touchmove": function touchmove($event) {
           _vm.__dragMove($event, 'month');
@@ -3879,7 +3892,7 @@ var InlineDatetimeIOS = { render: function render() {
           } } }, [_vm._v(_vm._s(_vm.__pad(n + _vm.minuteMin - 1)))]);
     }))])] : _vm._e(), _c('div', { staticClass: "q-datetime-highlight row items-center justify-center", class: { 'q-datetime-no-selection': !_vm.value } }, [!_vm.value && _vm.typeHasDate ? [_c('div', { staticClass: "q-datetime-col-month" }, [_vm._v("-----")]), _c('div', { staticClass: "q-datetime-col-day" }, [_vm._v("--")]), _c('div', { staticClass: "q-datetime-col-year" }, [_vm._v("----")])] : _vm._e(), !_vm.value && _vm.typeHasTime ? [_c('div', { staticClass: "q-datetime-col-hour" }, [_vm._v("--")]), _c('div', { staticClass: "q-datetime-col-minute" }, [_vm._v("--")])] : _vm._e()], 2)], 2), _c('div', { staticClass: "q-datetime-mask" })])], 2);
   }, staticRenderFns: [function () {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-datetime-col-divider" }, [_c('div', { staticClass: "q-datetime-col-wrapper full-height row items-center justify-center" }, [_c('div', [_vm._v(":")])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime-col-divider" }, [_c('div', { staticClass: "q-datetime-col-wrapper full-height row items-center justify-center" }, [_c('div', [_vm._v(":")])])]);
   }],
   props: {
     value: {
@@ -4245,7 +4258,7 @@ function getBetween(value, min, max) {
 }
 
 var Drawer = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "drawer", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide } }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__openByTouch, expression: "__openByTouch", modifiers: { "horizontal": true } }], staticClass: "drawer-opener touch-only mobile-only", class: { 'fixed-left': !_vm.rightSide, 'fixed-right': _vm.rightSide } }, [_vm._v(" ")]), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "backdrop", staticClass: "drawer-backdrop fullscreen", staticStyle: { "background": "rgba(0, 0, 0, 0.01)" }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "drawer", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide } }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__openByTouch, expression: "__openByTouch", modifiers: { "horizontal": true } }], staticClass: "drawer-opener touch-only mobile-only", class: { 'fixed-left': !_vm.rightSide, 'fixed-right': _vm.rightSide } }, [_vm._v(" ")]), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "backdrop", staticClass: "drawer-backdrop fullscreen", staticStyle: { "background": "rgba(0, 0, 0, 0.01)" }, on: { "click": function click($event) {
           _vm.setState(false);
         } } }), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "content", staticClass: "drawer-content", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide } }, [_vm._t("default")], 2)]);
   }, staticRenderFns: [],
@@ -4284,7 +4297,7 @@ var Drawer = { render: function render() {
 
       if (this.opened) {
         backdrop.classList.add('active');
-        if (!Platform.within.iframe) {
+        if (Platform.has.popstate) {
           if (!window.history.state) {
             window.history.replaceState({ __quasar_drawer: true }, '');
           } else {
@@ -4298,7 +4311,7 @@ var Drawer = { render: function render() {
         }
       } else {
         window.removeEventListener('resize', this.close);
-        if (!Platform.within.iframe) {
+        if (Platform.has.popstate) {
           window.removeEventListener('popstate', this.__popState);
           if (window.history.state && !window.history.state.__quasar_drawer) {
             window.history.go(-1);
@@ -4328,7 +4341,7 @@ var Drawer = { render: function render() {
       if (this.opened) {
         backdrop.classList.add('active');
         document.body.classList.add('drawer-opened');
-        if (!Platform.within.iframe) {
+        if (Platform.has.popstate) {
           if (!window.history.state) {
             window.history.replaceState({ __quasar_drawer: true }, '');
           } else {
@@ -4339,7 +4352,7 @@ var Drawer = { render: function render() {
         }
       } else {
         window.removeEventListener('resize', this.close);
-        if (!Platform.within.iframe) {
+        if (Platform.has.popstate) {
           window.removeEventListener('popstate', this.__popState);
           if (window.history.state && !window.history.state.__quasar_drawer) {
             window.history.go(-1);
@@ -4472,10 +4485,8 @@ var Drawer = { render: function render() {
       fn(this.opened ? 0.01 : 1, done);
     },
     __popState: function __popState() {
-      if (!Platform.within.iframe) {
-        if (window.history.state && window.history.state.__quasar_drawer) {
-          this.setState(false);
-        }
+      if (Platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
+        this.setState(false);
       }
     },
     open: function open(done) {
@@ -4520,13 +4531,13 @@ var Drawer = { render: function render() {
 };
 
 var DrawerLink = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { directives: [{ name: "link", rawName: "v-link.delay", value: _vm.to, expression: "to", modifiers: { "delay": true } }], staticClass: "item item-link drawer-closer" }, [_vm.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(_vm.icon))]) : _vm._e(), _c('div', { staticClass: "item-content" }, [_vm._t("default")], 2)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { directives: [{ name: "link", rawName: "v-link.delay", value: _vm.to, expression: "to", modifiers: { "delay": true } }], staticClass: "item item-link drawer-closer" }, [_vm.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(_vm.icon))]) : _vm._e(), _c('div', { staticClass: "item-content" }, [_vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: ['icon', 'to']
 };
 
 var Fab = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-fab flex inline justify-center", class: { opened: _vm.opened } }, [_c('div', { staticClass: "backdrop animate-fade", style: _vm.backdropPosition, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-fab flex inline justify-center", class: { opened: _vm.opened } }, [_c('div', { staticClass: "backdrop animate-fade", style: _vm.backdropPosition, on: { "click": function click($event) {
           _vm.toggle(true);
         } } }), _c('button', { staticClass: "circular raised", class: _vm.classNames, on: { "click": function click($event) {
           _vm.toggle();
@@ -4601,7 +4612,7 @@ var Fab = { render: function render() {
 };
 
 var SmallFab = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('button', { staticClass: "circular small raised", on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('button', { staticClass: "circular small raised", on: { "click": function click($event) {
           _vm.$parent.close();
         } } }, [_c('i', [_vm._v(_vm._s(_vm.icon))]), _vm._t("default")], 2);
   }, staticRenderFns: [],
@@ -4614,7 +4625,7 @@ var SmallFab = { render: function render() {
 };
 
 var Gallery = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-gallery" }, _vm._l(_vm.src, function (img, index) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-gallery" }, _vm._l(_vm.src, function (img, index) {
       return _c('div', { key: index, style: { width: _vm.width } }, [_c('img', { attrs: { "src": img } })]);
     }));
   }, staticRenderFns: [],
@@ -4631,7 +4642,7 @@ var Gallery = { render: function render() {
 };
 
 var GallerySlider = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-slider', { ref: "slider", staticClass: "text-white bg-black q-gallery-slider", attrs: { "arrows": "", "fullscreen": "" }, on: { "slide": _vm.__updateCurrentSlide } }, [_vm._l(_vm.src, function (img, index) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-slider', { ref: "slider", staticClass: "text-white bg-black q-gallery-slider", attrs: { "arrows": "", "fullscreen": "" }, on: { "slide": _vm.__updateCurrentSlide } }, [_vm._l(_vm.src, function (img, index) {
       return _c('div', { key: index, staticClass: "no-padding flex items-center justify-center", slot: "slide" }, [_c('div', { staticClass: "full-width" }, [_c('img', { attrs: { "src": img } })])]);
     }), _c('div', { staticClass: "q-gallery-slider-overlay", class: { active: _vm.quickView }, on: { "click": function click($event) {
           _vm.toggleQuickView();
@@ -4671,7 +4682,7 @@ var GallerySlider = { render: function render() {
 };
 
 var InfiniteScroll = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-infinite-scroll" }, [_c('div', { ref: "content", staticClass: "q-infinite-scroll-content" }, [_vm._t("default")], 2), _c('br'), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.fetching, expression: "fetching" }], staticClass: "q-infinite-scroll-message" }, [_vm._t("message")], 2)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-infinite-scroll" }, [_c('div', { ref: "content", staticClass: "q-infinite-scroll-content" }, [_vm._t("default")], 2), _c('br'), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.fetching, expression: "fetching" }], staticClass: "q-infinite-scroll-message" }, [_vm._t("message")], 2)]);
   }, staticRenderFns: [],
   props: {
     handler: {
@@ -4760,7 +4771,7 @@ var InfiniteScroll = { render: function render() {
 };
 
 var Knob = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-knob non-selectable cursor-pointer", class: { disabled: _vm.disable }, on: { "mousedown": _vm.__dragStart, "mousemove": _vm.__dragMove, "mouseup": _vm.__dragStop, "touchstart": _vm.__dragStart, "touchmove": _vm.__dragMove, "touchend": _vm.__dragStop } }, [_c('div', { style: { width: _vm.size, height: _vm.size } }, [_c('svg', { attrs: { "viewBox": "0 0 100 100" } }, [_c('path', { attrs: { "d": "M 50,50 m 0,-47\n           a 47,47 0 1 1 0,94\n           a 47,47 0 1 1 0,-94", "stroke": _vm.trackColor, "stroke-width": _vm.lineWidth, "fill-opacity": "0" } }), _c('path', { style: _vm.svgStyle, attrs: { "stroke-linecap": "round", "fill-opacity": "0", "d": "M 50,50 m 0,-47\n           a 47,47 0 1 1 0,94\n           a 47,47 0 1 1 0,-94", "stroke": _vm.color, "stroke-width": _vm.lineWidth } })]), _c('div', { staticClass: "q-knob-label row items-center justify-center content-center", style: { color: _vm.color }, domProps: { "innerHTML": _vm._s(_vm.placeholder || _vm.value) } })])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-knob non-selectable cursor-pointer", class: { disabled: _vm.disable }, on: { "mousedown": _vm.__dragStart, "mousemove": _vm.__dragMove, "mouseup": _vm.__dragStop, "touchstart": _vm.__dragStart, "touchmove": _vm.__dragMove, "touchend": _vm.__dragStop } }, [_c('div', { style: { width: _vm.size, height: _vm.size } }, [_c('svg', { attrs: { "viewBox": "0 0 100 100" } }, [_c('path', { attrs: { "d": "M 50,50 m 0,-47\n           a 47,47 0 1 1 0,94\n           a 47,47 0 1 1 0,-94", "stroke": _vm.trackColor, "stroke-width": _vm.lineWidth, "fill-opacity": "0" } }), _c('path', { style: _vm.svgStyle, attrs: { "stroke-linecap": "round", "fill-opacity": "0", "d": "M 50,50 m 0,-47\n           a 47,47 0 1 1 0,94\n           a 47,47 0 1 1 0,-94", "stroke": _vm.color, "stroke-width": _vm.lineWidth } })]), _c('div', { staticClass: "q-knob-label row items-center justify-center content-center", style: { color: _vm.color }, domProps: { "innerHTML": _vm._s(_vm.placeholder || _vm.value) } })])]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -4877,11 +4888,11 @@ var Knob = { render: function render() {
 };
 
 var Layout = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "layout" }, [_c('div', { staticClass: "layout-header" }, [_vm._t("header"), _vm.$quasar.theme !== 'ios' ? _vm._t("navigation") : _vm._e()], 2), _c('div', { staticClass: "layout-content" }, [_vm._t("default")], 2), _c('div', { staticClass: "layout-footer" }, [_vm._t("footer"), _vm.$quasar.theme === 'ios' ? _vm._t("navigation") : _vm._e()], 2)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "layout" }, [_c('div', { staticClass: "layout-header" }, [_vm._t("header"), _vm.$quasar.theme !== 'ios' ? _vm._t("navigation") : _vm._e()], 2), _c('div', { staticClass: "layout-content" }, [_vm._t("default")], 2), _c('div', { staticClass: "layout-footer" }, [_vm._t("footer"), _vm.$quasar.theme === 'ios' ? _vm._t("navigation") : _vm._e()], 2)]);
   }, staticRenderFns: [] };
 
 var ListItem = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "item", class: _vm.itemClass }, [_vm.item.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(_vm.item.icon))]) : _vm._e(), _vm._v(" "), _vm.item.img ? _c('img', { staticClass: "item-primary thumbnail", attrs: { "src": _vm.item.img } }) : _vm._e(), _c('div', { staticClass: "item-content", class: { 'has-secondary': _vm.item.secondIcon || _vm.item.secondImg || _vm.item.stamp } }, [_c('div', { domProps: { "innerHTML": _vm._s(_vm.item.label) } }), _vm.item.secondLabel ? _c('div', { domProps: { "innerHTML": _vm._s(_vm.item.secondLabel) } }) : _vm._e()]), _vm.item.stamp ? _c('div', { staticClass: "item-secondary stamp", domProps: { "innerHTML": _vm._s(_vm.item.stamp) } }) : _vm._e(), _vm.item.secondIcon ? _c('i', { staticClass: "item-secondary" }, [_vm._v(_vm._s(_vm.item.secondIcon))]) : _vm._e(), _vm._v(" "), _vm.item.secondImg ? _c('img', { staticClass: "item-secondary thumbnail", attrs: { "src": _vm.item.secondImg } }) : _vm._e()]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "item", class: _vm.itemClass }, [_vm.item.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(_vm.item.icon))]) : _vm._e(), _vm._v(" "), _vm.item.img ? _c('img', { staticClass: "item-primary thumbnail", attrs: { "src": _vm.item.img } }) : _vm._e(), _c('div', { staticClass: "item-content", class: { 'has-secondary': _vm.item.secondIcon || _vm.item.secondImg || _vm.item.stamp } }, [_c('div', { domProps: { "innerHTML": _vm._s(_vm.item.label) } }), _vm.item.secondLabel ? _c('div', { domProps: { "innerHTML": _vm._s(_vm.item.secondLabel) } }) : _vm._e()]), _vm.item.stamp ? _c('div', { staticClass: "item-secondary stamp", domProps: { "innerHTML": _vm._s(_vm.item.stamp) } }) : _vm._e(), _vm.item.secondIcon ? _c('i', { staticClass: "item-secondary" }, [_vm._v(_vm._s(_vm.item.secondIcon))]) : _vm._e(), _vm._v(" "), _vm.item.secondImg ? _c('img', { staticClass: "item-secondary thumbnail", attrs: { "src": _vm.item.secondImg } }) : _vm._e()]);
   }, staticRenderFns: [],
   props: {
     item: {
@@ -4904,7 +4915,7 @@ var ListItem = { render: function render() {
 };
 
 var ToolbarTitle = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "toolbar-content" }, [_c('div', { staticClass: "toolbar-title", class: ['padding-' + _vm.padding] }, [_c('div', [_vm._t("default")], 2)])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "toolbar-content" }, [_c('div', { staticClass: "toolbar-title", class: ['padding-' + _vm.padding] }, [_c('div', [_vm._t("default")], 2)])]);
   }, staticRenderFns: [],
   props: {
     padding: {
@@ -4945,7 +4956,7 @@ var duration = 200;
 var openedModalNumber = 0;
 
 var Modal = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('transition', { attrs: { "name": _vm.transition } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.active, expression: "active" }], staticClass: "modal fullscreen flex", class: _vm.positionClasses, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('transition', { attrs: { "name": _vm.transition } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.active, expression: "active" }], staticClass: "modal fullscreen flex", class: _vm.positionClasses, on: { "click": function click($event) {
           _vm.click();
         } } }, [_c('div', { ref: "content", staticClass: "modal-content", style: _vm.contentCss, on: { "click": function click($event) {
           $event.stopPropagation();
@@ -4999,14 +5010,14 @@ var Modal = { render: function render() {
       });
 
       this.__popstate = function () {
-        if (!Platform.within.iframe && window.history.state && window.history.state.modalId && window.history.state.modalId >= _this.__modalId) {
+        if (Platform.has.popstate && window.history.state && window.history.state.modalId && window.history.state.modalId >= _this.__modalId) {
           return;
         }
         openedModalNumber--;
         EscapeKey.pop();
         _this.active = false;
 
-        if (!Platform.within.iframe) {
+        if (Platform.has.popstate) {
           window.removeEventListener('popstate', _this.__popstate);
         }
 
@@ -5029,7 +5040,7 @@ var Modal = { render: function render() {
 
       this.active = true;
       this.__modalId = ++openedModalNumber;
-      if (!Platform.within.iframe) {
+      if (Platform.has.popstate) {
         window.history.pushState({ modalId: this.__modalId }, '');
         window.addEventListener('popstate', this.__popstate);
       }
@@ -5044,7 +5055,7 @@ var Modal = { render: function render() {
     close: function close(onClose) {
       this.__onClose = onClose;
 
-      if (Platform.within.iframe) {
+      if (!Platform.has.popstate) {
         this.__popstate();
       } else {
         window.history.go(-1);
@@ -5060,7 +5071,7 @@ var Modal = { render: function render() {
 };
 
 var Numeric = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-numeric textfield row inline items-center", class: { disabled: _vm.disable, readonly: _vm.readonly } }, [_c('i', { on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-numeric textfield row inline items-center", class: { disabled: _vm.disable, readonly: _vm.readonly } }, [_c('i', { on: { "click": function click($event) {
           _vm.__setByOffset(-1);
         } } }, [_vm._v("remove")]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model.number", value: _vm.model, expression: "model", modifiers: { "number": true } }], staticClass: "no-style auto q-input-field", style: { width: ('' + _vm.model).length * .7 + 'em' }, attrs: { "type": "number", "disabled": _vm.disable, "readonly": _vm.readonly }, domProps: { "value": _vm._s(_vm.model) }, on: { "blur": [function ($event) {
           _vm.__updateValue();
@@ -5157,7 +5168,7 @@ var Numeric = { render: function render() {
 };
 
 var Pagination$1 = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-pagination", class: { disabled: _vm.disable } }, [_c('button', { staticClass: "primary clear small", class: { disabled: _vm.value === _vm.min }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-pagination", class: { disabled: _vm.disable } }, [_c('button', { staticClass: "primary clear small", class: { disabled: _vm.value === _vm.min }, on: { "click": function click($event) {
           _vm.set(_vm.min);
         } } }, [_c('i', [_vm._v("first_page")])]), _vm._v(" "), _c('button', { staticClass: "primary clear small", class: { disabled: _vm.value === _vm.min }, on: { "click": function click($event) {
           _vm.setByOffset(-1);
@@ -5238,7 +5249,7 @@ var Pagination$1 = { render: function render() {
 };
 
 var Parallax = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-parallax column items-center justify-center", style: { height: _vm.height + 'px' } }, [_c('div', { staticClass: "q-parallax-image" }, [_c('img', { ref: "img", class: { ready: _vm.imageHasBeenLoaded }, staticStyle: { "transform": "translate3D(-50%, 0, 0)" }, attrs: { "src": _vm.src }, on: { "load": function load($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-parallax column items-center justify-center", style: { height: _vm.height + 'px' } }, [_c('div', { staticClass: "q-parallax-image" }, [_c('img', { ref: "img", class: { ready: _vm.imageHasBeenLoaded }, staticStyle: { "transform": "translate3D(-50%, 0, 0)" }, attrs: { "src": _vm.src }, on: { "load": function load($event) {
           _vm.__processImage();
         } } })]), _c('div', { staticClass: "q-parallax-text" }, [!_vm.imageHasBeenLoaded ? _vm._t("loading") : _vm._t("default")], 2)]);
   }, staticRenderFns: [],
@@ -5344,7 +5355,7 @@ var Parallax = { render: function render() {
 };
 
 var PickerTextfield = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-picker-textfield cursor-pointer textfield caret", class: { disabled: _vm.disable, readonly: _vm.readonly, active: _vm.active, 'with-label': _vm.label } }, [_c('div', { staticClass: "q-picker-textfield-label ellipsis", domProps: { "innerHTML": _vm._s(_vm.label) } }), _c('div', { staticClass: "q-picker-textfield-value ellipsis", domProps: { "innerHTML": _vm._s(_vm.actualValue) } }), _vm._t("default")], 2);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-picker-textfield cursor-pointer textfield caret", class: { disabled: _vm.disable, readonly: _vm.readonly, active: _vm.active, 'with-label': _vm.label } }, [_c('div', { staticClass: "q-picker-textfield-label ellipsis", domProps: { "innerHTML": _vm._s(_vm.label) } }), _c('div', { staticClass: "q-picker-textfield-value ellipsis", domProps: { "innerHTML": _vm._s(_vm.actualValue) } }), _vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     label: String,
@@ -5365,7 +5376,7 @@ var PickerTextfield = { render: function render() {
 };
 
 var Popover = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-popover animate-scale", style: _vm.transformCSS, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-popover animate-scale", style: _vm.transformCSS, on: { "click": function click($event) {
           $event.stopPropagation();
         } } }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
@@ -5500,7 +5511,7 @@ var Popover = { render: function render() {
 };
 
 var Progress = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-progress" }, [_c('div', { style: { width: _vm.model + '%' } })]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-progress" }, [_c('div', { style: { width: _vm.model + '%' } })]);
   }, staticRenderFns: [],
   props: {
     percentage: {
@@ -5516,7 +5527,7 @@ var Progress = { render: function render() {
 };
 
 var ProgressButton = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('button', { staticClass: "q-progress-button", class: { active: _vm.active, indeterminate: _vm.indeterminate } }, [!_vm.indeterminate ? _c('span', { staticClass: "q-progress-button-filler", class: { 'q-progress-button-dark-filler': _vm.darkFiller }, style: { width: _vm.computedPercentage } }) : _vm._e(), _c('div', { staticClass: "q-progress-button-content", class: _vm.stateClass }, [_c('div', { staticClass: "q-progress-button-error" }, [_c('i', [_vm._v(_vm._s(_vm.errorIcon))])]), _c('div', { staticClass: "q-progress-button-label" }, [_vm._t("default")], 2), _c('div', { staticClass: "q-progress-button-success" }, [_c('i', [_vm._v(_vm._s(_vm.successIcon))])])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('button', { staticClass: "q-progress-button", class: { active: _vm.active, indeterminate: _vm.indeterminate } }, [!_vm.indeterminate ? _c('span', { staticClass: "q-progress-button-filler", class: { 'q-progress-button-dark-filler': _vm.darkFiller }, style: { width: _vm.computedPercentage } }) : _vm._e(), _c('div', { staticClass: "q-progress-button-content", class: _vm.stateClass }, [_c('div', { staticClass: "q-progress-button-error" }, [_c('i', [_vm._v(_vm._s(_vm.errorIcon))])]), _c('div', { staticClass: "q-progress-button-label" }, [_vm._t("default")], 2), _c('div', { staticClass: "q-progress-button-success" }, [_c('i', [_vm._v(_vm._s(_vm.successIcon))])])])]);
   }, staticRenderFns: [],
   props: {
     percentage: {
@@ -5564,7 +5575,7 @@ var ProgressButton = { render: function render() {
 };
 
 var PullToRefresh = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "pull-to-refresh" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.vertical.scroll", value: _vm.__pull, expression: "__pull", modifiers: { "vertical": true, "scroll": true } }], staticClass: "pull-to-refresh-container", style: _vm.style }, [_c('div', { staticClass: "pull-to-refresh-message row items-center justify-center" }, [_c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.state !== 'refreshing', expression: "state !== 'refreshing'" }], class: { 'rotate-180': _vm.state === 'pulled' } }, [_vm._v("arrow_downward")]), _vm._v(" "), _c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.state === 'refreshing', expression: "state === 'refreshing'" }], staticClass: "animate-spin" }, [_vm._v(_vm._s(_vm.refreshIcon))]), _vm._v("    "), _c('span', { domProps: { "innerHTML": _vm._s(_vm.message) } })]), _vm._t("default")], 2)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "pull-to-refresh" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.vertical.scroll", value: _vm.__pull, expression: "__pull", modifiers: { "vertical": true, "scroll": true } }], staticClass: "pull-to-refresh-container", style: _vm.style }, [_c('div', { staticClass: "pull-to-refresh-message row items-center justify-center" }, [_c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.state !== 'refreshing', expression: "state !== 'refreshing'" }], class: { 'rotate-180': _vm.state === 'pulled' } }, [_vm._v("arrow_downward")]), _vm._v(" "), _c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.state === 'refreshing', expression: "state === 'refreshing'" }], staticClass: "animate-spin" }, [_vm._v(_vm._s(_vm.refreshIcon))]), _vm._v("    "), _c('span', { domProps: { "innerHTML": _vm._s(_vm.message) } })]), _vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     handler: {
@@ -5708,7 +5719,7 @@ var PullToRefresh = { render: function render() {
 };
 
 var Radio = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('label', { staticClass: "q-radio", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "radio", "disabled": _vm.disable }, domProps: { "value": _vm.val, "checked": _vm._q(_vm.model, _vm.val) }, on: { "change": function change($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { staticClass: "q-radio", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "radio", "disabled": _vm.disable }, domProps: { "value": _vm.val, "checked": _vm._q(_vm.model, _vm.val) }, on: { "change": function change($event) {
           _vm.model = _vm.val;
         } } }), _c('div')]);
   }, staticRenderFns: [],
@@ -5734,7 +5745,7 @@ var Radio = { render: function render() {
 };
 
 var Range = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-range non-selectable", class: { disabled: _vm.disable }, on: { "mousedown": function mousedown($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-range non-selectable", class: { disabled: _vm.disable }, on: { "mousedown": function mousedown($event) {
           $event.preventDefault();_vm.__setActive($event);
         }, "touchstart": function touchstart($event) {
           $event.preventDefault();_vm.__setActive($event);
@@ -5863,7 +5874,7 @@ var Range = { render: function render() {
 };
 
 var DoubleRange = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-range non-selectable", class: { disabled: _vm.disable }, on: { "mousedown": function mousedown($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-range non-selectable", class: { disabled: _vm.disable }, on: { "mousedown": function mousedown($event) {
           $event.preventDefault();_vm.__setActive($event);
         }, "touchstart": function touchstart($event) {
           $event.preventDefault();_vm.__setActive($event);
@@ -6106,7 +6117,7 @@ var DoubleRange = { render: function render() {
 };
 
 var Rating = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-rating", class: { disabled: _vm.disable } }, _vm._l(_vm.max, function (index) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-rating", class: { disabled: _vm.disable } }, _vm._l(_vm.max, function (index) {
       return _c('i', { class: { active: !_vm.mouseModel && _vm.model >= index || _vm.mouseModel && _vm.mouseModel >= index }, on: { "click": function click($event) {
             _vm.set(index);
           }, "mouseover": function mouseover($event) {
@@ -6165,7 +6176,7 @@ var Rating = { render: function render() {
 };
 
 var Search = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-search", class: { 'q-search-centered': _vm.centered, disabled: _vm.disable, readonly: _vm.readonly } }, [_c('div', { staticClass: "q-search-input-container" }, [_c('button', { staticClass: "q-search-icon" }, [_c('i', [_vm._v(_vm._s(_vm.icon))]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.$quasar.theme === 'ios' && this.value === '' && !_vm.hasText, expression: "$quasar.theme === 'ios' && this.value === '' && !hasText" }] }, [_vm._v(_vm._s(_vm.placeholder))])]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "text", "placeholder": _vm.$quasar.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": function focus($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-search", class: { 'q-search-centered': _vm.centered, disabled: _vm.disable, readonly: _vm.readonly } }, [_c('div', { staticClass: "q-search-input-container" }, [_c('button', { staticClass: "q-search-icon" }, [_c('i', [_vm._v(_vm._s(_vm.icon))]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.$quasar.theme === 'ios' && this.value === '' && !_vm.hasText, expression: "$quasar.theme === 'ios' && this.value === '' && !hasText" }] }, [_vm._v(_vm._s(_vm.placeholder))])]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "text", "placeholder": _vm.$quasar.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": function focus($event) {
           _vm.focus();
         }, "blur": function blur($event) {
           _vm.blur();
@@ -6254,7 +6265,7 @@ var Search = { render: function render() {
 };
 
 var Select = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue } }, [_c('q-popover', { ref: "popover", attrs: { "disable": _vm.disable || _vm.readonly } }, [_c('div', { staticClass: "q-select-popover list highlight" }, [_vm._l(_vm.options, function (radio) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue } }, [_c('q-popover', { ref: "popover", attrs: { "disable": _vm.disable || _vm.readonly } }, [_c('div', { staticClass: "q-select-popover list highlight" }, [_vm._l(_vm.options, function (radio) {
       return _vm.type === 'radio' ? _c('label', { staticClass: "item", on: { "click": _vm.close } }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "val": radio.value }, domProps: { "value": _vm.model }, on: { "input": function input($event) {
             _vm.model = $event;
           } } })], 1), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(radio.label) } })])]) : _vm._e();
@@ -6365,7 +6376,7 @@ var Select = { render: function render() {
 };
 
 var DialogSelect = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue }, nativeOn: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue }, nativeOn: { "click": function click($event) {
           _vm.pick();
         } } });
   }, staticRenderFns: [],
@@ -6463,7 +6474,7 @@ var DialogSelect = { render: function render() {
 };
 
 var Slider = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-slider", class: { fullscreen: _vm.inFullscreen } }, [_c('div', { staticClass: "q-slider-inner" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__pan, expression: "__pan", modifiers: { "horizontal": true } }], ref: "track", staticClass: "q-slider-track", class: { 'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar } }, [_vm._t("slide")], 2), _vm.arrows ? _c('div', { staticClass: "q-slider-left-button row items-center justify-center", class: { hidden: _vm.slide === 0 } }, [_c('i', { on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-slider", class: { fullscreen: _vm.inFullscreen } }, [_c('div', { staticClass: "q-slider-inner" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__pan, expression: "__pan", modifiers: { "horizontal": true } }], ref: "track", staticClass: "q-slider-track", class: { 'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar } }, [_vm._t("slide")], 2), _vm.arrows ? _c('div', { staticClass: "q-slider-left-button row items-center justify-center", class: { hidden: _vm.slide === 0 } }, [_c('i', { on: { "click": function click($event) {
           _vm.goToSlide(_vm.slide - 1);
         } } }, [_vm._v("keyboard_arrow_left")])]) : _vm._e(), _vm.arrows ? _c('div', { staticClass: "q-slider-right-button row items-center justify-center", class: { hidden: _vm.slide === _vm.slidesNumber - 1 }, on: { "click": function click($event) {
           _vm.goToSlide(_vm.slide + 1);
@@ -6537,7 +6548,7 @@ var Slider = { render: function render() {
     },
     toggleFullscreen: function toggleFullscreen() {
       if (this.inFullscreen) {
-        if (Platform.within.iframe) {
+        if (!Platform.has.popstate) {
           this.inFullscreen = false;
         } else {
           window.history.go(-1);
@@ -6546,7 +6557,7 @@ var Slider = { render: function render() {
       }
 
       this.inFullscreen = true;
-      if (!Platform.within.iframe) {
+      if (Platform.has.popstate) {
         window.history.pushState({}, '');
         window.addEventListener('popstate', this.__popState);
       }
@@ -6568,115 +6579,115 @@ var Slider = { render: function render() {
 };
 
 var SAudio = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 55 80", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "matrix(1 0 0 -1 0 80)" } }, [_c('rect', { attrs: { "width": "10", "height": "20", "rx": "3" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0s", "dur": "4.3s", "values": "20;45;57;80;64;32;66;45;64;23;66;13;64;56;34;34;2;23;76;79;20", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "15", "width": "10", "height": "80", "rx": "3" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0s", "dur": "2s", "values": "80;55;33;5;75;23;73;33;12;14;60;80", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "30", "width": "10", "height": "50", "rx": "3" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0s", "dur": "1.4s", "values": "50;34;78;23;56;23;34;76;80;54;21;50", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "45", "width": "10", "height": "30", "rx": "3" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0s", "dur": "2s", "values": "30;45;13;80;56;72;45;76;34;23;67;30", "calcMode": "linear", "repeatCount": "indefinite" } })])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 55 80", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "matrix(1 0 0 -1 0 80)" } }, [_c('rect', { attrs: { "width": "10", "height": "20", "rx": "3" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0s", "dur": "4.3s", "values": "20;45;57;80;64;32;66;45;64;23;66;13;64;56;34;34;2;23;76;79;20", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "15", "width": "10", "height": "80", "rx": "3" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0s", "dur": "2s", "values": "80;55;33;5;75;23;73;33;12;14;60;80", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "30", "width": "10", "height": "50", "rx": "3" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0s", "dur": "1.4s", "values": "50;34;78;23;56;23;34;76;80;54;21;50", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "45", "width": "10", "height": "30", "rx": "3" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0s", "dur": "2s", "values": "30;45;13;80;56;72;45;76;34;23;67;30", "calcMode": "linear", "repeatCount": "indefinite" } })])])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SBall = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "stroke": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 57 57", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "translate(1 1)", "stroke-width": "2", "fill": "none", "fill-rule": "evenodd" } }, [_c('circle', { attrs: { "cx": "5", "cy": "50", "r": "5" } }, [_c('animate', { attrs: { "attributeName": "cy", "begin": "0s", "dur": "2.2s", "values": "50;5;50;50", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "cx", "begin": "0s", "dur": "2.2s", "values": "5;27;49;5", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "27", "cy": "5", "r": "5" } }, [_c('animate', { attrs: { "attributeName": "cy", "begin": "0s", "dur": "2.2s", "from": "5", "to": "5", "values": "5;50;50;5", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "cx", "begin": "0s", "dur": "2.2s", "from": "27", "to": "27", "values": "27;49;5;27", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "49", "cy": "50", "r": "5" } }, [_c('animate', { attrs: { "attributeName": "cy", "begin": "0s", "dur": "2.2s", "values": "50;50;5;50", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "cx", "from": "49", "to": "49", "begin": "0s", "dur": "2.2s", "values": "49;5;27;49", "calcMode": "linear", "repeatCount": "indefinite" } })])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "stroke": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 57 57", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "translate(1 1)", "stroke-width": "2", "fill": "none", "fill-rule": "evenodd" } }, [_c('circle', { attrs: { "cx": "5", "cy": "50", "r": "5" } }, [_c('animate', { attrs: { "attributeName": "cy", "begin": "0s", "dur": "2.2s", "values": "50;5;50;50", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "cx", "begin": "0s", "dur": "2.2s", "values": "5;27;49;5", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "27", "cy": "5", "r": "5" } }, [_c('animate', { attrs: { "attributeName": "cy", "begin": "0s", "dur": "2.2s", "from": "5", "to": "5", "values": "5;50;50;5", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "cx", "begin": "0s", "dur": "2.2s", "from": "27", "to": "27", "values": "27;49;5;27", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "49", "cy": "50", "r": "5" } }, [_c('animate', { attrs: { "attributeName": "cy", "begin": "0s", "dur": "2.2s", "values": "50;50;5;50", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "cx", "from": "49", "to": "49", "begin": "0s", "dur": "2.2s", "values": "49;5;27;49", "calcMode": "linear", "repeatCount": "indefinite" } })])])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SBars = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 135 140", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('rect', { attrs: { "y": "10", "width": "15", "height": "120", "rx": "6" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0.5s", "dur": "1s", "values": "120;110;100;90;80;70;60;50;40;140;120", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "y", "begin": "0.5s", "dur": "1s", "values": "10;15;20;25;30;35;40;45;50;0;10", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "30", "y": "10", "width": "15", "height": "120", "rx": "6" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0.25s", "dur": "1s", "values": "120;110;100;90;80;70;60;50;40;140;120", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "y", "begin": "0.25s", "dur": "1s", "values": "10;15;20;25;30;35;40;45;50;0;10", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "60", "width": "15", "height": "140", "rx": "6" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0s", "dur": "1s", "values": "120;110;100;90;80;70;60;50;40;140;120", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "y", "begin": "0s", "dur": "1s", "values": "10;15;20;25;30;35;40;45;50;0;10", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "90", "y": "10", "width": "15", "height": "120", "rx": "6" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0.25s", "dur": "1s", "values": "120;110;100;90;80;70;60;50;40;140;120", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "y", "begin": "0.25s", "dur": "1s", "values": "10;15;20;25;30;35;40;45;50;0;10", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "120", "y": "10", "width": "15", "height": "120", "rx": "6" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0.5s", "dur": "1s", "values": "120;110;100;90;80;70;60;50;40;140;120", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "y", "begin": "0.5s", "dur": "1s", "values": "10;15;20;25;30;35;40;45;50;0;10", "calcMode": "linear", "repeatCount": "indefinite" } })])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 135 140", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('rect', { attrs: { "y": "10", "width": "15", "height": "120", "rx": "6" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0.5s", "dur": "1s", "values": "120;110;100;90;80;70;60;50;40;140;120", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "y", "begin": "0.5s", "dur": "1s", "values": "10;15;20;25;30;35;40;45;50;0;10", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "30", "y": "10", "width": "15", "height": "120", "rx": "6" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0.25s", "dur": "1s", "values": "120;110;100;90;80;70;60;50;40;140;120", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "y", "begin": "0.25s", "dur": "1s", "values": "10;15;20;25;30;35;40;45;50;0;10", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "60", "width": "15", "height": "140", "rx": "6" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0s", "dur": "1s", "values": "120;110;100;90;80;70;60;50;40;140;120", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "y", "begin": "0s", "dur": "1s", "values": "10;15;20;25;30;35;40;45;50;0;10", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "90", "y": "10", "width": "15", "height": "120", "rx": "6" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0.25s", "dur": "1s", "values": "120;110;100;90;80;70;60;50;40;140;120", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "y", "begin": "0.25s", "dur": "1s", "values": "10;15;20;25;30;35;40;45;50;0;10", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "120", "y": "10", "width": "15", "height": "120", "rx": "6" } }, [_c('animate', { attrs: { "attributeName": "height", "begin": "0.5s", "dur": "1s", "values": "120;110;100;90;80;70;60;50;40;140;120", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "y", "begin": "0.5s", "dur": "1s", "values": "10;15;20;25;30;35;40;45;50;0;10", "calcMode": "linear", "repeatCount": "indefinite" } })])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SCircles = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 135 135", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('path', { attrs: { "d": "M67.447 58c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10zm9.448 9.447c0 5.523 4.477 10 10 10 5.522 0 10-4.477 10-10s-4.478-10-10-10c-5.523 0-10 4.477-10 10zm-9.448 9.448c-5.523 0-10 4.477-10 10 0 5.522 4.477 10 10 10s10-4.478 10-10c0-5.523-4.477-10-10-10zM58 67.447c0-5.523-4.477-10-10-10s-10 4.477-10 10 4.477 10 10 10 10-4.477 10-10z" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 67 67", "to": "-360 67 67", "dur": "2.5s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M28.19 40.31c6.627 0 12-5.374 12-12 0-6.628-5.373-12-12-12-6.628 0-12 5.372-12 12 0 6.626 5.372 12 12 12zm30.72-19.825c4.686 4.687 12.284 4.687 16.97 0 4.686-4.686 4.686-12.284 0-16.97-4.686-4.687-12.284-4.687-16.97 0-4.687 4.686-4.687 12.284 0 16.97zm35.74 7.705c0 6.627 5.37 12 12 12 6.626 0 12-5.373 12-12 0-6.628-5.374-12-12-12-6.63 0-12 5.372-12 12zm19.822 30.72c-4.686 4.686-4.686 12.284 0 16.97 4.687 4.686 12.285 4.686 16.97 0 4.687-4.686 4.687-12.284 0-16.97-4.685-4.687-12.283-4.687-16.97 0zm-7.704 35.74c-6.627 0-12 5.37-12 12 0 6.626 5.373 12 12 12s12-5.374 12-12c0-6.63-5.373-12-12-12zm-30.72 19.822c-4.686-4.686-12.284-4.686-16.97 0-4.686 4.687-4.686 12.285 0 16.97 4.686 4.687 12.284 4.687 16.97 0 4.687-4.685 4.687-12.283 0-16.97zm-35.74-7.704c0-6.627-5.372-12-12-12-6.626 0-12 5.373-12 12s5.374 12 12 12c6.628 0 12-5.373 12-12zm-19.823-30.72c4.687-4.686 4.687-12.284 0-16.97-4.686-4.686-12.284-4.686-16.97 0-4.687 4.686-4.687 12.284 0 16.97 4.686 4.687 12.284 4.687 16.97 0z" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 67 67", "to": "360 67 67", "dur": "8s", "repeatCount": "indefinite" } })], 1)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 135 135", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('path', { attrs: { "d": "M67.447 58c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10zm9.448 9.447c0 5.523 4.477 10 10 10 5.522 0 10-4.477 10-10s-4.478-10-10-10c-5.523 0-10 4.477-10 10zm-9.448 9.448c-5.523 0-10 4.477-10 10 0 5.522 4.477 10 10 10s10-4.478 10-10c0-5.523-4.477-10-10-10zM58 67.447c0-5.523-4.477-10-10-10s-10 4.477-10 10 4.477 10 10 10 10-4.477 10-10z" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 67 67", "to": "-360 67 67", "dur": "2.5s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M28.19 40.31c6.627 0 12-5.374 12-12 0-6.628-5.373-12-12-12-6.628 0-12 5.372-12 12 0 6.626 5.372 12 12 12zm30.72-19.825c4.686 4.687 12.284 4.687 16.97 0 4.686-4.686 4.686-12.284 0-16.97-4.686-4.687-12.284-4.687-16.97 0-4.687 4.686-4.687 12.284 0 16.97zm35.74 7.705c0 6.627 5.37 12 12 12 6.626 0 12-5.373 12-12 0-6.628-5.374-12-12-12-6.63 0-12 5.372-12 12zm19.822 30.72c-4.686 4.686-4.686 12.284 0 16.97 4.687 4.686 12.285 4.686 16.97 0 4.687-4.686 4.687-12.284 0-16.97-4.685-4.687-12.283-4.687-16.97 0zm-7.704 35.74c-6.627 0-12 5.37-12 12 0 6.626 5.373 12 12 12s12-5.374 12-12c0-6.63-5.373-12-12-12zm-30.72 19.822c-4.686-4.686-12.284-4.686-16.97 0-4.686 4.687-4.686 12.285 0 16.97 4.686 4.687 12.284 4.687 16.97 0 4.687-4.685 4.687-12.283 0-16.97zm-35.74-7.704c0-6.627-5.372-12-12-12-6.626 0-12 5.373-12 12s5.374 12 12 12c6.628 0 12-5.373 12-12zm-19.823-30.72c4.687-4.686 4.687-12.284 0-16.97-4.686-4.686-12.284-4.686-16.97 0-4.687 4.686-4.687 12.284 0 16.97 4.686 4.687 12.284 4.687 16.97 0z" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 67 67", "to": "360 67 67", "dur": "8s", "repeatCount": "indefinite" } })], 1)]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SDots = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 120 30", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('circle', { attrs: { "cx": "15", "cy": "15", "r": "15" } }, [_c('animate', { attrs: { "attributeName": "r", "from": "15", "to": "15", "begin": "0s", "dur": "0.8s", "values": "15;9;15", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "fill-opacity", "from": "1", "to": "1", "begin": "0s", "dur": "0.8s", "values": "1;.5;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "60", "cy": "15", "r": "9", "fill-opacity": ".3" } }, [_c('animate', { attrs: { "attributeName": "r", "from": "9", "to": "9", "begin": "0s", "dur": "0.8s", "values": "9;15;9", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "fill-opacity", "from": ".5", "to": ".5", "begin": "0s", "dur": "0.8s", "values": ".5;1;.5", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "105", "cy": "15", "r": "15" } }, [_c('animate', { attrs: { "attributeName": "r", "from": "15", "to": "15", "begin": "0s", "dur": "0.8s", "values": "15;9;15", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "fill-opacity", "from": "1", "to": "1", "begin": "0s", "dur": "0.8s", "values": "1;.5;1", "calcMode": "linear", "repeatCount": "indefinite" } })])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 120 30", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('circle', { attrs: { "cx": "15", "cy": "15", "r": "15" } }, [_c('animate', { attrs: { "attributeName": "r", "from": "15", "to": "15", "begin": "0s", "dur": "0.8s", "values": "15;9;15", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "fill-opacity", "from": "1", "to": "1", "begin": "0s", "dur": "0.8s", "values": "1;.5;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "60", "cy": "15", "r": "9", "fill-opacity": ".3" } }, [_c('animate', { attrs: { "attributeName": "r", "from": "9", "to": "9", "begin": "0s", "dur": "0.8s", "values": "9;15;9", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "fill-opacity", "from": ".5", "to": ".5", "begin": "0s", "dur": "0.8s", "values": ".5;1;.5", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "105", "cy": "15", "r": "15" } }, [_c('animate', { attrs: { "attributeName": "r", "from": "15", "to": "15", "begin": "0s", "dur": "0.8s", "values": "15;9;15", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "fill-opacity", "from": "1", "to": "1", "begin": "0s", "dur": "0.8s", "values": "1;.5;1", "calcMode": "linear", "repeatCount": "indefinite" } })])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SFacebook = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "xmlns": "http://www.w3.org/2000/svg", "preserveAspectRatio": "xMidYMid" } }, [_c('g', { attrs: { "transform": "translate(20 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.6" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })], 1)]), _c('g', { attrs: { "transform": "translate(50 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.8" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0.1s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })], 1)]), _c('g', { attrs: { "transform": "translate(80 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.9" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0.2s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })], 1)])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "xmlns": "http://www.w3.org/2000/svg", "preserveAspectRatio": "xMidYMid" } }, [_c('g', { attrs: { "transform": "translate(20 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.6" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })], 1)]), _c('g', { attrs: { "transform": "translate(50 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.8" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0.1s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })], 1)]), _c('g', { attrs: { "transform": "translate(80 50)" } }, [_c('rect', { attrs: { "x": "-10", "y": "-30", "width": "20", "height": "60", "fill": _vm.color, "opacity": "0.9" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "scale", "from": "2", "to": "1", "begin": "0.2s", "repeatCount": "indefinite", "dur": "1s", "calcMode": "spline", "keySplines": "0.1 0.9 0.4 1", "keyTimes": "0;1", "values": "2;1" } })], 1)])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SGears = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "translate(-20,-20)" } }, [_c('path', { attrs: { "d": "M79.9,52.6C80,51.8,80,50.9,80,50s0-1.8-0.1-2.6l-5.1-0.4c-0.3-2.4-0.9-4.6-1.8-6.7l4.2-2.9c-0.7-1.6-1.6-3.1-2.6-4.5 L70,35c-1.4-1.9-3.1-3.5-4.9-4.9l2.2-4.6c-1.4-1-2.9-1.9-4.5-2.6L59.8,27c-2.1-0.9-4.4-1.5-6.7-1.8l-0.4-5.1C51.8,20,50.9,20,50,20 s-1.8,0-2.6,0.1l-0.4,5.1c-2.4,0.3-4.6,0.9-6.7,1.8l-2.9-4.1c-1.6,0.7-3.1,1.6-4.5,2.6l2.1,4.6c-1.9,1.4-3.5,3.1-5,4.9l-4.5-2.1 c-1,1.4-1.9,2.9-2.6,4.5l4.1,2.9c-0.9,2.1-1.5,4.4-1.8,6.8l-5,0.4C20,48.2,20,49.1,20,50s0,1.8,0.1,2.6l5,0.4 c0.3,2.4,0.9,4.7,1.8,6.8l-4.1,2.9c0.7,1.6,1.6,3.1,2.6,4.5l4.5-2.1c1.4,1.9,3.1,3.5,5,4.9l-2.1,4.6c1.4,1,2.9,1.9,4.5,2.6l2.9-4.1 c2.1,0.9,4.4,1.5,6.7,1.8l0.4,5.1C48.2,80,49.1,80,50,80s1.8,0,2.6-0.1l0.4-5.1c2.3-0.3,4.6-0.9,6.7-1.8l2.9,4.2 c1.6-0.7,3.1-1.6,4.5-2.6L65,69.9c1.9-1.4,3.5-3,4.9-4.9l4.6,2.2c1-1.4,1.9-2.9,2.6-4.5L73,59.8c0.9-2.1,1.5-4.4,1.8-6.7L79.9,52.6 z M50,65c-8.3,0-15-6.7-15-15c0-8.3,6.7-15,15-15s15,6.7,15,15C65,58.3,58.3,65,50,65z", "fill": _vm.color } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "90 50 50", "to": "0 50 50", "dur": "1s", "repeatCount": "indefinite" } })], 1)]), _c('g', { attrs: { "transform": "translate(20,20) rotate(15 50 50)" } }, [_c('path', { attrs: { "d": "M79.9,52.6C80,51.8,80,50.9,80,50s0-1.8-0.1-2.6l-5.1-0.4c-0.3-2.4-0.9-4.6-1.8-6.7l4.2-2.9c-0.7-1.6-1.6-3.1-2.6-4.5 L70,35c-1.4-1.9-3.1-3.5-4.9-4.9l2.2-4.6c-1.4-1-2.9-1.9-4.5-2.6L59.8,27c-2.1-0.9-4.4-1.5-6.7-1.8l-0.4-5.1C51.8,20,50.9,20,50,20 s-1.8,0-2.6,0.1l-0.4,5.1c-2.4,0.3-4.6,0.9-6.7,1.8l-2.9-4.1c-1.6,0.7-3.1,1.6-4.5,2.6l2.1,4.6c-1.9,1.4-3.5,3.1-5,4.9l-4.5-2.1 c-1,1.4-1.9,2.9-2.6,4.5l4.1,2.9c-0.9,2.1-1.5,4.4-1.8,6.8l-5,0.4C20,48.2,20,49.1,20,50s0,1.8,0.1,2.6l5,0.4 c0.3,2.4,0.9,4.7,1.8,6.8l-4.1,2.9c0.7,1.6,1.6,3.1,2.6,4.5l4.5-2.1c1.4,1.9,3.1,3.5,5,4.9l-2.1,4.6c1.4,1,2.9,1.9,4.5,2.6l2.9-4.1 c2.1,0.9,4.4,1.5,6.7,1.8l0.4,5.1C48.2,80,49.1,80,50,80s1.8,0,2.6-0.1l0.4-5.1c2.3-0.3,4.6-0.9,6.7-1.8l2.9,4.2 c1.6-0.7,3.1-1.6,4.5-2.6L65,69.9c1.9-1.4,3.5-3,4.9-4.9l4.6,2.2c1-1.4,1.9-2.9,2.6-4.5L73,59.8c0.9-2.1,1.5-4.4,1.8-6.7L79.9,52.6 z M50,65c-8.3,0-15-6.7-15-15c0-8.3,6.7-15,15-15s15,6.7,15,15C65,58.3,58.3,65,50,65z", "fill": _vm.color } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "90 50 50", "dur": "1s", "repeatCount": "indefinite" } })], 1)])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "translate(-20,-20)" } }, [_c('path', { attrs: { "d": "M79.9,52.6C80,51.8,80,50.9,80,50s0-1.8-0.1-2.6l-5.1-0.4c-0.3-2.4-0.9-4.6-1.8-6.7l4.2-2.9c-0.7-1.6-1.6-3.1-2.6-4.5 L70,35c-1.4-1.9-3.1-3.5-4.9-4.9l2.2-4.6c-1.4-1-2.9-1.9-4.5-2.6L59.8,27c-2.1-0.9-4.4-1.5-6.7-1.8l-0.4-5.1C51.8,20,50.9,20,50,20 s-1.8,0-2.6,0.1l-0.4,5.1c-2.4,0.3-4.6,0.9-6.7,1.8l-2.9-4.1c-1.6,0.7-3.1,1.6-4.5,2.6l2.1,4.6c-1.9,1.4-3.5,3.1-5,4.9l-4.5-2.1 c-1,1.4-1.9,2.9-2.6,4.5l4.1,2.9c-0.9,2.1-1.5,4.4-1.8,6.8l-5,0.4C20,48.2,20,49.1,20,50s0,1.8,0.1,2.6l5,0.4 c0.3,2.4,0.9,4.7,1.8,6.8l-4.1,2.9c0.7,1.6,1.6,3.1,2.6,4.5l4.5-2.1c1.4,1.9,3.1,3.5,5,4.9l-2.1,4.6c1.4,1,2.9,1.9,4.5,2.6l2.9-4.1 c2.1,0.9,4.4,1.5,6.7,1.8l0.4,5.1C48.2,80,49.1,80,50,80s1.8,0,2.6-0.1l0.4-5.1c2.3-0.3,4.6-0.9,6.7-1.8l2.9,4.2 c1.6-0.7,3.1-1.6,4.5-2.6L65,69.9c1.9-1.4,3.5-3,4.9-4.9l4.6,2.2c1-1.4,1.9-2.9,2.6-4.5L73,59.8c0.9-2.1,1.5-4.4,1.8-6.7L79.9,52.6 z M50,65c-8.3,0-15-6.7-15-15c0-8.3,6.7-15,15-15s15,6.7,15,15C65,58.3,58.3,65,50,65z", "fill": _vm.color } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "90 50 50", "to": "0 50 50", "dur": "1s", "repeatCount": "indefinite" } })], 1)]), _c('g', { attrs: { "transform": "translate(20,20) rotate(15 50 50)" } }, [_c('path', { attrs: { "d": "M79.9,52.6C80,51.8,80,50.9,80,50s0-1.8-0.1-2.6l-5.1-0.4c-0.3-2.4-0.9-4.6-1.8-6.7l4.2-2.9c-0.7-1.6-1.6-3.1-2.6-4.5 L70,35c-1.4-1.9-3.1-3.5-4.9-4.9l2.2-4.6c-1.4-1-2.9-1.9-4.5-2.6L59.8,27c-2.1-0.9-4.4-1.5-6.7-1.8l-0.4-5.1C51.8,20,50.9,20,50,20 s-1.8,0-2.6,0.1l-0.4,5.1c-2.4,0.3-4.6,0.9-6.7,1.8l-2.9-4.1c-1.6,0.7-3.1,1.6-4.5,2.6l2.1,4.6c-1.9,1.4-3.5,3.1-5,4.9l-4.5-2.1 c-1,1.4-1.9,2.9-2.6,4.5l4.1,2.9c-0.9,2.1-1.5,4.4-1.8,6.8l-5,0.4C20,48.2,20,49.1,20,50s0,1.8,0.1,2.6l5,0.4 c0.3,2.4,0.9,4.7,1.8,6.8l-4.1,2.9c0.7,1.6,1.6,3.1,2.6,4.5l4.5-2.1c1.4,1.9,3.1,3.5,5,4.9l-2.1,4.6c1.4,1,2.9,1.9,4.5,2.6l2.9-4.1 c2.1,0.9,4.4,1.5,6.7,1.8l0.4,5.1C48.2,80,49.1,80,50,80s1.8,0,2.6-0.1l0.4-5.1c2.3-0.3,4.6-0.9,6.7-1.8l2.9,4.2 c1.6-0.7,3.1-1.6,4.5-2.6L65,69.9c1.9-1.4,3.5-3,4.9-4.9l4.6,2.2c1-1.4,1.9-2.9,2.6-4.5L73,59.8c0.9-2.1,1.5-4.4,1.8-6.7L79.9,52.6 z M50,65c-8.3,0-15-6.7-15-15c0-8.3,6.7-15,15-15s15,6.7,15,15C65,58.3,58.3,65,50,65z", "fill": _vm.color } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "90 50 50", "dur": "1s", "repeatCount": "indefinite" } })], 1)])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SGrid = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 105 105", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('circle', { attrs: { "cx": "12.5", "cy": "12.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "0s", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "12.5", "cy": "52.5", "r": "12.5", "fill-opacity": ".5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "100ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "52.5", "cy": "12.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "300ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "52.5", "cy": "52.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "600ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "92.5", "cy": "12.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "800ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "92.5", "cy": "52.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "400ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "12.5", "cy": "92.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "700ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "52.5", "cy": "92.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "500ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "92.5", "cy": "92.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "200ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 105 105", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('circle', { attrs: { "cx": "12.5", "cy": "12.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "0s", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "12.5", "cy": "52.5", "r": "12.5", "fill-opacity": ".5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "100ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "52.5", "cy": "12.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "300ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "52.5", "cy": "52.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "600ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "92.5", "cy": "12.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "800ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "92.5", "cy": "52.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "400ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "12.5", "cy": "92.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "700ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "52.5", "cy": "92.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "500ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "92.5", "cy": "92.5", "r": "12.5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "200ms", "dur": "1s", "values": "1;.2;1", "calcMode": "linear", "repeatCount": "indefinite" } })])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SHearts = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 140 64", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('path', { attrs: { "d": "M30.262 57.02L7.195 40.723c-5.84-3.976-7.56-12.06-3.842-18.063 3.715-6 11.467-7.65 17.306-3.68l4.52 3.76 2.6-5.274c3.716-6.002 11.47-7.65 17.304-3.68 5.84 3.97 7.56 12.054 3.842 18.062L34.49 56.118c-.897 1.512-2.793 1.915-4.228.9z", "fill-opacity": ".5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "0s", "dur": "1.4s", "values": "0.5;1;0.5", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('path', { attrs: { "d": "M105.512 56.12l-14.44-24.272c-3.716-6.008-1.996-14.093 3.843-18.062 5.835-3.97 13.588-2.322 17.306 3.68l2.6 5.274 4.52-3.76c5.84-3.97 13.593-2.32 17.308 3.68 3.718 6.003 1.998 14.088-3.842 18.064L109.74 57.02c-1.434 1.014-3.33.61-4.228-.9z", "fill-opacity": ".5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "0.7s", "dur": "1.4s", "values": "0.5;1;0.5", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('path', { attrs: { "d": "M67.408 57.834l-23.01-24.98c-5.864-6.15-5.864-16.108 0-22.248 5.86-6.14 15.37-6.14 21.234 0L70 16.168l4.368-5.562c5.863-6.14 15.375-6.14 21.235 0 5.863 6.14 5.863 16.098 0 22.247l-23.007 24.98c-1.43 1.556-3.757 1.556-5.188 0z" } })]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "fill": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 140 64", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('path', { attrs: { "d": "M30.262 57.02L7.195 40.723c-5.84-3.976-7.56-12.06-3.842-18.063 3.715-6 11.467-7.65 17.306-3.68l4.52 3.76 2.6-5.274c3.716-6.002 11.47-7.65 17.304-3.68 5.84 3.97 7.56 12.054 3.842 18.062L34.49 56.118c-.897 1.512-2.793 1.915-4.228.9z", "fill-opacity": ".5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "0s", "dur": "1.4s", "values": "0.5;1;0.5", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('path', { attrs: { "d": "M105.512 56.12l-14.44-24.272c-3.716-6.008-1.996-14.093 3.843-18.062 5.835-3.97 13.588-2.322 17.306 3.68l2.6 5.274 4.52-3.76c5.84-3.97 13.593-2.32 17.308 3.68 3.718 6.003 1.998 14.088-3.842 18.064L109.74 57.02c-1.434 1.014-3.33.61-4.228-.9z", "fill-opacity": ".5" } }, [_c('animate', { attrs: { "attributeName": "fill-opacity", "begin": "0.7s", "dur": "1.4s", "values": "0.5;1;0.5", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('path', { attrs: { "d": "M67.408 57.834l-23.01-24.98c-5.864-6.15-5.864-16.108 0-22.248 5.86-6.14 15.37-6.14 21.234 0L70 16.168l4.368-5.562c5.863-6.14 15.375-6.14 21.235 0 5.863 6.14 5.863 16.098 0 22.247l-23.007 24.98c-1.43 1.556-3.757 1.556-5.188 0z" } })]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SHourglass = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', [_c('path', { staticClass: "glass", attrs: { "fill": "none", "stroke": _vm.color, "stroke-width": "5", "stroke-miterlimit": "10", "d": "M58.4,51.7c-0.9-0.9-1.4-2-1.4-2.3s0.5-0.4,1.4-1.4 C70.8,43.8,79.8,30.5,80,15.5H70H30H20c0.2,15,9.2,28.1,21.6,32.3c0.9,0.9,1.4,1.2,1.4,1.5s-0.5,1.6-1.4,2.5 C29.2,56.1,20.2,69.5,20,85.5h10h40h10C79.8,69.5,70.8,55.9,58.4,51.7z" } }), _c('clipPath', { attrs: { "id": "uil-hourglass-clip1" } }, [_c('rect', { staticClass: "clip", attrs: { "x": "15", "y": "20", "width": "70", "height": "25" } }, [_c('animate', { attrs: { "attributeName": "height", "from": "25", "to": "0", "dur": "1s", "repeatCount": "indefinite", "vlaues": "25;0;0", "keyTimes": "0;0.5;1" } }), _c('animate', { attrs: { "attributeName": "y", "from": "20", "to": "45", "dur": "1s", "repeatCount": "indefinite", "vlaues": "20;45;45", "keyTimes": "0;0.5;1" } })])]), _c('clipPath', { attrs: { "id": "uil-hourglass-clip2" } }, [_c('rect', { staticClass: "clip", attrs: { "x": "15", "y": "55", "width": "70", "height": "25" } }, [_c('animate', { attrs: { "attributeName": "height", "from": "0", "to": "25", "dur": "1s", "repeatCount": "indefinite", "vlaues": "0;25;25", "keyTimes": "0;0.5;1" } }), _c('animate', { attrs: { "attributeName": "y", "from": "80", "to": "55", "dur": "1s", "repeatCount": "indefinite", "vlaues": "80;55;55", "keyTimes": "0;0.5;1" } })])]), _c('path', { staticClass: "sand", attrs: { "d": "M29,23c3.1,11.4,11.3,19.5,21,19.5S67.9,34.4,71,23H29z", "clip-path": "url(#uil-hourglass-clip1)", "fill": _vm.color } }), _c('path', { staticClass: "sand", attrs: { "d": "M71.6,78c-3-11.6-11.5-20-21.5-20s-18.5,8.4-21.5,20H71.6z", "clip-path": "url(#uil-hourglass-clip2)", "fill": _vm.color } }), _c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "180 50 50", "repeatCount": "indefinite", "dur": "1s", "values": "0 50 50;0 50 50;180 50 50", "keyTimes": "0;0.7;1" } })], 1)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', [_c('path', { staticClass: "glass", attrs: { "fill": "none", "stroke": _vm.color, "stroke-width": "5", "stroke-miterlimit": "10", "d": "M58.4,51.7c-0.9-0.9-1.4-2-1.4-2.3s0.5-0.4,1.4-1.4 C70.8,43.8,79.8,30.5,80,15.5H70H30H20c0.2,15,9.2,28.1,21.6,32.3c0.9,0.9,1.4,1.2,1.4,1.5s-0.5,1.6-1.4,2.5 C29.2,56.1,20.2,69.5,20,85.5h10h40h10C79.8,69.5,70.8,55.9,58.4,51.7z" } }), _c('clipPath', { attrs: { "id": "uil-hourglass-clip1" } }, [_c('rect', { staticClass: "clip", attrs: { "x": "15", "y": "20", "width": "70", "height": "25" } }, [_c('animate', { attrs: { "attributeName": "height", "from": "25", "to": "0", "dur": "1s", "repeatCount": "indefinite", "vlaues": "25;0;0", "keyTimes": "0;0.5;1" } }), _c('animate', { attrs: { "attributeName": "y", "from": "20", "to": "45", "dur": "1s", "repeatCount": "indefinite", "vlaues": "20;45;45", "keyTimes": "0;0.5;1" } })])]), _c('clipPath', { attrs: { "id": "uil-hourglass-clip2" } }, [_c('rect', { staticClass: "clip", attrs: { "x": "15", "y": "55", "width": "70", "height": "25" } }, [_c('animate', { attrs: { "attributeName": "height", "from": "0", "to": "25", "dur": "1s", "repeatCount": "indefinite", "vlaues": "0;25;25", "keyTimes": "0;0.5;1" } }), _c('animate', { attrs: { "attributeName": "y", "from": "80", "to": "55", "dur": "1s", "repeatCount": "indefinite", "vlaues": "80;55;55", "keyTimes": "0;0.5;1" } })])]), _c('path', { staticClass: "sand", attrs: { "d": "M29,23c3.1,11.4,11.3,19.5,21,19.5S67.9,34.4,71,23H29z", "clip-path": "url(#uil-hourglass-clip1)", "fill": _vm.color } }), _c('path', { staticClass: "sand", attrs: { "d": "M71.6,78c-3-11.6-11.5-20-21.5-20s-18.5,8.4-21.5,20H71.6z", "clip-path": "url(#uil-hourglass-clip2)", "fill": _vm.color } }), _c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "180 50 50", "repeatCount": "indefinite", "dur": "1s", "values": "0 50 50;0 50 50;180 50 50", "keyTimes": "0;0.7;1" } })], 1)]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SInfinity = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid" } }, [_c('path', { attrs: { "d": "M24.3,30C11.4,30,5,43.3,5,50s6.4,20,19.3,20c19.3,0,32.1-40,51.4-40C88.6,30,95,43.3,95,50s-6.4,20-19.3,20C56.4,70,43.6,30,24.3,30z", "fill": "none", "stroke": _vm.color, "stroke-width": "8", "stroke-dasharray": "10.691205342610678 10.691205342610678", "stroke-dashoffset": "0" } }, [_c('animate', { attrs: { "attributeName": "stroke-dashoffset", "from": "0", "to": "21.382410685221355", "begin": "0", "dur": "2s", "repeatCount": "indefinite", "fill": "freeze" } })])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid" } }, [_c('path', { attrs: { "d": "M24.3,30C11.4,30,5,43.3,5,50s6.4,20,19.3,20c19.3,0,32.1-40,51.4-40C88.6,30,95,43.3,95,50s-6.4,20-19.3,20C56.4,70,43.6,30,24.3,30z", "fill": "none", "stroke": _vm.color, "stroke-width": "8", "stroke-dasharray": "10.691205342610678 10.691205342610678", "stroke-dashoffset": "0" } }, [_c('animate', { attrs: { "attributeName": "stroke-dashoffset", "from": "0", "to": "21.382410685221355", "begin": "0", "dur": "2s", "repeatCount": "indefinite", "fill": "freeze" } })])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SIos = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(0 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(30 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.08333333333333333s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(60 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.16666666666666666s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(90 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.25s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(120 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.3333333333333333s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(150 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.4166666666666667s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(180 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.5s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(210 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.5833333333333334s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(240 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.6666666666666666s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(270 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.75s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(300 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.8333333333333334s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(330 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.9166666666666666s", "repeatCount": "indefinite" } })])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(0 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(30 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.08333333333333333s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(60 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.16666666666666666s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(90 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.25s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(120 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.3333333333333333s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(150 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.4166666666666667s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(180 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.5s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(210 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.5833333333333334s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(240 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.6666666666666666s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(270 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.75s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(300 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.8333333333333334s", "repeatCount": "indefinite" } })]), _c('rect', { attrs: { "x": "46.5", "y": "40", "width": "7", "height": "20", "rx": "5", "ry": "5", "fill": _vm.color, "transform": "rotate(330 50 50) translate(0 -30)" } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "1", "to": "0", "dur": "1s", "begin": "0.9166666666666666s", "repeatCount": "indefinite" } })])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SOval = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "stroke": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 38 38", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "translate(1 1)", "stroke-width": "2", "fill": "none", "fill-rule": "evenodd" } }, [_c('circle', { attrs: { "stroke-opacity": ".5", "cx": "18", "cy": "18", "r": "18" } }), _c('path', { attrs: { "d": "M36 18c0-9.94-8.06-18-18-18" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "1s", "repeatCount": "indefinite" } })], 1)])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "stroke": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 38 38", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "translate(1 1)", "stroke-width": "2", "fill": "none", "fill-rule": "evenodd" } }, [_c('circle', { attrs: { "stroke-opacity": ".5", "cx": "18", "cy": "18", "r": "18" } }), _c('path', { attrs: { "d": "M36 18c0-9.94-8.06-18-18-18" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "1s", "repeatCount": "indefinite" } })], 1)])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SPie = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('path', { attrs: { "d": "M0 50A50 50 0 0 1 50 0L50 50L0 50", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "0.8s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M50 0A50 50 0 0 1 100 50L50 50L50 0", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "1.6s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M100 50A50 50 0 0 1 50 100L50 50L100 50", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "2.4s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M50 100A50 50 0 0 1 0 50L50 50L50 100", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "3.2s", "repeatCount": "indefinite" } })], 1)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('path', { attrs: { "d": "M0 50A50 50 0 0 1 50 0L50 50L0 50", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "0.8s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M50 0A50 50 0 0 1 100 50L50 50L50 0", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "1.6s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M100 50A50 50 0 0 1 50 100L50 50L100 50", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "2.4s", "repeatCount": "indefinite" } })], 1), _c('path', { attrs: { "d": "M50 100A50 50 0 0 1 0 50L50 50L50 100", "fill": _vm.color, "opacity": "0.5" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 50 50", "to": "360 50 50", "dur": "3.2s", "repeatCount": "indefinite" } })], 1)]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SPuff = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "stroke": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 44 44", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "fill": "none", "fill-rule": "evenodd", "stroke-width": "2" } }, [_c('circle', { attrs: { "cx": "22", "cy": "22", "r": "1" } }, [_c('animate', { attrs: { "attributeName": "r", "begin": "0s", "dur": "1.8s", "values": "1; 20", "calcMode": "spline", "keyTimes": "0; 1", "keySplines": "0.165, 0.84, 0.44, 1", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-opacity", "begin": "0s", "dur": "1.8s", "values": "1; 0", "calcMode": "spline", "keyTimes": "0; 1", "keySplines": "0.3, 0.61, 0.355, 1", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "22", "cy": "22", "r": "1" } }, [_c('animate', { attrs: { "attributeName": "r", "begin": "-0.9s", "dur": "1.8s", "values": "1; 20", "calcMode": "spline", "keyTimes": "0; 1", "keySplines": "0.165, 0.84, 0.44, 1", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-opacity", "begin": "-0.9s", "dur": "1.8s", "values": "1; 0", "calcMode": "spline", "keyTimes": "0; 1", "keySplines": "0.3, 0.61, 0.355, 1", "repeatCount": "indefinite" } })])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "stroke": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 44 44", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "fill": "none", "fill-rule": "evenodd", "stroke-width": "2" } }, [_c('circle', { attrs: { "cx": "22", "cy": "22", "r": "1" } }, [_c('animate', { attrs: { "attributeName": "r", "begin": "0s", "dur": "1.8s", "values": "1; 20", "calcMode": "spline", "keyTimes": "0; 1", "keySplines": "0.165, 0.84, 0.44, 1", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-opacity", "begin": "0s", "dur": "1.8s", "values": "1; 0", "calcMode": "spline", "keyTimes": "0; 1", "keySplines": "0.3, 0.61, 0.355, 1", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "22", "cy": "22", "r": "1" } }, [_c('animate', { attrs: { "attributeName": "r", "begin": "-0.9s", "dur": "1.8s", "values": "1; 20", "calcMode": "spline", "keyTimes": "0; 1", "keySplines": "0.165, 0.84, 0.44, 1", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-opacity", "begin": "-0.9s", "dur": "1.8s", "values": "1; 0", "calcMode": "spline", "keyTimes": "0; 1", "keySplines": "0.3, 0.61, 0.355, 1", "repeatCount": "indefinite" } })])])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SRadio = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "scale(0.55)" } }, [_c('circle', { attrs: { "cx": "30", "cy": "150", "r": "30", "fill": _vm.color } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "0", "to": "1", "dur": "1s", "begin": "0", "repeatCount": "indefinite", "keyTimes": "0;0.5;1", "values": "0;1;1" } })]), _c('path', { attrs: { "d": "M90,150h30c0-49.7-40.3-90-90-90v30C63.1,90,90,116.9,90,150z", "fill": _vm.color } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "0", "to": "1", "dur": "1s", "begin": "0.1", "repeatCount": "indefinite", "keyTimes": "0;0.5;1", "values": "0;1;1" } })]), _c('path', { attrs: { "d": "M150,150h30C180,67.2,112.8,0,30,0v30C96.3,30,150,83.7,150,150z", "fill": _vm.color } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "0", "to": "1", "dur": "1s", "begin": "0.2", "repeatCount": "indefinite", "keyTimes": "0;0.5;1", "values": "0;1;1" } })])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 100 100", "preserveAspectRatio": "xMidYMid", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "transform": "scale(0.55)" } }, [_c('circle', { attrs: { "cx": "30", "cy": "150", "r": "30", "fill": _vm.color } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "0", "to": "1", "dur": "1s", "begin": "0", "repeatCount": "indefinite", "keyTimes": "0;0.5;1", "values": "0;1;1" } })]), _c('path', { attrs: { "d": "M90,150h30c0-49.7-40.3-90-90-90v30C63.1,90,90,116.9,90,150z", "fill": _vm.color } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "0", "to": "1", "dur": "1s", "begin": "0.1", "repeatCount": "indefinite", "keyTimes": "0;0.5;1", "values": "0;1;1" } })]), _c('path', { attrs: { "d": "M150,150h30C180,67.2,112.8,0,30,0v30C96.3,30,150,83.7,150,150z", "fill": _vm.color } }, [_c('animate', { attrs: { "attributeName": "opacity", "from": "0", "to": "1", "dur": "1s", "begin": "0.2", "repeatCount": "indefinite", "keyTimes": "0;0.5;1", "values": "0;1;1" } })])])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var SRings = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "stroke": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 45 45", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "fill": "none", "fill-rule": "evenodd", "transform": "translate(1 1)", "stroke-width": "2" } }, [_c('circle', { attrs: { "cx": "22", "cy": "22", "r": "6" } }, [_c('animate', { attrs: { "attributeName": "r", "begin": "1.5s", "dur": "3s", "values": "6;22", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-opacity", "begin": "1.5s", "dur": "3s", "values": "1;0", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-width", "begin": "1.5s", "dur": "3s", "values": "2;0", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "22", "cy": "22", "r": "6" } }, [_c('animate', { attrs: { "attributeName": "r", "begin": "3s", "dur": "3s", "values": "6;22", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-opacity", "begin": "3s", "dur": "3s", "values": "1;0", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-width", "begin": "3s", "dur": "3s", "values": "2;0", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "22", "cy": "22", "r": "8" } }, [_c('animate', { attrs: { "attributeName": "r", "begin": "0s", "dur": "1.5s", "values": "6;1;2;3;4;5;6", "calcMode": "linear", "repeatCount": "indefinite" } })])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "stroke": _vm.color, "width": _vm.size, "height": _vm.size, "viewBox": "0 0 45 45", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('g', { attrs: { "fill": "none", "fill-rule": "evenodd", "transform": "translate(1 1)", "stroke-width": "2" } }, [_c('circle', { attrs: { "cx": "22", "cy": "22", "r": "6" } }, [_c('animate', { attrs: { "attributeName": "r", "begin": "1.5s", "dur": "3s", "values": "6;22", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-opacity", "begin": "1.5s", "dur": "3s", "values": "1;0", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-width", "begin": "1.5s", "dur": "3s", "values": "2;0", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "22", "cy": "22", "r": "6" } }, [_c('animate', { attrs: { "attributeName": "r", "begin": "3s", "dur": "3s", "values": "6;22", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-opacity", "begin": "3s", "dur": "3s", "values": "1;0", "calcMode": "linear", "repeatCount": "indefinite" } }), _c('animate', { attrs: { "attributeName": "stroke-width", "begin": "3s", "dur": "3s", "values": "2;0", "calcMode": "linear", "repeatCount": "indefinite" } })]), _c('circle', { attrs: { "cx": "22", "cy": "22", "r": "8" } }, [_c('animate', { attrs: { "attributeName": "r", "begin": "0s", "dur": "1.5s", "values": "6;1;2;3;4;5;6", "calcMode": "linear", "repeatCount": "indefinite" } })])])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var STail = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 38 38", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('defs', [_c('linearGradient', { attrs: { "x1": "8.042%", "y1": "0%", "x2": "65.682%", "y2": "23.865%", "id": "a" } }, [_c('stop', { attrs: { "stop-color": _vm.color, "stop-opacity": "0", "offset": "0%" } }), _c('stop', { attrs: { "stop-color": _vm.color, "stop-opacity": ".631", "offset": "63.146%" } }), _c('stop', { attrs: { "stop-color": _vm.color, "offset": "100%" } })], 1)], 1), _c('g', { attrs: { "transform": "translate(1 1)", "fill": "none", "fill-rule": "evenodd" } }, [_c('path', { attrs: { "d": "M36 18c0-9.94-8.06-18-18-18", "stroke": "url(#a)", "stroke-width": "2" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "0.9s", "repeatCount": "indefinite" } })], 1), _c('circle', { attrs: { "fill": _vm.color, "cx": "36", "cy": "18", "r": "1" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "0.9s", "repeatCount": "indefinite" } })], 1)])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('svg', { staticClass: "q-spinner", attrs: { "width": _vm.size, "height": _vm.size, "viewBox": "0 0 38 38", "xmlns": "http://www.w3.org/2000/svg" } }, [_c('defs', [_c('linearGradient', { attrs: { "x1": "8.042%", "y1": "0%", "x2": "65.682%", "y2": "23.865%", "id": "a" } }, [_c('stop', { attrs: { "stop-color": _vm.color, "stop-opacity": "0", "offset": "0%" } }), _c('stop', { attrs: { "stop-color": _vm.color, "stop-opacity": ".631", "offset": "63.146%" } }), _c('stop', { attrs: { "stop-color": _vm.color, "offset": "100%" } })], 1)], 1), _c('g', { attrs: { "transform": "translate(1 1)", "fill": "none", "fill-rule": "evenodd" } }, [_c('path', { attrs: { "d": "M36 18c0-9.94-8.06-18-18-18", "stroke": "url(#a)", "stroke-width": "2" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "0.9s", "repeatCount": "indefinite" } })], 1), _c('circle', { attrs: { "fill": _vm.color, "cx": "36", "cy": "18", "r": "1" } }, [_c('animateTransform', { attrs: { "attributeName": "transform", "type": "rotate", "from": "0 18 18", "to": "360 18 18", "dur": "0.9s", "repeatCount": "indefinite" } })], 1)])]);
   }, staticRenderFns: [],
   props: ['name', 'size', 'color']
 };
 
 var Spinner = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('s-' + _vm.name, { tag: "component", attrs: { "size": _vm.size, "color": _vm.color } });
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('s-' + _vm.name, { tag: "component", attrs: { "size": _vm.size, "color": _vm.color } });
   }, staticRenderFns: [],
   props: {
     name: {
@@ -6715,7 +6726,7 @@ var Spinner = { render: function render() {
 };
 
 var State = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('span', [_vm.active ? _vm._t("active") : _vm._t("default")], 2);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', [_vm.active ? _vm._t("active") : _vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     active: {
@@ -6726,7 +6737,7 @@ var State = { render: function render() {
 };
 
 var Stepper = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-stepper timeline primary" }, [_vm._t("default")], 2);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-stepper timeline primary" }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     backLabel: {
@@ -6781,7 +6792,7 @@ var Stepper = { render: function render() {
 };
 
 var Step = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "timeline-item", class: { incomplete: _vm.step > _vm.stepper.currentStep } }, [_c('div', { staticClass: "timeline-badge" }, [_c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.step < _vm.stepper.currentStep, expression: "step < stepper.currentStep" }] }, [_vm._v("done ")]), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.step >= _vm.stepper.currentStep, expression: "step >= stepper.currentStep" }] }, [_vm._v(_vm._s(_vm.step))])]), _c('div', { staticClass: "timeline-title text-bold", domProps: { "innerHTML": _vm._s(_vm.title) } }), _c('q-transition', { attrs: { "name": "slide" } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.stepper && _vm.step === _vm.stepper.currentStep, expression: "stepper && step === stepper.currentStep" }], staticClass: "timeline-content" }, [_vm._t("default"), _c('div', { staticClass: "group", staticStyle: { "margin-top": "1rem", "margin-left": "-5px" } }, [_c('button', { staticClass: "primary", class: { disabled: !_vm.ready }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "timeline-item", class: { incomplete: _vm.step > _vm.stepper.currentStep } }, [_c('div', { staticClass: "timeline-badge" }, [_c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.step < _vm.stepper.currentStep, expression: "step < stepper.currentStep" }] }, [_vm._v("done ")]), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.step >= _vm.stepper.currentStep, expression: "step >= stepper.currentStep" }] }, [_vm._v(_vm._s(_vm.step))])]), _c('div', { staticClass: "timeline-title text-bold", domProps: { "innerHTML": _vm._s(_vm.title) } }), _c('q-transition', { attrs: { "name": "slide" } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.stepper && _vm.step === _vm.stepper.currentStep, expression: "stepper && step === stepper.currentStep" }], staticClass: "timeline-content" }, [_vm._t("default"), _c('div', { staticClass: "group", staticStyle: { "margin-top": "1rem", "margin-left": "-5px" } }, [_c('button', { staticClass: "primary", class: { disabled: !_vm.ready }, on: { "click": function click($event) {
           _vm.nextStep();
         } } }, [_vm._v(_vm._s(_vm.stepper && _vm.step === _vm.stepper.steps ? _vm.$parent.finishLabel : _vm.$parent.nextLabel))]), _vm._v(" "), _vm.step > 1 ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.$parent.backLabel) }, on: { "click": function click($event) {
           _vm.previousStep();
@@ -6824,7 +6835,7 @@ var Step = { render: function render() {
 };
 
 var Tab = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _vm.route ? _c('router-link', { ref: "routerLink", staticClass: "q-tab items-center justify-center", class: { active: _vm.isActive, hidden: _vm.hidden, disabled: _vm.disable, hideIcon: _vm.hide === 'icon', hideLabel: _vm.hide === 'label' }, attrs: { "to": _vm.route, "replace": _vm.replace, "append": _vm.append, "exact": _vm.exact, "tag": "div" }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _vm.route ? _c('router-link', { ref: "routerLink", staticClass: "q-tab items-center justify-center", class: { active: _vm.isActive, hidden: _vm.hidden, disabled: _vm.disable, hideIcon: _vm.hide === 'icon', hideLabel: _vm.hide === 'label' }, attrs: { "to": _vm.route, "replace": _vm.replace, "append": _vm.append, "exact": _vm.exact, "tag": "div" }, on: { "click": function click($event) {
           $event.stopPropagation();$event.preventDefault();_vm.activate();
         } } }, [_vm.icon ? _c('i', { staticClass: "q-tabs-icon" }, [_vm._v(_vm._s(_vm.icon))]) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "q-tab-label" }, [_vm._t("default")], 2)]) : _c('div', { staticClass: "q-tab items-center justify-center", class: { active: _vm.isActive, hidden: _vm.hidden, disabled: _vm.disable, hideIcon: _vm.hide === 'icon', hideLabel: _vm.hide === 'label' }, on: { "click": function click($event) {
           _vm.activate();
@@ -6920,7 +6931,7 @@ var scrollNavigationSpeed = 5;
 var debounceDelay = 50;
 
 var Tabs = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-tabs row" }, [_c('div', { ref: "leftScroll", staticClass: "row items-center justify-center left-scroll" }, [_c('i', [_vm._v("chevron_left")])]), _c('div', { ref: "scroller", staticClass: "q-tabs-scroller row" }, [_vm._t("default")], 2), _c('div', { ref: "rightScroll", staticClass: "row items-center justify-center right-scroll" }, [_c('i', [_vm._v("chevron_right")])])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-tabs row" }, [_c('div', { ref: "leftScroll", staticClass: "row items-center justify-center left-scroll" }, [_c('i', [_vm._v("chevron_left")])]), _c('div', { ref: "scroller", staticClass: "q-tabs-scroller row" }, [_vm._t("default")], 2), _c('div', { ref: "rightScroll", staticClass: "row items-center justify-center right-scroll" }, [_c('i', [_vm._v("chevron_right")])])]);
   }, staticRenderFns: [],
   props: {
     refs: {
@@ -7135,7 +7146,7 @@ var Tabs = { render: function render() {
 };
 
 var Toggle = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('label', { directives: [{ name: "touch-swipe", rawName: "v-touch-swipe.horizontal", value: _vm.__toggle, expression: "__toggle", modifiers: { "horizontal": true } }], staticClass: "q-toggle", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm._q(_vm.model, true) }, on: { "change": function change($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { directives: [{ name: "touch-swipe", rawName: "v-touch-swipe.horizontal", value: _vm.__toggle, expression: "__toggle", modifiers: { "horizontal": true } }], staticClass: "q-toggle", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm._q(_vm.model, true) }, on: { "change": function change($event) {
           var $$a = _vm.model,
               $$el = $event.target,
               $$c = $$el.checked ? true : false;if (Array.isArray($$a)) {
@@ -7182,7 +7193,7 @@ var Toggle = { render: function render() {
 };
 
 var Tooltip = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('span', { staticClass: "q-tooltip animate-scale", style: _vm.transformCSS }, [_vm._t("default")], 2);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', { staticClass: "q-tooltip animate-scale", style: _vm.transformCSS }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     anchor: {
@@ -7273,7 +7284,7 @@ var Tooltip = { render: function render() {
 };
 
 var QTreeItem = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('li', { staticClass: "q-tree-item" }, [_c('div', { class: { 'q-tree-expandable-item': _vm.isExpandable, 'q-tree-link': _vm.model.handler }, on: { "click": _vm.toggle } }, [_vm.model.icon ? _c('i', [_vm._v(_vm._s(_vm.model.icon))]) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "q-tree-label" }, [_vm._v(_vm._s(_vm.model.title))]), _vm._v(" "), _vm.isExpandable ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.model.expanded ? _vm.contractHtml : _vm.expandHtml) } }) : _vm._e()]), _c('q-transition', { attrs: { "name": "slide" } }, [_c('ul', { directives: [{ name: "show", rawName: "v-show", value: _vm.isExpandable && _vm.model.expanded, expression: "isExpandable && model.expanded" }] }, _vm._l(_vm.model.children, function (item) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('li', { staticClass: "q-tree-item" }, [_c('div', { class: { 'q-tree-expandable-item': _vm.isExpandable, 'q-tree-link': _vm.model.handler }, on: { "click": _vm.toggle } }, [_vm.model.icon ? _c('i', [_vm._v(_vm._s(_vm.model.icon))]) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "q-tree-label" }, [_vm._v(_vm._s(_vm.model.title))]), _vm._v(" "), _vm.isExpandable ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.model.expanded ? _vm.contractHtml : _vm.expandHtml) } }) : _vm._e()]), _c('q-transition', { attrs: { "name": "slide" } }, [_c('ul', { directives: [{ name: "show", rawName: "v-show", value: _vm.isExpandable && _vm.model.expanded, expression: "isExpandable && model.expanded" }] }, _vm._l(_vm.model.children, function (item) {
       return _c('q-tree-item', { attrs: { "model": item, "contract-html": _vm.contractHtml, "expand-html": _vm.expandHtml } });
     }))])], 1);
   }, staticRenderFns: [],
@@ -7299,7 +7310,7 @@ var QTreeItem = { render: function render() {
 };
 
 var Tree = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-tree" }, [_c('ul', _vm._l(_vm.model, function (item) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-tree" }, [_c('ul', _vm._l(_vm.model, function (item) {
       return _c('q-tree-item', { attrs: { "model": item, "contract-html": _vm.contractHtml, "expand-html": _vm.expandHtml } });
     }))]);
   }, staticRenderFns: [],
@@ -7325,7 +7336,7 @@ var Tree = { render: function render() {
 };
 
 var Video = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "video" }, [_c('iframe', { attrs: { "src": _vm.src, "frameborder": "0", "allowfullscreen": "" } })], 1);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "video" }, [_c('iframe', { attrs: { "src": _vm.src, "frameborder": "0", "allowfullscreen": "" } })], 1);
   }, staticRenderFns: [],
   props: ['src']
 };
@@ -7592,11 +7603,11 @@ var modalCSS = {
 };
 
 var ActionSheets = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('q-modal', { ref: "dialog", staticClass: "with-backdrop", attrs: { "position-classes": "items-end justify-center", "transition": "q-modal-actions", "content-css": _vm.css }, on: { "close": function close($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-modal', { ref: "dialog", staticClass: "with-backdrop", attrs: { "position-classes": "items-end justify-center", "transition": "q-modal-actions", "content-css": _vm.css }, on: { "close": function close($event) {
           _vm.__dismiss();
         } } }, [_vm.$quasar.theme === 'mat' ? _vm._m(0) : _vm._e(), _vm.$quasar.theme === 'ios' ? _vm._m(1) : _vm._e()]);
   }, staticRenderFns: [function () {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', [_vm.title ? _c('div', { staticClass: "modal-header", domProps: { "innerHTML": _vm._s(_vm.title) } }) : _vm._e(), _c('div', { staticClass: "modal-scroll" }, [_vm.gallery ? _c('div', { staticClass: "q-action-sheet-gallery row wrap items-center justify-center" }, _vm._l(_vm.actions, function (button) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_vm.title ? _c('div', { staticClass: "modal-header", domProps: { "innerHTML": _vm._s(_vm.title) } }) : _vm._e(), _c('div', { staticClass: "modal-scroll" }, [_vm.gallery ? _c('div', { staticClass: "q-action-sheet-gallery row wrap items-center justify-center" }, _vm._l(_vm.actions, function (button) {
       return _c('div', { staticClass: "cursor-pointer column inline items-center justify-center", class: button.classes, on: { "click": function click($event) {
             _vm.close(button.handler);
           } } }, [button.icon ? _c('i', [_vm._v(_vm._s(button.icon))]) : _vm._e(), _vm._v(" "), button.avatar ? _c('img', { staticClass: "avatar", attrs: { "src": button.avatar } }) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(button.label))])]);
@@ -7608,7 +7619,7 @@ var ActionSheets = { render: function render() {
           _vm.close();
         } } }, [_vm.dismiss.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(_vm.dismiss.icon))]) : _vm._e(), _c('div', { staticClass: "item-content inset" }, [_vm._v(_vm._s(_vm.dismiss.label))])])]) : _vm._e()]);
   }, function () {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', [_c('div', { staticClass: "q-action-sheet" }, [_vm.title ? _c('div', { staticClass: "modal-header", domProps: { "innerHTML": _vm._s(_vm.title) } }) : _vm._e(), _c('div', { staticClass: "modal-scroll" }, [_vm.gallery ? _c('div', { staticClass: "q-action-sheet-gallery row wrap items-center justify-center" }, _vm._l(_vm.actions, function (button) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_c('div', { staticClass: "q-action-sheet" }, [_vm.title ? _c('div', { staticClass: "modal-header", domProps: { "innerHTML": _vm._s(_vm.title) } }) : _vm._e(), _c('div', { staticClass: "modal-scroll" }, [_vm.gallery ? _c('div', { staticClass: "q-action-sheet-gallery row wrap items-center justify-center" }, _vm._l(_vm.actions, function (button) {
       return _c('div', { staticClass: "cursor-pointer column inline items-center justify-center", class: button.classes, on: { "click": function click($event) {
             _vm.close(button.handler);
           } } }, [button.icon ? _c('i', [_vm._v(_vm._s(button.icon))]) : _vm._e(), _vm._v(" "), button.avatar ? _c('img', { staticClass: "avatar", attrs: { "src": button.avatar } }) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(button.label))])]);
@@ -7879,7 +7890,7 @@ var Cookies = {
 };
 
 var Loading$1 = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._c;return _c('div', { staticClass: "q-loading animate-fade fullscreen column items-center justify-center z-absolute" }, [_c('spinner', { attrs: { "name": _vm.spinner, "color": _vm.spinnerColor, "size": _vm.spinnerSize } }), _vm.message ? _c('div', { style: { color: _vm.messageColor } }, [_vm._v(_vm._s(_vm.message))]) : _vm._e()], 1);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-loading animate-fade fullscreen column items-center justify-center z-absolute" }, [_c('spinner', { attrs: { "name": _vm.spinner, "color": _vm.spinnerColor, "size": _vm.spinnerSize } }), _vm.message ? _c('div', { style: { color: _vm.messageColor } }, [_vm._v(_vm._s(_vm.message))]) : _vm._e()], 1);
   }, staticRenderFns: [],
   props: {
     message: [String, Boolean],
