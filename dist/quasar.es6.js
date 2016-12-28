@@ -1618,11 +1618,8 @@ var dTouchPan = {
             ctx.event.prevent = true;
           }
         }
-        else {
-          if (Math.abs(distX) < Math.abs(distY)) {
-            evt.preventDefault();
-            ctx.event.prevent = true;
-          }
+        else if (Math.abs(distX) < Math.abs(distY)) {
+          ctx.event.prevent = true;
         }
       },
       mouseEnd (evt) {
