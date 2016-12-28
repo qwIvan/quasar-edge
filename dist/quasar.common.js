@@ -1,5 +1,5 @@
 /*!
- * Quasar Framework v0.11.0
+ * Quasar Framework v0.12.0
  * (c) 2016 Razvan Stoenescu
  * Released under the MIT License.
  */
@@ -8171,7 +8171,7 @@ var SessionStorage = {
 window.Velocity = Velocity$1;
 
 var Quasar = {
-  version: '0.11.0',
+  version: '0.12.0',
   install: install$$1,
   start: start$1,
   theme: theme,

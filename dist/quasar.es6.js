@@ -1,5 +1,5 @@
 /*!
- * Quasar Framework v0.11.0
+ * Quasar Framework v0.12.0
  * (c) 2016 Razvan Stoenescu
  * Released under the MIT License.
  */
@@ -7565,7 +7565,7 @@ var SessionStorage = { // eslint-disable-line one-var
 window.Velocity = Velocity$1;
 
 let Quasar = {
-  version: '0.11.0',
+  version: '0.12.0',
   install: install$$1,
   start,
   theme
