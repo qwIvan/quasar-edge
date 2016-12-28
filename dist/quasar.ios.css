@@ -3074,7 +3074,7 @@ label {
   font-weight: 300;
 }
 .q-data-table-toolbar.upper-toolbar {
-  min-height: 69px;
+  min-height: 50px;
 }
 .q-data-table-toolbar.bottom-toolbar {
   border-top: 2px solid #eee;
@@ -3084,15 +3084,12 @@ label {
 }
 .q-data-table-toolbar .q-search {
   min-width: 250px;
-  margin: 0 7px;
+  margin: 0 15px 0 0;
 }
 @media (max-width: 600px) {
   .q-data-table-toolbar {
     flex-wrap: wrap-reverse;
     padding: 5px 10px;
-  }
-  .q-data-table-toolbar .q-search {
-    margin: 0;
   }
   .q-data-table-toolbar button {
     padding: 0 5px;

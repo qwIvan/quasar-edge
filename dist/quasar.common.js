@@ -2495,13 +2495,11 @@ var ColumnSelection = {
 };
 
 var TableFilter = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_c('q-search', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.terms, expression: "filtering.terms" }], staticStyle: { "min-width": "250px" }, domProps: { "value": _vm.filtering.terms }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row auto reverse-wrap items-center" }, [_c('div', { staticClass: "row items-center auto" }, [_c('q-search', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.terms, expression: "filtering.terms" }], staticClass: "auto", domProps: { "value": _vm.filtering.terms }, on: { "input": function input($event) {
           _vm.filtering.terms = $event;
-        } } }), _c('div', { staticClass: "row items-center group" }, [_c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.field, expression: "filtering.field" }], staticClass: "text-right", attrs: { "type": "list", "options": _vm.filterFields }, domProps: { "value": _vm.filtering.field }, on: { "input": function input($event) {
+        } } }), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.field, expression: "filtering.field" }], staticClass: "text-right", attrs: { "type": "list", "options": _vm.filterFields }, domProps: { "value": _vm.filtering.field }, on: { "input": function input($event) {
           _vm.filtering.field = $event;
-        } } }), _c('button', { staticClass: "primary clear", on: { "click": function click($event) {
-          _vm.close();
-        } } }, [_c('i', [_vm._v("close")])])], 1)], 1);
+        } } })], 1)]);
   }, staticRenderFns: [],
   props: ['filtering', 'columns'],
   computed: {
@@ -2514,12 +2512,6 @@ var TableFilter = { render: function render() {
       });
 
       return [{ label: 'All Fields', value: '' }].concat(cols);
-    }
-  },
-  methods: {
-    close: function close() {
-      this.filtering.terms = '';
-      this.$emit('close');
     }
   }
 };
@@ -2537,16 +2529,19 @@ var Filter = {
   watch: {
     'filtering.terms': function filteringTerms() {
       this.resetBody();
-    },
-    'config.filter': function configFilter(value) {
-      if (this.toolbar === 'filter' && !value) {
-        this.toolbar = '';
-        this.filtering.terms = '';
-      }
+    }
+  },
+  computed: {
+    filteringCols: function filteringCols() {
+      return this.cols.filter(function (col) {
+        return col.filter;
+      });
     }
   },
   methods: {
     filter: function filter(rows) {
+      var _this = this;
+
       var field = this.filtering.field,
           terms = this.filtering.terms.toLowerCase();
 
@@ -2557,8 +2552,8 @@ var Filter = {
       }
 
       return rows.filter(function (row) {
-        return Object.keys(row).some(function (key) {
-          return (row[key] + '').toLowerCase().indexOf(terms) > -1;
+        return _this.filteringCols.some(function (col) {
+          return (row[col.field] + '').toLowerCase().indexOf(terms) > -1;
         });
       });
     }
@@ -3145,13 +3140,9 @@ var TableContent = { render: function render() {
 };
 
 var DataTable = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table shadow-1" }, [_vm.hasToolbar && _vm.toolbar === '' ? _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_vm.config.title ? _c('div', { staticClass: "q-data-table-title ellipsis auto", domProps: { "innerHTML": _vm._s(_vm.config.title) } }) : _vm._e(), _c('div', { staticClass: "row items-center" }, [_vm.config.refresh && !_vm.refreshing ? _c('button', { staticClass: "primary clear", on: { "click": _vm.refresh } }, [_c('i', [_vm._v("refresh")])]) : _vm._e(), _vm._v(" "), _vm.refreshing ? _c('button', { staticClass: "disabled" }, [_c('i', { staticClass: "animate-spin-reverse" }, [_vm._v("cached")])]) : _vm._e(), _vm._v(" "), _vm.config.filter ? _c('button', { staticClass: "primary clear", on: { "click": function click($event) {
-          _vm.toolbar = 'filter';
-        } } }, [_c('i', [_vm._v("filter_list")])]) : _vm._e(), _vm.config.columnPicker ? _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.columnSelection, expression: "columnSelection" }], staticClass: "text-right", staticStyle: { "margin-left": "10px" }, attrs: { "type": "toggle", "options": _vm.columnSelectionOptions, "static-label": "Columns" }, domProps: { "value": _vm.columnSelection }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table shadow-1" }, [_vm.hasToolbar && _vm.toolbar === '' ? [_c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_vm.config.title ? _c('div', { staticClass: "q-data-table-title ellipsis auto", domProps: { "innerHTML": _vm._s(_vm.config.title) } }) : _vm._e(), _c('div', { staticClass: "row items-end" }, [_vm.config.refresh && !_vm.refreshing ? _c('button', { staticClass: "primary clear", on: { "click": _vm.refresh } }, [_c('i', [_vm._v("refresh")])]) : _vm._e(), _vm._v(" "), _vm.refreshing ? _c('button', { staticClass: "disabled" }, [_c('i', { staticClass: "animate-spin-reverse" }, [_vm._v("cached")])]) : _vm._e(), _vm.config.columnPicker ? _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.columnSelection, expression: "columnSelection" }], staticClass: "text-right", staticStyle: { "margin-left": "10px" }, attrs: { "type": "toggle", "options": _vm.columnSelectionOptions, "static-label": "Columns" }, domProps: { "value": _vm.columnSelection }, on: { "input": function input($event) {
           _vm.columnSelection = $event;
-        } } }) : _vm._e()], 1)]) : _vm._e(), _vm.toolbar === 'filter' ? _c('table-filter', { attrs: { "filtering": _vm.filtering, "columns": _vm.cols }, on: { "close": function close($event) {
-          _vm.toolbar = '';
-        } } }) : _vm._e(), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbar === 'selection', expression: "toolbar === 'selection'" }], staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" }, [_c('div', { staticClass: "auto" }, [_vm._v(_vm._s(_vm.rowsSelected) + " item"), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.rowsSelected > 1, expression: "rowsSelected > 1" }] }, [_vm._v("s")]), _vm._v(" selected. "), _c('button', { staticClass: "primary clear small", on: { "click": function click($event) {
+        } } }) : _vm._e()], 1)]), _vm.filteringCols.length ? _c('table-filter', { attrs: { "filtering": _vm.filtering, "columns": _vm.filteringCols } }) : _vm._e()] : _vm._e(), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbar === 'selection', expression: "toolbar === 'selection'" }], staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" }, [_c('div', { staticClass: "auto" }, [_vm._v(_vm._s(_vm.rowsSelected) + " item"), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.rowsSelected > 1, expression: "rowsSelected > 1" }] }, [_vm._v("s")]), _vm._v(" selected. "), _c('button', { staticClass: "primary clear small", on: { "click": function click($event) {
           _vm.clearSelection();
         } } }, [_vm._v("Clear")])]), _c('div', [_vm._t("selection", null, { rows: _vm.selectedRows })], 2)]), _vm.responsive ? [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('div', { staticStyle: { "overflow": "auto" }, style: _vm.bodyStyle }, [_c('table', { ref: "body", staticClass: "q-table horizontal-delimiter responsive" }, [_c('tbody', _vm._l(_vm.rows, function (row, index) {
       return _c('tr', [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: _vm.rowSelection[index], expression: "rowSelection[index]" }], domProps: { "value": _vm.rowSelection[index] }, on: { "input": function input($event) {
@@ -3197,7 +3188,7 @@ var DataTable = { render: function render() {
       return _c('tr', { style: _vm.rowStyle }, [_vm.config.selection ? _c('td', { staticClass: "invisible" }) : _vm._e(), _c('td', { staticClass: "invisible", attrs: { "colspan": _vm.cols.length - _vm.rightStickyColumns } }), _vm._l(_vm.rightCols, function (col) {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [!_vm.$scopedSlots['col-' + col.field] ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } }) : _vm._e(), _vm.$scopedSlots['col-' + col.field] ? _vm._t('col-' + col.field, null, { row: row, col: col, data: row[col.field] }) : _vm._e()], 2);
       })], 2);
-    }))], 1), _c('div', { staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert } }, [_c('table-sticky', { attrs: { "right": "", "head": "", "sticky-cols": _vm.rightStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1)] : _vm._e()], 2), _vm.config.pagination ? _c('table-pagination', { attrs: { "pagination": _vm.pagination, "entries": _vm.pagination.entries } }) : _vm._e()], 1);
+    }))], 1), _c('div', { staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert } }, [_c('table-sticky', { attrs: { "right": "", "head": "", "sticky-cols": _vm.rightStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1)] : _vm._e()], 2), _vm.config.pagination ? _c('table-pagination', { attrs: { "pagination": _vm.pagination, "entries": _vm.pagination.entries } }) : _vm._e()], 2);
   }, staticRenderFns: [],
   mixins: [ColumnSelection, Filter, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
   props: {
@@ -3227,7 +3218,6 @@ var DataTable = { render: function render() {
   computed: {
     rows: function rows() {
       var length = this.data.length;
-      this.pagination.entries = length;
 
       if (!length) {
         return [];
@@ -3247,6 +3237,7 @@ var DataTable = { render: function render() {
         this.sort(rows);
       }
 
+      this.pagination.entries = rows.length;
       if (this.pagination.rowsPerPage > 0) {
         rows = this.paginate(rows);
       }
@@ -3273,7 +3264,7 @@ var DataTable = { render: function render() {
       return this.config.messages && this.config.messages.noData || '<i>warning</i> No data available to show.';
     },
     hasToolbar: function hasToolbar() {
-      return this.config.title || this.config.filter || this.config.columnPicker || this.config.refresh;
+      return this.config.title || this.filteringCols.length || this.config.columnPicker || this.config.refresh;
     }
   },
   methods: {
