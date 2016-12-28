@@ -3899,7 +3899,7 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
         backdrop = this.$refs.backdrop,
         currentPosition = getCurrentPosition(node),
         closePosition = (this.rightSide ? 1 : -1) * this.width,
-        animationNeeded = this.opened || (!this.opened && percentage !== 0),
+        animationNeeded = (this.opened && percentage !== 1) || (!this.opened && percentage !== 0),
         complete = () => {
           if (!this.opened) {
             backdrop.classList.remove('active');
@@ -3993,7 +3993,7 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       let
         currentPosition = getCurrentPosition(this.layoutContainer),
         openPosition = (this.rightSide ? -1 : 1) * this.width,
-        animationNeeded = this.opened || (!this.opened && percentage !== 0),
+        animationNeeded = (this.opened && percentage !== 1) || (!this.opened && percentage !== 0),
         complete = () => {
           if (!this.opened) {
             backdrop.classList.remove('active');
