@@ -2495,13 +2495,13 @@ var ColumnSelection = {
 };
 
 var TableFilter = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row auto reverse-wrap items-center" }, [_c('div', { staticClass: "row items-center auto" }, [_c('q-search', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.terms, expression: "filtering.terms" }], staticClass: "auto", domProps: { "value": _vm.filtering.terms }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row auto items-center" }, [_c('q-search', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.terms, expression: "filtering.terms" }], staticClass: "auto", domProps: { "value": _vm.filtering.terms }, on: { "input": function input($event) {
           _vm.filtering.terms = $event;
         } } }), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.field, expression: "filtering.field" }], staticClass: "text-right", attrs: { "type": "list", "options": _vm.filterFields }, domProps: { "value": _vm.filtering.field }, on: { "input": function input($event) {
           _vm.filtering.field = $event;
-        } } })], 1)]);
+        } } })], 1);
   }, staticRenderFns: [],
-  props: ['filtering', 'columns'],
+  props: ['filtering', 'columns', 'labels'],
   computed: {
     filterFields: function filterFields() {
       var cols = this.columns.map(function (col) {
@@ -2511,7 +2511,7 @@ var TableFilter = { render: function render() {
         };
       });
 
-      return [{ label: 'All Fields', value: '' }].concat(cols);
+      return [{ label: this.labels.allCols, value: '' }].concat(cols);
     }
   }
 };
@@ -2563,14 +2563,42 @@ var Filter = {
   }
 };
 
+var _labels = {
+  columns: 'Columns',
+  allCols: 'All Columns',
+  rows: 'Rows'
+};
+
+var I18n = {
+  computed: {
+    labels: function labels() {
+      if (this.config && this.config.labels) {
+        return Utils.extend({}, _labels, this.config.labels);
+      }
+      return _labels;
+    },
+    message: function message() {
+      if (this.rows.length) {
+        return false;
+      }
+
+      if (this.filtering.terms) {
+        return this.config.messages && this.config.messages.noDataAfterFiltering || '<i>warning</i> No results. Please refine your search terms.';
+      }
+
+      return this.config.messages && this.config.messages.noData || '<i>warning</i> No data available to show.';
+    }
+  }
+};
+
 var TablePagination = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end" }, [_c('div', [_vm._v("Rows"), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.rowsPerPage, expression: "pagination.rowsPerPage" }], staticClass: "text-right", attrs: { "type": "radio", "options": _vm.pagination.options }, domProps: { "value": _vm.pagination.rowsPerPage }, on: { "input": [function ($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end" }, [_c('div', [_vm._v(_vm._s(_vm.labels.rows)), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.rowsPerPage, expression: "pagination.rowsPerPage" }], staticClass: "text-right", attrs: { "type": "radio", "options": _vm.pagination.options }, domProps: { "value": _vm.pagination.rowsPerPage }, on: { "input": [function ($event) {
           _vm.pagination.rowsPerPage = $event;
         }, _vm.resetPage] } })], 1), _vm.entries > 0 ? _c('div', [_vm._v(_vm._s(_vm.start) + " - " + _vm._s(_vm.end) + " / " + _vm._s(_vm.entries))]) : _vm._e(), _vm.pagination.rowsPerPage > 0 ? _c('q-pagination', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.page, expression: "pagination.page" }], attrs: { "max": _vm.max }, domProps: { "value": _vm.pagination.page }, on: { "input": function input($event) {
           _vm.pagination.page = $event;
         } } }) : _vm._e()], 1);
   }, staticRenderFns: [],
-  props: ['pagination', 'entries'],
+  props: ['pagination', 'entries', 'labels'],
   watch: {
     entries: function entries() {
       this.resetPage();
@@ -3140,9 +3168,9 @@ var TableContent = { render: function render() {
 };
 
 var DataTable = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table shadow-1" }, [_vm.hasToolbar && _vm.toolbar === '' ? [_c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_vm.config.title ? _c('div', { staticClass: "q-data-table-title ellipsis auto", domProps: { "innerHTML": _vm._s(_vm.config.title) } }) : _vm._e(), _c('div', { staticClass: "row items-end" }, [_vm.config.refresh && !_vm.refreshing ? _c('button', { staticClass: "primary clear", on: { "click": _vm.refresh } }, [_c('i', [_vm._v("refresh")])]) : _vm._e(), _vm._v(" "), _vm.refreshing ? _c('button', { staticClass: "disabled" }, [_c('i', { staticClass: "animate-spin-reverse" }, [_vm._v("cached")])]) : _vm._e(), _vm.config.columnPicker ? _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.columnSelection, expression: "columnSelection" }], staticClass: "text-right", staticStyle: { "margin-left": "10px" }, attrs: { "type": "toggle", "options": _vm.columnSelectionOptions, "static-label": "Columns" }, domProps: { "value": _vm.columnSelection }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table shadow-1" }, [_vm.hasToolbar && _vm.toolbar === '' ? [_c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_vm.config.title ? _c('div', { staticClass: "q-data-table-title ellipsis auto", domProps: { "innerHTML": _vm._s(_vm.config.title) } }) : _vm._e(), _c('div', { staticClass: "row items-end" }, [_vm.config.refresh && !_vm.refreshing ? _c('button', { staticClass: "primary clear", on: { "click": _vm.refresh } }, [_c('i', [_vm._v("refresh")])]) : _vm._e(), _vm._v(" "), _vm.refreshing ? _c('button', { staticClass: "disabled" }, [_c('i', { staticClass: "animate-spin-reverse" }, [_vm._v("cached")])]) : _vm._e(), _vm.config.columnPicker ? _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.columnSelection, expression: "columnSelection" }], staticClass: "text-right", staticStyle: { "margin-left": "10px" }, attrs: { "type": "toggle", "options": _vm.columnSelectionOptions, "static-label": _vm.labels.columns }, domProps: { "value": _vm.columnSelection }, on: { "input": function input($event) {
           _vm.columnSelection = $event;
-        } } }) : _vm._e()], 1)]), _vm.filteringCols.length ? _c('table-filter', { attrs: { "filtering": _vm.filtering, "columns": _vm.filteringCols } }) : _vm._e()] : _vm._e(), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbar === 'selection', expression: "toolbar === 'selection'" }], staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" }, [_c('div', { staticClass: "auto" }, [_vm._v(_vm._s(_vm.rowsSelected) + " item"), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.rowsSelected > 1, expression: "rowsSelected > 1" }] }, [_vm._v("s")]), _vm._v(" selected. "), _c('button', { staticClass: "primary clear small", on: { "click": function click($event) {
+        } } }) : _vm._e()], 1)]), _vm.filteringCols.length ? _c('table-filter', { attrs: { "filtering": _vm.filtering, "columns": _vm.filteringCols, "labels": _vm.labels } }) : _vm._e()] : _vm._e(), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbar === 'selection', expression: "toolbar === 'selection'" }], staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" }, [_c('div', { staticClass: "auto" }, [_vm._v(_vm._s(_vm.rowsSelected) + " item"), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.rowsSelected > 1, expression: "rowsSelected > 1" }] }, [_vm._v("s")]), _vm._v(" selected. "), _c('button', { staticClass: "primary clear small", on: { "click": function click($event) {
           _vm.clearSelection();
         } } }, [_vm._v("Clear")])]), _c('div', [_vm._t("selection", null, { rows: _vm.selectedRows })], 2)]), _vm.responsive ? [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('div', { staticStyle: { "overflow": "auto" }, style: _vm.bodyStyle }, [_c('table', { ref: "body", staticClass: "q-table horizontal-delimiter responsive" }, [_c('tbody', _vm._l(_vm.rows, function (row, index) {
       return _c('tr', [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: _vm.rowSelection[index], expression: "rowSelection[index]" }], domProps: { "value": _vm.rowSelection[index] }, on: { "input": function input($event) {
@@ -3188,9 +3216,9 @@ var DataTable = { render: function render() {
       return _c('tr', { style: _vm.rowStyle }, [_vm.config.selection ? _c('td', { staticClass: "invisible" }) : _vm._e(), _c('td', { staticClass: "invisible", attrs: { "colspan": _vm.cols.length - _vm.rightStickyColumns } }), _vm._l(_vm.rightCols, function (col) {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [!_vm.$scopedSlots['col-' + col.field] ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } }) : _vm._e(), _vm.$scopedSlots['col-' + col.field] ? _vm._t('col-' + col.field, null, { row: row, col: col, data: row[col.field] }) : _vm._e()], 2);
       })], 2);
-    }))], 1), _c('div', { staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert } }, [_c('table-sticky', { attrs: { "right": "", "head": "", "sticky-cols": _vm.rightStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1)] : _vm._e()], 2), _vm.config.pagination ? _c('table-pagination', { attrs: { "pagination": _vm.pagination, "entries": _vm.pagination.entries } }) : _vm._e()], 2);
+    }))], 1), _c('div', { staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert } }, [_c('table-sticky', { attrs: { "right": "", "head": "", "sticky-cols": _vm.rightStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1)] : _vm._e()], 2), _vm.config.pagination ? _c('table-pagination', { attrs: { "pagination": _vm.pagination, "entries": _vm.pagination.entries, "labels": _vm.labels } }) : _vm._e()], 2);
   }, staticRenderFns: [],
-  mixins: [ColumnSelection, Filter, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
+  mixins: [ColumnSelection, Filter, I18n, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
   props: {
     data: {
       type: Array,
@@ -3251,17 +3279,6 @@ var DataTable = { render: function render() {
     },
     bodyStyle: function bodyStyle() {
       return this.config.bodyStyle || {};
-    },
-    message: function message() {
-      if (this.rows.length) {
-        return false;
-      }
-
-      if (this.filtering.terms) {
-        return this.config.messages && this.config.messages.noDataAfterFiltering || '<i>warning</i> No results. Please refine your search terms.';
-      }
-
-      return this.config.messages && this.config.messages.noData || '<i>warning</i> No data available to show.';
     },
     hasToolbar: function hasToolbar() {
       return this.config.title || this.filteringCols.length || this.config.columnPicker || this.config.refresh;
