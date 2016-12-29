@@ -3468,7 +3468,7 @@ var DatetimeRange = { render: function render() {
       type: Object,
       validator: function validator(val) {
         if (typeof val.min !== 'string' || typeof val.max !== 'string') {
-          console.error('DatetimeRange requires a {min, max} model.');
+          console.error('DatetimeRange requires a valid {min, max} model.');
           return false;
         }
         return true;
@@ -6920,7 +6920,7 @@ var Tab = { render: function render() {
       default: ''
     },
     name: String,
-    route: String,
+    route: [String, Object],
     replace: Boolean,
     exact: Boolean,
     append: Boolean
