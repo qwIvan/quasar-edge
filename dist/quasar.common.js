@@ -623,7 +623,7 @@ var Dialog$1 = { render: function render() {
           } } })], 1) : _vm._e()];
     })], 2) : _vm._e(), _vm.progress ? _c('div', { staticClass: "modal-body" }, [_c('q-progress', { staticClass: "primary stripe animate", class: { indeterminate: _vm.progress.indeterminate }, attrs: { "percentage": _vm.progress.model } }), !_vm.progress.indeterminate ? _c('span', [_vm._v(_vm._s(_vm.progress.model) + " %")]) : _vm._e()], 1) : _vm._e(), _vm.buttons ? _c('div', { staticClass: "modal-buttons", class: { row: !_vm.stackButtons, column: _vm.stackButtons } }, _vm._l(_vm.buttons, function (button) {
       return _c('button', { class: button.classes || 'primary clear', style: button.style, domProps: { "innerHTML": _vm._s(typeof button === 'string' ? button : button.label) }, on: { "click": function click($event) {
-            _vm.trigger(button.handler);
+            _vm.trigger(button.handler, button.preventClose);
           } } });
     })) : _vm._e(), !_vm.buttons && !_vm.nobuttons ? _c('div', { staticClass: "modal-buttons row" }, [_c('button', { staticClass: "primary clear", on: { "click": function click($event) {
           _vm.close();
@@ -649,14 +649,22 @@ var Dialog$1 = { render: function render() {
     }
   },
   methods: {
-    trigger: function trigger(handler) {
+    trigger: function trigger(handler, preventClose) {
       var _this = this;
 
-      this.close(function () {
-        if (typeof handler === 'function') {
+      var handlerFn = typeof handler === 'function';
+      if (!handlerFn) {
+        this.close();
+        return;
+      }
+
+      if (preventClose) {
+        handler(this.getFormData(), this.close);
+      } else {
+        this.close(function () {
           handler(_this.getFormData());
-        }
-      });
+        });
+      }
     },
     getFormData: function getFormData() {
       var _this2 = this;
