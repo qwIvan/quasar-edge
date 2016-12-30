@@ -1576,7 +1576,7 @@ var dScroll = {
   },
   update: function update(el, binding) {
     if (binding.oldValue !== binding.value) {
-      updateBinding$2(el, binding, Utils.store.get('scrollfire', el));
+      updateBinding$2(el, binding, Utils.store.get('scroll', el));
     }
   },
   unbind: function unbind(el) {
