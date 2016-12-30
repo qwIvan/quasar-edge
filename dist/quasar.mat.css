@@ -6941,6 +6941,28 @@ body.desktop .q-tree-link .q-tree-label:hover {
   padding: 5px;
   border-radius: 2px;
 }
+.q-uploader .card {
+  max-width: 200px;
+}
+.q-uploader .card img {
+  max-height: 200px;
+}
+.q-uploader input {
+  display: none;
+}
+.q-uploader .q-progress {
+  margin: 0;
+  height: 3px !important;
+}
+.q-uploader .q-spinner {
+  margin: 0 10px;
+}
+.q-uploader-failed {
+  background: #db2828;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+}
 .text-primary {
   color: #027be3 !important;
 }

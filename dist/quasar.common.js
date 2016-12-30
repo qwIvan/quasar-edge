@@ -560,6 +560,23 @@ var filter$1 = function (terms, _ref) {
   });
 };
 
+var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
+
+function humanStorageSize(bytes) {
+  var u = 0;
+
+  while (Math.abs(bytes) >= 1024 && u < units.length - 1) {
+    bytes /= 1024;
+    ++u;
+  }
+
+  return bytes.toFixed(1) + ' ' + units[u];
+}
+
+var format$1 = Object.freeze({
+	humanStorageSize: humanStorageSize
+});
+
 var ModalGenerator = function (VueComponent) {
   return {
     create: function create(props) {
@@ -1093,6 +1110,7 @@ var Utils = {
   event: event,
   extend: extend,
   filter: filter$1,
+  format: format$1,
   openURL: openURL,
   popup: popup,
   scrollbar: scrollbar,
@@ -7525,6 +7543,204 @@ var Tree = { render: function render() {
   }
 };
 
+var Uploader = { render: function render() {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-uploader" }, [_c('input', { ref: "file", attrs: { "type": "file", "accept": _vm.type, "multiple": _vm.multiple }, on: { "change": _vm.__add } }), _vm.uploading ? _c('div', [_c('span', { staticClass: "chip label bg-light" }, [_c('span', { domProps: { "innerHTML": _vm._s(_vm.computedLabel.uploading) } }), _c('spinner', { attrs: { "size": 15 } }), _vm._v(_vm._s(_vm.progress) + "%")], 1)]) : _c('div', { staticClass: "group" }, [_c('button', { class: _vm.buttonClass, domProps: { "innerHTML": _vm._s(_vm.computedLabel.add) }, on: { "click": function click($event) {
+          _vm.$refs.file.click();
+        } } }), _vm._v(" "), !_vm.hideUploadButton ? _c('button', { class: _vm.buttonClass, attrs: { "disabled": _vm.files.length === 0 }, domProps: { "innerHTML": _vm._s(_vm.computedLabel.upload) }, on: { "click": _vm.upload } }) : _vm._e()]), _c('div', { staticClass: "row wrap items-center group" }, [_vm._l(_vm.images, function (img) {
+      return _c('div', { key: img.name, staticClass: "card" }, [_c('div', { staticClass: "card-title" }, [_vm._v(_vm._s(img.name))]), _c('div', { staticClass: "card-media" }, [_c('img', { attrs: { "src": img.src } })]), _c('div', { staticClass: "card-content" }, [_c('div', { staticClass: "row items-center" }, [_c('span', { staticClass: "text-faded" }, [_vm._v(_vm._s(img.__file.__size))]), _c('div', { staticClass: "auto" }), _c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.uploading, expression: "!uploading" }], staticClass: "primary clear small", domProps: { "innerHTML": _vm._s(_vm.computedLabel.remove) }, on: { "click": function click($event) {
+            _vm.__remove(img.name);
+          } } })])]), img.__file.__progress ? _c('q-progress', { attrs: { "percentage": img.__file.__progress } }) : _vm._e(), img.__file.__failed ? _c('div', { staticClass: "q-uploader-failed", domProps: { "innerHTML": _vm._s(_vm.computedLabel.failed) } }) : _vm._e()], 1);
+    }), _vm._l(_vm.otherFiles, function (file) {
+      return _c('div', { key: file.name, staticClass: "card" }, [_c('div', { staticClass: "card-title" }, [_vm._v(_vm._s(file.name))]), _c('div', { staticClass: "card-content" }, [_c('div', { staticClass: "row items-center" }, [_c('span', { staticClass: "text-faded" }, [_vm._v(_vm._s(file.__size))]), _c('div', { staticClass: "auto" }), _c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.uploading, expression: "!uploading" }], staticClass: "primary clear small", domProps: { "innerHTML": _vm._s(_vm.computedLabel.remove) }, on: { "click": function click($event) {
+            _vm.__remove(file.name);
+          } } })])]), file.__progress ? _c('q-progress', { attrs: { "percentage": file.__progress } }) : _vm._e(), file.__failed ? _c('div', { staticClass: "q-uploader-failed", domProps: { "innerHTML": _vm._s(_vm.computedLabel.failed) } }) : _vm._e()], 1);
+    })], 2)]);
+  }, staticRenderFns: [],
+  props: {
+    headers: Object,
+    url: {
+      type: String,
+      required: true
+    },
+    buttonClass: {
+      type: String,
+      default: 'primary'
+    },
+    labels: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    method: {
+      type: String,
+      default: 'POST'
+    },
+    type: String,
+    multiple: Boolean,
+    hideUploadButton: Boolean
+  },
+  data: function data() {
+    return {
+      files: [],
+      uploading: false,
+      uploadedSize: 0,
+      totalSize: 0,
+      images: [],
+      otherFiles: []
+    };
+  },
+
+  computed: {
+    progress: function progress() {
+      return this.totalSize ? (this.uploadedSize / this.totalSize * 100).toFixed(2) : 0;
+    },
+    computedLabel: function computedLabel() {
+      return Utils.extend({
+        add: '<i>add</i> Add File',
+        remove: '<i>clear</i> Remove',
+        upload: '<i>file_upload</i> Upload',
+        failed: '<i>warning</i> Failed',
+        uploading: 'Uploading...'
+      }, this.labels);
+    }
+  },
+  methods: {
+    __add: function __add(e) {
+      var _this = this;
+
+      var files = Array.prototype.slice.call(e.target.files);
+      this.$emit('add', files);
+
+      files = files.filter(function (file) {
+        return !_this.files.some(function (f) {
+          return file.name === f.name;
+        });
+      }).map(function (file) {
+        file.__failed = false;
+        file.__uploaded = 0;
+        file.__progress = 0;
+        file.__size = Utils.format.humanStorageSize(file.size);
+        return file;
+      });
+
+      files.filter(function (file) {
+        return file.type.startsWith('image');
+      }).forEach(function (file, index) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var img = new Image();
+          img.src = e.target.result;
+          img.name = file.name;
+          img.__file = file;
+          _this.images.push(img);
+        };
+        reader.readAsDataURL(file);
+      });
+      this.otherFiles = this.otherFiles.concat(files.filter(function (file) {
+        return !file.type.startsWith('image');
+      }));
+      this.files = this.files.concat(files);
+    },
+    __remove: function __remove(name, done) {
+      this.$emit(done ? 'upload' : 'remove', name);
+      this.images = this.images.filter(function (file) {
+        return file.name !== name;
+      });
+      this.otherFiles = this.otherFiles.filter(function (file) {
+        return file.name !== name;
+      });
+      this.files = this.files.filter(function (file) {
+        return file.name !== name;
+      });
+    },
+    __getUploadPromise: function __getUploadPromise(file) {
+      var _this2 = this;
+
+      var form = new FormData();
+      var xhr = new XMLHttpRequest();
+
+      try {
+        form.append('Content-Type', file.type || 'application/octet-stream');
+        form.append('file', file);
+      } catch (e) {
+        return;
+      }
+
+      file.__uploaded = 0;
+      file.__progress = 0;
+      file.__failed = false;
+      return new Promise(function (resolve, reject) {
+        xhr.upload.addEventListener('progress', function (e) {
+          e.percent = e.total ? e.loaded / e.total : 0;
+          var uploaded = e.percent * file.size;
+          _this2.uploadedSize += uploaded - file.__uploaded;
+          file.__uploaded = uploaded;
+          file.__progress = parseInt(e.percent * 100, 10);
+        }, false);
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState < 4) {
+            return;
+          }
+          if (xhr.status && xhr.status < 400) {
+            _this2.__remove(file.name, true);
+            resolve(file);
+          } else {
+            file.__failed = true;
+            reject(xhr);
+          }
+        };
+
+        xhr.onerror = function () {
+          reject(xhr);
+        };
+
+        xhr.open(_this2.method, _this2.url, true);
+        if (_this2.headers) {
+          Object.keys(_this2.headers).forEach(function (key) {
+            xhr.setRequestHeader(key, _this2.headers[key]);
+          });
+        }
+        xhr.send(form);
+      });
+    },
+    upload: function upload() {
+      var _this3 = this;
+
+      var filesDone = 0;
+      var length = this.files.length;
+
+      if (!length) {
+        return;
+      }
+
+      this.uploadedSize = 0;
+      this.totalSize = this.files.map(function (file) {
+        return file.size;
+      }).reduce(function (total, size) {
+        return total + size;
+      });
+      this.uploading = true;
+      this.$emit('start');
+
+      var solved = function solved() {
+        filesDone++;
+        if (filesDone === length) {
+          _this3.uploading = false;
+          _this3.$emit('finish');
+        }
+      };
+
+      this.files.map(function (file) {
+        return _this3.__getUploadPromise(file);
+      }).forEach(function (promise) {
+        promise.then(solved).catch(solved);
+      });
+    }
+  }
+};
+
 var Video = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "video" }, [_c('iframe', { attrs: { "src": _vm.src, "frameborder": "0", "allowfullscreen": "" } })], 1);
   }, staticRenderFns: [],
@@ -7539,7 +7755,7 @@ function registerDirectives(_Vue) {
 
 function registerComponents(_Vue) {
   _Vue.component('spinner', Spinner);
-  _Vue.component('q-transition', Transition);[['ajax-bar', AjaxBar], ['autocomplete', Autocomplete], ['checkbox', Checkbox], ['chips', Chips], ['collapsible', Collapsible], ['context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile], ['data-table', DataTable], ['inline-datetime', current === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial], ['datetime', Datetime], ['datetime-range', DatetimeRange], ['drawer', Drawer], ['drawer-link', DrawerLink], ['fab', Fab], ['small-fab', SmallFab], ['gallery', Gallery], ['gallery-slider', GallerySlider], ['checkbox', Checkbox], ['infinite-scroll', InfiniteScroll], ['knob', Knob], ['layout', Layout], ['list-item', ListItem], ['toolbar-title', ToolbarTitle], ['modal', Modal], ['numeric', Numeric], ['pagination', Pagination$1], ['parallax', Parallax], ['picker-textfield', PickerTextfield], ['popover', Popover], ['progress', Progress], ['progress-button', ProgressButton], ['pull-to-refresh', PullToRefresh], ['radio', Radio], ['range', Range], ['double-range', DoubleRange], ['rating', Rating], ['search', Search], ['select', Select], ['dialog-select', DialogSelect], ['slider', Slider], ['state', State], ['stepper', Stepper], ['step', Step], ['tab', Tab], ['tabs', Tabs], ['toggle', Toggle], ['tooltip', Tooltip], ['tree', Tree], ['video', Video]].forEach(function (c) {
+  _Vue.component('q-transition', Transition);[['ajax-bar', AjaxBar], ['autocomplete', Autocomplete], ['checkbox', Checkbox], ['chips', Chips], ['collapsible', Collapsible], ['context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile], ['data-table', DataTable], ['inline-datetime', current === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial], ['datetime', Datetime], ['datetime-range', DatetimeRange], ['drawer', Drawer], ['drawer-link', DrawerLink], ['fab', Fab], ['small-fab', SmallFab], ['gallery', Gallery], ['gallery-slider', GallerySlider], ['checkbox', Checkbox], ['infinite-scroll', InfiniteScroll], ['knob', Knob], ['layout', Layout], ['list-item', ListItem], ['toolbar-title', ToolbarTitle], ['modal', Modal], ['numeric', Numeric], ['pagination', Pagination$1], ['parallax', Parallax], ['picker-textfield', PickerTextfield], ['popover', Popover], ['progress', Progress], ['progress-button', ProgressButton], ['pull-to-refresh', PullToRefresh], ['radio', Radio], ['range', Range], ['double-range', DoubleRange], ['rating', Rating], ['search', Search], ['select', Select], ['dialog-select', DialogSelect], ['slider', Slider], ['state', State], ['stepper', Stepper], ['step', Step], ['tab', Tab], ['tabs', Tabs], ['toggle', Toggle], ['tooltip', Tooltip], ['tree', Tree], ['uploader', Uploader], ['video', Video]].forEach(function (c) {
     _Vue.component('q-' + c[0], c[1]);
   });
 }
