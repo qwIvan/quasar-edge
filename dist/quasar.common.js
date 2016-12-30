@@ -335,6 +335,38 @@ function getScrollPosition(scrollTarget) {
   return scrollTarget.scrollTop;
 }
 
+function animScrollTo(el, to, duration) {
+  if (duration <= 0) {
+    return;
+  }
+
+  var pos = getScrollPosition(el);
+
+  requestAnimationFrame(function () {
+    setScroll(el, pos + (to - pos) / duration * 16);
+    if (el.scrollTop !== to) {
+      animScrollTo(el, to, duration - 16);
+    }
+  });
+}
+
+function setScroll(scrollTarget, offset) {
+  if (scrollTarget === window) {
+    document.documentElement.scrollTop = offset;
+    document.body.scrollTop = offset;
+    return;
+  }
+  scrollTarget.scrollTop = offset;
+}
+
+function setScrollPosition(scrollTarget, offset, duration) {
+  if (duration) {
+    animScrollTo(scrollTarget, offset, duration);
+    return;
+  }
+  setScroll(scrollTarget, offset);
+}
+
 var prefix = ['-webkit-', '-moz-', '-ms-', '-o-'];
 function cssTransform(val) {
   var o = { transform: val };
@@ -354,6 +386,7 @@ var dom = Object.freeze({
 	ready: ready,
 	getScrollTarget: getScrollTarget,
 	getScrollPosition: getScrollPosition,
+	setScrollPosition: setScrollPosition,
 	cssTransform: cssTransform
 });
 
@@ -1294,6 +1327,86 @@ var Transition = {
   }
 };
 
+function updateBinding(el, _ref, ctx) {
+  var value = _ref.value,
+      modifiers = _ref.modifiers;
+
+  if (!value) {
+    ctx.update();
+    return;
+  }
+
+  if (typeof value === 'number') {
+    ctx.offset = value;
+    ctx.update();
+    return;
+  }
+
+  if (value && Object(value) !== value) {
+    console.error('v-back-to-top requires an object {offset, duration} as parameter', el);
+    return;
+  }
+
+  if (value.offset) {
+    if (typeof value.offset !== 'number') {
+      console.error('v-back-to-top requires a number as offset', el);
+      return;
+    }
+    ctx.offset = value.offset;
+  }
+  if (value.duration) {
+    if (typeof value.duration !== 'number') {
+      console.error('v-back-to-top requires a number as duration', el);
+      return;
+    }
+    ctx.duration = value.duration;
+  }
+
+  ctx.update();
+}
+
+var dBackToTop = {
+  bind: function bind(el) {
+    var ctx = {
+      offset: 200,
+      duration: 300,
+      update: Utils.debounce(function () {
+        var trigger = Utils.dom.getScrollPosition(ctx.scrollTarget) > ctx.offset;
+        if (ctx.visible !== trigger) {
+          ctx.visible = trigger;
+          el.classList[trigger ? 'remove' : 'add']('hidden');
+        }
+      }, 25),
+      goToTop: function goToTop() {
+        Utils.dom.setScrollPosition(ctx.scrollTarget, 0, ctx.animate ? ctx.duration : 0);
+      }
+    };
+    el.classList.add('hidden');
+    Utils.store.add('backtotop', el, ctx);
+  },
+  inserted: function inserted(el, binding) {
+    var ctx = Utils.store.get('backtotop', el);
+    ctx.scrollTarget = Utils.dom.getScrollTarget(el);
+    ctx.animate = binding.modifiers.animate;
+    updateBinding(el, binding, ctx);
+    ctx.scrollTarget.addEventListener('scroll', ctx.update);
+    window.addEventListener('resize', ctx.update);
+    el.addEventListener('click', ctx.goToTop);
+  },
+  update: function update(el, binding) {
+    if (binding.oldValue !== binding.value) {
+      updateBinding(el, binding, Utils.store.get('backtotop', el));
+    }
+  },
+  unbind: function unbind(el) {
+    var ctx = Utils.store.get('backtotop', el);
+    ctx.scrollTarget.removeEventListener('scroll', ctx.update);
+    window.removeEventListener('resize', ctx.update);
+    el.removeEventListener('click', ctx.goToTop);
+    Utils.store.remove('backtotop', el);
+  }
+};
+
 var dGoBack = {
   bind: function bind(el, _ref, vnode) {
     var value = _ref.value,
@@ -1377,7 +1490,7 @@ var dLink = {
   }
 };
 
-function updateBinding(el, binding, ctx) {
+function updateBinding$1(el, binding, ctx) {
   if (typeof binding.value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll);
     console.error('v-scroll-fire requires a function as parameter', el);
@@ -1420,11 +1533,11 @@ var dScrollFire = {
   inserted: function inserted(el, binding) {
     var ctx = Utils.store.get('scrollfire', el);
     ctx.scrollTarget = Utils.dom.getScrollTarget(el);
-    updateBinding(el, binding, ctx);
+    updateBinding$1(el, binding, ctx);
   },
   update: function update(el, binding) {
     if (binding.value !== binding.oldValue) {
-      updateBinding(el, binding, Utils.store.get('scrollfire', el));
+      updateBinding$1(el, binding, Utils.store.get('scrollfire', el));
     }
   },
   unbind: function unbind(el) {
@@ -1434,7 +1547,7 @@ var dScrollFire = {
   }
 };
 
-function updateBinding$1(el, binding, ctx) {
+function updateBinding$2(el, binding, ctx) {
   if (typeof binding.value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll);
     console.error('v-scroll requires a function as parameter', el);
@@ -1459,11 +1572,11 @@ var dScroll = {
   inserted: function inserted(el, binding) {
     var ctx = Utils.store.get('scroll', el);
     ctx.scrollTarget = Utils.dom.getScrollTarget(el);
-    updateBinding$1(el, binding, ctx);
+    updateBinding$2(el, binding, ctx);
   },
   update: function update(el, binding) {
     if (binding.oldValue !== binding.value) {
-      updateBinding$1(el, binding, Utils.store.get('scrollfire', el));
+      updateBinding$2(el, binding, Utils.store.get('scrollfire', el));
     }
   },
   unbind: function unbind(el) {
@@ -1475,7 +1588,7 @@ var dScroll = {
 
 var defaultDuration = 800;
 
-function updateBinding$2(el, binding, ctx) {
+function updateBinding$3(el, binding, ctx) {
   ctx.duration = parseInt(binding.arg, 10) || defaultDuration;
   if (binding.oldValue !== binding.value) {
     ctx.handler = binding.value;
@@ -1511,14 +1624,14 @@ var dTouchHold = {
     };
 
     Utils.store.add('touchhold', el, ctx);
-    updateBinding$2(el, binding, ctx);
+    updateBinding$3(el, binding, ctx);
     el.addEventListener('touchstart', ctx.start);
     el.addEventListener('touchmove', ctx.abort);
     el.addEventListener('touchend', ctx.abort);
     el.addEventListener('mousedown', ctx.mouseStart);
   },
   update: function update(el, binding) {
-    updateBinding$2(el, binding, Utils.store.get('touchhold', el));
+    updateBinding$3(el, binding, Utils.store.get('touchhold', el));
   },
   unbind: function unbind(el, binding) {
     var ctx = Utils.store.get('touchhold', el);
@@ -7411,7 +7524,7 @@ var Video = { render: function render() {
 };
 
 function registerDirectives(_Vue) {
-  [['go-back', dGoBack], ['link', dLink], ['scroll-fire', dScrollFire], ['scroll', dScroll], ['touch-hold', dTouchHold], ['touch-pan', dTouchPan], ['touch-swipe', dTouchSwipe]].forEach(function (d) {
+  [['back-to-top', dBackToTop], ['go-back', dGoBack], ['link', dLink], ['scroll-fire', dScrollFire], ['scroll', dScroll], ['touch-hold', dTouchHold], ['touch-pan', dTouchPan], ['touch-swipe', dTouchSwipe]].forEach(function (d) {
     _Vue.directive(d[0], d[1]);
   });
 }
