@@ -6947,6 +6947,13 @@ body.desktop .q-tree-link .q-tree-label:hover {
 .q-uploader .card img {
   max-height: 200px;
 }
+.q-uploader .card-title,
+.q-uploader .card-content {
+  font-size: 0.8rem;
+}
+.q-uploader .card-content {
+  padding: 10px;
+}
 .q-uploader input {
   display: none;
 }
