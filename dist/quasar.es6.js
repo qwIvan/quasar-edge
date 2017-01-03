@@ -1,6 +1,6 @@
 /*!
  * Quasar Framework v0.12.0
- * (c) 2016 Razvan Stoenescu
+ * (c) 2017 Razvan Stoenescu
  * Released under the MIT License.
  */
 import Velocity$1 from 'velocity-animate';
@@ -4456,7 +4456,7 @@ var Gallery = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
   }
 };
 
-var GallerySlider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('q-slider',{ref:"slider",staticClass:"text-white bg-black q-gallery-slider",attrs:{"arrows":"","fullscreen":""},on:{"slide":_vm.__updateCurrentSlide}},[_vm._l((_vm.src),function(img,index){return _c('div',{key:index,staticClass:"no-padding flex items-center justify-center",slot:"slide"},[_c('div',{staticClass:"full-width"},[_c('img',{attrs:{"src":img}})])])}),_c('div',{staticClass:"q-gallery-slider-overlay",class:{active: _vm.quickView},on:{"click":function($event){_vm.toggleQuickView();}}}),_c('i',{on:{"click":function($event){_vm.toggleQuickView();}},slot:"action"},[_vm._v("view_carousel")]),_c('div',{staticClass:"q-gallery-slider-quickview",class:{active: _vm.quickView}},_vm._l((_vm.src),function(img,index){return _c('div',{key:index},[_c('img',{class:{active: _vm.currentSlide === index},attrs:{"src":img},on:{"click":function($event){_vm.selectImage(index);}}})])}))],2)},staticRenderFns: [],
+var GallerySlider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('q-slider',{ref:"slider",staticClass:"text-white bg-black q-gallery-slider",attrs:{"arrows":"","fullscreen":""},on:{"slide":_vm.__updateCurrentSlide}},[_vm._l((_vm.src),function(img,index){return _c('div',{key:index,staticClass:"no-padding flex items-center justify-center",slot:"slide"},[_c('div',{staticClass:"full-width"},[_c('img',{attrs:{"src":img}})])])}),_c('div',{staticClass:"q-gallery-slider-overlay",class:{active: _vm.quickView},on:{"click":function($event){_vm.toggleQuickView();}}}),_c('i',{on:{"click":function($event){_vm.toggleQuickView();}},slot:"action"},[_vm._v("view_carousel")]),_c('div',{staticClass:"q-gallery-slider-quickview",class:{active: _vm.quickView}},_vm._l((_vm.src),function(img,index){return _c('div',{key:index},[_c('img',{class:{active: _vm.currentSlide === index},attrs:{"src":img},on:{"click":function($event){_vm.__selectImage(index);}}})])}))],2)},staticRenderFns: [],
   props: {
     src: {
       type: Array,
@@ -4473,8 +4473,11 @@ var GallerySlider = {render: function(){var _vm=this;var _h=_vm.$createElement;v
     toggleQuickView () {
       this.quickView = !this.quickView;
     },
-    selectImage (index) {
-      this.$refs.slider.goToSlide(index, true);
+    goToSlide (index, noAnimation) {
+      this.$refs.slider.goToSlide(index, noAnimation);
+    },
+    __selectImage (index) {
+      this.goToSlide(index, true);
       this.toggleQuickView();
     },
     __updateCurrentSlide (value) {

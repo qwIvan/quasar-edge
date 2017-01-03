@@ -1,6 +1,6 @@
 /*!
  * Quasar Framework v0.12.0
- * (c) 2016 Razvan Stoenescu
+ * (c) 2017 Razvan Stoenescu
  * Released under the MIT License.
  */
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -4858,7 +4858,7 @@ var GallerySlider = { render: function render() {
           _vm.toggleQuickView();
         } }, slot: "action" }, [_vm._v("view_carousel")]), _c('div', { staticClass: "q-gallery-slider-quickview", class: { active: _vm.quickView } }, _vm._l(_vm.src, function (img, index) {
       return _c('div', { key: index }, [_c('img', { class: { active: _vm.currentSlide === index }, attrs: { "src": img }, on: { "click": function click($event) {
-            _vm.selectImage(index);
+            _vm.__selectImage(index);
           } } })]);
     }))], 2);
   }, staticRenderFns: [],
@@ -4879,8 +4879,11 @@ var GallerySlider = { render: function render() {
     toggleQuickView: function toggleQuickView() {
       this.quickView = !this.quickView;
     },
-    selectImage: function selectImage(index) {
-      this.$refs.slider.goToSlide(index, true);
+    goToSlide: function goToSlide(index, noAnimation) {
+      this.$refs.slider.goToSlide(index, noAnimation);
+    },
+    __selectImage: function __selectImage(index) {
+      this.goToSlide(index, true);
       this.toggleQuickView();
     },
     __updateCurrentSlide: function __updateCurrentSlide(value) {
