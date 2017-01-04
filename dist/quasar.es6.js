@@ -3229,7 +3229,7 @@ var Datetime = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
     let data = Platform.is.desktop ? {} : {
       css: contentCSS[current],
       position: current === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
-      transition: current === 'ios' ? 'q-modal-actions' : 'q-modal',
+      transition: current === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: current === 'ios' ? '' : 'minimized'
     };
     data.model = this.value || '';
@@ -3299,7 +3299,7 @@ var DatetimeRange = {render: function(){var _vm=this;var _h=_vm.$createElement;v
       type: Object,
       validator (val) {
         if (typeof val.from !== 'string' || typeof val.to !== 'string') {
-          console.error('DatetimeRange requires a valid {min, max} model.');
+          console.error('DatetimeRange requires a valid {from, to} model.');
           return false
         }
         return true
@@ -4749,11 +4749,60 @@ var EscapeKey = {
   }
 };
 
+const positions = {
+  top: 'items-start justify-center with-backdrop',
+  bottom: 'items-end justify-center with-backdrop',
+  right: 'items-center justify-end with-backdrop',
+  left: 'items-center justify-start with-backdrop'
+};
+const positionCSS = {
+  mat: {
+    maxHeight: '80vh',
+    height: 'auto'
+  },
+  ios: {
+    maxHeight: '80vh',
+    height: 'auto',
+    boxShadow: 'none'
+  }
+};
+
+function additionalCSS (theme, position) {
+  let css = {};
+
+  if (['left', 'right'].includes(position)) {
+    css.maxWidth = '90vw';
+  }
+  if (theme === 'ios') {
+    if (['left', 'top'].includes(position)) {
+      css.borderTopLeftRadius = 0;
+    }
+    if (['right', 'top'].includes(position)) {
+      css.borderTopRightRadius = 0;
+    }
+    if (['left', 'bottom'].includes(position)) {
+      css.borderBottomLeftRadius = 0;
+    }
+    if (['right', 'bottom'].includes(position)) {
+      css.borderBottomRightRadius = 0;
+    }
+  }
+
+  return css
+}
+
 let duration = 200;
 let openedModalNumber = 0;
 
-var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.transition}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.active),expression:"active"}],staticClass:"modal fullscreen flex",class:_vm.positionClasses,on:{"click":function($event){_vm.click();}}},[_c('div',{ref:"content",staticClass:"modal-content",style:(_vm.contentCss),on:{"click":function($event){$event.stopPropagation();}}},[_vm._t("default")],2)])])},staticRenderFns: [],
+var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.modalTransition}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.active),expression:"active"}],staticClass:"modal fullscreen flex",class:_vm.modalClasses,on:{"click":function($event){_vm.click();}}},[_c('div',{ref:"content",staticClass:"modal-content",class:_vm.contentClasses,style:(_vm.modalCss),on:{"click":function($event){$event.stopPropagation();}}},[_vm._t("default")],2)])])},staticRenderFns: [],
   props: {
+    position: {
+      type: String,
+      default: '',
+      validator (val) {
+        return val === '' || ['top', 'bottom', 'left', 'right'].includes(val)
+      }
+    },
     transition: {
       type: String,
       default: 'q-modal'
@@ -4762,6 +4811,7 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
       type: String,
       default: 'items-center justify-center'
     },
+    contentClasses: [Object, String],
     contentCss: Object,
     noBackdropDismiss: {
       type: Boolean,
@@ -4775,6 +4825,25 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
   data () {
     return {
       active: false
+    }
+  },
+  computed: {
+    modalClasses () {
+      return this.position ? positions[this.position] : this.positionClasses
+    },
+    modalTransition () {
+      return this.position ? `q-modal-${this.position}` : this.transition
+    },
+    modalCss () {
+      if (this.position) {
+        return Utils.extend(
+          {},
+          positionCSS[this.$quasar.theme],
+          additionalCSS(this.$quasar.theme, this.position),
+          this.contentCss
+        )
+      }
+      return this.contentCss
     }
   },
   methods: {
@@ -7370,20 +7439,7 @@ if (Platform.is.mobile && !Platform.is.cordova) {
   });
 }
 
-const modalCSS = {
-  mat: {
-    maxHeight: '80vh',
-    height: 'auto'
-  },
-  ios: {
-    maxHeight: '80vh',
-    height: 'auto',
-    backgroundColor: 'transparent',
-    boxShadow: 'none'
-  }
-};
-
-var ActionSheets = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('q-modal',{ref:"dialog",staticClass:"with-backdrop",attrs:{"position-classes":"items-end justify-center","transition":"q-modal-actions","content-css":_vm.css},on:{"close":function($event){_vm.__dismiss();}}},[(_vm.$quasar.theme === 'mat')?_vm._m(0):_vm._e(),(_vm.$quasar.theme === 'ios')?_vm._m(1):_vm._e()])},staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.title)?_c('div',{staticClass:"modal-header",domProps:{"innerHTML":_vm._s(_vm.title)}}):_vm._e(),_c('div',{staticClass:"modal-scroll"},[(_vm.gallery)?_c('div',{staticClass:"q-action-sheet-gallery row wrap items-center justify-center"},_vm._l((_vm.actions),function(button){return _c('div',{staticClass:"cursor-pointer column inline items-center justify-center",class:button.classes,on:{"click":function($event){_vm.close(button.handler);}}},[(button.icon)?_c('i',[_vm._v(_vm._s(button.icon))]):_vm._e(),_vm._v(" "),(button.avatar)?_c('img',{staticClass:"avatar",attrs:{"src":button.avatar}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(button.label))])])})):_c('div',{staticClass:"list no-border"},_vm._l((_vm.actions),function(button){return _c('div',{staticClass:"item item-link",class:button.classes,on:{"click":function($event){_vm.close(button.handler);}}},[(button.icon)?_c('i',{staticClass:"item-primary"},[_vm._v(_vm._s(button.icon))]):_vm._e(),_vm._v(" "),(button.avatar)?_c('img',{staticClass:"item-primary",attrs:{"src":button.avatar}}):_vm._e(),_c('div',{staticClass:"item-content inset"},[_vm._v(_vm._s(button.label))])])}))]),(_vm.dismiss)?_c('div',{staticClass:"list no-border"},[_c('div',{staticClass:"item item-link",class:_vm.dismiss.classes,on:{"click":function($event){_vm.close();}}},[(_vm.dismiss.icon)?_c('i',{staticClass:"item-primary"},[_vm._v(_vm._s(_vm.dismiss.icon))]):_vm._e(),_c('div',{staticClass:"item-content inset"},[_vm._v(_vm._s(_vm.dismiss.label))])])]):_vm._e()])},function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"q-action-sheet"},[(_vm.title)?_c('div',{staticClass:"modal-header",domProps:{"innerHTML":_vm._s(_vm.title)}}):_vm._e(),_c('div',{staticClass:"modal-scroll"},[(_vm.gallery)?_c('div',{staticClass:"q-action-sheet-gallery row wrap items-center justify-center"},_vm._l((_vm.actions),function(button){return _c('div',{staticClass:"cursor-pointer column inline items-center justify-center",class:button.classes,on:{"click":function($event){_vm.close(button.handler);}}},[(button.icon)?_c('i',[_vm._v(_vm._s(button.icon))]):_vm._e(),_vm._v(" "),(button.avatar)?_c('img',{staticClass:"avatar",attrs:{"src":button.avatar}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(button.label))])])})):_c('div',{staticClass:"list no-border"},_vm._l((_vm.actions),function(button){return _c('div',{staticClass:"item item-link",class:button.classes,on:{"click":function($event){_vm.close(button.handler);}}},[(button.icon)?_c('i',{staticClass:"item-primary"},[_vm._v(_vm._s(button.icon))]):_vm._e(),_vm._v(" "),(button.avatar)?_c('img',{staticClass:"item-primary",attrs:{"src":button.avatar}}):_vm._e(),_c('div',{staticClass:"item-content inset"},[_vm._v(_vm._s(button.label))])])}))])]),(_vm.dismiss)?_c('div',{staticClass:"q-action-sheet"},[_c('div',{staticClass:"item item-link",class:_vm.dismiss.classes,on:{"click":function($event){_vm.close();}}},[_c('div',{staticClass:"item-content row justify-center"},[_vm._v(_vm._s(_vm.dismiss.label))])])]):_vm._e()])}],
+var ActionSheets = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('q-modal',{ref:"dialog",attrs:{"position":"bottom","content-css":_vm.contentCss},on:{"close":function($event){_vm.__dismiss();}}},[(_vm.$quasar.theme === 'mat')?_vm._m(0):_vm._e(),(_vm.$quasar.theme === 'ios')?_vm._m(1):_vm._e()])},staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.title)?_c('div',{staticClass:"modal-header",domProps:{"innerHTML":_vm._s(_vm.title)}}):_vm._e(),_c('div',{staticClass:"modal-scroll"},[(_vm.gallery)?_c('div',{staticClass:"q-action-sheet-gallery row wrap items-center justify-center"},_vm._l((_vm.actions),function(button){return _c('div',{staticClass:"cursor-pointer column inline items-center justify-center",class:button.classes,on:{"click":function($event){_vm.close(button.handler);}}},[(button.icon)?_c('i',[_vm._v(_vm._s(button.icon))]):_vm._e(),_vm._v(" "),(button.avatar)?_c('img',{staticClass:"avatar",attrs:{"src":button.avatar}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(button.label))])])})):_c('div',{staticClass:"list no-border"},_vm._l((_vm.actions),function(button){return _c('div',{staticClass:"item item-link",class:button.classes,on:{"click":function($event){_vm.close(button.handler);}}},[(button.icon)?_c('i',{staticClass:"item-primary"},[_vm._v(_vm._s(button.icon))]):_vm._e(),_vm._v(" "),(button.avatar)?_c('img',{staticClass:"item-primary",attrs:{"src":button.avatar}}):_vm._e(),_c('div',{staticClass:"item-content inset"},[_vm._v(_vm._s(button.label))])])}))]),(_vm.dismiss)?_c('div',{staticClass:"list no-border"},[_c('div',{staticClass:"item item-link",class:_vm.dismiss.classes,on:{"click":function($event){_vm.close();}}},[(_vm.dismiss.icon)?_c('i',{staticClass:"item-primary"},[_vm._v(_vm._s(_vm.dismiss.icon))]):_vm._e(),_c('div',{staticClass:"item-content inset"},[_vm._v(_vm._s(_vm.dismiss.label))])])]):_vm._e()])},function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"q-action-sheet"},[(_vm.title)?_c('div',{staticClass:"modal-header",domProps:{"innerHTML":_vm._s(_vm.title)}}):_vm._e(),_c('div',{staticClass:"modal-scroll"},[(_vm.gallery)?_c('div',{staticClass:"q-action-sheet-gallery row wrap items-center justify-center"},_vm._l((_vm.actions),function(button){return _c('div',{staticClass:"cursor-pointer column inline items-center justify-center",class:button.classes,on:{"click":function($event){_vm.close(button.handler);}}},[(button.icon)?_c('i',[_vm._v(_vm._s(button.icon))]):_vm._e(),_vm._v(" "),(button.avatar)?_c('img',{staticClass:"avatar",attrs:{"src":button.avatar}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(button.label))])])})):_c('div',{staticClass:"list no-border"},_vm._l((_vm.actions),function(button){return _c('div',{staticClass:"item item-link",class:button.classes,on:{"click":function($event){_vm.close(button.handler);}}},[(button.icon)?_c('i',{staticClass:"item-primary"},[_vm._v(_vm._s(button.icon))]):_vm._e(),_vm._v(" "),(button.avatar)?_c('img',{staticClass:"item-primary",attrs:{"src":button.avatar}}):_vm._e(),_c('div',{staticClass:"item-content inset"},[_vm._v(_vm._s(button.label))])])}))])]),(_vm.dismiss)?_c('div',{staticClass:"q-action-sheet"},[_c('div',{staticClass:"item item-link",class:_vm.dismiss.classes,on:{"click":function($event){_vm.close();}}},[_c('div',{staticClass:"item-content row justify-center"},[_vm._v(_vm._s(_vm.dismiss.label))])])]):_vm._e()])}],
   props: {
     title: String,
     gallery: Boolean,
@@ -7392,11 +7448,6 @@ var ActionSheets = {render: function(){var _vm=this;var _h=_vm.$createElement;va
       required: true
     },
     dismiss: Object
-  },
-  data () {
-    return {
-      css: modalCSS[current]
-    }
   },
   computed: {
     opened () {
@@ -7407,6 +7458,11 @@ var ActionSheets = {render: function(){var _vm=this;var _h=_vm.$createElement;va
     },
     dismissButton () {
       return this.buttons[this.buttons.length - 1]
+    },
+    contentCss () {
+      if (this.$quasar.theme === 'ios') {
+        return {backgroundColor: 'transparent'}
+      }
     }
   },
   methods: {

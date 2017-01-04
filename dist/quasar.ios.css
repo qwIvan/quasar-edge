@@ -155,14 +155,6 @@ input::-webkit-inner-spin-button {
 .q-action-sheet .item-link:not(:last-child) {
   border-bottom: 1px solid #e0e0e0;
 }
-.q-modal-actions-enter,
-.q-modal-actions-leave-active {
-  opacity: 0;
-}
-.q-modal-actions-enter .modal-content,
-.q-modal-actions-leave-active .modal-content {
-  transform: translateY(101%);
-}
 body.with-loading {
   overflow: hidden;
 }
@@ -4098,6 +4090,38 @@ body.with-modal {
 }
 .modal-buttons.column button + button {
   border-top: 1px solid #bdbdbd;
+}
+.q-modal-bottom-enter,
+.q-modal-bottom-leave-active {
+  opacity: 0;
+}
+.q-modal-bottom-enter .modal-content,
+.q-modal-bottom-leave-active .modal-content {
+  transform: translateY(101%);
+}
+.q-modal-top-enter,
+.q-modal-top-leave-active {
+  opacity: 0;
+}
+.q-modal-top-enter .modal-content,
+.q-modal-top-leave-active .modal-content {
+  transform: translateY(-101%);
+}
+.q-modal-right-enter,
+.q-modal-right-leave-active {
+  opacity: 0;
+}
+.q-modal-right-enter .modal-content,
+.q-modal-right-leave-active .modal-content {
+  transform: translateX(101%);
+}
+.q-modal-left-enter,
+.q-modal-left-leave-active {
+  opacity: 0;
+}
+.q-modal-left-enter .modal-content,
+.q-modal-left-leave-active .modal-content {
+  transform: translateX(-101%);
 }
 .q-numeric {
   vertical-align: middle;

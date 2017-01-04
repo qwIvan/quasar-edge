@@ -3533,7 +3533,7 @@ var Datetime = { render: function render() {
     var data = Platform.is.desktop ? {} : {
       css: contentCSS[current],
       position: current === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
-      transition: current === 'ios' ? 'q-modal-actions' : 'q-modal',
+      transition: current === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: current === 'ios' ? '' : 'minimized'
     };
     data.model = this.value || '';
@@ -3607,7 +3607,7 @@ var DatetimeRange = { render: function render() {
       type: Object,
       validator: function validator(val) {
         if (typeof val.from !== 'string' || typeof val.to !== 'string') {
-          console.error('DatetimeRange requires a valid {min, max} model.');
+          console.error('DatetimeRange requires a valid {from, to} model.');
           return false;
         }
         return true;
@@ -5163,17 +5163,66 @@ var EscapeKey = {
   }
 };
 
+var positions = {
+  top: 'items-start justify-center with-backdrop',
+  bottom: 'items-end justify-center with-backdrop',
+  right: 'items-center justify-end with-backdrop',
+  left: 'items-center justify-start with-backdrop'
+};
+var positionCSS = {
+  mat: {
+    maxHeight: '80vh',
+    height: 'auto'
+  },
+  ios: {
+    maxHeight: '80vh',
+    height: 'auto',
+    boxShadow: 'none'
+  }
+};
+
+function additionalCSS(theme, position) {
+  var css = {};
+
+  if (['left', 'right'].includes(position)) {
+    css.maxWidth = '90vw';
+  }
+  if (theme === 'ios') {
+    if (['left', 'top'].includes(position)) {
+      css.borderTopLeftRadius = 0;
+    }
+    if (['right', 'top'].includes(position)) {
+      css.borderTopRightRadius = 0;
+    }
+    if (['left', 'bottom'].includes(position)) {
+      css.borderBottomLeftRadius = 0;
+    }
+    if (['right', 'bottom'].includes(position)) {
+      css.borderBottomRightRadius = 0;
+    }
+  }
+
+  return css;
+}
+
 var duration = 200;
 var openedModalNumber = 0;
 
 var Modal = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('transition', { attrs: { "name": _vm.transition } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.active, expression: "active" }], staticClass: "modal fullscreen flex", class: _vm.positionClasses, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('transition', { attrs: { "name": _vm.modalTransition } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.active, expression: "active" }], staticClass: "modal fullscreen flex", class: _vm.modalClasses, on: { "click": function click($event) {
           _vm.click();
-        } } }, [_c('div', { ref: "content", staticClass: "modal-content", style: _vm.contentCss, on: { "click": function click($event) {
+        } } }, [_c('div', { ref: "content", staticClass: "modal-content", class: _vm.contentClasses, style: _vm.modalCss, on: { "click": function click($event) {
           $event.stopPropagation();
         } } }, [_vm._t("default")], 2)])]);
   }, staticRenderFns: [],
   props: {
+    position: {
+      type: String,
+      default: '',
+      validator: function validator(val) {
+        return val === '' || ['top', 'bottom', 'left', 'right'].includes(val);
+      }
+    },
     transition: {
       type: String,
       default: 'q-modal'
@@ -5182,6 +5231,7 @@ var Modal = { render: function render() {
       type: String,
       default: 'items-center justify-center'
     },
+    contentClasses: [Object, String],
     contentCss: Object,
     noBackdropDismiss: {
       type: Boolean,
@@ -5198,6 +5248,20 @@ var Modal = { render: function render() {
     };
   },
 
+  computed: {
+    modalClasses: function modalClasses() {
+      return this.position ? positions[this.position] : this.positionClasses;
+    },
+    modalTransition: function modalTransition() {
+      return this.position ? 'q-modal-' + this.position : this.transition;
+    },
+    modalCss: function modalCss() {
+      if (this.position) {
+        return Utils.extend({}, positionCSS[this.$quasar.theme], additionalCSS(this.$quasar.theme, this.position), this.contentCss);
+      }
+      return this.contentCss;
+    }
+  },
   methods: {
     open: function open(onShow) {
       var _this = this;
@@ -8005,21 +8069,8 @@ if (Platform.is.mobile && !Platform.is.cordova) {
   });
 }
 
-var modalCSS = {
-  mat: {
-    maxHeight: '80vh',
-    height: 'auto'
-  },
-  ios: {
-    maxHeight: '80vh',
-    height: 'auto',
-    backgroundColor: 'transparent',
-    boxShadow: 'none'
-  }
-};
-
 var ActionSheets = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-modal', { ref: "dialog", staticClass: "with-backdrop", attrs: { "position-classes": "items-end justify-center", "transition": "q-modal-actions", "content-css": _vm.css }, on: { "close": function close($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-modal', { ref: "dialog", attrs: { "position": "bottom", "content-css": _vm.contentCss }, on: { "close": function close($event) {
           _vm.__dismiss();
         } } }, [_vm.$quasar.theme === 'mat' ? _vm._m(0) : _vm._e(), _vm.$quasar.theme === 'ios' ? _vm._m(1) : _vm._e()]);
   }, staticRenderFns: [function () {
@@ -8056,12 +8107,6 @@ var ActionSheets = { render: function render() {
     },
     dismiss: Object
   },
-  data: function data() {
-    return {
-      css: modalCSS[current]
-    };
-  },
-
   computed: {
     opened: function opened() {
       return this.$refs.dialog.active;
@@ -8071,6 +8116,11 @@ var ActionSheets = { render: function render() {
     },
     dismissButton: function dismissButton() {
       return this.buttons[this.buttons.length - 1];
+    },
+    contentCss: function contentCss() {
+      if (this.$quasar.theme === 'ios') {
+        return { backgroundColor: 'transparent' };
+      }
     }
   },
   methods: {

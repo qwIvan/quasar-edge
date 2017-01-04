@@ -544,10 +544,6 @@ $action-sheet-hover-background ?= #d0d0d0
       margin-bottom 0
     &:not(:last-child)
       border-bottom 1px solid $grey-4
-.q-modal-actions-enter, .q-modal-actions-leave-active
-  opacity 0
-  .modal-content
-    transform translateY(101%)
 $loading-background ?= $dimmed-background
 body.with-loading
   overflow hidden
@@ -2370,6 +2366,22 @@ maximized-modal()
   &.column
     button + button
       border-top 1px solid $form-darker-color
+.q-modal-bottom-enter, .q-modal-bottom-leave-active
+  opacity 0
+  .modal-content
+    transform translateY(101%)
+.q-modal-top-enter, .q-modal-top-leave-active
+  opacity 0
+  .modal-content
+    transform translateY(-101%)
+.q-modal-right-enter, .q-modal-right-leave-active
+  opacity 0
+  .modal-content
+    transform translateX(101%)
+.q-modal-left-enter, .q-modal-left-leave-active
+  opacity 0
+  .modal-content
+    transform translateX(-101%)
 .q-numeric
   vertical-align middle
   padding 0 15px
