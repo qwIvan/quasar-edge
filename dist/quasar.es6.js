@@ -190,6 +190,54 @@ var Events = {
   $off (...args) { bus && bus.$off(...args); }
 };
 
+function s4 () {
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1)
+}
+
+var uid = function () {
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4()
+};
+
+let ids = {};
+
+function animate ({id, finalPos, pos, threshold, factor, done, apply}) {
+  ids[id] = requestAnimationFrame(() => {
+    let diff = (finalPos - pos);
+    if (Math.abs(diff) < threshold) {
+      delete ids[id];
+      apply(finalPos);
+      done && done(finalPos);
+      return
+    }
+    let newPos = pos + (finalPos - pos) / factor;
+    apply(newPos);
+    animate({id, finalPos, pos: newPos, threshold, done, factor, apply});
+  });
+}
+
+function start ({name, finalPos, pos, threshold = 1, factor = 5, done, apply}) {
+  let id = name;
+  if (id) {
+    stop(id);
+  }
+  else {
+    id = uid();
+  }
+  animate({id, finalPos, pos, threshold, factor, done, apply});
+  return id
+}
+
+start.stop = id => {
+  let timer = ids[id];
+  if (timer) {
+    cancelAnimationFrame(timer);
+    delete ids[id];
+  }
+};
+
 var clone = function (data) {
   return JSON.parse(JSON.stringify(data))
 };
@@ -589,9 +637,14 @@ function humanStorageSize (bytes) {
   return `${bytes.toFixed(1)} ${units[u]}`
 }
 
+function between (val, min, max) {
+  return Math.min(max, Math.max(min, val))
+}
+
 
 var format = Object.freeze({
-	humanStorageSize: humanStorageSize
+	humanStorageSize: humanStorageSize,
+	between: between
 });
 
 var ModalGenerator = function (VueComponent) {
@@ -969,17 +1022,6 @@ var scrollbar = Object.freeze({
 	width: width$1
 });
 
-function s4 () {
-  return Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1)
-}
-
-var uid = function () {
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4()
-};
-
 let data = {};
 
 function add (name, el, ctx) {
@@ -1047,6 +1089,7 @@ var throttle = function (fn, limit = 250) {
 };
 
 var Utils = {
+  animate: start,
   clone,
   colors,
   debounce,
@@ -1972,7 +2015,7 @@ function inc (p, amount) {
       amount = 0;
     }
   }
-  return Math.max(0, Math.min(100, p + amount))
+  return Utils.format.between(p + amount, 0, 100)
 }
 
 function highjackAjax (startHandler, endHandler) {
@@ -2228,7 +2271,7 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
       this.close();
     },
     move (offset) {
-      this.selectedIndex = Math.max(-1, Math.min(this.computedResults.length - 1, this.selectedIndex + offset));
+      this.selectedIndex = Utils.format.between(this.selectedIndex + offset, -1, this.computedResults.length - 1);
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0) {
@@ -3514,21 +3557,23 @@ var InlineDatetimeMaterial = {render: function(){var _vm=this;var _h=_vm.$create
       if (!this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year()) {
         return false
       }
-      return this.date.daysInMonth() - this.maxDay
+      return this.daysInMonth - this.maxDay
     },
     maxDay () {
-      return this.pmax ? this.pmax.date() : this.date.daysInMonth()
+      return this.pmax ? this.pmax.date() : this.daysInMonth
     },
     daysInterval () {
-      let days = this.date.daysInMonth();
-      let max = !this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year() ? 0 : days - this.pmax.date();
+      let max = !this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year() ? 0 : this.daysInMonth - this.pmax.date();
       if (this.beforeMinDays || max) {
         let min = this.beforeMinDays ? this.beforeMinDays + 1 : 1;
-        return Array.apply(null, {length: days - min - max + 1}).map((day, index) => {
+        return Array.apply(null, {length: this.daysInMonth - min - max + 1}).map((day, index) => {
           return index + min
         })
       }
-      return days
+      return this.daysInMonth
+    },
+    daysInMonth () {
+      return this.date.daysInMonth()
     },
 
     hour () {
@@ -3671,19 +3716,19 @@ var InlineDatetimeMaterial = {render: function(){var _vm=this;var _h=_vm.$create
     },
     __parseTypeValue (type, value) {
       if (type === 'month') {
-        return Math.max(1, Math.min(12, value))
+        return Utils.format.between(value, 1, 12)
       }
       if (type === 'date') {
-        return Math.max(1, Math.min(this.date.daysInMonth(), value))
+        return Utils.format.between(value, 1, this.daysInMonth)
       }
       if (type === 'year') {
-        return Math.max(1950, Math.min(2050, value))
+        return Utils.format.between(value, 1950, 2050)
       }
       if (type === 'hour') {
-        return Math.max(0, Math.min(23, value))
+        return Utils.format.between(value, 0, 23)
       }
       if (type === 'minute') {
-        return Math.max(0, Math.min(59, value))
+        return Utils.format.between(value, 0, 59)
       }
     },
 
@@ -3904,19 +3949,19 @@ var InlineDatetimeIOS = {render: function(){var _vm=this;var _h=_vm.$createEleme
     },
     __parseTypeValue (type, value) {
       if (type === 'month') {
-        return Math.max(1, Math.min(12, value))
+        return Utils.format.between(value, 1, 12)
       }
       if (type === 'date') {
-        return Math.max(1, Math.min(this.daysInMonth, value))
+        return Utils.format.between(value, 1, this.daysInMonth)
       }
       if (type === 'year') {
-        return Math.max(1950, Math.min(2050, value))
+        return Utils.format.between(value, 1950, 2050)
       }
       if (type === 'hour') {
-        return Math.max(0, Math.min(23, value))
+        return Utils.format.between(value, 0, 23)
       }
       if (type === 'minute') {
-        return Math.max(0, Math.min(59, value))
+        return Utils.format.between(value, 0, 59)
       }
     },
     __updateAllPositions () {
@@ -3950,7 +3995,7 @@ var InlineDatetimeIOS = {render: function(){var _vm=this;var _h=_vm.$createEleme
       }
 
       [].slice.call(root.children).forEach(item => {
-        Utils.dom.css(item, this.__itemStyle(value * 36, Math.max(-180, Math.min(180, delta * -18))));
+        Utils.dom.css(item, this.__itemStyle(value * 36, Utils.format.between(delta * -18, -180, 180)));
         delta++;
       });
     },
@@ -4049,47 +4094,42 @@ var InlineDatetimeIOS = {render: function(){var _vm=this;var _h=_vm.$createEleme
   }
 };
 
-const drawerAnimationSpeed = 150;
-const backdropOpacity = {
-    mat: 0.7,
-    ios: 0.2
-  };
+const backdropOpacity = {mat: 0.7, ios: 0.2};
 
-function getCurrentPosition (node) {
-  let transform = Utils.dom.style(node, 'transform');
-  return transform && transform !== 'none' ? parseInt(transform.split(/[()]/)[1].split(', ')[4], 10) : 0
-}
-
-function getBetween (value, min, max) {
-  if (value < min) {
-    return min
-  }
-
-  if (value > max) {
-    return max
-  }
-
-  return value
-}
-
-var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"drawer",class:{'left-side': !_vm.rightSide, 'right-side': _vm.rightSide}},[_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__openByTouch),expression:"__openByTouch",modifiers:{"horizontal":true}}],staticClass:"drawer-opener touch-only mobile-only",class:{'fixed-left': !_vm.rightSide, 'fixed-right': _vm.rightSide}},[_vm._v(" ")]),_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__closeByTouch),expression:"__closeByTouch",modifiers:{"horizontal":true}}],ref:"backdrop",staticClass:"drawer-backdrop fullscreen",staticStyle:{"background":"rgba(0, 0, 0, 0.01)"},on:{"click":function($event){_vm.setState(false);}}}),_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__closeByTouch),expression:"__closeByTouch",modifiers:{"horizontal":true}}],ref:"content",staticClass:"drawer-content",class:{'left-side': !_vm.rightSide, 'right-side': _vm.rightSide}},[_vm._t("default")],2)])},staticRenderFns: [],
+var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"drawer",class:{'left-side': !_vm.rightSide, 'right-side': _vm.rightSide}},[_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__openByTouch),expression:"__openByTouch",modifiers:{"horizontal":true}}],staticClass:"drawer-opener touch-only mobile-only",class:{'fixed-left': !_vm.rightSide, 'fixed-right': _vm.rightSide}},[_vm._v(" ")]),_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__closeByTouch),expression:"__closeByTouch",modifiers:{"horizontal":true}}],ref:"backdrop",staticClass:"drawer-backdrop fullscreen",style:(_vm.backdropStyle),on:{"click":function($event){_vm.setState(false);}}}),_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__closeByTouch),expression:"__closeByTouch",modifiers:{"horizontal":true}}],ref:"content",staticClass:"drawer-content",class:{'left-side': !_vm.rightSide, 'right-side': _vm.rightSide},style:(_vm.nodeStyle)},[_vm._t("default")],2)])},staticRenderFns: [],
   props: {
     'right-side': Boolean,
     'swipe-only': Boolean
   },
   data () {
     return {
-      opened: false
+      opened: false,
+      nodePosition: 0,
+      backPosition: 0.01,
+      nodeAnimUid: Utils.uid(),
+      backAnimUid: Utils.uid()
+    }
+  },
+  computed: {
+    nodeStyle () {
+      let css = Utils.dom.cssTransform(`translateX(${this.nodePosition}px)`);
+      if (this.$quasar.theme === 'ios') {
+        if (this.layoutContainer) {
+          Utils.dom.css(this.layoutContainer, css);
+        }
+        return
+      }
+      return css
+    },
+    backdropStyle () {
+      return {background: `rgba(0,0,0,${this.backPosition})`}
     }
   },
   methods: {
-    __matToggleAnimate (percentage, done) {
+    __animate (done) {
+      let finalPos;
       const
-        node = this.$refs.content,
         backdrop = this.$refs.backdrop,
-        currentPosition = getCurrentPosition(node),
-        closePosition = (this.rightSide ? 1 : -1) * this.width,
-        animationNeeded = (this.opened && percentage !== 1) || (!this.opened && percentage !== 0),
         complete = () => {
           if (!this.opened) {
             backdrop.classList.remove('active');
@@ -4102,8 +4142,12 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
           }
         };
 
-      Velocity(node, 'stop');
-      Velocity(backdrop, 'stop');
+      if (this.$quasar.theme === 'ios') {
+        finalPos = this.opened ? (this.rightSide ? -1 : 1) * this.width : 0;
+      }
+      else {
+        finalPos = this.opened ? 0 : (this.rightSide ? 1 : -1) * this.width;
+      }
 
       if (this.opened) {
         backdrop.classList.add('active');
@@ -4131,97 +4175,31 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
         }
       }
 
-      if (!animationNeeded) {
-        complete();
-        return
-      }
-
-      Velocity(
-        node,
-        {translateX: this.opened ? [0, currentPosition] : [closePosition, currentPosition]},
-        {duration: !this.opened || currentPosition !== 0 ? drawerAnimationSpeed : 0}
-      );
-      Velocity(
-        backdrop,
-        {
-          'backgroundColor': '#000',
-          'backgroundColorAlpha': this.opened ? backdropOpacity.mat : 0.01
+      Utils.animate({
+        name: this.backAnimUid,
+        pos: this.backPosition,
+        finalPos: this.opened ? backdropOpacity[this.$quasar.theme] : 0.01,
+        apply: (pos) => {
+          this.backPosition = pos;
         },
-        {
-          duration: drawerAnimationSpeed,
-          complete
-        }
-      );
-    },
-    __iosToggleAnimate (percentage, done) {
-      const backdrop = this.$refs.backdrop;
-
-      if (this.opened) {
-        backdrop.classList.add('active');
-        document.body.classList.add('drawer-opened');
-        if (Platform.has.popstate) {
-          if (!window.history.state) {
-            window.history.replaceState({__quasar_drawer: true}, '');
-          }
-          else {
-            window.history.state.__quasar_drawer = true;
-          }
-          window.history.pushState({}, '');
-          window.addEventListener('popstate', this.__popState);
-        }
-      }
-      else {
-        window.removeEventListener('resize', this.close);
-        if (Platform.has.popstate) {
-          window.removeEventListener('popstate', this.__popState);
-          if (window.history.state && !window.history.state.__quasar_drawer) {
-            window.history.go(-1);
-          }
-        }
-      }
-
-      let
-        currentPosition = getCurrentPosition(this.layoutContainer),
-        openPosition = (this.rightSide ? -1 : 1) * this.width,
-        animationNeeded = (this.opened && percentage !== 1) || (!this.opened && percentage !== 0),
-        complete = () => {
-          if (!this.opened) {
-            backdrop.classList.remove('active');
-            document.body.classList.remove('drawer-opened');
-          }
-          else {
-            window.addEventListener('resize', this.close);
-          }
-          if (typeof done === 'function') {
-            done();
-          }
-        };
-
-      Velocity(this.layoutContainer, 'stop');
-      Velocity(backdrop, 'stop');
-
-      if (!animationNeeded) {
-        complete();
-        return
-      }
-
-      Velocity(this.layoutContainer,
-        {translateX: this.opened ? [openPosition, currentPosition] : [0, currentPosition]},
-        {duration: !this.opened || currentPosition !== openPosition ? drawerAnimationSpeed : 0}
-      );
-      Velocity(
-        backdrop,
-        {
-          'backgroundColor': '#000',
-          'backgroundColorAlpha': this.opened ? backdropOpacity.ios : 0.01
+        threshold: 0.01
+      });
+      Utils.animate({
+        name: this.nodeAnimUid,
+        pos: this.nodePosition,
+        finalPos,
+        apply: (pos) => {
+          this.nodePosition = pos;
         },
-        {
-          duration: drawerAnimationSpeed,
-          complete
-        }
-      );
+        done: complete
+      });
     },
     __openByTouch (event) {
+      // interferes with browser's back/forward swipe feature
+      if (Platform.is.ios) {
+        return
+      }
+
       const
         content = this.$refs.content,
         backdrop = this.$refs.backdrop;
@@ -4232,76 +4210,63 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
 
       let
         position = event.distance.x,
-        target,
-        fn,
         percentage;
 
       if (event.isFinal) {
         this.opened = position > 75;
       }
 
-      if (current === 'ios') {
+      if (this.$quasar.theme === 'ios') {
         position = Math.min(position, this.width);
         percentage = 1.0 - (this.width - Math.abs(position)) / this.width;
-        fn = this.__iosToggleAnimate;
-        target = this.layoutContainer;
         position = (this.rightSide ? -1 : 1) * position;
       }
       else { // mat
         position = this.rightSide ? Math.max(this.width - position, 0) : Math.min(0, position - this.width);
         percentage = (this.width - Math.abs(position)) / this.width;
-        fn = this.__matToggleAnimate;
-        target = content;
       }
+
+      if (event.isFirst) {
+        backdrop.classList.add('active');
+      }
+      this.nodePosition = position;
+      this.backPosition = percentage * backdropOpacity[this.$quasar.theme];
 
       if (event.isFinal) {
-        fn(percentage, null);
-        return
+        this.__animate();
       }
-
-      target.style.transform = 'translateX(' + position + 'px)';
-      backdrop.classList.add('active');
-      backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[current] + ')';
     },
     __closeByTouch (event) {
-      const
-        content = this.$refs.content,
-        backdrop = this.$refs.backdrop;
-
-      let
-        target, fn, percentage, position,
-        initialPosition;
+      const content = this.$refs.content;
+      let percentage, position, initialPosition;
 
       if (Utils.dom.style(content, 'position') !== 'fixed') {
         return
       }
 
-      position = this.rightSide ? getBetween((event.direction === 'left' ? -1 : 1) * event.distance.x, 0, this.width) : getBetween((event.direction === 'left' ? -1 : 1) * event.distance.x, -this.width, 0);
       initialPosition = (this.rightSide ? -1 : 1) * this.width;
+      position = this.rightSide
+        ? Utils.format.between((event.direction === 'left' ? -1 : 1) * event.distance.x, 0, this.width)
+        : Utils.format.between((event.direction === 'left' ? -1 : 1) * event.distance.x, -this.width, 0);
 
       if (event.isFinal) {
         this.opened = Math.abs(position) <= 75;
       }
 
-      if (current === 'ios') {
+      if (this.$quasar.theme === 'ios') {
         position = initialPosition + position;
         percentage = (this.rightSide ? -1 : 1) * position / this.width;
-        fn = this.__iosToggleAnimate;
-        target = this.layoutContainer;
       }
       else { // mat
         percentage = 1 + (this.rightSide ? -1 : 1) * position / this.width;
-        fn = this.__matToggleAnimate;
-        target = content;
       }
+
+      this.nodePosition = position;
+      this.backPosition = percentage * backdropOpacity[this.$quasar.theme];
 
       if (event.isFinal) {
-        fn(percentage, null);
-        return
+        this.__animate();
       }
-
-      target.style.transform = 'translateX(' + position + 'px)';
-      backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[current] + ')';
     },
     setState (state, done) {
       if (
@@ -4315,9 +4280,7 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       }
 
       this.opened = !this.opened;
-      let fn = current === 'ios' ? this.__iosToggleAnimate : this.__matToggleAnimate;
-
-      fn(this.opened ? 0.01 : 1, done);
+      this.__animate(done);
     },
     __popState () {
       if (Platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
@@ -4337,14 +4300,16 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
   mounted () {
     this.$nextTick(() => {
       const content = this.$refs.content;
+      this.width = Utils.dom.width(content);
 
-      if (current === 'ios') {
+      if (this.$quasar.theme === 'ios') {
         this.layoutContainer = this.$el.closest('.layout') || document.getElementById('q-app');
       }
+      else {
+        this.nodePosition = this.width * (this.rightSide ? 1 : -1);
+      }
 
-      this.width = Utils.dom.width(content)
-
-      ;[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
+      [].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
         el.addEventListener('click', (event) => {
           event.stopPropagation();
           this.setState(false);
@@ -4685,7 +4650,7 @@ var Knob = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm
         model = this.min + (angle / 360) * (this.max - this.min),
         modulo = model % this.step;
 
-      this.$emit('input', Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0))));
+      this.$emit('input', Utils.format.between(model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0), this.min, this.max));
     }
   }
 };
@@ -5034,7 +4999,7 @@ var Pagination$1 = {render: function(){var _vm=this;var _h=_vm.$createElement;va
       }
     },
     __normalize (value) {
-      return Math.min(this.max, Math.max(1, parseInt(value, 10)))
+      return Utils.format.between(parseInt(value, 10), 1, this.max)
     }
   },
   watch: {
@@ -5308,16 +5273,35 @@ var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
   }
 };
 
-var Progress = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-progress"},[_c('div',{style:({width: _vm.model + '%'})})])},staticRenderFns: [],
+function width$2 (model) {
+  return {width: Utils.format.between(model, 0, 100) + '%'}
+}
+
+var Progress = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-progress"},[_c('div',{staticClass:"q-progress-track",style:(_vm.trackStyle)},[_vm._v(" ")]),(_vm.hasBuffer)?_c('div',{staticClass:"q-progress-buffer",style:(_vm.bufferStyle)},[_vm._v(" ")]):_vm._e(),_c('div',{staticClass:"q-progress-model",style:(_vm.modelStyle)},[_vm._v(" ")])])},staticRenderFns: [],
   props: {
     percentage: {
       type: Number,
       default: 0
+    },
+    buffer: {
+      type: Number,
+      default: -1
     }
   },
   computed: {
-    model () {
-      return Math.max(0, Math.min(100, this.percentage))
+    modelStyle () {
+      return width$2(this.percentage)
+    },
+    bufferStyle () {
+      if (this.hasBuffer) {
+        return width$2(this.buffer)
+      }
+    },
+    trackStyle () {
+      return width$2(this.hasBuffer ? 100 - this.buffer : 100)
+    },
+    hasBuffer () {
+      return this.buffer !== -1
     }
   }
 };
@@ -5610,12 +5594,12 @@ var Range = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
       }
 
       let
-        percentage = Math.min(1, Math.max(0, (Utils.event.position(event).left - this.dragging.left) / this.dragging.width)),
+        percentage = Utils.format.between((Utils.event.position(event).left - this.dragging.left) / this.dragging.width, 0, 1),
         model = this.min + percentage * (this.max - this.min),
         modulo = (model - this.min) % this.step;
 
       this.currentPercentage = percentage;
-      this.$emit('input', Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0))));
+      this.$emit('input', Utils.format.between(model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0), this.min, this.max));
     },
     __end () {
       this.dragging = false;
@@ -5919,7 +5903,7 @@ var Rating = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
   methods: {
     set (value) {
       if (!this.disable) {
-        this.model = Math.min(this.max, Math.max(1, parseInt(value, 10)));
+        this.model = Utils.format.between(parseInt(value, 10), 1, this.max);
       }
     },
     __setHoverValue (value) {
@@ -6180,7 +6164,7 @@ var DialogSelect = {render: function(){var _vm=this;var _h=_vm.$createElement;va
   }
 };
 
-var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-slider",class:{fullscreen: _vm.inFullscreen}},[_c('div',{staticClass:"q-slider-inner"},[_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__pan),expression:"__pan",modifiers:{"horizontal":true}}],ref:"track",staticClass:"q-slider-track",class:{'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar}},[_vm._t("slide")],2),(_vm.arrows)?_c('div',{staticClass:"q-slider-left-button row items-center justify-center",class:{hidden: _vm.slide === 0}},[_c('i',{on:{"click":function($event){_vm.goToSlide(_vm.slide - 1);}}},[_vm._v("keyboard_arrow_left")])]):_vm._e(),(_vm.arrows)?_c('div',{staticClass:"q-slider-right-button row items-center justify-center",class:{hidden: _vm.slide === _vm.slidesNumber - 1},on:{"click":function($event){_vm.goToSlide(_vm.slide + 1);}}},[_c('i',[_vm._v("keyboard_arrow_right")])]):_vm._e(),(_vm.toolbar)?_c('div',{staticClass:"q-slider-toolbar row items-center justify-end"},[_c('div',{staticClass:"q-slider-dots auto row items-center justify-center"},_vm._l((_vm.slidesNumber),function(n){return (_vm.dots)?_c('i',{domProps:{"textContent":_vm._s((n - 1) !== _vm.slide ? 'panorama_fish_eye' : 'lens')},on:{"click":function($event){_vm.goToSlide(n - 1);}}}):_vm._e()})),_c('div',{staticClass:"row items-center"},[_vm._t("action"),(_vm.fullscreen)?_c('i',{on:{"click":function($event){_vm.toggleFullscreen();}}},[_c('span',{directives:[{name:"show",rawName:"v-show",value:(!_vm.inFullscreen),expression:"!inFullscreen"}]},[_vm._v("fullscreen")]),_vm._v(" "),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.inFullscreen),expression:"inFullscreen"}]},[_vm._v("fullscreen_exit")])]):_vm._e()],2)]):_vm._e(),_vm._t("default")],2)])},staticRenderFns: [],
+var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-slider",class:{fullscreen: _vm.inFullscreen}},[_c('div',{staticClass:"q-slider-inner"},[_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__pan),expression:"__pan",modifiers:{"horizontal":true}}],ref:"track",staticClass:"q-slider-track",class:{'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar},style:(_vm.trackPosition)},[_vm._t("slide")],2),(_vm.arrows)?_c('div',{staticClass:"q-slider-left-button row items-center justify-center",class:{hidden: _vm.slide === 0}},[_c('i',{on:{"click":function($event){_vm.goToSlide(_vm.slide - 1);}}},[_vm._v("keyboard_arrow_left")])]):_vm._e(),(_vm.arrows)?_c('div',{staticClass:"q-slider-right-button row items-center justify-center",class:{hidden: _vm.slide === _vm.slidesNumber - 1},on:{"click":function($event){_vm.goToSlide(_vm.slide + 1);}}},[_c('i',[_vm._v("keyboard_arrow_right")])]):_vm._e(),(_vm.toolbar)?_c('div',{staticClass:"q-slider-toolbar row items-center justify-end"},[_c('div',{staticClass:"q-slider-dots auto row items-center justify-center"},_vm._l((_vm.slidesNumber),function(n){return (_vm.dots)?_c('i',{domProps:{"textContent":_vm._s((n - 1) !== _vm.slide ? 'panorama_fish_eye' : 'lens')},on:{"click":function($event){_vm.goToSlide(n - 1);}}}):_vm._e()})),_c('div',{staticClass:"row items-center"},[_vm._t("action"),(_vm.fullscreen)?_c('i',{on:{"click":function($event){_vm.toggleFullscreen();}}},[_c('span',{directives:[{name:"show",rawName:"v-show",value:(!_vm.inFullscreen),expression:"!inFullscreen"}]},[_vm._v("fullscreen")]),_vm._v(" "),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.inFullscreen),expression:"inFullscreen"}]},[_vm._v("fullscreen_exit")])]):_vm._e()],2)]):_vm._e(),_vm._t("default")],2)])},staticRenderFns: [],
   props: {
     arrows: Boolean,
     dots: Boolean,
@@ -6192,7 +6176,8 @@ var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       position: 0,
       slide: 0,
       slidesNumber: 0,
-      inFullscreen: false
+      inFullscreen: false,
+      animUid: Utils.uid()
     }
   },
   watch: {
@@ -6203,13 +6188,16 @@ var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
   computed: {
     toolbar () {
       return this.dots || this.fullscreen || this.actions
+    },
+    trackPosition () {
+      return Utils.dom.cssTransform(`translateX(${this.position}%)`)
     }
   },
   methods: {
     __pan (event) {
       if (!this.hasOwnProperty('initialPosition')) {
         this.initialPosition = this.position;
-        Velocity(this.$refs.track, 'stop');
+        this.stopAnimation();
       }
 
       let delta = (event.direction === 'left' ? -1 : 1) * event.distance.x;
@@ -6222,27 +6210,32 @@ var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       }
 
       this.position = this.initialPosition + delta / this.$refs.track.offsetWidth * 100;
-      this.$refs.track.style.transform = 'translateX(' + this.position + '%)';
 
       if (event.isFinal) {
-        if (event.distance.x < 100) {
-          this.goToSlide(this.slide);
-        }
-        else {
-          this.goToSlide(event.direction === 'left' ? this.slide + 1 : this.slide - 1);
-        }
+        this.goToSlide(
+          event.distance.x < 100
+          ? this.slide
+          : (event.direction === 'left' ? this.slide + 1 : this.slide - 1)
+        );
         delete this.initialPosition;
       }
     },
     goToSlide (slide, noAnimation) {
-      this.slide = Math.min(this.slidesNumber - 1, Math.max(0, slide));
-
-      Velocity(this.$refs.track, 'stop');
-      Velocity(this.$refs.track, {
-        translateX: [-this.slide * 100 + '%', this.position + '%']
-      }, noAnimation ? {duration: 0} : undefined);
-
-      this.position = -this.slide * 100;
+      this.slide = Utils.format.between(slide, 0, this.slidesNumber - 1);
+      const pos = -this.slide * 100;
+      if (noAnimation) {
+        this.stopAnimation();
+        this.position = pos;
+        return
+      }
+      Utils.animate({
+        name: this.animUid,
+        pos: this.position,
+        finalPos: pos,
+        apply: (pos) => {
+          this.position = pos;
+        }
+      });
     },
     toggleFullscreen () {
       if (this.inFullscreen) {
@@ -6266,12 +6259,18 @@ var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
         this.inFullscreen = false;
       }
       window.removeEventListener('popstate', this.__popState);
+    },
+    stopAnimation () {
+      Utils.animate.stop(this.animUid);
     }
   },
   mounted () {
     this.$nextTick(() => {
       this.slidesNumber = this.$refs.track.children.length;
     });
+  },
+  beforeDestroy () {
+    this.stopAnimation();
   }
 };
 
@@ -7210,7 +7209,7 @@ var install$$1 = function (_Vue) {
   };
 };
 
-var start = function (callback = function () {}) {
+var start$1 = function (callback = function () {}) {
   /*
     if on Cordova, but not on an iframe,
     like on Quasar Play app
@@ -7989,7 +7988,7 @@ window.Velocity = Velocity$1;
 let Quasar = {
   version: '0.12.1',
   install: install$$1,
-  start,
+  start: start$1,
   theme
 };
 

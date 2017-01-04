@@ -168,6 +168,68 @@ var Events = {
   }
 };
 
+function s4() {
+  return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+}
+
+var uid$1 = function () {
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+};
+
+var ids = {};
+
+function animate(_ref) {
+  var id = _ref.id,
+      finalPos = _ref.finalPos,
+      pos = _ref.pos,
+      threshold = _ref.threshold,
+      factor = _ref.factor,
+      done = _ref.done,
+      apply = _ref.apply;
+
+  ids[id] = requestAnimationFrame(function () {
+    var diff = finalPos - pos;
+    if (Math.abs(diff) < threshold) {
+      delete ids[id];
+      apply(finalPos);
+      done && done(finalPos);
+      return;
+    }
+    var newPos = pos + (finalPos - pos) / factor;
+    apply(newPos);
+    animate({ id: id, finalPos: finalPos, pos: newPos, threshold: threshold, done: done, factor: factor, apply: apply });
+  });
+}
+
+function start$1(_ref2) {
+  var name = _ref2.name,
+      finalPos = _ref2.finalPos,
+      pos = _ref2.pos,
+      _ref2$threshold = _ref2.threshold,
+      threshold = _ref2$threshold === undefined ? 1 : _ref2$threshold,
+      _ref2$factor = _ref2.factor,
+      factor = _ref2$factor === undefined ? 5 : _ref2$factor,
+      done = _ref2.done,
+      apply = _ref2.apply;
+
+  var id = name;
+  if (id) {
+    stop(id);
+  } else {
+    id = uid$1();
+  }
+  animate({ id: id, finalPos: finalPos, pos: pos, threshold: threshold, factor: factor, done: done, apply: apply });
+  return id;
+}
+
+start$1.stop = function (id) {
+  var timer = ids[id];
+  if (timer) {
+    cancelAnimationFrame(timer);
+    delete ids[id];
+  }
+};
+
 var clone = function (data) {
   return JSON.parse(JSON.stringify(data));
 };
@@ -573,8 +635,13 @@ function humanStorageSize(bytes) {
   return bytes.toFixed(1) + ' ' + units[u];
 }
 
+function between(val, min, max) {
+  return Math.min(max, Math.max(min, val));
+}
+
 var format$1 = Object.freeze({
-	humanStorageSize: humanStorageSize
+	humanStorageSize: humanStorageSize,
+	between: between
 });
 
 var ModalGenerator = function (VueComponent) {
@@ -1023,14 +1090,6 @@ var scrollbar = Object.freeze({
 	width: width$1
 });
 
-function s4() {
-  return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-}
-
-var uid$1 = function () {
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-};
-
 var data$1 = {};
 
 function add$1(name, el, ctx) {
@@ -1103,6 +1162,7 @@ var throttle = function (fn) {
 };
 
 var Utils = {
+  animate: start$1,
   clone: clone,
   colors: colors,
   debounce: debounce$1,
@@ -2031,7 +2091,7 @@ function inc(p, amount) {
       amount = 0;
     }
   }
-  return Math.max(0, Math.min(100, p + amount));
+  return Utils.format.between(p + amount, 0, 100);
 }
 
 function highjackAjax(startHandler, endHandler) {
@@ -2314,7 +2374,7 @@ var Autocomplete = { render: function render() {
       this.close();
     },
     move: function move(offset) {
-      this.selectedIndex = Math.max(-1, Math.min(this.computedResults.length - 1, this.selectedIndex + offset));
+      this.selectedIndex = Utils.format.between(this.selectedIndex + offset, -1, this.computedResults.length - 1);
     },
     setCurrentSelection: function setCurrentSelection() {
       if (this.selectedIndex >= 0) {
@@ -3867,21 +3927,20 @@ var InlineDatetimeMaterial = { render: function render() {
       if (!this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year()) {
         return false;
       }
-      return this.date.daysInMonth() - this.maxDay;
+      return this.daysInMonth - this.maxDay;
     },
     maxDay: function maxDay() {
-      return this.pmax ? this.pmax.date() : this.date.daysInMonth();
+      return this.pmax ? this.pmax.date() : this.daysInMonth;
     },
     daysInterval: function daysInterval() {
       var _this4 = this;
 
-      var days = this.date.daysInMonth();
-      var max = !this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year() ? 0 : days - this.pmax.date();
+      var max = !this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year() ? 0 : this.daysInMonth - this.pmax.date();
       if (this.beforeMinDays || max) {
         var _ret = function () {
           var min = _this4.beforeMinDays ? _this4.beforeMinDays + 1 : 1;
           return {
-            v: Array.apply(null, { length: days - min - max + 1 }).map(function (day, index) {
+            v: Array.apply(null, { length: _this4.daysInMonth - min - max + 1 }).map(function (day, index) {
               return index + min;
             })
           };
@@ -3889,7 +3948,10 @@ var InlineDatetimeMaterial = { render: function render() {
 
         if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
       }
-      return days;
+      return this.daysInMonth;
+    },
+    daysInMonth: function daysInMonth() {
+      return this.date.daysInMonth();
     },
     hour: function hour() {
       return convertToAmPm(this.date.hour());
@@ -4017,19 +4079,19 @@ var InlineDatetimeMaterial = { render: function render() {
     },
     __parseTypeValue: function __parseTypeValue(type, value) {
       if (type === 'month') {
-        return Math.max(1, Math.min(12, value));
+        return Utils.format.between(value, 1, 12);
       }
       if (type === 'date') {
-        return Math.max(1, Math.min(this.date.daysInMonth(), value));
+        return Utils.format.between(value, 1, this.daysInMonth);
       }
       if (type === 'year') {
-        return Math.max(1950, Math.min(2050, value));
+        return Utils.format.between(value, 1950, 2050);
       }
       if (type === 'hour') {
-        return Math.max(0, Math.min(23, value));
+        return Utils.format.between(value, 0, 23);
       }
       if (type === 'minute') {
-        return Math.max(0, Math.min(59, value));
+        return Utils.format.between(value, 0, 59);
       }
     },
     __normalizeValue: function __normalizeValue(value) {
@@ -4296,19 +4358,19 @@ var InlineDatetimeIOS = { render: function render() {
     },
     __parseTypeValue: function __parseTypeValue(type, value) {
       if (type === 'month') {
-        return Math.max(1, Math.min(12, value));
+        return Utils.format.between(value, 1, 12);
       }
       if (type === 'date') {
-        return Math.max(1, Math.min(this.daysInMonth, value));
+        return Utils.format.between(value, 1, this.daysInMonth);
       }
       if (type === 'year') {
-        return Math.max(1950, Math.min(2050, value));
+        return Utils.format.between(value, 1950, 2050);
       }
       if (type === 'hour') {
-        return Math.max(0, Math.min(23, value));
+        return Utils.format.between(value, 0, 23);
       }
       if (type === 'minute') {
-        return Math.max(0, Math.min(59, value));
+        return Utils.format.between(value, 0, 59);
       }
     },
     __updateAllPositions: function __updateAllPositions() {
@@ -4344,7 +4406,7 @@ var InlineDatetimeIOS = { render: function render() {
       }
 
       [].slice.call(root.children).forEach(function (item) {
-        Utils.dom.css(item, _this5.__itemStyle(value * 36, Math.max(-180, Math.min(180, delta * -18))));
+        Utils.dom.css(item, _this5.__itemStyle(value * 36, Utils.format.between(delta * -18, -180, 180)));
         delta++;
       });
     },
@@ -4442,33 +4504,12 @@ var InlineDatetimeIOS = { render: function render() {
   }
 };
 
-var drawerAnimationSpeed = 150;
-var backdropOpacity = {
-  mat: 0.7,
-  ios: 0.2
-};
-
-function getCurrentPosition(node) {
-  var transform = Utils.dom.style(node, 'transform');
-  return transform && transform !== 'none' ? parseInt(transform.split(/[()]/)[1].split(', ')[4], 10) : 0;
-}
-
-function getBetween(value, min, max) {
-  if (value < min) {
-    return min;
-  }
-
-  if (value > max) {
-    return max;
-  }
-
-  return value;
-}
+var backdropOpacity = { mat: 0.7, ios: 0.2 };
 
 var Drawer = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "drawer", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide } }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__openByTouch, expression: "__openByTouch", modifiers: { "horizontal": true } }], staticClass: "drawer-opener touch-only mobile-only", class: { 'fixed-left': !_vm.rightSide, 'fixed-right': _vm.rightSide } }, [_vm._v(" ")]), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "backdrop", staticClass: "drawer-backdrop fullscreen", staticStyle: { "background": "rgba(0, 0, 0, 0.01)" }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "drawer", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide } }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__openByTouch, expression: "__openByTouch", modifiers: { "horizontal": true } }], staticClass: "drawer-opener touch-only mobile-only", class: { 'fixed-left': !_vm.rightSide, 'fixed-right': _vm.rightSide } }, [_vm._v(" ")]), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "backdrop", staticClass: "drawer-backdrop fullscreen", style: _vm.backdropStyle, on: { "click": function click($event) {
           _vm.setState(false);
-        } } }), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "content", staticClass: "drawer-content", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide } }, [_vm._t("default")], 2)]);
+        } } }), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "content", staticClass: "drawer-content", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide }, style: _vm.nodeStyle }, [_vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     'right-side': Boolean,
@@ -4476,19 +4517,35 @@ var Drawer = { render: function render() {
   },
   data: function data() {
     return {
-      opened: false
+      opened: false,
+      nodePosition: 0,
+      backPosition: 0.01,
+      nodeAnimUid: Utils.uid(),
+      backAnimUid: Utils.uid()
     };
   },
 
+  computed: {
+    nodeStyle: function nodeStyle() {
+      var css = Utils.dom.cssTransform('translateX(' + this.nodePosition + 'px)');
+      if (this.$quasar.theme === 'ios') {
+        if (this.layoutContainer) {
+          Utils.dom.css(this.layoutContainer, css);
+        }
+        return;
+      }
+      return css;
+    },
+    backdropStyle: function backdropStyle() {
+      return { background: 'rgba(0,0,0,' + this.backPosition + ')' };
+    }
+  },
   methods: {
-    __matToggleAnimate: function __matToggleAnimate(percentage, done) {
+    __animate: function __animate(done) {
       var _this = this;
 
-      var node = this.$refs.content,
-          backdrop = this.$refs.backdrop,
-          currentPosition = getCurrentPosition(node),
-          closePosition = (this.rightSide ? 1 : -1) * this.width,
-          animationNeeded = this.opened && percentage !== 1 || !this.opened && percentage !== 0,
+      var finalPos = void 0;
+      var backdrop = this.$refs.backdrop,
           complete = function complete() {
         if (!_this.opened) {
           backdrop.classList.remove('active');
@@ -4500,8 +4557,11 @@ var Drawer = { render: function render() {
         }
       };
 
-      Velocity(node, 'stop');
-      Velocity(backdrop, 'stop');
+      if (this.$quasar.theme === 'ios') {
+        finalPos = this.opened ? (this.rightSide ? -1 : 1) * this.width : 0;
+      } else {
+        finalPos = this.opened ? 0 : (this.rightSide ? 1 : -1) * this.width;
+      }
 
       if (this.opened) {
         backdrop.classList.add('active');
@@ -4527,80 +4587,30 @@ var Drawer = { render: function render() {
         }
       }
 
-      if (!animationNeeded) {
-        complete();
-        return;
-      }
-
-      Velocity(node, { translateX: this.opened ? [0, currentPosition] : [closePosition, currentPosition] }, { duration: !this.opened || currentPosition !== 0 ? drawerAnimationSpeed : 0 });
-      Velocity(backdrop, {
-        'backgroundColor': '#000',
-        'backgroundColorAlpha': this.opened ? backdropOpacity.mat : 0.01
-      }, {
-        duration: drawerAnimationSpeed,
-        complete: complete
+      Utils.animate({
+        name: this.backAnimUid,
+        pos: this.backPosition,
+        finalPos: this.opened ? backdropOpacity[this.$quasar.theme] : 0.01,
+        apply: function apply(pos) {
+          _this.backPosition = pos;
+        },
+        threshold: 0.01
       });
-    },
-    __iosToggleAnimate: function __iosToggleAnimate(percentage, done) {
-      var _this2 = this;
-
-      var backdrop = this.$refs.backdrop;
-
-      if (this.opened) {
-        backdrop.classList.add('active');
-        document.body.classList.add('drawer-opened');
-        if (Platform.has.popstate) {
-          if (!window.history.state) {
-            window.history.replaceState({ __quasar_drawer: true }, '');
-          } else {
-            window.history.state.__quasar_drawer = true;
-          }
-          window.history.pushState({}, '');
-          window.addEventListener('popstate', this.__popState);
-        }
-      } else {
-        window.removeEventListener('resize', this.close);
-        if (Platform.has.popstate) {
-          window.removeEventListener('popstate', this.__popState);
-          if (window.history.state && !window.history.state.__quasar_drawer) {
-            window.history.go(-1);
-          }
-        }
-      }
-
-      var currentPosition = getCurrentPosition(this.layoutContainer),
-          openPosition = (this.rightSide ? -1 : 1) * this.width,
-          animationNeeded = this.opened && percentage !== 1 || !this.opened && percentage !== 0,
-          complete = function complete() {
-        if (!_this2.opened) {
-          backdrop.classList.remove('active');
-          document.body.classList.remove('drawer-opened');
-        } else {
-          window.addEventListener('resize', _this2.close);
-        }
-        if (typeof done === 'function') {
-          done();
-        }
-      };
-
-      Velocity(this.layoutContainer, 'stop');
-      Velocity(backdrop, 'stop');
-
-      if (!animationNeeded) {
-        complete();
-        return;
-      }
-
-      Velocity(this.layoutContainer, { translateX: this.opened ? [openPosition, currentPosition] : [0, currentPosition] }, { duration: !this.opened || currentPosition !== openPosition ? drawerAnimationSpeed : 0 });
-      Velocity(backdrop, {
-        'backgroundColor': '#000',
-        'backgroundColorAlpha': this.opened ? backdropOpacity.ios : 0.01
-      }, {
-        duration: drawerAnimationSpeed,
-        complete: complete
+      Utils.animate({
+        name: this.nodeAnimUid,
+        pos: this.nodePosition,
+        finalPos: finalPos,
+        apply: function apply(pos) {
+          _this.nodePosition = pos;
+        },
+        done: complete
       });
     },
     __openByTouch: function __openByTouch(event) {
+      if (Platform.is.ios) {
+        return;
+      }
+
       var content = this.$refs.content,
           backdrop = this.$refs.backdrop;
 
@@ -4609,43 +4619,34 @@ var Drawer = { render: function render() {
       }
 
       var position = event.distance.x,
-          target = void 0,
-          fn = void 0,
           percentage = void 0;
 
       if (event.isFinal) {
         this.opened = position > 75;
       }
 
-      if (current === 'ios') {
+      if (this.$quasar.theme === 'ios') {
         position = Math.min(position, this.width);
         percentage = 1.0 - (this.width - Math.abs(position)) / this.width;
-        fn = this.__iosToggleAnimate;
-        target = this.layoutContainer;
         position = (this.rightSide ? -1 : 1) * position;
       } else {
         position = this.rightSide ? Math.max(this.width - position, 0) : Math.min(0, position - this.width);
         percentage = (this.width - Math.abs(position)) / this.width;
-        fn = this.__matToggleAnimate;
-        target = content;
       }
+
+      if (event.isFirst) {
+        backdrop.classList.add('active');
+      }
+      this.nodePosition = position;
+      this.backPosition = percentage * backdropOpacity[this.$quasar.theme];
 
       if (event.isFinal) {
-        fn(percentage, null);
-        return;
+        this.__animate();
       }
-
-      target.style.transform = 'translateX(' + position + 'px)';
-      backdrop.classList.add('active');
-      backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[current] + ')';
     },
     __closeByTouch: function __closeByTouch(event) {
-      var content = this.$refs.content,
-          backdrop = this.$refs.backdrop;
-
-      var target = void 0,
-          fn = void 0,
-          percentage = void 0,
+      var content = this.$refs.content;
+      var percentage = void 0,
           position = void 0,
           initialPosition = void 0;
 
@@ -4653,31 +4654,26 @@ var Drawer = { render: function render() {
         return;
       }
 
-      position = this.rightSide ? getBetween((event.direction === 'left' ? -1 : 1) * event.distance.x, 0, this.width) : getBetween((event.direction === 'left' ? -1 : 1) * event.distance.x, -this.width, 0);
       initialPosition = (this.rightSide ? -1 : 1) * this.width;
+      position = this.rightSide ? Utils.format.between((event.direction === 'left' ? -1 : 1) * event.distance.x, 0, this.width) : Utils.format.between((event.direction === 'left' ? -1 : 1) * event.distance.x, -this.width, 0);
 
       if (event.isFinal) {
         this.opened = Math.abs(position) <= 75;
       }
 
-      if (current === 'ios') {
+      if (this.$quasar.theme === 'ios') {
         position = initialPosition + position;
         percentage = (this.rightSide ? -1 : 1) * position / this.width;
-        fn = this.__iosToggleAnimate;
-        target = this.layoutContainer;
       } else {
         percentage = 1 + (this.rightSide ? -1 : 1) * position / this.width;
-        fn = this.__matToggleAnimate;
-        target = content;
       }
+
+      this.nodePosition = position;
+      this.backPosition = percentage * backdropOpacity[this.$quasar.theme];
 
       if (event.isFinal) {
-        fn(percentage, null);
-        return;
+        this.__animate();
       }
-
-      target.style.transform = 'translateX(' + position + 'px)';
-      backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[current] + ')';
     },
     setState: function setState(state, done) {
       if (!this.swipeOnly && Utils.dom.viewport().width > 600 || typeof state === 'boolean' && this.opened === state) {
@@ -4688,9 +4684,7 @@ var Drawer = { render: function render() {
       }
 
       this.opened = !this.opened;
-      var fn = current === 'ios' ? this.__iosToggleAnimate : this.__matToggleAnimate;
-
-      fn(this.opened ? 0.01 : 1, done);
+      this.__animate(done);
     },
     __popState: function __popState() {
       if (Platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
@@ -4708,28 +4702,31 @@ var Drawer = { render: function render() {
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this2 = this;
 
     this.$nextTick(function () {
-      var content = _this3.$refs.content;
+      var content = _this2.$refs.content;
+      _this2.width = Utils.dom.width(content);
 
-      if (current === 'ios') {
-        _this3.layoutContainer = _this3.$el.closest('.layout') || document.getElementById('q-app');
+      if (_this2.$quasar.theme === 'ios') {
+        _this2.layoutContainer = _this2.$el.closest('.layout') || document.getElementById('q-app');
+      } else {
+        _this2.nodePosition = _this2.width * (_this2.rightSide ? 1 : -1);
       }
 
-      _this3.width = Utils.dom.width(content);[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(function (el) {
+      [].slice.call(content.getElementsByClassName('drawer-closer')).forEach(function (el) {
         el.addEventListener('click', function (event) {
           event.stopPropagation();
-          _this3.setState(false);
+          _this2.setState(false);
         });
       });
 
-      if (_this3.swipeOnly) {
-        _this3.$el.classList.add('swipe-only');
+      if (_this2.swipeOnly) {
+        _this2.$el.classList.add('swipe-only');
       }
 
-      _this3.__eventHandler = function (handler) {
-        _this3.close(handler);
+      _this2.__eventHandler = function (handler) {
+        _this2.close(handler);
       };
     });
   },
@@ -5093,7 +5090,7 @@ var Knob = { render: function render() {
       var model = this.min + angle / 360 * (this.max - this.min),
           modulo = model % this.step;
 
-      this.$emit('input', Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0))));
+      this.$emit('input', Utils.format.between(model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0), this.min, this.max));
     }
   }
 };
@@ -5490,7 +5487,7 @@ var Pagination$1 = { render: function render() {
       }
     },
     __normalize: function __normalize(value) {
-      return Math.min(this.max, Math.max(1, parseInt(value, 10)));
+      return Utils.format.between(parseInt(value, 10), 1, this.max);
     }
   },
   watch: {
@@ -5785,18 +5782,37 @@ var Popover = { render: function render() {
   }
 };
 
+function width$2(model) {
+  return { width: Utils.format.between(model, 0, 100) + '%' };
+}
+
 var Progress = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-progress" }, [_c('div', { style: { width: _vm.model + '%' } })]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-progress" }, [_c('div', { staticClass: "q-progress-track", style: _vm.trackStyle }, [_vm._v(" ")]), _vm.hasBuffer ? _c('div', { staticClass: "q-progress-buffer", style: _vm.bufferStyle }, [_vm._v(" ")]) : _vm._e(), _c('div', { staticClass: "q-progress-model", style: _vm.modelStyle }, [_vm._v(" ")])]);
   }, staticRenderFns: [],
   props: {
     percentage: {
       type: Number,
       default: 0
+    },
+    buffer: {
+      type: Number,
+      default: -1
     }
   },
   computed: {
-    model: function model() {
-      return Math.max(0, Math.min(100, this.percentage));
+    modelStyle: function modelStyle() {
+      return width$2(this.percentage);
+    },
+    bufferStyle: function bufferStyle() {
+      if (this.hasBuffer) {
+        return width$2(this.buffer);
+      }
+    },
+    trackStyle: function trackStyle() {
+      return width$2(this.hasBuffer ? 100 - this.buffer : 100);
+    },
+    hasBuffer: function hasBuffer() {
+      return this.buffer !== -1;
     }
   }
 };
@@ -6114,12 +6130,12 @@ var Range = { render: function render() {
         return;
       }
 
-      var percentage = Math.min(1, Math.max(0, (Utils.event.position(event).left - this.dragging.left) / this.dragging.width)),
+      var percentage = Utils.format.between((Utils.event.position(event).left - this.dragging.left) / this.dragging.width, 0, 1),
           model = this.min + percentage * (this.max - this.min),
           modulo = (model - this.min) % this.step;
 
       this.currentPercentage = percentage;
-      this.$emit('input', Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0))));
+      this.$emit('input', Utils.format.between(model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0), this.min, this.max));
     },
     __end: function __end() {
       this.dragging = false;
@@ -6439,7 +6455,7 @@ var Rating = { render: function render() {
   methods: {
     set: function set(value) {
       if (!this.disable) {
-        this.model = Math.min(this.max, Math.max(1, parseInt(value, 10)));
+        this.model = Utils.format.between(parseInt(value, 10), 1, this.max);
       }
     },
     __setHoverValue: function __setHoverValue(value) {
@@ -6749,7 +6765,7 @@ var DialogSelect = { render: function render() {
 };
 
 var Slider = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-slider", class: { fullscreen: _vm.inFullscreen } }, [_c('div', { staticClass: "q-slider-inner" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__pan, expression: "__pan", modifiers: { "horizontal": true } }], ref: "track", staticClass: "q-slider-track", class: { 'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar } }, [_vm._t("slide")], 2), _vm.arrows ? _c('div', { staticClass: "q-slider-left-button row items-center justify-center", class: { hidden: _vm.slide === 0 } }, [_c('i', { on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-slider", class: { fullscreen: _vm.inFullscreen } }, [_c('div', { staticClass: "q-slider-inner" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__pan, expression: "__pan", modifiers: { "horizontal": true } }], ref: "track", staticClass: "q-slider-track", class: { 'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar }, style: _vm.trackPosition }, [_vm._t("slide")], 2), _vm.arrows ? _c('div', { staticClass: "q-slider-left-button row items-center justify-center", class: { hidden: _vm.slide === 0 } }, [_c('i', { on: { "click": function click($event) {
           _vm.goToSlide(_vm.slide - 1);
         } } }, [_vm._v("keyboard_arrow_left")])]) : _vm._e(), _vm.arrows ? _c('div', { staticClass: "q-slider-right-button row items-center justify-center", class: { hidden: _vm.slide === _vm.slidesNumber - 1 }, on: { "click": function click($event) {
           _vm.goToSlide(_vm.slide + 1);
@@ -6772,7 +6788,8 @@ var Slider = { render: function render() {
       position: 0,
       slide: 0,
       slidesNumber: 0,
-      inFullscreen: false
+      inFullscreen: false,
+      animUid: Utils.uid()
     };
   },
 
@@ -6784,13 +6801,16 @@ var Slider = { render: function render() {
   computed: {
     toolbar: function toolbar() {
       return this.dots || this.fullscreen || this.actions;
+    },
+    trackPosition: function trackPosition() {
+      return Utils.dom.cssTransform('translateX(' + this.position + '%)');
     }
   },
   methods: {
     __pan: function __pan(event) {
       if (!this.hasOwnProperty('initialPosition')) {
         this.initialPosition = this.position;
-        Velocity(this.$refs.track, 'stop');
+        this.stopAnimation();
       }
 
       var delta = (event.direction === 'left' ? -1 : 1) * event.distance.x;
@@ -6800,26 +6820,30 @@ var Slider = { render: function render() {
       }
 
       this.position = this.initialPosition + delta / this.$refs.track.offsetWidth * 100;
-      this.$refs.track.style.transform = 'translateX(' + this.position + '%)';
 
       if (event.isFinal) {
-        if (event.distance.x < 100) {
-          this.goToSlide(this.slide);
-        } else {
-          this.goToSlide(event.direction === 'left' ? this.slide + 1 : this.slide - 1);
-        }
+        this.goToSlide(event.distance.x < 100 ? this.slide : event.direction === 'left' ? this.slide + 1 : this.slide - 1);
         delete this.initialPosition;
       }
     },
     goToSlide: function goToSlide(slide, noAnimation) {
-      this.slide = Math.min(this.slidesNumber - 1, Math.max(0, slide));
+      var _this = this;
 
-      Velocity(this.$refs.track, 'stop');
-      Velocity(this.$refs.track, {
-        translateX: [-this.slide * 100 + '%', this.position + '%']
-      }, noAnimation ? { duration: 0 } : undefined);
-
-      this.position = -this.slide * 100;
+      this.slide = Utils.format.between(slide, 0, this.slidesNumber - 1);
+      var pos = -this.slide * 100;
+      if (noAnimation) {
+        this.stopAnimation();
+        this.position = pos;
+        return;
+      }
+      Utils.animate({
+        name: this.animUid,
+        pos: this.position,
+        finalPos: pos,
+        apply: function apply(pos) {
+          _this.position = pos;
+        }
+      });
     },
     toggleFullscreen: function toggleFullscreen() {
       if (this.inFullscreen) {
@@ -6842,14 +6866,20 @@ var Slider = { render: function render() {
         this.inFullscreen = false;
       }
       window.removeEventListener('popstate', this.__popState);
+    },
+    stopAnimation: function stopAnimation() {
+      Utils.animate.stop(this.animUid);
     }
   },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     this.$nextTick(function () {
-      _this.slidesNumber = _this.$refs.track.children.length;
+      _this2.slidesNumber = _this2.$refs.track.children.length;
     });
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.stopAnimation();
   }
 };
 
@@ -7855,7 +7885,7 @@ var install$$1 = function (_Vue) {
   };
 };
 
-var start$1 = function () {
+var start$2 = function () {
   var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
 
   if (Platform.is.cordova && !Platform.within.iframe) {
@@ -8631,7 +8661,7 @@ window.Velocity = Velocity$1;
 var Quasar = {
   version: '0.12.1',
   install: install$$1,
-  start: start$1,
+  start: start$2,
   theme: theme,
 
   ActionSheet: ActionSheet,

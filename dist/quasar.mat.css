@@ -4329,13 +4329,12 @@ body.with-modal {
   height: 4px;
   display: block;
   width: 100%;
-  background: rgba(0,0,0,0.15);
   border-radius: 2px;
   background-clip: padding-box;
   margin: 0.5rem 0 1rem 0;
   overflow: hidden;
 }
-.q-progress:not(.indeterminate) > div {
+.q-progress:not(.indeterminate) .q-progress-model {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -4343,14 +4342,17 @@ body.with-modal {
   border-radius: 2px;
   transition: width 0.3s linear;
 }
-.q-progress.animate > div {
+.q-progress.animate .q-progress-model {
   animation: q-progress-stripes 2s linear infinite;
 }
-.q-progress.indeterminate > div {
+.q-progress.indeterminate .q-progress-buffer {
+  display: none;
+}
+.q-progress.indeterminate .q-progress-model {
   background: #027be3;
 }
-.q-progress.indeterminate > div:before,
-.q-progress.indeterminate > div:after {
+.q-progress.indeterminate .q-progress-model:before,
+.q-progress.indeterminate .q-progress-model:after {
   content: '';
   position: absolute;
   background: inherit;
@@ -4359,105 +4361,124 @@ body.with-modal {
   bottom: 0;
   will-change: left, right;
 }
-.q-progress.indeterminate > div:before {
+.q-progress.indeterminate .q-progress-model:before {
   animation: q-progress-indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 }
-.q-progress.indeterminate > div:after {
+.q-progress.indeterminate .q-progress-model:after {
   animation: q-progress-indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
   animation-delay: 1.15s;
 }
-.q-progress.stripe > div,
-.q-progress.stripe > div:before,
-.q-progress.stripe > div:after {
+.q-progress.stripe .q-progress-model,
+.q-progress.stripe .q-progress-model:before,
+.q-progress.stripe .q-progress-model:after {
   background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
   background-size: 40px 40px;
 }
-.q-progress.primary > div {
+.q-progress.primary .q-progress-model {
   background-color: #027be3;
 }
-.q-progress.secondary > div {
+.q-progress.secondary .q-progress-model {
   background-color: #26a69a;
 }
-.q-progress.tertiary > div {
+.q-progress.tertiary .q-progress-model {
   background-color: #555;
 }
-.q-progress.positive > div {
+.q-progress.positive .q-progress-model {
   background-color: #21ba45;
 }
-.q-progress.negative > div {
+.q-progress.negative .q-progress-model {
   background-color: #db2828;
 }
-.q-progress.warning > div {
+.q-progress.warning .q-progress-model {
   background-color: #f2c037;
 }
-.q-progress.info > div {
+.q-progress.info .q-progress-model {
   background-color: #31ccec;
 }
-.q-progress.light > div {
+.q-progress.light .q-progress-model {
   background-color: #f4f4f4;
 }
-.q-progress.dark > div {
+.q-progress.dark .q-progress-model {
   background-color: #333;
 }
-.q-progress.white > div {
+.q-progress.white .q-progress-model {
   background-color: #fff;
 }
-.q-progress.red > div {
+.q-progress.red .q-progress-model {
   background-color: #f44336;
 }
-.q-progress.pink > div {
+.q-progress.pink .q-progress-model {
   background-color: #e91e63;
 }
-.q-progress.purple > div {
+.q-progress.purple .q-progress-model {
   background-color: #9c27b0;
 }
-.q-progress.deep-purple > div {
+.q-progress.deep-purple .q-progress-model {
   background-color: #673ab7;
 }
-.q-progress.indigo > div {
+.q-progress.indigo .q-progress-model {
   background-color: #3f51b5;
 }
-.q-progress.blue > div {
+.q-progress.blue .q-progress-model {
   background-color: #2196f3;
 }
-.q-progress.light-blue > div {
+.q-progress.light-blue .q-progress-model {
   background-color: #03a9f4;
 }
-.q-progress.cyan > div {
+.q-progress.cyan .q-progress-model {
   background-color: #00bcd4;
 }
-.q-progress.teal > div {
+.q-progress.teal .q-progress-model {
   background-color: #009688;
 }
-.q-progress.green > div {
+.q-progress.green .q-progress-model {
   background-color: #4caf50;
 }
-.q-progress.light-green > div {
+.q-progress.light-green .q-progress-model {
   background-color: #8bc34a;
 }
-.q-progress.lime > div {
+.q-progress.lime .q-progress-model {
   background-color: #cddc39;
 }
-.q-progress.yellow > div {
+.q-progress.yellow .q-progress-model {
   background-color: #ffeb3b;
 }
-.q-progress.amber > div {
+.q-progress.amber .q-progress-model {
   background-color: #ffc107;
 }
-.q-progress.orange > div {
+.q-progress.orange .q-progress-model {
   background-color: #ff9800;
 }
-.q-progress.deep-orange > div {
+.q-progress.deep-orange .q-progress-model {
   background-color: #ff5722;
 }
-.q-progress.brown > div {
+.q-progress.brown .q-progress-model {
   background-color: #795548;
 }
-.q-progress.grey > div {
+.q-progress.grey .q-progress-model {
   background-color: #9e9e9e;
 }
-.q-progress.blue-grey > div {
+.q-progress.blue-grey .q-progress-model {
   background-color: #607d8b;
+}
+.q-progress-track {
+  background: rgba(0,0,0,0.15);
+  left: 0;
+  top: 0;
+}
+.q-progress-buffer {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  background: rgba(0,0,0,0.15);
+  mask: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+Cjxzdmcgd2lkdGg9IjEyIiBoZWlnaHQ9IjQiIHZpZXdQb3J0PSIwIDAgMTIgNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxlbGxpcHNlIGN4PSIyIiBjeT0iMiIgcng9IjIiIHJ5PSIyIj4KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImN4IiBmcm9tPSIyIiB0bz0iLTEwIiBkdXI9IjAuNnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogIDwvZWxsaXBzZT4KICA8ZWxsaXBzZSBjeD0iMTQiIGN5PSIyIiByeD0iMiIgcnk9IjIiIGNsYXNzPSJsb2FkZXIiPgogICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iY3giIGZyb209IjE0IiB0bz0iMiIgZHVyPSIwLjZzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgLz4KICA8L2VsbGlwc2U+Cjwvc3ZnPgo=");
+}
+.q-progress-track,
+.q-progress-buffer {
+  transition: width 0.3s linear;
+  position: absolute;
+  bottom: 0;
 }
 body.desktop .q-progress {
   height: 15px;
