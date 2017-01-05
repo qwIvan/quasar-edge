@@ -3036,7 +3036,9 @@ var Scroll = {
           top = e.currentTarget.scrollTop;
 
       requestAnimationFrame(function () {
-        _this.$refs.head.scrollLeft = left;
+        if (_this.$refs.head) {
+          _this.$refs.head.scrollLeft = left;
+        }
         _this.updateStickyScroll(top);
       });
     },
@@ -3241,16 +3243,17 @@ var SortIcon = { render: function render() {
 var TableSticky = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('table', { staticClass: "q-table horizontal-delimiter" }, [_c('colgroup', [_vm.selection ? _c('col', { staticStyle: { "width": "45px" } }) : _vm._e(), _vm._l(_vm.cols, function (col) {
       return _c('col', { style: { width: col.width } });
-    })], 2), _c('thead', [_c('tr', [_vm.selection ? _c('th', [_vm._v(" ")]) : _vm._e(), _vm._l(_vm.cols, function (col, index) {
+    })], 2), !_vm.noHeader ? _c('thead', [_c('tr', [_vm.selection ? _c('th', [_vm._v(" ")]) : _vm._e(), _vm._l(_vm.cols, function (col, index) {
       return _c('th', { class: { invisible: _vm.hidden(index), sortable: col.sort }, on: { "click": function click($event) {
             _vm.sort(col);
           } } }, [!_vm.hidden(index) ? [col.sort ? _c('sort-icon', { attrs: { "field": col.field, "sorting": _vm.sorting } }) : _vm._e(), _c('span', { domProps: { "innerHTML": _vm._s(col.label) } })] : _vm._e()], 2);
-    })], 2)]), !_vm.head ? _c('tbody', [_vm._t("default")], 2) : _vm._e()]);
+    })], 2)]) : _vm._e(), !_vm.head ? _c('tbody', [_vm._t("default")], 2) : _vm._e()]);
   }, staticRenderFns: [],
   props: {
     stickyCols: Number,
     cols: Array,
     head: Boolean,
+    noHeader: Boolean,
     right: Boolean,
     sorting: Object,
     scroll: Object,
@@ -3386,11 +3389,11 @@ var DataTable = { render: function render() {
           } } })], 1) : _vm._e(), _vm._l(_vm.cols, function (col) {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]), attrs: { "data-th": col.label } }, [_vm._t('col-' + col.field, [_c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } })], { row: row, col: col, data: row[col.field] })], 2);
       })], 2);
-    }))])])] : _c('div', { staticClass: "q-data-table-container", on: { "mousewheel": _vm.mouseWheel, "dommousescroll": _vm.mouseWheel } }, [_c('div', { ref: "head", staticClass: "q-data-table-head", style: { marginRight: _vm.scroll.vert } }, [_c('table-content', { attrs: { "head": "", "cols": _vm.cols, "sorting": _vm.sorting, "scroll": _vm.scroll, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1), _c('div', { ref: "body", staticClass: "q-data-table-body", style: _vm.bodyStyle, on: { "scroll": _vm.scrollHandler } }, [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('table-content', { attrs: { "cols": _vm.cols, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row) {
+    }))])])] : _c('div', { staticClass: "q-data-table-container", on: { "mousewheel": _vm.mouseWheel, "dommousescroll": _vm.mouseWheel } }, [_vm.hasHeader ? _c('div', { ref: "head", staticClass: "q-data-table-head", style: { marginRight: _vm.scroll.vert } }, [_c('table-content', { attrs: { "head": "", "cols": _vm.cols, "sorting": _vm.sorting, "scroll": _vm.scroll, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1) : _vm._e(), _c('div', { ref: "body", staticClass: "q-data-table-body", style: _vm.bodyStyle, on: { "scroll": _vm.scrollHandler } }, [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('table-content', { attrs: { "cols": _vm.cols, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row) {
       return _c('tr', { style: _vm.rowStyle }, [_vm.config.selection ? _c('td') : _vm._e(), _vm.leftStickyColumns ? _c('td', { attrs: { "colspan": _vm.leftStickyColumns } }) : _vm._e(), _vm._l(_vm.regularCols, function (col) {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [_vm._t('col-' + col.field, [_c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } })], { row: row, col: col, data: row[col.field] })], 2);
       }), _vm.rightStickyColumns ? _c('td', { attrs: { "colspan": _vm.rightStickyColumns } }) : _vm._e()], 2);
-    }))], 1), !_vm.message && (_vm.leftStickyColumns || _vm.config.selection) ? [_c('div', { ref: "stickyLeft", staticClass: "q-data-table-sticky-left", style: { bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "sticky-cols": _vm.leftStickyColumns, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row, index) {
+    }))], 1), !_vm.message && (_vm.leftStickyColumns || _vm.config.selection) ? [_c('div', { ref: "stickyLeft", staticClass: "q-data-table-sticky-left", style: { bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "no-header": !_vm.hasHeader, "sticky-cols": _vm.leftStickyColumns, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row, index) {
       return _c('tr', { style: _vm.rowStyle }, [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: _vm.rowSelection[index], expression: "rowSelection[index]" }], domProps: { "value": _vm.rowSelection[index] }, on: { "input": function input($event) {
             var $$exp = _vm.rowSelection,
                 $$idx = index;if (!Array.isArray($$exp)) {
@@ -3408,11 +3411,11 @@ var DataTable = { render: function render() {
           } } })], 1) : _vm._e(), _vm._l(_vm.leftCols, function (col) {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [_vm._t('col-' + col.field, [_c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } })], { row: row, col: col, data: row[col.field] })], 2);
       })], 2);
-    }))], 1), _c('div', { staticClass: "q-data-table-sticky-left", style: { bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "head": "", "sticky-cols": _vm.leftStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1)] : _vm._e(), !_vm.message && _vm.rightStickyColumns ? [_c('div', { ref: "stickyRight", staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert, bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "right": "", "sticky-cols": _vm.rightStickyColumns, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row) {
+    }))], 1), _vm.hasHeader ? _c('div', { staticClass: "q-data-table-sticky-left", style: { bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "head": "", "sticky-cols": _vm.leftStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1) : _vm._e()] : _vm._e(), !_vm.message && _vm.rightStickyColumns ? [_c('div', { ref: "stickyRight", staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert, bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "no-header": !_vm.hasHeader, "right": "", "sticky-cols": _vm.rightStickyColumns, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row) {
       return _c('tr', { style: _vm.rowStyle }, [_vm.config.selection ? _c('td', { staticClass: "invisible" }) : _vm._e(), _c('td', { staticClass: "invisible", attrs: { "colspan": _vm.cols.length - _vm.rightStickyColumns } }), _vm._l(_vm.rightCols, function (col) {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [_vm._t('col-' + col.field, [_c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } })], { row: row, col: col, data: row[col.field] })], 2);
       })], 2);
-    }))], 1), _c('div', { staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert } }, [_c('table-sticky', { attrs: { "right": "", "head": "", "sticky-cols": _vm.rightStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1)] : _vm._e()], 2), _vm.config.pagination ? _c('table-pagination', { attrs: { "pagination": _vm.pagination, "entries": _vm.pagination.entries, "labels": _vm.labels } }) : _vm._e()], 2);
+    }))], 1), _vm.hasHeader ? _c('div', { staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert } }, [_c('table-sticky', { attrs: { "right": "", "head": "", "sticky-cols": _vm.rightStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1) : _vm._e()] : _vm._e()], 2), _vm.config.pagination ? _c('table-pagination', { attrs: { "pagination": _vm.pagination, "entries": _vm.pagination.entries, "labels": _vm.labels } }) : _vm._e()], 2);
   }, staticRenderFns: [],
   mixins: [ColumnSelection, Filter, I18n, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
   props: {
@@ -3478,6 +3481,9 @@ var DataTable = { render: function render() {
     },
     hasToolbar: function hasToolbar() {
       return this.config.title || this.filteringCols.length || this.config.columnPicker || this.config.refresh;
+    },
+    hasHeader: function hasHeader() {
+      return !this.config.noHeader;
     }
   },
   methods: {
