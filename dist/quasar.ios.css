@@ -3267,6 +3267,15 @@ body.desktop .q-datetime-col-wrapper {
   padding: 0 6px;
   text-align: center;
 }
+.q-datetime-range.space-between > div + div {
+  margin-left: 10px;
+}
+.q-datetime-range.full-width {
+  display: flex;
+}
+.q-datetime-range.full-width > div {
+  flex: 1 1 auto;
+}
 body.drawer-opened {
   overflow-x: hidden !important;
 }

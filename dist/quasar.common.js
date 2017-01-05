@@ -3624,6 +3624,14 @@ var Datetime = { render: function render() {
       return this.value ? moment$1(this.value).format(format) : '';
     }
   },
+  watch: {
+    min: function min() {
+      this.__normalizeAndEmit();
+    },
+    max: function max() {
+      this.__normalizeAndEmit();
+    }
+  },
   methods: {
     open: function open() {
       if (!this.disable && !this.readonly) {
@@ -3657,14 +3665,23 @@ var Datetime = { render: function render() {
     },
     __update: function __update() {
       this.$emit('input', this.model);
+    },
+    __normalizeAndEmit: function __normalizeAndEmit() {
+      var _this = this;
+
+      if (this.value) {
+        this.$nextTick(function () {
+          _this.$emit('input', _this.__normalizeValue(moment$1(_this.value)).format(_this.format));
+        });
+      }
     }
   }
 };
 
 var DatetimeRange = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.from, expression: "model.from" }], attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.model.to || _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.from }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime-range" }, [_c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.from, expression: "model.from" }], class: _vm.className, style: _vm.css, attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.model.to || _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.from }, on: { "input": function input($event) {
           _vm.model.from = $event;
-        } } }), _c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.to, expression: "model.to" }], attrs: { "type": _vm.type, "min": _vm.model.from || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.to }, on: { "input": function input($event) {
+        } } }), _c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.to, expression: "model.to" }], class: _vm.className, style: _vm.css, attrs: { "type": _vm.type, "min": _vm.model.from || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.to }, on: { "input": function input($event) {
           _vm.model.to = $event;
         } } })], 1);
   }, staticRenderFns: [],
@@ -3681,6 +3698,8 @@ var DatetimeRange = { render: function render() {
 
       required: true
     },
+    className: [String, Object],
+    css: [String, Object],
     type: {
       type: String,
       default: 'date'

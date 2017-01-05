@@ -3305,6 +3305,14 @@ var Datetime = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
       return this.value ? moment(this.value).format(format) : ''
     }
   },
+  watch: {
+    min () {
+      this.__normalizeAndEmit();
+    },
+    max () {
+      this.__normalizeAndEmit();
+    }
+  },
   methods: {
     open () {
       if (!this.disable && !this.readonly) {
@@ -3338,11 +3346,18 @@ var Datetime = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
     },
     __update () {
       this.$emit('input', this.model);
+    },
+    __normalizeAndEmit () {
+      if (this.value) {
+        this.$nextTick(() => {
+          this.$emit('input', this.__normalizeValue(moment(this.value)).format(this.format));
+        });
+      }
     }
   }
 };
 
-var DatetimeRange = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('q-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model.from),expression:"model.from"}],attrs:{"type":_vm.type,"min":_vm.min,"max":_vm.model.to || _vm.max,"format":_vm.format,"no-clear":_vm.noClear,"clear-label":_vm.clearLabel,"ok-label":_vm.okLabel,"cancel-label":_vm.cancelLabel,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"readonly":_vm.readonly,"disable":_vm.disable},domProps:{"value":(_vm.model.from)},on:{"input":function($event){_vm.model.from=$event;}}}),_c('q-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model.to),expression:"model.to"}],attrs:{"type":_vm.type,"min":_vm.model.from || _vm.min,"max":_vm.max,"format":_vm.format,"no-clear":_vm.noClear,"clear-label":_vm.clearLabel,"ok-label":_vm.okLabel,"cancel-label":_vm.cancelLabel,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"readonly":_vm.readonly,"disable":_vm.disable},domProps:{"value":(_vm.model.to)},on:{"input":function($event){_vm.model.to=$event;}}})],1)},staticRenderFns: [],
+var DatetimeRange = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-datetime-range"},[_c('q-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model.from),expression:"model.from"}],class:_vm.className,style:(_vm.css),attrs:{"type":_vm.type,"min":_vm.min,"max":_vm.model.to || _vm.max,"format":_vm.format,"no-clear":_vm.noClear,"clear-label":_vm.clearLabel,"ok-label":_vm.okLabel,"cancel-label":_vm.cancelLabel,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"readonly":_vm.readonly,"disable":_vm.disable},domProps:{"value":(_vm.model.from)},on:{"input":function($event){_vm.model.from=$event;}}}),_c('q-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model.to),expression:"model.to"}],class:_vm.className,style:(_vm.css),attrs:{"type":_vm.type,"min":_vm.model.from || _vm.min,"max":_vm.max,"format":_vm.format,"no-clear":_vm.noClear,"clear-label":_vm.clearLabel,"ok-label":_vm.okLabel,"cancel-label":_vm.cancelLabel,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"readonly":_vm.readonly,"disable":_vm.disable},domProps:{"value":(_vm.model.to)},on:{"input":function($event){_vm.model.to=$event;}}})],1)},staticRenderFns: [],
   props: {
     value: {
       type: Object,
@@ -3355,6 +3370,8 @@ var DatetimeRange = {render: function(){var _vm=this;var _h=_vm.$createElement;v
       },
       required: true
     },
+    className: [String, Object],
+    css: [String, Object],
     type: {
       type: String,
       default: 'date'

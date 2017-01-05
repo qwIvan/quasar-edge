@@ -1781,7 +1781,8 @@ $checkbox-tick-height     = (.55 * $checkbox-size)
 .q-data-table-selection
   color $primary
   background alpha($primary, 20%)
-$datetime-color             ?= $primary
+$datetime-color          ?= $primary
+$datetime-range-space    ?= 10px
 .q-datetime
   color rgba(0, 0, 0, .87)
   font-size 1rem
@@ -1925,6 +1926,14 @@ for $pos in 0..12
   .q-datetime-clock-pos-{$pos}
     top (((1 + sin($degree * 1deg)) * 100%) / 2)
     left (((1 + cos($degree * 1deg)) * 100%) / 2)
+.q-datetime-range
+  &.space-between
+    > div + div
+      margin-left $datetime-range-space
+  &.full-width
+    display flex
+    > div
+      flex 1 1 auto
 @media (max-width $layout-medium-max)
   .q-datetime-ampm
     margin-left 1.5rem
