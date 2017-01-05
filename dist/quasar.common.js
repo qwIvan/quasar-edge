@@ -4985,7 +4985,7 @@ var InfiniteScroll = { render: function render() {
 };
 
 var Knob = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-knob non-selectable cursor-pointer", class: { disabled: _vm.disable }, on: { "mousedown": _vm.__dragStart, "mousemove": _vm.__dragMove, "mouseup": _vm.__dragStop, "touchstart": _vm.__dragStart, "touchmove": _vm.__dragMove, "touchend": _vm.__dragStop } }, [_c('div', { style: { width: _vm.size, height: _vm.size } }, [_c('svg', { attrs: { "viewBox": "0 0 100 100" } }, [_c('path', { attrs: { "d": "M 50,50 m 0,-47\n           a 47,47 0 1 1 0,94\n           a 47,47 0 1 1 0,-94", "stroke": _vm.trackColor, "stroke-width": _vm.lineWidth, "fill-opacity": "0" } }), _c('path', { style: _vm.svgStyle, attrs: { "stroke-linecap": "round", "fill-opacity": "0", "d": "M 50,50 m 0,-47\n           a 47,47 0 1 1 0,94\n           a 47,47 0 1 1 0,-94", "stroke": _vm.color, "stroke-width": _vm.lineWidth } })]), _c('div', { staticClass: "q-knob-label row items-center justify-center content-center", style: { color: _vm.color }, domProps: { "innerHTML": _vm._s(_vm.placeholder || _vm.value) } })])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-knob non-selectable", class: { disabled: _vm.disable, 'cursor-pointer': !_vm.readonly }, on: { "mousedown": _vm.__dragStart, "mousemove": _vm.__dragMove, "mouseup": _vm.__dragStop, "touchstart": _vm.__dragStart, "touchmove": _vm.__dragMove, "touchend": _vm.__dragStop } }, [_c('div', { style: { width: _vm.size, height: _vm.size } }, [_c('svg', { attrs: { "viewBox": "0 0 100 100" } }, [_c('path', { attrs: { "d": "M 50,50 m 0,-47\n           a 47,47 0 1 1 0,94\n           a 47,47 0 1 1 0,-94", "stroke": _vm.trackColor, "stroke-width": _vm.lineWidth, "fill-opacity": "0" } }), _c('path', { style: _vm.svgStyle, attrs: { "stroke-linecap": "round", "fill-opacity": "0", "d": "M 50,50 m 0,-47\n           a 47,47 0 1 1 0,94\n           a 47,47 0 1 1 0,-94", "stroke": _vm.color, "stroke-width": _vm.lineWidth } })]), _c('div', { staticClass: "q-knob-label row items-center justify-center content-center", style: { color: _vm.color }, domProps: { "innerHTML": _vm._s(_vm.placeholder || _vm.value) } })])]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -5021,6 +5021,7 @@ var Knob = { render: function render() {
       default: 1
     },
     disable: Boolean,
+    readonly: Boolean,
     placeholder: String
   },
   computed: {
@@ -5030,6 +5031,9 @@ var Knob = { render: function render() {
         'stroke-dashoffset': 295.31 * (1.0 - (this.value - this.min) / (this.max - this.min)) + 'px',
         'transition': this.dragging ? '' : 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease'
       };
+    },
+    disabled: function disabled() {
+      return this.disable || this.readonly;
     }
   },
   data: function data() {
@@ -5049,7 +5053,7 @@ var Knob = { render: function render() {
   },
   methods: {
     __dragStart: function __dragStart(ev) {
-      if (this.disable) {
+      if (this.disabled) {
         return;
       }
       ev.stopPropagation();
@@ -5066,7 +5070,7 @@ var Knob = { render: function render() {
       this.__onInput(ev);
     },
     __dragMove: function __dragMove(ev) {
-      if (!this.dragging || this.disable) {
+      if (!this.dragging || this.disabled) {
         return;
       }
       ev.stopPropagation();
@@ -5074,7 +5078,7 @@ var Knob = { render: function render() {
       this.__onInput(ev);
     },
     __dragStop: function __dragStop(ev) {
-      if (this.disable) {
+      if (this.disabled) {
         return;
       }
       ev.stopPropagation();
@@ -5331,12 +5335,23 @@ var Modal = { render: function render() {
       }, duration);
     },
     close: function close(onClose) {
+      if (!this.active) {
+        return;
+      }
+
       this.__onClose = onClose;
 
       if (!Platform.has.popstate) {
         this.__popstate();
       } else {
         window.history.go(-1);
+      }
+    },
+    toggle: function toggle(done) {
+      if (this.active) {
+        this.close(done);
+      } else {
+        this.open(done);
       }
     },
     click: function click(onClick) {
