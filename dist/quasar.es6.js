@@ -3,7 +3,6 @@
  * (c) 2017 Razvan Stoenescu
  * Released under the MIT License.
  */
-import Velocity$1 from 'velocity-animate';
 import moment from 'moment';
 import FastClick from 'fastclick';
 
@@ -1030,25 +1029,19 @@ function add (name, el, ctx) {
   if (!data[name]) {
     data[name] = {};
   }
-  else if (data[name][id]) {
-    console.warn('Element store [add]: overwriting data');
-  }
   data[name][id] = ctx;
 }
 
 function get (name, el) {
   let id = el.dataset['__' + name];
   if (!id) {
-    console.warn('Element store [get]: id not registered', name, el);
     return
   }
   if (!data[name]) {
-    console.warn('Element store [get]: name not registered', name, el);
     return
   }
   let ctx = data[name][id];
   if (!ctx) {
-    console.warn('Element store [get]: data not found for', name, ':', id, '->', el);
     return
   }
   return ctx
@@ -1057,7 +1050,6 @@ function get (name, el) {
 function remove (name, el) {
   let id = el.dataset['__' + name];
   if (!id) {
-    console.warn('Element store [remove]: id not registered', name, el);
     return
   }
   if (data[name] && data[name][id]) {
@@ -1289,23 +1281,83 @@ var theme = Object.freeze({
 	get current () { return current; }
 });
 
+function getHeight (el, style$$1) {
+  let initial = {
+    visibility: el.style.visibility,
+    maxHeight: el.style.maxHeight
+  };
+
+  css(el, {
+    visibility: 'hidden',
+    maxHeight: ''
+  });
+  const height$$1 = style$$1.height;
+  css(el, initial);
+
+  return parseFloat(height$$1, 10)
+}
+
+function parsePadding (padding) {
+  return padding.split(' ').map(t => {
+    let unit = t.match(/[a-zA-Z]+/) || '';
+    if (unit) {
+      unit = unit[0];
+    }
+    return [parseFloat(t, 10), unit]
+  })
+}
+
+function toggleSlide (el, showing, done) {
+  let store = get('slidetoggle', el) || {};
+  function anim () {
+    store.uid = start({
+      finalPos: showing ? 100 : 0,
+      pos: store.pos !== null ? store.pos : showing ? 0 : 100,
+      factor: 10,
+      threshold: 0.5,
+      apply (pos) {
+        store.pos = pos;
+        css(el, {
+          maxHeight: `${store.height * pos / 100}px`,
+          padding: store.padding ? store.padding.map(t => (t[0] * pos / 100) + t[1]).join(' ') : ''
+        });
+      },
+      done () {
+        store.uid = null;
+        store.pos = null;
+        done();
+        css(el, store.css);
+      }
+    });
+    add('slidetoggle', el, store);
+  }
+
+  if (store.uid) {
+    start.stop(store.uid);
+    return anim()
+  }
+
+  store.css = {
+    overflowY: el.style.overflowY,
+    maxHeight: el.style.maxHeight,
+    padding: el.style.padding
+  };
+  let style$$1 = window.getComputedStyle(el);
+  if (style$$1.padding && style$$1.padding !== '0px') {
+    store.padding = parsePadding(style$$1.padding);
+  }
+  store.height = getHeight(el, style$$1);
+  store.pos = null;
+  el.style.overflowY = 'hidden';
+  anim();
+}
+
 var slide = {
   enter (el, done) {
-    Velocity(el, 'stop');
-    Velocity(el, 'slideDown', done);
+    toggleSlide(el, true, done);
   },
-  enterCancelled (el) {
-    Velocity(el, 'stop');
-    el.removeAttribute('style');
-  },
-
   leave (el, done) {
-    Velocity(el, 'stop');
-    Velocity(el, 'slideUp', done);
-  },
-  leaveCancelled (el) {
-    Velocity(el, 'stop');
-    el.removeAttribute('style');
+    toggleSlide(el, false, done);
   }
 };
 
@@ -1329,7 +1381,7 @@ var Transition = {
   },
   render (h, context) {
     if (!transitions[context.props.name]) {
-      throw new Error(`Quasar Transition ${context.props.name} is unnowkn.`)
+      throw new Error(`Quasar Transition ${context.props.name} is unknown.`)
     }
     var data = {
       props: {
@@ -8021,8 +8073,6 @@ var SessionStorage = { // eslint-disable-line one-var
   clear: clearStorage.session,
   isEmpty: storageIsEmpty.session
 };
-
-window.Velocity = Velocity$1;
 
 let Quasar = {
   version: '0.12.1',

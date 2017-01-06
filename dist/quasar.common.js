@@ -5,7 +5,6 @@
  */
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var Velocity$1 = _interopDefault(require('velocity-animate'));
 var moment$1 = _interopDefault(require('moment'));
 var FastClick = _interopDefault(require('fastclick'));
 
@@ -1097,8 +1096,6 @@ function add$1(name, el, ctx) {
   el.dataset['__' + name] = id;
   if (!data$1[name]) {
     data$1[name] = {};
-  } else if (data$1[name][id]) {
-    console.warn('Element store [add]: overwriting data');
   }
   data$1[name][id] = ctx;
 }
@@ -1106,16 +1103,13 @@ function add$1(name, el, ctx) {
 function get$2(name, el) {
   var id = el.dataset['__' + name];
   if (!id) {
-    console.warn('Element store [get]: id not registered', name, el);
     return;
   }
   if (!data$1[name]) {
-    console.warn('Element store [get]: name not registered', name, el);
     return;
   }
   var ctx = data$1[name][id];
   if (!ctx) {
-    console.warn('Element store [get]: data not found for', name, ':', id, '->', el);
     return;
   }
   return ctx;
@@ -1124,7 +1118,6 @@ function get$2(name, el) {
 function remove$1(name, el) {
   var id = el.dataset['__' + name];
   if (!id) {
-    console.warn('Element store [remove]: id not registered', name, el);
     return;
   }
   if (data$1[name] && data$1[name][id]) {
@@ -1360,22 +1353,85 @@ var theme = Object.freeze({
 	get current () { return current; }
 });
 
+function getHeight(el, style$$1) {
+  var initial = {
+    visibility: el.style.visibility,
+    maxHeight: el.style.maxHeight
+  };
+
+  css(el, {
+    visibility: 'hidden',
+    maxHeight: ''
+  });
+  var height$$1 = style$$1.height;
+  css(el, initial);
+
+  return parseFloat(height$$1, 10);
+}
+
+function parsePadding(padding) {
+  return padding.split(' ').map(function (t) {
+    var unit = t.match(/[a-zA-Z]+/) || '';
+    if (unit) {
+      unit = unit[0];
+    }
+    return [parseFloat(t, 10), unit];
+  });
+}
+
+function toggleSlide(el, showing, _done) {
+  var store = get$2('slidetoggle', el) || {};
+  function anim() {
+    store.uid = start$1({
+      finalPos: showing ? 100 : 0,
+      pos: store.pos !== null ? store.pos : showing ? 0 : 100,
+      factor: 10,
+      threshold: 0.5,
+      apply: function apply(pos) {
+        store.pos = pos;
+        css(el, {
+          maxHeight: store.height * pos / 100 + 'px',
+          padding: store.padding ? store.padding.map(function (t) {
+            return t[0] * pos / 100 + t[1];
+          }).join(' ') : ''
+        });
+      },
+      done: function done() {
+        store.uid = null;
+        store.pos = null;
+        _done();
+        css(el, store.css);
+      }
+    });
+    add$1('slidetoggle', el, store);
+  }
+
+  if (store.uid) {
+    start$1.stop(store.uid);
+    return anim();
+  }
+
+  store.css = {
+    overflowY: el.style.overflowY,
+    maxHeight: el.style.maxHeight,
+    padding: el.style.padding
+  };
+  var style$$1 = window.getComputedStyle(el);
+  if (style$$1.padding && style$$1.padding !== '0px') {
+    store.padding = parsePadding(style$$1.padding);
+  }
+  store.height = getHeight(el, style$$1);
+  store.pos = null;
+  el.style.overflowY = 'hidden';
+  anim();
+}
+
 var slide$1 = {
   enter: function enter(el, done) {
-    Velocity(el, 'stop');
-    Velocity(el, 'slideDown', done);
-  },
-  enterCancelled: function enterCancelled(el) {
-    Velocity(el, 'stop');
-    el.removeAttribute('style');
+    toggleSlide(el, true, done);
   },
   leave: function leave(el, done) {
-    Velocity(el, 'stop');
-    Velocity(el, 'slideUp', done);
-  },
-  leaveCancelled: function leaveCancelled(el) {
-    Velocity(el, 'stop');
-    el.removeAttribute('style');
+    toggleSlide(el, false, done);
   }
 };
 
@@ -1399,7 +1455,7 @@ var Transition = {
   },
   render: function render(h, context) {
     if (!transitions[context.props.name]) {
-      throw new Error('Quasar Transition ' + context.props.name + ' is unnowkn.');
+      throw new Error('Quasar Transition ' + context.props.name + ' is unknown.');
     }
     var data = {
       props: {
@@ -8695,8 +8751,6 @@ var SessionStorage = {
   clear: clearStorage.session,
   isEmpty: storageIsEmpty.session
 };
-
-window.Velocity = Velocity$1;
 
 var Quasar = {
   version: '0.12.1',
