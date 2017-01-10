@@ -214,7 +214,6 @@ body.with-loading {
     font-size: 1.1rem;
     border-radius: 2px;
     max-width: 601px;
-    min-width: 240.4px;
     margin: 24px auto 24px 24px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   }
@@ -3491,7 +3490,7 @@ body.desktop .q-datetime-clock-position:not(.active):hover {
   margin-bottom: 25px;
   border-radius: 50%;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 920px) {
   .drawer-content {
     z-index: 30;
     position: fixed;
@@ -3503,7 +3502,7 @@ body.desktop .q-datetime-clock-position:not(.active):hover {
     transform: translateX(280px);
   }
 }
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 921px) {
   .hide-on-drawer-visible {
     display: none !important;
   }

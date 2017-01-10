@@ -589,7 +589,6 @@ body.with-loading
     font-size 1.1rem
     border-radius $generic-border-radius
     max-width $layout-medium-min
-    min-width ($layout-medium-min / 2.5)
     margin 24px auto 24px 24px
     box-shadow $shadow-3
     a
@@ -2031,9 +2030,9 @@ swipe-behavior()
       transform translateX(- $drawer-width)
     &.right-side
       transform translateX($drawer-width)
-@media screen and (max-width: $layout-small-max)
+@media screen and (max-width: $layout-medium-max)
   swipe-behavior()
-@media screen and (min-width: $layout-medium-min)
+@media screen and (min-width: $layout-big-min)
   .hide-on-drawer-visible
     display none !important
   .drawer
