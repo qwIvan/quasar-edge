@@ -214,6 +214,7 @@ body.with-loading {
 }
 @media (min-width: 601px) {
   .q-toast {
+    display: inline-flex !important;
     font-size: 1.1rem;
     border-radius: 4px;
     max-width: 601px;
