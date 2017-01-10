@@ -5403,8 +5403,11 @@ var Modal = { render: function render() {
       };
 
       setTimeout(function () {
-        _this.$refs.content.scrollTop = 0;[].slice.call(_this.$refs.content.getElementsByClassName('modal-scroll')).forEach(function (el) {
-          el.scrollTop = 0;
+        var content = _this.$refs.content;
+        content.scrollTop = 0;['modal-scroll', 'layout-view'].forEach(function (c) {
+          [].slice.call(content.getElementsByClassName(c)).forEach(function (el) {
+            el.scrollTop = 0;
+          });
         });
       }, 10);
 

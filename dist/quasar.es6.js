@@ -4949,9 +4949,12 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
       };
 
       setTimeout(() => {
-        this.$refs.content.scrollTop = 0
-        ;[].slice.call(this.$refs.content.getElementsByClassName('modal-scroll')).forEach(el => {
-          el.scrollTop = 0;
+        let content = this.$refs.content;
+        content.scrollTop = 0
+        ;['modal-scroll', 'layout-view'].forEach(c => {
+          [].slice.call(content.getElementsByClassName(c)).forEach(el => {
+            el.scrollTop = 0;
+          });
         });
       }, 10);
 
