@@ -793,11 +793,6 @@ var Dialog$1 = { render: function render() {
   mounted: function mounted() {
     this.$refs.dialog.open();
     this.$root.quasarClose = this.close;
-  },
-  destroyed: function destroyed() {
-    if (document.body.contains(this.$el)) {
-      document.body.removeChild(this.$el);
-    }
   }
 };
 
@@ -5311,7 +5306,7 @@ var openedModalNumber = 0;
 var Modal = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('transition', { attrs: { "name": _vm.modalTransition } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.active, expression: "active" }], staticClass: "modal fullscreen flex", class: _vm.modalClasses, on: { "click": function click($event) {
           _vm.click();
-        } } }, [_c('div', { ref: "content", staticClass: "modal-content", class: _vm.contentClasses, style: _vm.modalCss, on: { "click": function click($event) {
+        } } }, [_c('div', { ref: "content", staticClass: "modal-content scroll", class: _vm.contentClasses, style: _vm.modalCss, on: { "click": function click($event) {
           $event.stopPropagation();
         } } }, [_vm._t("default")], 2)])]);
   }, staticRenderFns: [],
@@ -5371,7 +5366,7 @@ var Modal = { render: function render() {
       }
 
       if (this.minimized && this.maximized) {
-        throw new Error('Modal cannot be minimized & maximized simultaneous.');
+        throw new Error('Modal cannot be minimized & maximized simultaneously.');
       }
 
       document.body.classList.add('with-modal');
@@ -5453,6 +5448,17 @@ var Modal = { render: function render() {
       }
       this.close(onClick);
     }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    this.$nextTick(function () {
+      _this2.$el.parentNode.removeChild(_this2.$el);
+      document.body.append(_this2.$el);
+    });
+  },
+  destroyed: function destroyed() {
+    this.$el.parentNode.removeChild(this.$el);
   }
 };
 
@@ -8314,11 +8320,6 @@ var ActionSheets = { render: function render() {
       _this.$refs.dialog.open();
       _this.$root.quasarClose = _this.close;
     });
-  },
-  destroyed: function destroyed() {
-    if (document.body.contains(this.$el)) {
-      document.body.removeChild(this.$el);
-    }
   }
 };
 

@@ -743,11 +743,6 @@ var Dialog$1 = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
   mounted () {
     this.$refs.dialog.open();
     this.$root.quasarClose = this.close;
-  },
-  destroyed () {
-    if (document.body.contains(this.$el)) {
-      document.body.removeChild(this.$el);
-    }
   }
 };
 
@@ -4853,7 +4848,7 @@ function additionalCSS (theme, position) {
 let duration = 200;
 let openedModalNumber = 0;
 
-var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.modalTransition}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.active),expression:"active"}],staticClass:"modal fullscreen flex",class:_vm.modalClasses,on:{"click":function($event){_vm.click();}}},[_c('div',{ref:"content",staticClass:"modal-content",class:_vm.contentClasses,style:(_vm.modalCss),on:{"click":function($event){$event.stopPropagation();}}},[_vm._t("default")],2)])])},staticRenderFns: [],
+var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.modalTransition}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.active),expression:"active"}],staticClass:"modal fullscreen flex",class:_vm.modalClasses,on:{"click":function($event){_vm.click();}}},[_c('div',{ref:"content",staticClass:"modal-content scroll",class:_vm.contentClasses,style:(_vm.modalCss),on:{"click":function($event){$event.stopPropagation();}}},[_vm._t("default")],2)])])},staticRenderFns: [],
   props: {
     position: {
       type: String,
@@ -4912,7 +4907,7 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
       }
 
       if (this.minimized && this.maximized) {
-        throw new Error('Modal cannot be minimized & maximized simultaneous.')
+        throw new Error('Modal cannot be minimized & maximized simultaneously.')
       }
 
       document.body.classList.add('with-modal');
@@ -5002,6 +4997,15 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
       }
       this.close(onClick);
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$el.parentNode.removeChild(this.$el);
+      document.body.append(this.$el);
+    });
+  },
+  destroyed () {
+    this.$el.parentNode.removeChild(this.$el);
   }
 };
 
@@ -7608,11 +7612,6 @@ var ActionSheets = {render: function(){var _vm=this;var _h=_vm.$createElement;va
       this.$refs.dialog.open();
       this.$root.quasarClose = this.close;
     });
-  },
-  destroyed () {
-    if (document.body.contains(this.$el)) {
-      document.body.removeChild(this.$el);
-    }
   }
 };
 
