@@ -6505,8 +6505,12 @@ var State = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
   }
 };
 
-var Stepper = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-stepper timeline primary"},[_vm._t("default")],2)},staticRenderFns: [],
+var Stepper = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-stepper timeline",class:_vm.color},[_vm._t("default")],2)},staticRenderFns: [],
   props: {
+    color: {
+      type: String,
+      default: 'primary'
+    },
     backLabel: {
       type: String,
       default: 'Back'
@@ -6557,7 +6561,7 @@ var Stepper = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
   }
 };
 
-var Step = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"timeline-item",class:{incomplete: _vm.step > _vm.stepper.currentStep}},[_c('div',{staticClass:"timeline-badge"},[_c('i',{directives:[{name:"show",rawName:"v-show",value:(_vm.step < _vm.stepper.currentStep),expression:"step < stepper.currentStep"}]},[_vm._v("done ")]),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.step >= _vm.stepper.currentStep),expression:"step >= stepper.currentStep"}]},[_vm._v(_vm._s(_vm.step))])]),_c('div',{staticClass:"timeline-title text-bold",domProps:{"innerHTML":_vm._s(_vm.title)}}),_c('q-transition',{attrs:{"name":"slide"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.stepper && _vm.step === _vm.stepper.currentStep),expression:"stepper && step === stepper.currentStep"}],staticClass:"timeline-content"},[_vm._t("default"),_c('div',{staticClass:"group",staticStyle:{"margin-top":"1rem","margin-left":"-5px"}},[_c('button',{staticClass:"primary",class:{disabled: !_vm.ready},on:{"click":function($event){_vm.nextStep();}}},[_vm._v(_vm._s(_vm.stepper && _vm.step === _vm.stepper.steps ? _vm.$parent.finishLabel : _vm.$parent.nextLabel))]),_vm._v(" "),(_vm.step > 1)?_c('button',{staticClass:"primary clear",domProps:{"innerHTML":_vm._s(_vm.$parent.backLabel)},on:{"click":function($event){_vm.previousStep();}}}):_vm._e()])],2)])],1)},staticRenderFns: [],
+var Step = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"timeline-item",class:{incomplete: _vm.step > _vm.stepper.currentStep}},[_c('div',{staticClass:"timeline-badge"},[_c('i',{directives:[{name:"show",rawName:"v-show",value:(!_vm.done),expression:"!done"}]},[_vm._v("done ")]),(_vm.icon && _vm.done)?_c('i',[_vm._v(_vm._s(_vm.icon))]):_vm._e(),_vm._v(" "),_c('span',{directives:[{name:"show",rawName:"v-show",value:(!_vm.icon && _vm.done),expression:"!icon && done"}]},[_vm._v(_vm._s(_vm.step))])]),_c('div',{staticClass:"timeline-title text-bold",domProps:{"innerHTML":_vm._s(_vm.title)}}),_c('q-transition',{attrs:{"name":"slide"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.stepper && _vm.step === _vm.stepper.currentStep),expression:"stepper && step === stepper.currentStep"}],staticClass:"timeline-content"},[_vm._t("default"),_c('div',{staticClass:"group",staticStyle:{"margin-top":"1rem","margin-left":"-5px"}},[_c('button',{class:[_vm.color, !_vm.ready ? 'disabled' : ''],on:{"click":function($event){_vm.nextStep();}}},[_vm._v(_vm._s(_vm.stepper && _vm.step === _vm.stepper.steps ? _vm.$parent.finishLabel : _vm.$parent.nextLabel))]),_vm._v(" "),(_vm.step > 1)?_c('button',{staticClass:"clear",class:_vm.color,domProps:{"innerHTML":_vm._s(_vm.$parent.backLabel)},on:{"click":function($event){_vm.previousStep();}}}):_vm._e()])],2)])],1)},staticRenderFns: [],
   props: {
     title: {
       type: String,
@@ -6570,7 +6574,8 @@ var Step = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm
     beforeNext: {
       type: Function,
       default: null
-    }
+    },
+    icon: String
   },
   data () {
     return {
@@ -6580,18 +6585,24 @@ var Step = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm
   computed: {
     stepper () {
       return this.$parent.config
+    },
+    done () {
+      return this.step >= this.stepper.currentStep
+    },
+    color () {
+      return this.$parent.color
     }
   },
   methods: {
     nextStep () {
-      if (this.ready) {
-        if (this.beforeNext) {
-          this.beforeNext(this.$parent.nextStep);
-        }
-        else {
-          this.$parent.nextStep();
-        }
+      if (!this.ready) {
+        return
       }
+      if (this.beforeNext) {
+        this.beforeNext(this.$parent.nextStep);
+        return
+      }
+      this.$parent.nextStep();
     },
     previousStep () {
       this.$parent.previousStep();

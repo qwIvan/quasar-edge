@@ -1494,8 +1494,7 @@ label
     transform translateY(0) scale(.8)
     color $form-active-color
 $timeline-badge-size         ?= 3rem
-$timeline-badge-space        ?= $timeline-badge-size
-$timeline-item-margin-bottom ?= 1rem
+$timeline-item-padding       ?= 0 0 1rem
 $timeline-border-width       ?= .2rem
 $timeline-color              ?= $grey-6
 $timeline-light-color        ?= lighten($timeline-color, 50%)
@@ -1513,11 +1512,10 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
     background $timeline-light-color
   for $name, $color in $colors
     &.{$name}
-      &:before
-        background composite-color($color)
       .timeline-badge
         background $color
-        box-shadow 0 0 0 $timeline-border-width composite-color($color)
+      &.incomplete .timeline-badge
+        background lighten($color, 50%)
       .timeline-date, .timeline-label
         color $color
 .timeline-badge
@@ -1534,7 +1532,7 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
   overflow hidden
   box-shadow 0 0 0 $timeline-border-width $timeline-light-color, $shadow-2
   i
-    font-size 1.5rem
+    font-size 1.1rem
   img
     max-width 100%
 .timeline-title, .timeline-date
@@ -1542,63 +1540,57 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
   display flex
   flex-direction column
   justify-content center
-  margin-bottom 1rem
 .timeline-title
   font-weight 700
+  margin-bottom 1rem
 .timeline-date
   color $timeline-color
 .timeline-title + .timeline-date 
   min-height 0
-.timeline-content
-  margin-top 1rem
 .timeline-label
   position relative
   width 100%
   color $timeline-color
 .timeline-item
   position relative
-  margin-bottom $timeline-item-margin-bottom
+  padding $timeline-item-padding
   &:last-child
-    margin-bottom 0
+    padding-bottom 0
   &.incomplete
     .timeline-badge
       background darken($timeline-light-color, 10%) !important
-      box-shadow 0 0 0 $timeline-border-width $timeline-light-color !important
     .timeline-date, .timeline-title
-      color $timeline-light-color
+      color darken($timeline-light-color, 10%) !important
 @media only screen and (max-width $layout-small-max)
   .timeline
     &:before
       left ($timeline-badge-size / 2)
   .timeline-item
-    margin-left (1.3 * $timeline-badge-space)
+    margin-left (1.3 * $timeline-badge-size)
   .timeline-date
     position relative
   .timeline-badge
-    left (-1.3 * $timeline-badge-space)
-  .timeline-label
-    margin-bottom $timeline-item-margin-bottom
+    left (-1.3 * $timeline-badge-size)
 @media only screen and (min-width $layout-medium-min)
   .timeline:before
     left 50%
   .timeline-item
-    width 'calc(50% - %s)' % $timeline-badge-space
+    width 'calc(50% - %s)' % $timeline-badge-size
     &:nth-child(odd):not(.on-right), &.on-left
       .timeline-badge
-        right (- $timeline-badge-size / 2 - $timeline-badge-space)
+        right (- $timeline-badge-size / 2 - $timeline-badge-size)
       .timeline-title
         text-align right
       .timeline-date
         text-align right
-        left 'calc(100% + %s)' % (2 * $timeline-badge-space)
+        left 'calc(100% + %s)' % (2 * $timeline-badge-size)
     &:nth-child(even):not(.on-left), &.on-right
       margin-left auto
       .timeline-badge
-        left (- $timeline-badge-size / 2 - $timeline-badge-space)
+        left (- $timeline-badge-size / 2 - $timeline-badge-size)
       .timeline-date
-        right 'calc(100% + %s)' % (2 * $timeline-badge-space)
+        right 'calc(100% + %s)' % (2 * $timeline-badge-size)
   .timeline-label
-    margin-bottom $timeline-item-margin-bottom
     text-align center
 .q-loading-bar
   position fixed
@@ -3117,8 +3109,8 @@ body.mobile .q-tabs-scroller
   overflow-x auto
   will-change scroll-position
   -webkit-overflow-scrolling touch
-$toggle-size           ?= $generic-input-size
-$toggle-width-factor   ?= 1.8
+$toggle-size             ?= $generic-input-size
+$toggle-width-factor     ?= 1.8
 $toggle-height           = $toggle-size
 $toggle-width            = $toggle-width-factor * $toggle-size
 $toggle-handle-size      = $toggle-size
@@ -3158,7 +3150,7 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size)
     &:after
       border-radius 50%
       top 0
-      left 0
+      left 2px
       width $toggle-handle-size
       height $toggle-handle-size
       background white
@@ -3168,7 +3160,7 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size)
     &:before
       background lighten($form-active-color, 60%)
     &:after
-      transform translateX($toggle-area-active-left)
+      transform translateX(($toggle-area-active-left - 2px))
       background $form-active-color
   input:checked ~ i
     color white
