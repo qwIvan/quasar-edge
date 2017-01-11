@@ -3339,12 +3339,6 @@ body.drawer-opened {
     position: absolute !important;
     transform: translateX(0) !important;
   }
-  .drawer-content.left-side {
-    border-right: $layout-border;
-  }
-  .drawer-content.right-side {
-    border-left: $layout-border;
-  }
 }
 .q-fab {
   height: 67.2px;
