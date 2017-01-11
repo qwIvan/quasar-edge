@@ -3563,8 +3563,8 @@ body.desktop .layout-footer button:hover i {
   z-index: 10;
 }
 .toolbar {
-  padding: 4px;
-  min-height: 50px;
+  padding: 4px 10px;
+  min-height: 40px;
   display: flex;
   overflow: hidden;
   flex-direction: row;
@@ -3831,12 +3831,12 @@ body.desktop .layout-footer button:hover i {
 .toolbar.inverted {
   background: #fff;
 }
-.toolbar button {
+.toolbar > button {
   margin: 0 0.2rem;
   padding: 0.2rem;
   text-shadow: none;
 }
-.toolbar button:active:not(.disabled) {
+.toolbar > button:active:not(.disabled) {
   color: #f4f4f4;
 }
 .toolbar-title {
@@ -3872,7 +3872,7 @@ body.desktop .layout-footer button:hover i {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  font-size: 1.2rem;
+  font-size: 0.95rem;
   text-align: center;
 }
 .toolbar-content {
@@ -3894,10 +3894,11 @@ body.desktop .layout-footer button:hover i {
 .toolbar-content.text-right .toolbar-title > div {
   text-align: right;
 }
-body.cordova .layout-header > .toolbar:first-child {
+body.cordova.platform-ios .layout-header > .toolbar:first-child {
   padding-top: 20px;
+  min-height: 60px;
 }
-body.cordova .layout-header > .toolbar:first-child .toolbar-title {
+body.cordova.platform-ios .layout-header > .toolbar:first-child .toolbar-title {
   padding-top: 20px;
 }
 @media only screen and (max-width: 600px) {
@@ -4841,7 +4842,7 @@ input:checked + div:after {
   color: #bdbdbd;
 }
 .q-search-icon {
-  left: 9px;
+  left: 10px;
   transition: all 300ms ease;
   pointer-events: none;
   width: 24px;
@@ -4867,7 +4868,6 @@ input:checked + div:after {
 .q-search {
   display: flex;
   align-items: center;
-  padding: 5px 0;
   width: 100%;
 }
 .q-search button {
@@ -5069,6 +5069,7 @@ input:checked + div:after {
   color: #fff;
 }
 .q-search.q-search-centered .q-search-icon {
+  left: 0;
   width: 100%;
 }
 .q-search.has-error {

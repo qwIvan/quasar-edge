@@ -6535,18 +6535,22 @@ var Stepper = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
   methods: {
     reset () {
       this.config.currentStep = 1;
+      this.$emit('step', this.config.currentStep);
     },
     nextStep () {
       this.config.currentStep++;
+      this.$emit('step', this.config.currentStep);
       if (this.config.currentStep > this.config.steps) {
         this.$emit('finish');
       }
     },
     previousStep () {
       this.config.currentStep--;
+      this.$emit('step', this.config.currentStep);
     },
     finish () {
       this.config.currentStep = this.config.steps + 1;
+      this.$emit('step', this.config.currentStep);
       this.$emit('finish');
     }
   },
@@ -6554,6 +6558,7 @@ var Stepper = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
     let step = 1;
     this.config.currentStep = this.config.currentStep || 1;
     this.config.steps = this.$children.length;
+    this.$emit('step', this.config.currentStep);
     this.$children.forEach(child => {
       child.step = step;
       step++;

@@ -2180,10 +2180,11 @@ body.desktop .q-gallery-slider-quickview img:hover
   bottom 0
   i
     font-size 130%
-$layout-toolbar-min-height ?= 56px
+$layout-toolbar-min-height ?= 50px
 $layout-header-shadow      ?= $shadow-2
 $layout-footer-shadow      ?= $shadow-up-2
-$toolbar-title-font-size   ?= 1.25rem
+$toolbar-title-font-size   ?= 1.15rem
+$toolbar-padding           ?= 4px 12px
 .layout
   position absolute
   top 0
@@ -2219,7 +2220,7 @@ body.desktop
   background $toolbar-background
   z-index $z-marginals
 .toolbar
-  padding 4px
+  padding $toolbar-padding
   min-height $layout-toolbar-min-height
   display flex
   overflow hidden
@@ -2246,7 +2247,7 @@ body.desktop
           background composite-color($color)
   &.inverted
     background white
-  button
+  > button
     margin 0 .2rem
     padding .2rem
     text-shadow none
@@ -2267,6 +2268,9 @@ body.desktop
     text-overflow ellipsis
     white-space nowrap
     overflow hidden
+body.cordova.platform-ios .layout-header > .toolbar:first-child
+  padding-top 20px
+  min-height ($layout-toolbar-min-height + 20px)
 .layout-padding
   @media only screen and (max-width $layout-small-max)
     padding 1.5rem .5rem

@@ -7205,18 +7205,22 @@ var Stepper = { render: function render() {
   methods: {
     reset: function reset() {
       this.config.currentStep = 1;
+      this.$emit('step', this.config.currentStep);
     },
     nextStep: function nextStep() {
       this.config.currentStep++;
+      this.$emit('step', this.config.currentStep);
       if (this.config.currentStep > this.config.steps) {
         this.$emit('finish');
       }
     },
     previousStep: function previousStep() {
       this.config.currentStep--;
+      this.$emit('step', this.config.currentStep);
     },
     finish: function finish() {
       this.config.currentStep = this.config.steps + 1;
+      this.$emit('step', this.config.currentStep);
       this.$emit('finish');
     }
   },
@@ -7224,6 +7228,7 @@ var Stepper = { render: function render() {
     var step = 1;
     this.config.currentStep = this.config.currentStep || 1;
     this.config.steps = this.$children.length;
+    this.$emit('step', this.config.currentStep);
     this.$children.forEach(function (child) {
       child.step = step;
       step++;

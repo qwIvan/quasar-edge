@@ -3707,8 +3707,8 @@ body.desktop .layout-footer button:hover i {
   z-index: 10;
 }
 .toolbar {
-  padding: 4px;
-  min-height: 56px;
+  padding: 4px 12px;
+  min-height: 50px;
   display: flex;
   overflow: hidden;
   flex-direction: row;
@@ -3927,12 +3927,12 @@ body.desktop .layout-footer button:hover i {
 .toolbar.inverted {
   background: #fff;
 }
-.toolbar button {
+.toolbar > button {
   margin: 0 0.2rem;
   padding: 0.2rem;
   text-shadow: none;
 }
-.toolbar button:active:not(.disabled) {
+.toolbar > button:active:not(.disabled) {
   color: #027be3;
 }
 .toolbar-content {
@@ -3943,7 +3943,7 @@ body.desktop .layout-footer button:hover i {
 .toolbar-title {
   flex: 1;
   align-items: center;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 500;
 }
 .toolbar-title > div {
@@ -3952,6 +3952,10 @@ body.desktop .layout-footer button:hover i {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+body.cordova.platform-ios .layout-header > .toolbar:first-child {
+  padding-top: 20px;
+  min-height: 70px;
 }
 @media only screen and (max-width: 600px) {
   .layout-padding {

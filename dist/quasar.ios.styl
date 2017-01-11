@@ -2113,8 +2113,9 @@ body.desktop .q-gallery-slider-quickview img:hover
   i
     font-size 130%
 $layout-border             ?= 1px solid $toolbar-faded-color
-$layout-toolbar-min-height ?= 50px
-$toolbar-title-font-size   ?= 1.2rem
+$layout-toolbar-min-height ?= 40px
+$toolbar-title-font-size   ?= .95rem
+$toolbar-padding           ?= 4px 10px
 .layout
   position absolute
   top 0
@@ -2150,7 +2151,7 @@ body.desktop
   background $toolbar-background
   z-index $z-marginals
 .toolbar
-  padding 4px
+  padding $toolbar-padding
   min-height $layout-toolbar-min-height
   display flex
   overflow hidden
@@ -2184,7 +2185,7 @@ body.desktop
           background composite-color($color)
   &.inverted
     background white
-  button
+  > button
     margin 0 .2rem
     padding .2rem
     text-shadow none
@@ -2233,8 +2234,9 @@ body.desktop
     padding 0 7px
     > div
       text-align right
-body.cordova .layout-header > .toolbar:first-child
+body.cordova.platform-ios .layout-header > .toolbar:first-child
   padding-top 20px
+  min-height ($layout-toolbar-min-height + 20px)
   .toolbar-title
     padding-top 20px
 .layout-padding
@@ -2776,7 +2778,7 @@ $rating-shadow             ?= $shadow-1
   height 100%
   color $grey-5
 .q-search-icon
-  left 9px
+  left 10px
   transition all 300ms ease
   pointer-events none
   width 24px
@@ -2799,7 +2801,6 @@ $rating-shadow             ?= $shadow-1
 .q-search
   display flex
   align-items center
-  padding 5px 0
   width 100%
   button
     text-shadow none
@@ -2812,6 +2813,7 @@ $rating-shadow             ?= $shadow-1
           color white
   &.q-search-centered
     .q-search-icon
+      left 0
       width 100%
   &.has-error
     color opposite-non-color($has-error)
