@@ -7490,9 +7490,7 @@ var Tabs = { render: function render() {
     });
   },
   beforeDestroy: function beforeDestroy() {
-    if (this.scrollTimer) {
-      clearInterval(this.scrollTimer);
-    }
+    clearInterval(this.scrollTimer);
     this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator);
     window.removeEventListener('resize', this.__redraw);
   },
@@ -7561,10 +7559,7 @@ var Tabs = { render: function render() {
     __animScrollTo: function __animScrollTo(value) {
       var _this3 = this;
 
-      if (this.scrollTimer) {
-        clearInterval(this.scrollTimer);
-      }
-
+      clearInterval(this.scrollTimer);
       this.__scrollTowards(value);
       this.scrollTimer = setInterval(function () {
         if (_this3.__scrollTowards(value)) {

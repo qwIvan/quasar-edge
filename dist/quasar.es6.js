@@ -6801,9 +6801,7 @@ var Tabs = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm
     });
   },
   beforeDestroy () {
-    if (this.scrollTimer) {
-      clearInterval(this.scrollTimer);
-    }
+    clearInterval(this.scrollTimer);
     this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator);
     window.removeEventListener('resize', this.__redraw);
   },
@@ -6868,10 +6866,7 @@ var Tabs = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm
       }
     },
     __animScrollTo (value) {
-      if (this.scrollTimer) {
-        clearInterval(this.scrollTimer);
-      }
-
+      clearInterval(this.scrollTimer);
       this.__scrollTowards(value);
       this.scrollTimer = setInterval(() => {
         if (this.__scrollTowards(value)) {
