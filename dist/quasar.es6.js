@@ -1166,11 +1166,8 @@ var Toast = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
     },
     dismiss (done) {
       this.active = false;
-
-      if (this.timer) {
-        clearTimeout(this.timer);
-        this.timer = null;
-      }
+      clearTimeout(this.timer);
+      this.timer = null;
 
       setTimeout(() => {
         if (typeof this.stack[0].onDismiss === 'function') {
@@ -1677,10 +1674,8 @@ var dTouchHold = {
         ctx.start(evt);
       },
       abort (evt) {
-        if (ctx.timer) {
-          clearTimeout(ctx.timer);
-          ctx.timer = null;
-        }
+        clearTimeout(ctx.timer);
+        ctx.timer = null;
       },
       mouseAbort (evt) {
         document.removeEventListener('mousemove', ctx.mouseAbort);
@@ -2181,9 +2176,9 @@ var AjaxBar = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
       if (this.calls > 0) {
         return
       }
-      if (this.timer) {
-        clearTimeout(this.timer);
-      }
+
+      clearTimeout(this.timer);
+
       if (!this.animate) {
         this.active = false;
         return
@@ -2207,9 +2202,7 @@ var AjaxBar = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
     highjackAjax(this.start, this.stop);
   },
   beforeDestroy () {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
+    clearTimeout(this.timer);
     restoreAjax();
   }
 };
@@ -2537,10 +2530,8 @@ var ContextMenuMobile = {render: function(){var _vm=this;var _h=_vm.$createEleme
       };
       this.cleanup = () => {
         this.target.classList.remove('non-selectable');
-        if (this.touchTimer) {
-          clearTimeout(this.touchTimer);
-          this.touchTimer = null;
-        }
+        clearTimeout(this.touchTimer);
+        this.touchTimer = null;
       };
       this.target.addEventListener('touchstart', this.touchStartHandler);
       this.target.addEventListener('touchcancel', this.cleanup);
@@ -4150,10 +4141,8 @@ var InlineDatetimeIOS = {render: function(){var _vm=this;var _h=_vm.$createEleme
       }
     },
     __dragCleanup () {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-        this.timeout = null;
-      }
+      clearTimeout(this.timeout);
+      this.timeout = null;
     },
     __normalizeValue (value) {
       if (this.pmin) {

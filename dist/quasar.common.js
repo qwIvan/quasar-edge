@@ -1244,11 +1244,8 @@ var Toast$1 = { render: function render() {
       var _this2 = this;
 
       this.active = false;
-
-      if (this.timer) {
-        clearTimeout(this.timer);
-        this.timer = null;
-      }
+      clearTimeout(this.timer);
+      this.timer = null;
 
       setTimeout(function () {
         if (typeof _this2.stack[0].onDismiss === 'function') {
@@ -1756,10 +1753,8 @@ var dTouchHold = {
         ctx.start(evt);
       },
       abort: function abort(evt) {
-        if (ctx.timer) {
-          clearTimeout(ctx.timer);
-          ctx.timer = null;
-        }
+        clearTimeout(ctx.timer);
+        ctx.timer = null;
       },
       mouseAbort: function mouseAbort(evt) {
         document.removeEventListener('mousemove', ctx.mouseAbort);
@@ -2271,9 +2266,9 @@ var AjaxBar = { render: function render() {
       if (this.calls > 0) {
         return;
       }
-      if (this.timer) {
-        clearTimeout(this.timer);
-      }
+
+      clearTimeout(this.timer);
+
       if (!this.animate) {
         this.active = false;
         return;
@@ -2299,9 +2294,7 @@ var AjaxBar = { render: function render() {
     highjackAjax(this.start, this.stop);
   },
   beforeDestroy: function beforeDestroy() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
+    clearTimeout(this.timer);
     restoreAjax();
   }
 };
@@ -2693,10 +2686,8 @@ var ContextMenuMobile = { render: function render() {
       };
       _this.cleanup = function () {
         _this.target.classList.remove('non-selectable');
-        if (_this.touchTimer) {
-          clearTimeout(_this.touchTimer);
-          _this.touchTimer = null;
-        }
+        clearTimeout(_this.touchTimer);
+        _this.touchTimer = null;
       };
       _this.target.addEventListener('touchstart', _this.touchStartHandler);
       _this.target.addEventListener('touchcancel', _this.cleanup);
@@ -4568,10 +4559,8 @@ var InlineDatetimeIOS = { render: function render() {
       }
     },
     __dragCleanup: function __dragCleanup() {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-        this.timeout = null;
-      }
+      clearTimeout(this.timeout);
+      this.timeout = null;
     },
     __normalizeValue: function __normalizeValue(value) {
       if (this.pmin) {
