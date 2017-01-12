@@ -393,7 +393,7 @@ function ready (fn) {
 }
 
 function getScrollTarget (el) {
-  return el.closest('.layout-view') || window
+  return el.closest('.layout-view,.scroll') || window
 }
 
 function getScrollPosition (scrollTarget) {
@@ -4854,7 +4854,7 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
       default: 'items-center justify-center'
     },
     contentClasses: [Object, String],
-    contentCss: Object,
+    contentCss: [Object, String],
     noBackdropDismiss: {
       type: Boolean,
       default: false
@@ -4890,13 +4890,16 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
   },
   methods: {
     open (onShow) {
-      if (this.active) {
-        return
-      }
-
       if (this.minimized && this.maximized) {
         throw new Error('Modal cannot be minimized & maximized simultaneously.')
       }
+      if (this.active) {
+        onShow && onShow();
+        return
+      }
+
+      this.$el.parentNode.removeChild(this.$el);
+      document.body.append(this.$el);
 
       document.body.classList.add('with-modal');
       EscapeKey.register(() => {
@@ -4962,6 +4965,7 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
     },
     close (onClose) {
       if (!this.active) {
+        onClose && onClose();
         return
       }
 
@@ -4989,13 +4993,7 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
       this.close(onClick);
     }
   },
-  mounted () {
-    this.$nextTick(() => {
-      this.$el.parentNode.removeChild(this.$el);
-      document.body.append(this.$el);
-    });
-  },
-  destroyed () {
+  beforeDestroy () {
     this.$el.parentNode.removeChild(this.$el);
   }
 };
@@ -5329,17 +5327,20 @@ var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
       EscapeKey.register(() => { this.close(); });
       this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl);
       this.scrollTarget.addEventListener('scroll', this.close);
-      document.addEventListener('click', this.close);
-      this.$nextTick(() => {
+      this.timer = setTimeout(() => {
+        this.timer = null;
+        document.addEventListener('click', this.close, true);
         this.__updatePosition(event);
         this.$emit('open');
-      });
+      }, 1);
     },
     close (fn) {
-      if (!this.opened || this.progress) {
+      if (!this.opened || this.progress || (fn && fn.target && this.$el.contains(fn.target))) {
         return
       }
-      document.removeEventListener('click', this.close);
+
+      clearTimeout(this.timer);
+      document.removeEventListener('click', this.close, true);
       this.scrollTarget.removeEventListener('scroll', this.close);
       EscapeKey.pop();
       this.progress = true;
@@ -6105,7 +6106,7 @@ var Select = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
     },
     type: {
       type: String,
-      required: true,
+      default: 'list',
       validator (value) {
         return ['radio', 'list', 'checkbox', 'toggle'].includes(value)
       }
