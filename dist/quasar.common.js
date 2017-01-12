@@ -5451,7 +5451,7 @@ var Modal = { render: function render() {
 var Numeric = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-numeric textfield row inline items-center", class: { disabled: _vm.disable, readonly: _vm.readonly } }, [_c('i', { on: { "click": function click($event) {
           _vm.__setByOffset(-1);
-        } } }, [_vm._v("remove")]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model.number", value: _vm.model, expression: "model", modifiers: { "number": true } }], staticClass: "no-style auto q-input-field", style: { width: ('' + _vm.model).length * .7 + 'em' }, attrs: { "type": "number", "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.model) }, on: { "blur": [function ($event) {
+        } } }, [_vm._v("remove")]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model.number", value: _vm.model, expression: "model", modifiers: { "number": true } }], staticClass: "no-style auto q-input-field", style: { width: ('' + _vm.model).length * .7 + 'em' }, attrs: { "type": "number", "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0", "step": "any" }, domProps: { "value": _vm._s(_vm.model) }, on: { "blur": [function ($event) {
           _vm.__updateValue();
         }, function ($event) {
           _vm.$forceUpdate();
