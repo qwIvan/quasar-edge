@@ -1532,9 +1532,6 @@ body.desktop button.outline:hover {
   font-weight: 500;
   padding: 16px;
 }
-.card-title + .card-content {
-  padding-top: 0;
-}
 .card-title button {
   margin: 0;
 }

@@ -2207,7 +2207,7 @@ var AjaxBar = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
   }
 };
 
-var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',[_vm._t("default",[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"text"},domProps:{"value":_vm._s(_vm.model)},on:{"input":function($event){if($event.target.composing){ return; }_vm.model=$event.target.value;}}})]),_c('q-popover',{ref:"popover",attrs:{"anchor-click":false}},[(_vm.searching)?_c('div',{staticClass:"row justify-center",style:({minWidth: _vm.width, padding: '3px 10px'})},[_c('spinner',{attrs:{"name":"dots","size":40}})],1):_c('div',{staticClass:"list no-border",class:{'item-delimiter': _vm.delimiter},style:(_vm.computedWidth)},_vm._l((_vm.computedResults),function(result,index){return _c('q-list-item',{attrs:{"item":result,"link":"","active":_vm.selectedIndex === index},nativeOn:{"click":function($event){_vm.setValue(result.value);}}})}))])],2)},staticRenderFns: [],
+var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',[_vm._t("default",[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"text"},domProps:{"value":_vm._s(_vm.model)},on:{"input":function($event){if($event.target.composing){ return; }_vm.model=$event.target.value;}}})]),_c('q-popover',{ref:"popover",attrs:{"anchor-click":false}},[(_vm.searching)?_c('div',{staticClass:"row justify-center",style:({minWidth: _vm.width, padding: '3px 10px'})},[_c('spinner',{attrs:{"name":"dots","size":40}})],1):_c('div',{staticClass:"list no-border",class:{'item-delimiter': _vm.delimiter},style:(_vm.computedWidth)},_vm._l((_vm.computedResults),function(result,index){return _c('q-list-item',{attrs:{"item":result,"link":"","active":_vm.selectedIndex === index},nativeOn:{"click":function($event){_vm.setValue(result);}}})}))])],2)},staticRenderFns: [],
   props: {
     value: {
       type: String,
@@ -2316,8 +2316,9 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
       this.results = [];
       this.selectedIndex = -1;
     },
-    setValue (val) {
-      this.model = val;
+    setValue (result) {
+      this.model = result.value;
+      this.$emit('selected', result);
       this.close();
     },
     move (offset) {
@@ -2325,7 +2326,7 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0) {
-        this.setValue(this.results[this.selectedIndex].value);
+        this.setValue(this.results[this.selectedIndex]);
       }
     },
     __updateDelay () {
@@ -2430,6 +2431,7 @@ var Collapsible = {render: function(){var _vm=this;var _h=_vm.$createElement;var
   props: {
     opened: Boolean,
     icon: String,
+    group: String,
     img: String,
     avatar: String,
     label: String,
@@ -2443,6 +2445,13 @@ var Collapsible = {render: function(){var _vm=this;var _h=_vm.$createElement;var
   watch: {
     opened (value) {
       this.active = value;
+    },
+    active (value) {
+      if (value && this.group && this.group.length > 0) {
+        this.$parent.$children.filter(c => c !== this && c.group && c.group === this.group).forEach(c => {
+          c.close();
+        });
+      }
     }
   },
   methods: {
