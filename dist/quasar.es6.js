@@ -1297,6 +1297,8 @@ var theme = Object.freeze({
 	get current () { return current; }
 });
 
+var version = "0.13.0";
+
 function getHeight (el, style$$1) {
   let initial = {
     visibility: el.style.visibility,
@@ -4192,18 +4194,23 @@ var InlineDatetimeIOS = {render: function(){var _vm=this;var _h=_vm.$createEleme
   }
 };
 
-const backdropOpacity = {mat: 0.7, ios: 0.2};
-
 var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"drawer",class:{'left-side': !_vm.rightSide, 'right-side': _vm.rightSide}},[_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__openByTouch),expression:"__openByTouch",modifiers:{"horizontal":true}}],staticClass:"drawer-opener touch-only mobile-only",class:{'fixed-left': !_vm.rightSide, 'fixed-right': _vm.rightSide}},[_vm._v(" ")]),_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__closeByTouch),expression:"__closeByTouch",modifiers:{"horizontal":true}}],ref:"backdrop",staticClass:"drawer-backdrop fullscreen",style:(_vm.backdropStyle),on:{"click":function($event){_vm.setState(false);}}}),_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__closeByTouch),expression:"__closeByTouch",modifiers:{"horizontal":true}}],ref:"content",staticClass:"drawer-content",class:{'left-side': !_vm.rightSide, 'right-side': _vm.rightSide},style:(_vm.nodeStyle)},[_vm._t("default")],2)])},staticRenderFns: [],
   props: {
-    'right-side': Boolean,
-    'swipe-only': Boolean
+    rightSide: Boolean,
+    swipeOnly: Boolean,
+    backdropOpacity: {
+      type: Number,
+      validator (v) {
+        return v >= 0 && v <= 1
+      },
+      default: current === 'ios' ? 0.2 : 0.7
+    }
   },
   data () {
     return {
       opened: false,
       nodePosition: 0,
-      backPosition: 0.01,
+      backPosition: 0,
       nodeAnimUid: Utils.uid(),
       backAnimUid: Utils.uid()
     }
@@ -4249,7 +4256,7 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
 
       if (this.opened) {
         backdrop.classList.add('active');
-        if (Platform.has.popstate) {
+        if (this.$quasar.platform.has.popstate) {
           if (!window.history.state) {
             window.history.replaceState({__quasar_drawer: true}, '');
           }
@@ -4265,7 +4272,7 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       }
       else {
         window.removeEventListener('resize', this.close);
-        if (Platform.has.popstate) {
+        if (this.$quasar.platform.has.popstate) {
           window.removeEventListener('popstate', this.__popState);
           if (window.history.state && !window.history.state.__quasar_drawer) {
             window.history.go(-1);
@@ -4276,7 +4283,7 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       Utils.animate({
         name: this.backAnimUid,
         pos: this.backPosition,
-        finalPos: this.opened ? backdropOpacity[this.$quasar.theme] : 0.01,
+        finalPos: this.opened ? this.backdropOpacity : 0,
         apply: (pos) => {
           this.backPosition = pos;
         },
@@ -4294,7 +4301,7 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
     },
     __openByTouch (event) {
       // interferes with browser's back/forward swipe feature
-      if (Platform.is.ios) {
+      if (this.$quasar.platform.is.ios) {
         return
       }
 
@@ -4328,7 +4335,7 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
         backdrop.classList.add('active');
       }
       this.nodePosition = position;
-      this.backPosition = percentage * backdropOpacity[this.$quasar.theme];
+      this.backPosition = percentage * this.backdropOpacity;
 
       if (event.isFinal) {
         this.__animate();
@@ -4360,7 +4367,7 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       }
 
       this.nodePosition = position;
-      this.backPosition = percentage * backdropOpacity[this.$quasar.theme];
+      this.backPosition = percentage * this.backdropOpacity;
 
       if (event.isFinal) {
         this.__animate();
@@ -4381,7 +4388,7 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       this.__animate(done);
     },
     __popState () {
-      if (Platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
+      if (this.$quasar.platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
         this.setState(false);
       }
     },
@@ -7351,6 +7358,7 @@ var install$$1 = function (_Vue) {
   install$2(_Vue);
 
   _Vue.prototype.$quasar = {
+    version,
     platform: Platform,
     theme: current
   };
@@ -8126,7 +8134,7 @@ var SessionStorage = { // eslint-disable-line one-var
 };
 
 let Quasar = {
-  version: '0.13.0',
+  version,
   install: install$$1,
   start: start$1,
   theme
