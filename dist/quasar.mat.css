@@ -142,8 +142,10 @@ input::-webkit-inner-spin-button {
   padding: 0.6rem 1.2rem;
   transition: all 0.3s;
 }
-.q-action-sheet-gallery > div:hover {
+.q-action-sheet-gallery > div:hover,
+.q-action-sheet-gallery > div:focus {
   background: #d0d0d0;
+  outline: 0;
 }
 .q-action-sheet-gallery i,
 .q-action-sheet-gallery img {
@@ -1220,271 +1222,360 @@ button.full-width {
   margin-right: 0;
   border-radius: 0;
 }
-body.desktop button.raised:hover:not(.disabled) {
+body.desktop button.raised:not(.disabled):hover,
+body.desktop button.raised:not(.disabled):focus {
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.primary:not(.disabled):hover:not(.clear) {
+body.desktop button.primary:not(.disabled):not(.clear):hover,
+body.desktop button.primary:not(.disabled):not(.clear):focus {
   background: #1290fd;
 }
-body.desktop button.primary:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.primary:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.primary:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.primary:not(.disabled).clear:hover {
+body.desktop button.primary:not(.disabled).clear:hover,
+body.desktop button.primary:not(.disabled).clear:focus {
   background: #abd8fe;
 }
-body.desktop button.secondary:not(.disabled):hover:not(.clear) {
+body.desktop button.secondary:not(.disabled):not(.clear):hover,
+body.desktop button.secondary:not(.disabled):not(.clear):focus {
   background: #208d83;
 }
-body.desktop button.secondary:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.secondary:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.secondary:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.secondary:not(.disabled).clear:hover {
+body.desktop button.secondary:not(.disabled).clear:hover,
+body.desktop button.secondary:not(.disabled).clear:focus {
   background: #b4eee8;
 }
-body.desktop button.tertiary:not(.disabled):hover:not(.clear) {
+body.desktop button.tertiary:not(.disabled):not(.clear):hover,
+body.desktop button.tertiary:not(.disabled):not(.clear):focus {
   background: #6e6e6e;
 }
-body.desktop button.tertiary:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.tertiary:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.tertiary:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.tertiary:not(.disabled).clear:hover {
+body.desktop button.tertiary:not(.disabled).clear:hover,
+body.desktop button.tertiary:not(.disabled).clear:focus {
   background: #ccc;
 }
-body.desktop button.positive:not(.disabled):hover:not(.clear) {
+body.desktop button.positive:not(.disabled):not(.clear):hover,
+body.desktop button.positive:not(.disabled):not(.clear):focus {
   background: #1c9e3b;
 }
-body.desktop button.positive:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.positive:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.positive:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.positive:not(.disabled).clear:hover {
+body.desktop button.positive:not(.disabled).clear:hover,
+body.desktop button.positive:not(.disabled).clear:focus {
   background: #b5f2c3;
 }
-body.desktop button.negative:not(.disabled):hover:not(.clear) {
+body.desktop button.negative:not(.disabled):not(.clear):hover,
+body.desktop button.negative:not(.disabled):not(.clear):focus {
   background: #e04848;
 }
-body.desktop button.negative:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.negative:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.negative:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.negative:not(.disabled).clear:hover {
+body.desktop button.negative:not(.disabled).clear:hover,
+body.desktop button.negative:not(.disabled).clear:focus {
   background: #f4bebe;
 }
-body.desktop button.warning:not(.disabled):hover:not(.clear) {
+body.desktop button.warning:not(.disabled):not(.clear):hover,
+body.desktop button.warning:not(.disabled):not(.clear):focus {
   background: #edb20f;
 }
-body.desktop button.warning:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.warning:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.warning:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.warning:not(.disabled).clear:hover {
+body.desktop button.warning:not(.disabled).clear:hover,
+body.desktop button.warning:not(.disabled).clear:focus {
   background: #fbecc3;
 }
-body.desktop button.info:not(.disabled):hover:not(.clear) {
+body.desktop button.info:not(.disabled):not(.clear):hover,
+body.desktop button.info:not(.disabled):not(.clear):focus {
   background: #14bbde;
 }
-body.desktop button.info:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.info:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.info:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.info:not(.disabled).clear:hover {
+body.desktop button.info:not(.disabled).clear:hover,
+body.desktop button.info:not(.disabled).clear:focus {
   background: #c1f0f9;
 }
-body.desktop button.light:not(.disabled):hover:not(.clear) {
+body.desktop button.light:not(.disabled):not(.clear):hover,
+body.desktop button.light:not(.disabled):not(.clear):focus {
   background: #cfcfcf;
 }
-body.desktop button.light:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.light:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.light:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.light:not(.disabled).clear:hover {
+body.desktop button.light:not(.disabled).clear:hover,
+body.desktop button.light:not(.disabled).clear:focus {
   background: #fcfcfc;
 }
-body.desktop button.dark:not(.disabled):hover:not(.clear) {
+body.desktop button.dark:not(.disabled):not(.clear):hover,
+body.desktop button.dark:not(.disabled):not(.clear):focus {
   background: #525252;
 }
-body.desktop button.dark:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.dark:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.dark:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.dark:not(.disabled).clear:hover {
+body.desktop button.dark:not(.disabled).clear:hover,
+body.desktop button.dark:not(.disabled).clear:focus {
   background: #c2c2c2;
 }
-body.desktop button.white:not(.disabled):hover:not(.clear) {
+body.desktop button.white:not(.disabled):not(.clear):hover,
+body.desktop button.white:not(.disabled):not(.clear):focus {
   background: #d9d9d9;
 }
-body.desktop button.white:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.white:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.white:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.white:not(.disabled).clear:hover {
+body.desktop button.white:not(.disabled).clear:hover,
+body.desktop button.white:not(.disabled).clear:focus {
   background: #fff;
 }
-body.desktop button.red:not(.disabled):hover:not(.clear) {
+body.desktop button.red:not(.disabled):not(.clear):hover,
+body.desktop button.red:not(.disabled):not(.clear):focus {
   background: #f65f54;
 }
-body.desktop button.red:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.red:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.red:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.red:not(.disabled).clear:hover {
+body.desktop button.red:not(.disabled).clear:hover,
+body.desktop button.red:not(.disabled).clear:focus {
   background: #fcc7c3;
 }
-body.desktop button.pink:not(.disabled):hover:not(.clear) {
+body.desktop button.pink:not(.disabled):not(.clear):hover,
+body.desktop button.pink:not(.disabled):not(.clear):focus {
   background: #ec407a;
 }
-body.desktop button.pink:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.pink:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.pink:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.pink:not(.disabled).clear:hover {
+body.desktop button.pink:not(.disabled).clear:hover,
+body.desktop button.pink:not(.disabled).clear:focus {
   background: #f8bcd0;
 }
-body.desktop button.purple:not(.disabled):hover:not(.clear) {
+body.desktop button.purple:not(.disabled):not(.clear):hover,
+body.desktop button.purple:not(.disabled):not(.clear):focus {
   background: #ba32d2;
 }
-body.desktop button.purple:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.purple:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.purple:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.purple:not(.disabled).clear:hover {
+body.desktop button.purple:not(.disabled).clear:hover,
+body.desktop button.purple:not(.disabled).clear:focus {
   background: #e7b7ef;
 }
-body.desktop button.deep-purple:not(.disabled):hover:not(.clear) {
+body.desktop button.deep-purple:not(.disabled):not(.clear):hover,
+body.desktop button.deep-purple:not(.disabled):not(.clear):focus {
   background: #7c51c8;
 }
-body.desktop button.deep-purple:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.deep-purple:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.deep-purple:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.deep-purple:not(.disabled).clear:hover {
+body.desktop button.deep-purple:not(.disabled).clear:hover,
+body.desktop button.deep-purple:not(.disabled).clear:focus {
   background: #d1c2ec;
 }
-body.desktop button.indigo:not(.disabled):hover:not(.clear) {
+body.desktop button.indigo:not(.disabled):not(.clear):hover,
+body.desktop button.indigo:not(.disabled):not(.clear):focus {
   background: #5768c5;
 }
-body.desktop button.indigo:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.indigo:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.indigo:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.indigo:not(.disabled).clear:hover {
+body.desktop button.indigo:not(.disabled).clear:hover,
+body.desktop button.indigo:not(.disabled).clear:focus {
   background: #c4caea;
 }
-body.desktop button.blue:not(.disabled):hover:not(.clear) {
+body.desktop button.blue:not(.disabled):not(.clear):hover,
+body.desktop button.blue:not(.disabled):not(.clear):focus {
   background: #42a6f5;
 }
-body.desktop button.blue:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.blue:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.blue:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.blue:not(.disabled).clear:hover {
+body.desktop button.blue:not(.disabled).clear:hover,
+body.desktop button.blue:not(.disabled).clear:focus {
   background: #bce0fb;
 }
-body.desktop button.light-blue:not(.disabled):hover:not(.clear) {
+body.desktop button.light-blue:not(.disabled):not(.clear):hover,
+body.desktop button.light-blue:not(.disabled):not(.clear):focus {
   background: #0390cf;
 }
-body.desktop button.light-blue:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.light-blue:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.light-blue:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.light-blue:not(.disabled).clear:hover {
+body.desktop button.light-blue:not(.disabled).clear:hover,
+body.desktop button.light-blue:not(.disabled).clear:focus {
   background: #b1e6fe;
 }
-body.desktop button.cyan:not(.disabled):hover:not(.clear) {
+body.desktop button.cyan:not(.disabled):not(.clear):hover,
+body.desktop button.cyan:not(.disabled):not(.clear):focus {
   background: #00a0b4;
 }
-body.desktop button.cyan:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.cyan:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.cyan:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.cyan:not(.disabled).clear:hover {
+body.desktop button.cyan:not(.disabled).clear:hover,
+body.desktop button.cyan:not(.disabled).clear:focus {
   background: #a6f5ff;
 }
-body.desktop button.teal:not(.disabled):hover:not(.clear) {
+body.desktop button.teal:not(.disabled):not(.clear):hover,
+body.desktop button.teal:not(.disabled):not(.clear):focus {
   background: #00ccb9;
 }
-body.desktop button.teal:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.teal:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.teal:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.teal:not(.disabled).clear:hover {
+body.desktop button.teal:not(.disabled).clear:hover,
+body.desktop button.teal:not(.disabled).clear:focus {
   background: #93fff5;
 }
-body.desktop button.green:not(.disabled):hover:not(.clear) {
+body.desktop button.green:not(.disabled):not(.clear):hover,
+body.desktop button.green:not(.disabled):not(.clear):focus {
   background: #419544;
 }
-body.desktop button.green:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.green:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.green:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.green:not(.disabled).clear:hover {
+body.desktop button.green:not(.disabled).clear:hover,
+body.desktop button.green:not(.disabled).clear:focus {
   background: #c9e7ca;
 }
-body.desktop button.light-green:not(.disabled):hover:not(.clear) {
+body.desktop button.light-green:not(.disabled):not(.clear):hover,
+body.desktop button.light-green:not(.disabled):not(.clear):focus {
   background: #77ac39;
 }
-body.desktop button.light-green:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.light-green:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.light-green:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.light-green:not(.disabled).clear:hover {
+body.desktop button.light-green:not(.disabled).clear:hover,
+body.desktop button.light-green:not(.disabled).clear:focus {
   background: #dcedc9;
 }
-body.desktop button.lime:not(.disabled):hover:not(.clear) {
+body.desktop button.lime:not(.disabled):not(.clear):hover,
+body.desktop button.lime:not(.disabled):not(.clear):focus {
   background: #b9c823;
 }
-body.desktop button.lime:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.lime:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.lime:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.lime:not(.disabled).clear:hover {
+body.desktop button.lime:not(.disabled).clear:hover,
+body.desktop button.lime:not(.disabled).clear:focus {
   background: #f0f4c4;
 }
-body.desktop button.yellow:not(.disabled):hover:not(.clear) {
+body.desktop button.yellow:not(.disabled):not(.clear):hover,
+body.desktop button.yellow:not(.disabled):not(.clear):focus {
   background: #ffe60c;
 }
-body.desktop button.yellow:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.yellow:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.yellow:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.yellow:not(.disabled).clear:hover {
+body.desktop button.yellow:not(.disabled).clear:hover,
+body.desktop button.yellow:not(.disabled).clear:focus {
   background: #fff9c4;
 }
-body.desktop button.amber:not(.disabled):hover:not(.clear) {
+body.desktop button.amber:not(.disabled):not(.clear):hover,
+body.desktop button.amber:not(.disabled):not(.clear):focus {
   background: #dfa700;
 }
-body.desktop button.amber:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.amber:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.amber:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.amber:not(.disabled).clear:hover {
+body.desktop button.amber:not(.disabled).clear:hover,
+body.desktop button.amber:not(.disabled).clear:focus {
   background: #ffecb5;
 }
-body.desktop button.orange:not(.disabled):hover:not(.clear) {
+body.desktop button.orange:not(.disabled):not(.clear):hover,
+body.desktop button.orange:not(.disabled):not(.clear):focus {
   background: #d98100;
 }
-body.desktop button.orange:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.orange:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.orange:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.orange:not(.disabled).clear:hover {
+body.desktop button.orange:not(.disabled).clear:hover,
+body.desktop button.orange:not(.disabled).clear:focus {
   background: #ffe0b3;
 }
-body.desktop button.deep-orange:not(.disabled):hover:not(.clear) {
+body.desktop button.deep-orange:not(.disabled):not(.clear):hover,
+body.desktop button.deep-orange:not(.disabled):not(.clear):focus {
   background: #ff7043;
 }
-body.desktop button.deep-orange:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.deep-orange:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.deep-orange:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.deep-orange:not(.disabled).clear:hover {
+body.desktop button.deep-orange:not(.disabled).clear:hover,
+body.desktop button.deep-orange:not(.disabled).clear:focus {
   background: #ffcdbd;
 }
-body.desktop button.brown:not(.disabled):hover:not(.clear) {
+body.desktop button.brown:not(.disabled):not(.clear):hover,
+body.desktop button.brown:not(.disabled):not(.clear):focus {
   background: #976a5a;
 }
-body.desktop button.brown:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.brown:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.brown:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.brown:not(.disabled).clear:hover {
+body.desktop button.brown:not(.disabled).clear:hover,
+body.desktop button.brown:not(.disabled).clear:focus {
   background: #dccac3;
 }
-body.desktop button.grey:not(.disabled):hover:not(.clear) {
+body.desktop button.grey:not(.disabled):not(.clear):hover,
+body.desktop button.grey:not(.disabled):not(.clear):focus {
   background: #868686;
 }
-body.desktop button.grey:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.grey:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.grey:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.grey:not(.disabled).clear:hover {
+body.desktop button.grey:not(.disabled).clear:hover,
+body.desktop button.grey:not(.disabled).clear:focus {
   background: #e2e2e2;
 }
-body.desktop button.blue-grey:not(.disabled):hover:not(.clear) {
+body.desktop button.blue-grey:not(.disabled):not(.clear):hover,
+body.desktop button.blue-grey:not(.disabled):not(.clear):focus {
   background: #7592a0;
 }
-body.desktop button.blue-grey:not(.disabled):hover:not(.clear):not(.push) {
+body.desktop button.blue-grey:not(.disabled):not(.clear):hover:not(.push),
+body.desktop button.blue-grey:not(.disabled):not(.clear):focus:not(.push) {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-body.desktop button.blue-grey:not(.disabled).clear:hover {
+body.desktop button.blue-grey:not(.disabled).clear:hover,
+body.desktop button.blue-grey:not(.disabled).clear:focus {
   background: #ced8dd;
 }
-body.desktop button.outline:hover {
+body.desktop button.outline:hover,
+body.desktop button.outline:focus {
   color: #fff;
 }
 .card {
@@ -1952,8 +2043,12 @@ body.desktop table.q-table.highlight tbody tr:hover {
 }
 .item.active,
 .item.router-link-active,
+.item:focus,
 .q-collapsible.router-link-active > .item {
   background: rgba(0,0,0,0.2);
+}
+.item:focus {
+  outline: 0;
 }
 .item.item-link {
   cursor: pointer;

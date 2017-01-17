@@ -517,8 +517,9 @@ $action-sheet-hover-background ?= #d0d0d0
     padding $action-sheet-avatar-padding
     border-radius $generic-border-radius
     transition all .3s
-    &:hover
+    &:hover, &:focus
       background $action-sheet-hover-background
+      outline 0
   i, img
     font-size 2rem
     margin-bottom 5px
@@ -810,18 +811,22 @@ button
     border-radius 0
 body.desktop button
   &.raised
-    &:hover:not(.disabled)
-      box-shadow $shadow-3
+    &:not(.disabled)
+      &:hover, &:focus
+        box-shadow $shadow-3
   for $name, $color in $colors
     &.{$name}:not(.disabled)
-      &:hover:not(.clear)
-        background hover-color($color)
-        &:not(.push)
-          box-shadow $button-box-shadow
-      &.clear:hover
-        background lighten($color, 70%)
-  &.outline:hover
-    color white
+      &:not(.clear)
+        &:hover, &:focus
+          background hover-color($color)
+          &:not(.push)
+            box-shadow $button-box-shadow
+      &.clear
+        &:hover, &:focus
+          background lighten($color, 70%)
+  &.outline
+    &:hover, &:focus
+      color white
 $card-box-shadow         ?= $shadow-1
 $card-border-radius      ?= 2px
 $card-padding-horizontal ?= 16px
@@ -1191,8 +1196,10 @@ $item-label-color             ?= rgba(0, 0, 0, .54)
   line-height 16px
   transition all .45s cubic-bezier(.23, 1, .32, 1) 0ms
   background none
-  &.active, &.router-link-active
+  &.active, &.router-link-active, &:focus
     background rgba(0, 0, 0, .2)
+  &:focus
+    outline 0
   &.item-link
     cursor pointer
     &:active
