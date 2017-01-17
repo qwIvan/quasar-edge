@@ -1,5 +1,5 @@
 /*!
- * Quasar Framework v0.12.1
+ * Quasar Framework v0.13.0
  * (c) 2017 Razvan Stoenescu
  * Released under the MIT License.
  */
@@ -8126,7 +8126,7 @@ var SessionStorage = { // eslint-disable-line one-var
 };
 
 let Quasar = {
-  version: '0.12.1',
+  version: '0.13.0',
   install: install$$1,
   start: start$1,
   theme
