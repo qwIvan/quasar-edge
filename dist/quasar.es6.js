@@ -1210,6 +1210,7 @@ var Toast = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
 
 let toast;
 let defaults;
+let toastStack = [];
 let types = [
     {
       name: 'positive',
@@ -1242,6 +1243,11 @@ function create (opts, defaults) {
     );
   }
 
+  if (!toast) {
+    toastStack.push(opts);
+    return
+  }
+
   toast.create(opts);
 }
 
@@ -1256,6 +1262,11 @@ function install$2 (_Vue) {
     toast = new _Vue(Toast).$mount(node);
     if (defaults) {
       toast.setDefaults(defaults);
+    }
+    if (toastStack.length) {
+      toastStack.forEach(opts => {
+        toast.create(opts);
+      });
     }
   });
 }
@@ -7381,7 +7392,7 @@ var start$1 = function (callback = function () {}) {
     return
   }
 
-  ready(callback);
+  callback();
 };
 
 var standaloneInstall = function (Quasar) {

@@ -1289,6 +1289,7 @@ var Toast$1 = { render: function render() {
 
 var toast = void 0;
 var defaults = void 0;
+var toastStack = [];
 var types = [{
   name: 'positive',
   defaults: { icon: 'check', classes: 'bg-positive' }
@@ -1312,6 +1313,11 @@ function create$1(opts, defaults) {
     opts = Utils.extend(true, typeof opts === 'string' ? { html: opts } : opts, defaults);
   }
 
+  if (!toast) {
+    toastStack.push(opts);
+    return;
+  }
+
   toast.create(opts);
 }
 
@@ -1328,6 +1334,11 @@ function install$2(_Vue) {
     toast = new _Vue(Toast$1).$mount(node);
     if (defaults) {
       toast.setDefaults(defaults);
+    }
+    if (toastStack.length) {
+      toastStack.forEach(function (opts) {
+        toast.create(opts);
+      });
     }
   });
 }
@@ -8076,7 +8087,7 @@ var start$2 = function () {
     return;
   }
 
-  ready(callback);
+  callback();
 };
 
 var standaloneInstall = function (Quasar) {
