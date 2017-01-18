@@ -8076,7 +8076,7 @@ var start$2 = function () {
     return;
   }
 
-  callback();
+  ready(callback);
 };
 
 var standaloneInstall = function (Quasar) {

@@ -7381,7 +7381,7 @@ var start$1 = function (callback = function () {}) {
     return
   }
 
-  callback();
+  ready(callback);
 };
 
 var standaloneInstall = function (Quasar) {
