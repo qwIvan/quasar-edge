@@ -6902,6 +6902,9 @@ var DialogSelect = { render: function render() {
       });
 
       return !options.length ? '' : options.join(', ');
+    },
+    multipleSelection: function multipleSelection() {
+      return ['checkbox', 'toggle'].includes(this.type);
     }
   },
   methods: {
@@ -6912,25 +6915,24 @@ var DialogSelect = { render: function render() {
         return;
       }
 
-      var self = this,
-          options = this.options.map(function (option) {
+      var options = this.options.map(function (option) {
         return {
           value: option.value,
           label: option.label,
-          model: _this2.value.includes(option.value)
+          model: _this2.multipleSelection ? _this2.value.includes(option.value) : _this2.value === option.value
         };
       });
 
       Dialog.create({
-        title: self.title,
-        message: self.message,
+        title: this.title,
+        message: this.message,
         form: {
-          select: { type: self.type, model: self.value, items: options }
+          select: { type: this.type, model: this.value, items: options }
         },
-        buttons: [self.cancelLabel, {
-          label: self.okLabel,
+        buttons: [this.cancelLabel, {
+          label: this.okLabel,
           handler: function handler(data) {
-            self.$emit('input', data.select);
+            _this2.$emit('input', data.select);
           }
         }]
       });
