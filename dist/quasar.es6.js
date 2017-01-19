@@ -4447,7 +4447,13 @@ var Drawer = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
 };
 
 var DrawerLink = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"link",rawName:"v-link.delay",value:(_vm.to),expression:"to",modifiers:{"delay":true}}],staticClass:"item item-link drawer-closer"},[(_vm.icon)?_c('i',{staticClass:"item-primary"},[_vm._v(_vm._s(_vm.icon))]):_vm._e(),_c('div',{staticClass:"item-content"},[_vm._t("default")],2)])},staticRenderFns: [],
-  props: ['icon', 'to']
+  props: {
+    icon: String,
+    to: {
+      type: [Object, String],
+      required: true
+    }
+  }
 };
 
 var Fab = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-fab flex inline justify-center",class:{opened: _vm.opened}},[_c('div',{staticClass:"backdrop animate-fade",style:(_vm.backdropPosition),on:{"click":function($event){_vm.toggle(true);}}}),_c('button',{staticClass:"circular raised",class:_vm.classNames,on:{"click":function($event){_vm.toggle();}}},[_c('i',{staticClass:"q-fab-icon"},[_vm._v(_vm._s(_vm.icon))]),_vm._v(" "),_c('i',{staticClass:"q-fab-active-icon"},[_vm._v(_vm._s(_vm.activeIcon))])]),_c('div',{staticClass:"q-fab-actions flex inline items-center",class:[_vm.direction]},[_vm._t("default")],2)])},staticRenderFns: [],
@@ -5037,7 +5043,9 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
     }
   },
   beforeDestroy () {
-    this.$el.parentNode.removeChild(this.$el);
+    if (this.$el.parentNode) {
+      this.$el.parentNode.removeChild(this.$el);
+    }
   }
 };
 

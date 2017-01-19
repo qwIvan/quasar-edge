@@ -4868,7 +4868,13 @@ var Drawer = { render: function render() {
 var DrawerLink = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { directives: [{ name: "link", rawName: "v-link.delay", value: _vm.to, expression: "to", modifiers: { "delay": true } }], staticClass: "item item-link drawer-closer" }, [_vm.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(_vm.icon))]) : _vm._e(), _c('div', { staticClass: "item-content" }, [_vm._t("default")], 2)]);
   }, staticRenderFns: [],
-  props: ['icon', 'to']
+  props: {
+    icon: String,
+    to: {
+      type: [Object, String],
+      required: true
+    }
+  }
 };
 
 var Fab = { render: function render() {
@@ -5493,7 +5499,9 @@ var Modal = { render: function render() {
     }
   },
   beforeDestroy: function beforeDestroy() {
-    this.$el.parentNode.removeChild(this.$el);
+    if (this.$el.parentNode) {
+      this.$el.parentNode.removeChild(this.$el);
+    }
   }
 };
 
