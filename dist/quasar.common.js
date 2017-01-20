@@ -5412,7 +5412,7 @@ var Modal = { render: function render() {
       }
 
       this.$el.parentNode.removeChild(this.$el);
-      document.body.append(this.$el);
+      document.body.appendChild(this.$el);
 
       document.body.classList.add('with-modal');
       EscapeKey.register(function () {
