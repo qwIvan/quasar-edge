@@ -2508,7 +2508,7 @@ var Autocomplete = { render: function render() {
 };
 
 var Checkbox = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { staticClass: "q-checkbox", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm._q(_vm.model, true) }, on: { "change": function change($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { staticClass: "q-checkbox", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm.model }, on: { "click": function click($event) {
           var $$a = _vm.model,
               $$el = $event.target,
               $$c = $$el.checked ? true : false;if (Array.isArray($$a)) {
@@ -6201,7 +6201,7 @@ var PullToRefresh = { render: function render() {
 };
 
 var Radio = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { staticClass: "q-radio", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "radio", "disabled": _vm.disable }, domProps: { "value": _vm.val, "checked": _vm._q(_vm.model, _vm.val) }, on: { "change": function change($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { staticClass: "q-radio", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "radio", "disabled": _vm.disable }, domProps: { "value": _vm.val, "checked": _vm._q(_vm.model, _vm.val) }, on: { "click": function click($event) {
           _vm.model = _vm.val;
         } } }), _c('div')]);
   }, staticRenderFns: [],
@@ -6811,9 +6811,11 @@ var Select = { render: function render() {
     optModel: function optModel() {
       var _this = this;
 
-      return this.options.map(function (opt) {
-        return _this.model.includes(opt.value);
-      });
+      if (this.multipleSelection) {
+        return this.options.map(function (opt) {
+          return _this.model.includes(opt.value);
+        });
+      }
     },
     multipleSelection: function multipleSelection() {
       return ['checkbox', 'toggle'].includes(this.type);
@@ -7672,7 +7674,7 @@ var Tabs = { render: function render() {
 };
 
 var Toggle = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { directives: [{ name: "touch-swipe", rawName: "v-touch-swipe.horizontal", value: _vm.__toggle, expression: "__toggle", modifiers: { "horizontal": true } }], staticClass: "q-toggle", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm._q(_vm.model, true) }, on: { "change": function change($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { directives: [{ name: "touch-swipe", rawName: "v-touch-swipe.horizontal", value: _vm.__toggle, expression: "__toggle", modifiers: { "horizontal": true } }], staticClass: "q-toggle", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm.model }, on: { "click": function click($event) {
           var $$a = _vm.model,
               $$el = $event.target,
               $$c = $$el.checked ? true : false;if (Array.isArray($$a)) {

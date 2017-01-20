@@ -2400,7 +2400,7 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
   }
 };
 
-var Checkbox = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"q-checkbox",class:{disabled: _vm.disable}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"checkbox","disabled":_vm.disable},domProps:{"checked":Array.isArray(_vm.model)?_vm._i(_vm.model,null)>-1:_vm._q(_vm.model,true)},on:{"change":function($event){var $$a=_vm.model,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$c){$$i<0&&(_vm.model=$$a.concat($$v));}else{$$i>-1&&(_vm.model=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.model=$$c;}}}}),_c('div')])},staticRenderFns: [],
+var Checkbox = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"q-checkbox",class:{disabled: _vm.disable}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"checkbox","disabled":_vm.disable},domProps:{"checked":Array.isArray(_vm.model)?_vm._i(_vm.model,null)>-1:(_vm.model)},on:{"click":function($event){var $$a=_vm.model,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$c){$$i<0&&(_vm.model=$$a.concat($$v));}else{$$i>-1&&(_vm.model=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.model=$$c;}}}}),_c('div')])},staticRenderFns: [],
   props: {
     value: {
       type: Boolean,
@@ -5674,7 +5674,7 @@ var PullToRefresh = {render: function(){var _vm=this;var _h=_vm.$createElement;v
   }
 };
 
-var Radio = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"q-radio",class:{disabled: _vm.disable}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"radio","disabled":_vm.disable},domProps:{"value":_vm.val,"checked":_vm._q(_vm.model,_vm.val)},on:{"change":function($event){_vm.model=_vm.val;}}}),_c('div')])},staticRenderFns: [],
+var Radio = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"q-radio",class:{disabled: _vm.disable}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"radio","disabled":_vm.disable},domProps:{"value":_vm.val,"checked":_vm._q(_vm.model,_vm.val)},on:{"click":function($event){_vm.model=_vm.val;}}}),_c('div')])},staticRenderFns: [],
   props: {
     value: {
       required: true
@@ -6215,7 +6215,9 @@ var Select = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
     },
     optModel () {
       /* Used by multiple selection only */
-      return this.options.map(opt => this.model.includes(opt.value))
+      if (this.multipleSelection) {
+        return this.options.map(opt => this.model.includes(opt.value))
+      }
     },
     multipleSelection () {
       return ['checkbox', 'toggle'].includes(this.type)
@@ -6982,7 +6984,7 @@ var Tabs = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm
   }
 };
 
-var Toggle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{directives:[{name:"touch-swipe",rawName:"v-touch-swipe.horizontal",value:(_vm.__toggle),expression:"__toggle",modifiers:{"horizontal":true}}],staticClass:"q-toggle",class:{disabled: _vm.disable}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"checkbox","disabled":_vm.disable},domProps:{"checked":Array.isArray(_vm.model)?_vm._i(_vm.model,null)>-1:_vm._q(_vm.model,true)},on:{"change":function($event){var $$a=_vm.model,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$c){$$i<0&&(_vm.model=$$a.concat($$v));}else{$$i>-1&&(_vm.model=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.model=$$c;}}}}),_c('div'),(_vm.icon)?_c('i',[_vm._v(_vm._s(_vm.icon))]):_vm._e()])},staticRenderFns: [],
+var Toggle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{directives:[{name:"touch-swipe",rawName:"v-touch-swipe.horizontal",value:(_vm.__toggle),expression:"__toggle",modifiers:{"horizontal":true}}],staticClass:"q-toggle",class:{disabled: _vm.disable}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"checkbox","disabled":_vm.disable},domProps:{"checked":Array.isArray(_vm.model)?_vm._i(_vm.model,null)>-1:(_vm.model)},on:{"click":function($event){var $$a=_vm.model,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$c){$$i<0&&(_vm.model=$$a.concat($$v));}else{$$i>-1&&(_vm.model=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.model=$$c;}}}}),_c('div'),(_vm.icon)?_c('i',[_vm._v(_vm._s(_vm.icon))]):_vm._e()])},staticRenderFns: [],
   props: {
     value: {
       type: Boolean,
