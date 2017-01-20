@@ -4220,7 +4220,8 @@ var InlineDatetimeMaterial = { render: function render() {
     },
     __updateModel: function __updateModel() {
       if (this.date) {
-        this.model = this.__normalizeValue(this.date).toISOString();
+        this.date = this.__normalizeValue(this.date);
+        this.model = this.date.toISOString();
       }
     }
   }
@@ -4587,7 +4588,8 @@ var InlineDatetimeIOS = { render: function render() {
     },
     __updateModel: function __updateModel() {
       if (this.date) {
-        this.model = this.__normalizeValue(this.date).toISOString();
+        this.date = this.__normalizeValue(this.date);
+        this.model = this.date.toISOString();
       }
     }
   },

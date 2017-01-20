@@ -3848,7 +3848,8 @@ var InlineDatetimeMaterial = {render: function(){var _vm=this;var _h=_vm.$create
     },
     __updateModel () {
       if (this.date) {
-        this.model = this.__normalizeValue(this.date).toISOString();
+        this.date = this.__normalizeValue(this.date);
+        this.model = this.date.toISOString();
       }
     }
   }
@@ -4166,7 +4167,8 @@ var InlineDatetimeIOS = {render: function(){var _vm=this;var _h=_vm.$createEleme
     },
     __updateModel () {
       if (this.date) {
-        this.model = this.__normalizeValue(this.date).toISOString();
+        this.date = this.__normalizeValue(this.date);
+        this.model = this.date.toISOString();
       }
     }
   },
