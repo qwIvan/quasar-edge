@@ -1611,6 +1611,16 @@ var dGoBack = {
   }
 };
 
+function equal(a, b) {
+  if (a.length !== b.length) {
+    return false;
+  }
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
 var dLink = {
   bind: function bind(el, binding, vnode) {
     var ctx = {
@@ -1628,12 +1638,20 @@ var dLink = {
         fn();
       },
       updateClass: function updateClass() {
+        var matched = void 0;
         var route = vnode.context.$route,
-            ctxRoute = typeof ctx.route === 'string' ? { path: ctx.route } : ctx.route,
-            prop = ctxRoute.name ? 'name' : 'path';
-        var matched = ctx.route.exact ? route[prop] === ctxRoute[prop] : route.matched.some(function (r) {
-          return r[prop] === ctxRoute[prop];
-        });
+            router = vnode.context.$router,
+            prop = ctx.route.name ? 'name' : 'path';
+
+        if (ctx.route.exact) {
+          matched = route[prop] === (typeof ctx.route === 'string' ? ctx.route : ctx.route[prop]);
+        } else {
+          matched = equal(router.resolve(ctx.route, route).resolved.matched.map(function (r) {
+            return r[prop];
+          }), route.matched.map(function (r) {
+            return r[prop];
+          }));
+        }
 
         if (ctx.active !== matched) {
           el.classList[matched ? 'add' : 'remove']('router-link-active');
