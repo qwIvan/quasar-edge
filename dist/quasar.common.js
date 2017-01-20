@@ -3615,6 +3615,65 @@ var DataTable = { render: function render() {
   }
 };
 
+var input$1 = {
+  type: {
+    type: String,
+    default: 'date'
+  },
+  min: {
+    type: String,
+    default: ''
+  },
+  max: {
+    type: String,
+    default: ''
+  },
+  format: String,
+  noClear: Boolean,
+  clearLabel: {
+    type: String,
+    default: 'Clear'
+  },
+  okLabel: {
+    type: String,
+    default: 'Set'
+  },
+  cancelLabel: {
+    type: String,
+    default: 'Cancel'
+  },
+  defaultSelection: String,
+  label: String,
+  placeholder: String,
+  staticLabel: String,
+  readonly: Boolean,
+  disable: Boolean
+};
+
+var inline = {
+  value: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    default: 'date',
+    validator: function validator(value) {
+      return ['date', 'time', 'datetime'].includes(value);
+    }
+  },
+  min: {
+    type: String,
+    default: ''
+  },
+  max: {
+    type: String,
+    default: ''
+  },
+  readonly: Boolean,
+  disable: Boolean
+};
+
 var contentCSS = {
   ios: {
     maxHeight: '80vh',
@@ -3655,43 +3714,12 @@ var Datetime = { render: function render() {
           _vm.close(_vm.__update);
         } } })])])], 1)], 1);
   }, staticRenderFns: [],
-  props: {
-    type: {
-      type: String,
-      default: 'date'
-    },
+  props: extend({
     value: {
       type: String,
       required: true
-    },
-    min: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: String,
-      default: ''
-    },
-    format: String,
-    noClear: Boolean,
-    clearLabel: {
-      type: String,
-      default: 'Clear'
-    },
-    okLabel: {
-      type: String,
-      default: 'Set'
-    },
-    cancelLabel: {
-      type: String,
-      default: 'Cancel'
-    },
-    label: String,
-    placeholder: String,
-    staticLabel: String,
-    readonly: Boolean,
-    disable: Boolean
-  },
+    }
+  }, input$1),
   data: function data() {
     var data = Platform.is.desktop ? {} : {
       css: contentCSS[current],
@@ -3699,7 +3727,7 @@ var Datetime = { render: function render() {
       transition: current === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: current === 'ios' ? '' : 'minimized'
     };
-    data.model = this.value || '';
+    data.model = this.value;
     data.desktop = Platform.is.desktop;
     return data;
   },
@@ -3758,7 +3786,7 @@ var Datetime = { render: function render() {
       return value;
     },
     __setModel: function __setModel() {
-      this.model = this.value || this.__normalizeValue(moment$1()).format(this.format);
+      this.model = this.value || this.__normalizeValue(moment$1(this.defaultSelection)).format(this.format);
     },
     __update: function __update() {
       this.$emit('input', this.model);
@@ -3776,13 +3804,13 @@ var Datetime = { render: function render() {
 };
 
 var DatetimeRange = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime-range" }, [_c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.from, expression: "model.from" }], class: _vm.className, style: _vm.css, attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.model.to || _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.from }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime-range" }, [_c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.from, expression: "model.from" }], class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.min, "max": _vm.model.to || _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.from }, on: { "input": function input($event) {
           _vm.model.from = $event;
-        } } }), _c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.to, expression: "model.to" }], class: _vm.className, style: _vm.css, attrs: { "type": _vm.type, "min": _vm.model.from || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.to }, on: { "input": function input($event) {
+        } } }), _c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.to, expression: "model.to" }], class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.model.from || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.to }, on: { "input": function input($event) {
           _vm.model.to = $event;
         } } })], 1);
   }, staticRenderFns: [],
-  props: {
+  props: extend({
     value: {
       type: Object,
       validator: function validator(val) {
@@ -3796,39 +3824,8 @@ var DatetimeRange = { render: function render() {
       required: true
     },
     className: [String, Object],
-    css: [String, Object],
-    type: {
-      type: String,
-      default: 'date'
-    },
-    min: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: String,
-      default: ''
-    },
-    format: String,
-    noClear: Boolean,
-    clearLabel: {
-      type: String,
-      default: 'Clear'
-    },
-    okLabel: {
-      type: String,
-      default: 'Set'
-    },
-    cancelLabel: {
-      type: String,
-      default: 'Cancel'
-    },
-    label: String,
-    placeholder: String,
-    staticLabel: String,
-    readonly: Boolean,
-    disable: Boolean
-  },
+    css: [String, Object]
+  }, input$1),
   computed: {
     model: {
       get: function get() {
@@ -3890,29 +3887,7 @@ var InlineDatetimeMaterial = { render: function render() {
       return _c('div', { staticClass: "q-datetime-clock-position", class: ['q-datetime-clock-pos-' + (n - 1), (n - 1) * 5 === _vm.minute ? 'active' : ''] }, [_vm._v(_vm._s((n - 1) * 5))]);
     })], 2)]) : _vm._e()]) : _vm._e()]), _vm._t("default")], 2)]);
   }, staticRenderFns: [],
-  props: {
-    value: {
-      type: String,
-      required: true
-    },
-    type: {
-      type: String,
-      default: 'date',
-      validator: function validator(value) {
-        return ['date', 'time', 'datetime'].includes(value);
-      }
-    },
-    min: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: String,
-      default: ''
-    },
-    readonly: Boolean,
-    disable: Boolean
-  },
+  props: inline,
   data: function data() {
     var _this = this;
 
@@ -4288,29 +4263,7 @@ var InlineDatetimeIOS = { render: function render() {
   }, staticRenderFns: [function () {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime-col-divider" }, [_c('div', { staticClass: "q-datetime-col-wrapper full-height row items-center justify-center" }, [_c('div', [_vm._v(":")])])]);
   }],
-  props: {
-    value: {
-      type: String,
-      required: true
-    },
-    type: {
-      type: String,
-      default: 'date',
-      validator: function validator(value) {
-        return ['date', 'time', 'datetime'].includes(value);
-      }
-    },
-    min: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: String,
-      default: ''
-    },
-    readonly: Boolean,
-    disable: Boolean
-  },
+  props: inline,
   data: function data() {
     var _this = this;
 

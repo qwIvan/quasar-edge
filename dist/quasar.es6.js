@@ -3309,6 +3309,65 @@ var DataTable = {render: function(){var _vm=this;var _h=_vm.$createElement;var _
   }
 };
 
+const input = {
+  type: {
+    type: String,
+    default: 'date'
+  },
+  min: {
+    type: String,
+    default: ''
+  },
+  max: {
+    type: String,
+    default: ''
+  },
+  format: String,
+  noClear: Boolean,
+  clearLabel: {
+    type: String,
+    default: 'Clear'
+  },
+  okLabel: {
+    type: String,
+    default: 'Set'
+  },
+  cancelLabel: {
+    type: String,
+    default: 'Cancel'
+  },
+  defaultSelection: String,
+  label: String,
+  placeholder: String,
+  staticLabel: String,
+  readonly: Boolean,
+  disable: Boolean
+};
+
+const inline = {
+  value: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    default: 'date',
+    validator (value) {
+      return ['date', 'time', 'datetime'].includes(value)
+    }
+  },
+  min: {
+    type: String,
+    default: ''
+  },
+  max: {
+    type: String,
+    default: ''
+  },
+  readonly: Boolean,
+  disable: Boolean
+};
+
 let contentCSS = {
   ios: {
     maxHeight: '80vh',
@@ -3323,43 +3382,12 @@ let contentCSS = {
 };
 
 var Datetime = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('q-picker-textfield',{attrs:{"disable":_vm.disable,"readonly":_vm.readonly,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"value":_vm.actualValue},nativeOn:{"click":function($event){_vm.__open($event);},"keydown":function($event){if(_vm._k($event.keyCode,"enter",13)){ return; }_vm.open($event);}}},[(_vm.desktop)?_c('q-popover',{ref:"popup",attrs:{"disable":_vm.disable || _vm.readonly},on:{"open":function($event){_vm.__setModel();}}},[_c('q-inline-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],staticClass:"no-border",attrs:{"type":_vm.type,"min":_vm.min,"max":_vm.max},domProps:{"value":(_vm.model)},on:{"input":function($event){_vm.model=$event;}}},[_c('div',{staticClass:"modal-buttons row full-width"},[(!_vm.noClear)?_c('button',{staticClass:"primary clear",domProps:{"innerHTML":_vm._s(_vm.clearLabel)},on:{"click":function($event){_vm.clear();}}}):_vm._e(),_c('div',{staticClass:"auto"}),_c('button',{staticClass:"primary clear",domProps:{"innerHTML":_vm._s(_vm.cancelLabel)},on:{"click":function($event){_vm.close();}}}),_vm._v(" "),_c('button',{staticClass:"primary clear",domProps:{"innerHTML":_vm._s(_vm.okLabel)},on:{"click":function($event){_vm.close(_vm.__update);}}})])])],1):_c('q-modal',{ref:"popup",staticClass:"with-backdrop",class:_vm.classNames,attrs:{"transition":_vm.transition,"position-classes":_vm.position,"content-css":_vm.css}},[_c('q-inline-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],staticClass:"no-border full-width",attrs:{"type":_vm.type,"min":_vm.min,"max":_vm.max},domProps:{"value":(_vm.model)},on:{"input":function($event){_vm.model=$event;}}},[_c('div',{staticClass:"modal-buttons row full-width"},[(!_vm.noClear)?_c('button',{staticClass:"primary clear",domProps:{"innerHTML":_vm._s(_vm.clearLabel)},on:{"click":function($event){_vm.clear();}}}):_vm._e(),_c('div',{staticClass:"auto"}),_c('button',{staticClass:"primary clear",domProps:{"innerHTML":_vm._s(_vm.cancelLabel)},on:{"click":function($event){_vm.close();}}}),_vm._v(" "),_c('button',{staticClass:"primary clear",domProps:{"innerHTML":_vm._s(_vm.okLabel)},on:{"click":function($event){_vm.close(_vm.__update);}}})])])],1)],1)},staticRenderFns: [],
-  props: {
-    type: {
-      type: String,
-      default: 'date'
-    },
+  props: extend({
     value: {
       type: String,
       required: true
-    },
-    min: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: String,
-      default: ''
-    },
-    format: String,
-    noClear: Boolean,
-    clearLabel: {
-      type: String,
-      default: 'Clear'
-    },
-    okLabel: {
-      type: String,
-      default: 'Set'
-    },
-    cancelLabel: {
-      type: String,
-      default: 'Cancel'
-    },
-    label: String,
-    placeholder: String,
-    staticLabel: String,
-    readonly: Boolean,
-    disable: Boolean
-  },
+    }
+  }, input),
   data () {
     let data = Platform.is.desktop ? {} : {
       css: contentCSS[current],
@@ -3367,7 +3395,7 @@ var Datetime = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
       transition: current === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: current === 'ios' ? '' : 'minimized'
     };
-    data.model = this.value || '';
+    data.model = this.value;
     data.desktop = Platform.is.desktop;
     return data
   },
@@ -3428,7 +3456,7 @@ var Datetime = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
       return value
     },
     __setModel () {
-      this.model = this.value || this.__normalizeValue(moment()).format(this.format);
+      this.model = this.value || this.__normalizeValue(moment(this.defaultSelection)).format(this.format);
     },
     __update () {
       this.$emit('input', this.model);
@@ -3443,8 +3471,8 @@ var Datetime = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
   }
 };
 
-var DatetimeRange = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-datetime-range"},[_c('q-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model.from),expression:"model.from"}],class:_vm.className,style:(_vm.css),attrs:{"type":_vm.type,"min":_vm.min,"max":_vm.model.to || _vm.max,"format":_vm.format,"no-clear":_vm.noClear,"clear-label":_vm.clearLabel,"ok-label":_vm.okLabel,"cancel-label":_vm.cancelLabel,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"readonly":_vm.readonly,"disable":_vm.disable},domProps:{"value":(_vm.model.from)},on:{"input":function($event){_vm.model.from=$event;}}}),_c('q-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model.to),expression:"model.to"}],class:_vm.className,style:(_vm.css),attrs:{"type":_vm.type,"min":_vm.model.from || _vm.min,"max":_vm.max,"format":_vm.format,"no-clear":_vm.noClear,"clear-label":_vm.clearLabel,"ok-label":_vm.okLabel,"cancel-label":_vm.cancelLabel,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"readonly":_vm.readonly,"disable":_vm.disable},domProps:{"value":(_vm.model.to)},on:{"input":function($event){_vm.model.to=$event;}}})],1)},staticRenderFns: [],
-  props: {
+var DatetimeRange = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-datetime-range"},[_c('q-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model.from),expression:"model.from"}],class:_vm.className,style:(_vm.css),attrs:{"default-selection":_vm.defaultSelection,"type":_vm.type,"min":_vm.min,"max":_vm.model.to || _vm.max,"format":_vm.format,"no-clear":_vm.noClear,"clear-label":_vm.clearLabel,"ok-label":_vm.okLabel,"cancel-label":_vm.cancelLabel,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"readonly":_vm.readonly,"disable":_vm.disable},domProps:{"value":(_vm.model.from)},on:{"input":function($event){_vm.model.from=$event;}}}),_c('q-datetime',{directives:[{name:"model",rawName:"v-model",value:(_vm.model.to),expression:"model.to"}],class:_vm.className,style:(_vm.css),attrs:{"default-selection":_vm.defaultSelection,"type":_vm.type,"min":_vm.model.from || _vm.min,"max":_vm.max,"format":_vm.format,"no-clear":_vm.noClear,"clear-label":_vm.clearLabel,"ok-label":_vm.okLabel,"cancel-label":_vm.cancelLabel,"label":_vm.label,"placeholder":_vm.placeholder,"static-label":_vm.staticLabel,"readonly":_vm.readonly,"disable":_vm.disable},domProps:{"value":(_vm.model.to)},on:{"input":function($event){_vm.model.to=$event;}}})],1)},staticRenderFns: [],
+  props: extend({
     value: {
       type: Object,
       validator (val) {
@@ -3457,39 +3485,8 @@ var DatetimeRange = {render: function(){var _vm=this;var _h=_vm.$createElement;v
       required: true
     },
     className: [String, Object],
-    css: [String, Object],
-    type: {
-      type: String,
-      default: 'date'
-    },
-    min: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: String,
-      default: ''
-    },
-    format: String,
-    noClear: Boolean,
-    clearLabel: {
-      type: String,
-      default: 'Clear'
-    },
-    okLabel: {
-      type: String,
-      default: 'Set'
-    },
-    cancelLabel: {
-      type: String,
-      default: 'Cancel'
-    },
-    label: String,
-    placeholder: String,
-    staticLabel: String,
-    readonly: Boolean,
-    disable: Boolean
-  },
+    css: [String, Object]
+  }, input),
   computed: {
     model: {
       get () {
@@ -3507,29 +3504,7 @@ function convertToAmPm (hour) {
 }
 
 var InlineDatetimeMaterial = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-datetime inline column gt-md-row",class:{disabled: _vm.disable, readonly: _vm.readonly}},[(!_vm.value)?_c('div',{staticClass:"q-datetime-header column justify-center"},[_vm._v(" ")]):_c('div',{staticClass:"q-datetime-header column justify-center"},[(_vm.typeHasDate)?_c('div',[_c('div',{staticClass:"q-datetime-weekdaystring"},[_vm._v(_vm._s(_vm.weekDayString))]),_c('div',{staticClass:"q-datetime-datestring row gt-md-column items-center justify-center"},[_c('span',{staticClass:"q-datetime-link small",class:{active: _vm.view === 'month'},on:{"click":function($event){_vm.view = 'month';}}},[_vm._v(_vm._s(_vm.monthString)+" ")]),_c('span',{staticClass:"q-datetime-link",class:{active: _vm.view === 'day'},on:{"click":function($event){_vm.view = 'day';}}},[_vm._v(_vm._s(_vm.dayString)+" ")]),_c('span',{staticClass:"q-datetime-link small",class:{active: _vm.view === 'year'},on:{"click":function($event){_vm.view = 'year';}}},[_vm._v(_vm._s(_vm.year))])])]):_vm._e(),(_vm.typeHasTime)?_c('div',{staticClass:"q-datetime-time row gt-md-column items-center justify-center"},[_c('div',{staticClass:"q-datetime-clockstring"},[_c('span',{staticClass:"q-datetime-link",class:{active: _vm.view === 'hour'},on:{"click":function($event){_vm.view = 'hour';}}},[_vm._v(_vm._s(_vm.__pad(_vm.hour, '  '))+" ")]),_c('span',{staticStyle:{"opacity":"0.6"}},[_vm._v(":")]),_vm._v(" "),_c('span',{staticClass:"q-datetime-link",class:{active: _vm.view === 'minute'},on:{"click":function($event){_vm.view = 'minute';}}},[_vm._v(_vm._s(_vm.__pad(_vm.minute)))])]),_c('div',{staticClass:"q-datetime-ampm column justify-around"},[_c('div',{staticClass:"q-datetime-link",class:{active: _vm.am},on:{"click":function($event){_vm.toggleAmPm();}}},[_vm._v("AM")]),_c('div',{staticClass:"q-datetime-link",class:{active: !_vm.am},on:{"click":function($event){_vm.toggleAmPm();}}},[_vm._v("PM")])])]):_vm._e()]),_c('div',{staticClass:"q-datetime-content auto column"},[_c('div',{ref:"selector",staticClass:"q-datetime-selector auto row items-center justify-center"},[(_vm.view === 'year')?_c('div',{staticClass:"q-datetime-view-year full-width full-height"},_vm._l((_vm.yearInterval),function(n){return _c('button',{staticClass:"primary clear full-width",class:{active: n + _vm.yearMin === _vm.year},on:{"click":function($event){_vm.setYear(n + _vm.yearMin);}}},[_vm._v(_vm._s(n + _vm.yearMin))])})):_vm._e(),(_vm.view === 'month')?_c('div',{staticClass:"q-datetime-view-month full-width full-height"},_vm._l((_vm.monthInterval),function(index){return _c('button',{staticClass:"primary clear full-width",class:{active: _vm.month === index + _vm.monthMin},on:{"click":function($event){_vm.setMonth(index + _vm.monthMin, true);}}},[_vm._v(_vm._s(_vm.monthsList[index + _vm.monthMin - 1]))])})):_vm._e(),(_vm.view === 'day')?_c('div',{staticClass:"q-datetime-view-day q-datetime-animate"},[_c('div',{staticClass:"row items-center content-center"},[_c('button',{staticClass:"primary clear",on:{"click":function($event){_vm.setMonth(_vm.month - 1, true);}}},[_c('i',[_vm._v("keyboard_arrow_left")])]),_c('div',{staticClass:"auto"},[_vm._v(_vm._s(_vm.monthStamp))]),_c('button',{staticClass:"primary clear",on:{"click":function($event){_vm.setMonth(_vm.month + 1, true);}}},[_c('i',[_vm._v("keyboard_arrow_right")])])]),_c('div',{staticClass:"q-datetime-weekdays row items-center justify-start"},_vm._l((_vm.daysList),function(day){return _c('div',[_vm._v(_vm._s(day))])})),_c('div',{staticClass:"q-datetime-days row wrap items-center justify-start content-center"},[_vm._l((_vm.fillerDays),function(fillerDay){return _c('div',{staticClass:"q-datetime-fillerday"})}),_vm._l((_vm.beforeMinDays),function(fillerDay){return (_vm.min)?_c('div',{staticClass:"flex items-center content-center justify-center disabled"},[_vm._v(_vm._s(fillerDay))]):_vm._e()}),_vm._l((_vm.daysInterval),function(monthDay){return _c('div',{staticClass:"flex items-center content-center justify-center cursor-pointer",class:{active: _vm.value && monthDay === _vm.day},on:{"click":function($event){_vm.setDay(monthDay);}}},[_vm._v(_vm._s(monthDay))])}),_vm._l((_vm.aferMaxDays),function(fillerDay){return (_vm.max)?_c('div',{staticClass:"flex items-center content-center justify-center disabled"},[_vm._v(_vm._s(fillerDay + _vm.maxDay))]):_vm._e()})],2)]):_vm._e(),(_vm.view === 'hour' || _vm.view === 'minute')?_c('div',{ref:"clock",staticClass:"column items-center content-center justify-center"},[(_vm.view === 'hour')?_c('div',{staticClass:"q-datetime-clock cursor-pointer",on:{"mousedown":_vm.__dragStart,"mousemove":_vm.__dragMove,"mouseup":_vm.__dragStop,"touchstart":_vm.__dragStart,"touchmove":_vm.__dragMove,"touchend":_vm.__dragStop}},[_c('div',{staticClass:"q-datetime-clock-circle full-width full-height"},[_c('div',{staticClass:"q-datetime-clock-center"}),_c('div',{staticClass:"q-datetime-clock-pointer",class:{hidden: !_vm.value},style:(_vm.clockPointerStyle)},[_c('span')]),_vm._l((12),function(n){return _c('div',{staticClass:"q-datetime-clock-position",class:['q-datetime-clock-pos-' + n, _vm.value && n === _vm.hour ? 'active' : '']},[_vm._v(_vm._s(n))])})],2)]):_vm._e(),(_vm.view === 'minute')?_c('div',{staticClass:"q-datetime-clock cursor-pointer",on:{"mousedown":_vm.__dragStart,"mousemove":_vm.__dragMove,"mouseup":_vm.__dragStop,"touchstart":_vm.__dragStart,"touchmove":_vm.__dragMove,"touchend":_vm.__dragStop}},[_c('div',{staticClass:"q-datetime-clock-circle full-width full-height"},[_c('div',{staticClass:"q-datetime-clock-center"}),_c('div',{staticClass:"q-datetime-clock-pointer",style:(_vm.clockPointerStyle)},[_c('span')]),_vm._l((12),function(n){return _c('div',{staticClass:"q-datetime-clock-position",class:['q-datetime-clock-pos-' + (n - 1), (n - 1) * 5 === _vm.minute ? 'active' : '']},[_vm._v(_vm._s((n - 1) * 5))])})],2)]):_vm._e()]):_vm._e()]),_vm._t("default")],2)])},staticRenderFns: [],
-  props: {
-    value: {
-      type: String,
-      required: true
-    },
-    type: {
-      type: String,
-      default: 'date',
-      validator (value) {
-        return ['date', 'time', 'datetime'].includes(value)
-      }
-    },
-    min: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: String,
-      default: ''
-    },
-    readonly: Boolean,
-    disable: Boolean
-  },
+  props: inline,
   data () {
     let view;
 
@@ -3860,29 +3835,7 @@ var InlineDatetimeMaterial = {render: function(){var _vm=this;var _h=_vm.$create
 };
 
 var InlineDatetimeIOS = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-datetime",class:['type-' + _vm.type, _vm.disable ? 'disabled' : '', _vm.readonly ? 'readonly' : '']},[_vm._t("default"),_c('div',{staticClass:"q-datetime-content non-selectable"},[_c('div',{staticClass:"q-datetime-inner full-height flex justify-center"},[(_vm.typeHasDate)?[_c('div',{staticClass:"q-datetime-col q-datetime-col-month",on:{"touchstart":function($event){_vm.__dragStart($event, 'month');},"touchmove":function($event){_vm.__dragMove($event, 'month');},"touchend":function($event){_vm.__dragStop($event, 'month');}}},[_c('div',{ref:"month",staticClass:"q-datetime-col-wrapper",style:(_vm.__monthStyle)},_vm._l((_vm.monthInterval),function(index){return _c('div',{staticClass:"q-datetime-item",on:{"click":function($event){_vm.setMonth(index + _vm.monthMin);}}},[_vm._v(_vm._s(_vm.monthsList[index + _vm.monthMin - 1]))])}))]),_c('div',{staticClass:"q-datetime-col q-datetime-col-day",on:{"touchstart":function($event){_vm.__dragStart($event, 'date');},"touchmove":function($event){_vm.__dragMove($event, 'date');},"touchend":function($event){_vm.__dragStop($event, 'date');}}},[_c('div',{ref:"date",staticClass:"q-datetime-col-wrapper",style:(_vm.__dayStyle)},_vm._l((_vm.daysInterval),function(index){return _c('div',{staticClass:"q-datetime-item",on:{"click":function($event){_vm.setDay(index + _vm.dayMin - 1);}}},[_vm._v(_vm._s(index + _vm.dayMin - 1))])}))]),_c('div',{staticClass:"q-datetime-col q-datetime-col-year",on:{"touchstart":function($event){_vm.__dragStart($event, 'year');},"touchmove":function($event){_vm.__dragMove($event, 'year');},"touchend":function($event){_vm.__dragStop($event, 'year');}}},[_c('div',{ref:"year",staticClass:"q-datetime-col-wrapper",style:(_vm.__yearStyle)},_vm._l((_vm.yearInterval),function(n){return _c('div',{staticClass:"q-datetime-item",on:{"click":function($event){_vm.setYear(n + _vm.yearMin);}}},[_vm._v(_vm._s(n + _vm.yearMin))])}))])]:_vm._e(),(_vm.typeHasTime)?[_c('div',{staticClass:"q-datetime-col q-datetime-col-hour",on:{"touchstart":function($event){_vm.__dragStart($event, 'hour');},"touchmove":function($event){_vm.__dragMove($event, 'hour');},"touchend":function($event){_vm.__dragStop($event, 'hour');}}},[_c('div',{ref:"hour",staticClass:"q-datetime-col-wrapper",style:(_vm.__hourStyle)},_vm._l((_vm.hourInterval),function(n){return _c('div',{staticClass:"q-datetime-item",on:{"click":function($event){_vm.setHour(n + _vm.hourMin - 1);}}},[_vm._v(_vm._s(n + _vm.hourMin - 1))])}))]),_vm._m(0),_c('div',{staticClass:"q-datetime-col q-datetime-col-minute",on:{"touchstart":function($event){_vm.__dragStart($event, 'minute');},"touchmove":function($event){_vm.__dragMove($event, 'minute');},"touchend":function($event){_vm.__dragStop($event, 'minute');}}},[_c('div',{ref:"minute",staticClass:"q-datetime-col-wrapper",style:(_vm.__minuteStyle)},_vm._l((_vm.minuteInterval),function(n){return _c('div',{staticClass:"q-datetime-item",on:{"click":function($event){_vm.setMinute(n + _vm.minuteMin - 1);}}},[_vm._v(_vm._s(_vm.__pad(n + _vm.minuteMin - 1)))])}))])]:_vm._e(),_c('div',{staticClass:"q-datetime-highlight row items-center justify-center",class:{'q-datetime-no-selection': !_vm.value}},[(!_vm.value && _vm.typeHasDate)?[_c('div',{staticClass:"q-datetime-col-month"},[_vm._v("-----")]),_c('div',{staticClass:"q-datetime-col-day"},[_vm._v("--")]),_c('div',{staticClass:"q-datetime-col-year"},[_vm._v("----")])]:_vm._e(),(!_vm.value && _vm.typeHasTime)?[_c('div',{staticClass:"q-datetime-col-hour"},[_vm._v("--")]),_c('div',{staticClass:"q-datetime-col-minute"},[_vm._v("--")])]:_vm._e()],2)],2),_c('div',{staticClass:"q-datetime-mask"})])],2)},staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-datetime-col-divider"},[_c('div',{staticClass:"q-datetime-col-wrapper full-height row items-center justify-center"},[_c('div',[_vm._v(":")])])])}],
-  props: {
-    value: {
-      type: String,
-      required: true
-    },
-    type: {
-      type: String,
-      default: 'date',
-      validator (value) {
-        return ['date', 'time', 'datetime'].includes(value)
-      }
-    },
-    min: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: String,
-      default: ''
-    },
-    readonly: Boolean,
-    disable: Boolean
-  },
+  props: inline,
   data () {
     this.$nextTick(() => {
       this.date = this.__normalizeValue(this.date);
