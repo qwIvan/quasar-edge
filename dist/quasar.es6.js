@@ -5049,11 +5049,10 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
   }
 };
 
-var Numeric = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-numeric textfield row inline items-center",class:{disabled: _vm.disable, readonly: _vm.readonly}},[_c('i',{on:{"click":function($event){_vm.__setByOffset(-1);}}},[_vm._v("remove")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model.number",value:(_vm.model),expression:"model",modifiers:{"number":true}}],staticClass:"no-style auto q-input-field",style:({width: (''+_vm.model).length * .7 + 'em'}),attrs:{"type":"number","disabled":_vm.disable,"readonly":_vm.readonly,"tabindex":"0","step":"any"},domProps:{"value":_vm._s(_vm.model)},on:{"blur":[function($event){_vm.__updateValue();},function($event){_vm.$forceUpdate();}],"keydown":[function($event){if(_vm._k($event.keyCode,"enter",13)){ return; }_vm.__updateValue();},function($event){if(_vm._k($event.keyCode,"up",38)){ return; }_vm.__setByOffset(1);},function($event){if(_vm._k($event.keyCode,"down",40)){ return; }_vm.__setByOffset(-1);},function($event){if(_vm._k($event.keyCode,"esc",27)){ return; }_vm.model = _vm.value;}],"input":function($event){if($event.target.composing){ return; }_vm.model=_vm._n($event.target.value);}}}),_vm._v(" "),_c('i',{directives:[{name:"show",rawName:"v-show",value:(_vm.value !== _vm.model && _vm.model !== ''),expression:"value !== model && model !== ''"}]},[_vm._v("check")]),_vm._v(" "),_c('i',{on:{"click":function($event){_vm.__setByOffset(1);}}},[_vm._v("add")])])},staticRenderFns: [],
+var Numeric = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-numeric textfield row inline items-center",class:{disabled: _vm.disable, readonly: _vm.readonly, 'has-error': _vm.hasError}},[_c('i',{on:{"click":function($event){_vm.__setByOffset(-1);}}},[_vm._v("remove")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model.number",value:(_vm.model),expression:"model",modifiers:{"number":true}}],staticClass:"no-style auto q-input-field",style:({width: _vm.width}),attrs:{"type":"number","disabled":_vm.disable,"readonly":_vm.readonly,"tabindex":"0","step":_vm.step,"min":_vm.min,"max":_vm.max},domProps:{"value":_vm._s(_vm.model)},on:{"blur":[_vm.__updateValue,function($event){_vm.$forceUpdate();}],"keydown":[function($event){if(_vm._k($event.keyCode,"up",38)){ return; }_vm.__updateValue($event);},function($event){if(_vm._k($event.keyCode,"down",40)){ return; }_vm.__updateValue($event);},function($event){if(_vm._k($event.keyCode,"enter",13)){ return; }_vm.__updateValue($event);},function($event){if(_vm._k($event.keyCode,"esc",27)){ return; }_vm.model = _vm.value;}],"input":function($event){if($event.target.composing){ return; }_vm.model=_vm._n($event.target.value);}}}),_vm._v(" "),_c('i',{on:{"click":function($event){_vm.__setByOffset(1);}}},[_vm._v("add")])])},staticRenderFns: [],
   props: {
     value: {
-      type: Number,
-      default: 0
+      required: true
     },
     step: {
       type: Number,
@@ -5078,41 +5077,74 @@ var Numeric = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
       model: this.value
     }
   },
+  computed: {
+    hasMin () {
+      return this.has(this.min)
+    },
+    hasMax () {
+      return this.has(this.max)
+    },
+    hasError () {
+      return (
+        this.has(this.model) &&
+        (
+          (this.hasMin && this.model < this.min) ||
+          (this.hasMax && this.model > this.max)
+        )
+      )
+    },
+    width () {
+      return (this.has(this.model) ? ('' + this.model).length : 1) * 0.7 + 'em'
+    }
+  },
   methods: {
+    has (val) {
+      return typeof val !== 'undefined'
+    },
     __normalize (value) {
-      if (typeof this.min === 'number' && value < this.min) {
+      if (!this.has(value)) {
+        value = this.hasMin ? this.min : 0;
+      }
+      if (this.hasMin && value < this.min) {
         return this.min
       }
-      else if (typeof this.max === 'number' && value > this.max) {
+      else if (this.hasMax && value > this.max) {
         return this.max
       }
 
       return parseFloat(this.maxDecimals ? parseFloat(value).toFixed(this.maxDecimals) : value)
     },
     __updateValue () {
-      this.model = this.__normalize(this.model);
-      if (!this.disable && !this.readonly && this.value !== this.model) {
-        this.$emit('input', this.model);
-      }
+      this.$nextTick(() => {
+        this.model = this.__normalize(this.model);
+        if (!this.disable && !this.readonly && this.value !== this.model) {
+          this.$emit('input', this.model);
+        }
+      });
     },
     __setByOffset (direction) {
       if (this.disable || this.readonly) {
         return
       }
 
-      let newValue = this.model + direction * this.step;
-      if (typeof this.min === 'number' && newValue < this.min && this.model === this.min) {
-        return
+      let newValue;
+
+      if (!this.has(this.model)) {
+        newValue = this.__normalize(0);
       }
-      if (typeof this.max === 'number' && newValue > this.max && this.model === this.max) {
-        return
+      else {
+        newValue = this.model + direction * this.step;
+        if (this.hasMin && newValue < this.min && this.model === this.min) {
+          return
+        }
+        if (this.hasMax && newValue > this.max && this.model === this.max) {
+          return
+        }
       }
+
       this.model = newValue;
       this.__updateValue();
     }
-  },
-  created () {
-    this.__updateValue();
   }
 };
 

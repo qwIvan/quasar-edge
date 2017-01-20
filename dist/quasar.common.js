@@ -341,7 +341,7 @@ function height$1(el) {
   return parseFloat(window.getComputedStyle(el).getPropertyValue('height'), 10);
 }
 
-function width(el) {
+function width$1(el) {
   if (el === window) {
     return viewport().width;
   }
@@ -439,7 +439,7 @@ var dom = Object.freeze({
 	offset: offset,
 	style: style$1,
 	height: height$1,
-	width: width,
+	width: width$1,
 	css: css,
 	viewport: viewport,
 	ready: ready,
@@ -1055,7 +1055,7 @@ var popup = Object.freeze({
 
 var size = void 0;
 
-function width$1() {
+function width$2() {
   if (size) {
     return size;
   }
@@ -1096,7 +1096,7 @@ function width$1() {
 }
 
 var scrollbar = Object.freeze({
-	width: width$1
+	width: width$2
 });
 
 var data$1 = {};
@@ -5506,24 +5506,22 @@ var Modal = { render: function render() {
 };
 
 var Numeric = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-numeric textfield row inline items-center", class: { disabled: _vm.disable, readonly: _vm.readonly } }, [_c('i', { on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-numeric textfield row inline items-center", class: { disabled: _vm.disable, readonly: _vm.readonly, 'has-error': _vm.hasError } }, [_c('i', { on: { "click": function click($event) {
           _vm.__setByOffset(-1);
-        } } }, [_vm._v("remove")]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model.number", value: _vm.model, expression: "model", modifiers: { "number": true } }], staticClass: "no-style auto q-input-field", style: { width: ('' + _vm.model).length * .7 + 'em' }, attrs: { "type": "number", "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0", "step": "any" }, domProps: { "value": _vm._s(_vm.model) }, on: { "blur": [function ($event) {
-          _vm.__updateValue();
-        }, function ($event) {
+        } } }, [_vm._v("remove")]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model.number", value: _vm.model, expression: "model", modifiers: { "number": true } }], staticClass: "no-style auto q-input-field", style: { width: _vm.width }, attrs: { "type": "number", "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0", "step": _vm.step, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm._s(_vm.model) }, on: { "blur": [_vm.__updateValue, function ($event) {
           _vm.$forceUpdate();
         }], "keydown": [function ($event) {
-          if (_vm._k($event.keyCode, "enter", 13)) {
-            return;
-          }_vm.__updateValue();
-        }, function ($event) {
           if (_vm._k($event.keyCode, "up", 38)) {
             return;
-          }_vm.__setByOffset(1);
+          }_vm.__updateValue($event);
         }, function ($event) {
           if (_vm._k($event.keyCode, "down", 40)) {
             return;
-          }_vm.__setByOffset(-1);
+          }_vm.__updateValue($event);
+        }, function ($event) {
+          if (_vm._k($event.keyCode, "enter", 13)) {
+            return;
+          }_vm.__updateValue($event);
         }, function ($event) {
           if (_vm._k($event.keyCode, "esc", 27)) {
             return;
@@ -5532,14 +5530,13 @@ var Numeric = { render: function render() {
           if ($event.target.composing) {
             return;
           }_vm.model = _vm._n($event.target.value);
-        } } }), _vm._v(" "), _c('i', { directives: [{ name: "show", rawName: "v-show", value: _vm.value !== _vm.model && _vm.model !== '', expression: "value !== model && model !== ''" }] }, [_vm._v("check")]), _vm._v(" "), _c('i', { on: { "click": function click($event) {
+        } } }), _vm._v(" "), _c('i', { on: { "click": function click($event) {
           _vm.__setByOffset(1);
         } } }, [_vm._v("add")])]);
   }, staticRenderFns: [],
   props: {
     value: {
-      type: Number,
-      default: 0
+      required: true
     },
     step: {
       type: Number,
@@ -5565,40 +5562,68 @@ var Numeric = { render: function render() {
     };
   },
 
+  computed: {
+    hasMin: function hasMin() {
+      return this.has(this.min);
+    },
+    hasMax: function hasMax() {
+      return this.has(this.max);
+    },
+    hasError: function hasError() {
+      return this.has(this.model) && (this.hasMin && this.model < this.min || this.hasMax && this.model > this.max);
+    },
+    width: function width() {
+      return (this.has(this.model) ? ('' + this.model).length : 1) * 0.7 + 'em';
+    }
+  },
   methods: {
+    has: function has(val) {
+      return typeof val !== 'undefined';
+    },
     __normalize: function __normalize(value) {
-      if (typeof this.min === 'number' && value < this.min) {
+      if (!this.has(value)) {
+        value = this.hasMin ? this.min : 0;
+      }
+      if (this.hasMin && value < this.min) {
         return this.min;
-      } else if (typeof this.max === 'number' && value > this.max) {
+      } else if (this.hasMax && value > this.max) {
         return this.max;
       }
 
       return parseFloat(this.maxDecimals ? parseFloat(value).toFixed(this.maxDecimals) : value);
     },
     __updateValue: function __updateValue() {
-      this.model = this.__normalize(this.model);
-      if (!this.disable && !this.readonly && this.value !== this.model) {
-        this.$emit('input', this.model);
-      }
+      var _this = this;
+
+      this.$nextTick(function () {
+        _this.model = _this.__normalize(_this.model);
+        if (!_this.disable && !_this.readonly && _this.value !== _this.model) {
+          _this.$emit('input', _this.model);
+        }
+      });
     },
     __setByOffset: function __setByOffset(direction) {
       if (this.disable || this.readonly) {
         return;
       }
 
-      var newValue = this.model + direction * this.step;
-      if (typeof this.min === 'number' && newValue < this.min && this.model === this.min) {
-        return;
+      var newValue = void 0;
+
+      if (!this.has(this.model)) {
+        newValue = this.__normalize(0);
+      } else {
+        newValue = this.model + direction * this.step;
+        if (this.hasMin && newValue < this.min && this.model === this.min) {
+          return;
+        }
+        if (this.hasMax && newValue > this.max && this.model === this.max) {
+          return;
+        }
       }
-      if (typeof this.max === 'number' && newValue > this.max && this.model === this.max) {
-        return;
-      }
+
       this.model = newValue;
       this.__updateValue();
     }
-  },
-  created: function created() {
-    this.__updateValue();
   }
 };
 
@@ -5948,7 +5973,7 @@ var Popover = { render: function render() {
   }
 };
 
-function width$2(model) {
+function width$3(model) {
   return { width: Utils.format.between(model, 0, 100) + '%' };
 }
 
@@ -5967,15 +5992,15 @@ var Progress = { render: function render() {
   },
   computed: {
     modelStyle: function modelStyle() {
-      return width$2(this.percentage);
+      return width$3(this.percentage);
     },
     bufferStyle: function bufferStyle() {
       if (this.hasBuffer) {
-        return width$2(this.buffer);
+        return width$3(this.buffer);
       }
     },
     trackStyle: function trackStyle() {
-      return width$2(this.hasBuffer ? 100 - this.buffer : 100);
+      return width$3(this.hasBuffer ? 100 - this.buffer : 100);
     },
     hasBuffer: function hasBuffer() {
       return this.buffer !== -1;
@@ -8588,14 +8613,14 @@ function remove$2(key, options) {
   }));
 }
 
-function has(key) {
+function has$1(key) {
   return get$3(key) !== undefined;
 }
 
 var Cookies = {
   get: get$3,
   set: set$3,
-  has: has,
+  has: has$1,
   remove: remove$2,
   all: function all() {
     return get$3();
