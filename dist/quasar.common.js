@@ -5824,6 +5824,7 @@ var Popover = { render: function render() {
       default: 'top left',
       validator: Utils.popup.positionValidator
     },
+    fit: Boolean,
     maxHeight: String,
     touchPosition: Boolean,
     anchorClick: {
@@ -5900,10 +5901,13 @@ var Popover = { render: function render() {
       });
       this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl);
       this.scrollTarget.addEventListener('scroll', this.close);
+      if (this.fit) {
+        this.$el.style.minWidth = Utils.dom.width(this.anchorEl) + 'px';
+      }
+      this.__updatePosition(event);
       this.timer = setTimeout(function () {
         _this2.timer = null;
         document.addEventListener('click', _this2.close, true);
-        _this2.__updatePosition(event);
         _this2.$emit('open');
       }, 1);
     },
@@ -6724,7 +6728,7 @@ var Select = { render: function render() {
           if (_vm._k($event.keyCode, "enter", 13)) {
             return;
           }_vm.open($event);
-        } } }, [_c('q-popover', { ref: "popover", attrs: { "disable": _vm.disable || _vm.readonly } }, [_c('div', { staticClass: "q-select-popover list highlight" }, [_vm._l(_vm.options, function (radio) {
+        } } }, [_c('q-popover', { ref: "popover", attrs: { "disable": _vm.disable || _vm.readonly, "fit": "" } }, [_c('div', { staticClass: "q-select-popover list highlight" }, [_vm._l(_vm.options, function (radio) {
       return _vm.type === 'radio' ? _c('label', { staticClass: "item", on: { "click": _vm.close } }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "val": radio.value }, domProps: { "value": _vm.model }, on: { "input": function input($event) {
             _vm.model = $event;
           } } })], 1), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(radio.label) } })])]) : _vm._e();
