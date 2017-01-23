@@ -3426,14 +3426,14 @@ body.desktop .q-datetime-clock-position:not(.active):hover {
   top: 0%;
   left: 50%;
 }
-.q-datetime-range.space-between > div + div {
-  margin-left: 10px;
-}
 .q-datetime-range.full-width {
   display: flex;
 }
 .q-datetime-range.full-width > div {
   flex: 1 1 auto;
+}
+.q-datetime-range.full-width > div + div {
+  margin-left: 10px;
 }
 @media (max-width: 920px) {
   .q-datetime-ampm {

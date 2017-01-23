@@ -4994,6 +4994,7 @@ var GallerySlider = { render: function render() {
     },
     __updateCurrentSlide: function __updateCurrentSlide(value) {
       this.currentSlide = value;
+      this.$emit('slide', value);
     }
   }
 };
@@ -5950,37 +5951,35 @@ var Popover = { render: function render() {
   }
 };
 
-function width$3(model) {
-  return { width: Utils.format.between(model, 0, 100) + '%' };
+function width$3(val) {
+  return { width: val + '%' };
 }
 
 var Progress = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-progress" }, [_c('div', { staticClass: "q-progress-track", style: _vm.trackStyle }, [_vm._v(" ")]), _vm.hasBuffer ? _c('div', { staticClass: "q-progress-buffer", style: _vm.bufferStyle }, [_vm._v(" ")]) : _vm._e(), _c('div', { staticClass: "q-progress-model", style: _vm.modelStyle }, [_vm._v(" ")])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-progress" }, [_c('div', { staticClass: "q-progress-track", style: _vm.trackStyle }, [_vm._v(" ")]), _vm.buffer ? _c('div', { staticClass: "q-progress-buffer", style: _vm.bufferStyle }, [_vm._v(" ")]) : _vm._e(), _c('div', { staticClass: "q-progress-model", style: _vm.modelStyle }, [_vm._v(" ")])]);
   }, staticRenderFns: [],
   props: {
     percentage: {
       type: Number,
       default: 0
     },
-    buffer: {
-      type: Number,
-      default: -1
-    }
+    buffer: Number
   },
   computed: {
+    model: function model() {
+      return between(this.percentage, 0, 100);
+    },
+    bufferModel: function bufferModel() {
+      return between(this.buffer || 0, 0, 100 - this.model);
+    },
     modelStyle: function modelStyle() {
-      return width$3(this.percentage);
+      return width$3(this.model);
     },
     bufferStyle: function bufferStyle() {
-      if (this.hasBuffer) {
-        return width$3(this.buffer);
-      }
+      return width$3(this.bufferModel);
     },
     trackStyle: function trackStyle() {
-      return width$3(this.hasBuffer ? 100 - this.buffer : 100);
-    },
-    hasBuffer: function hasBuffer() {
-      return this.buffer !== -1;
+      return width$3(this.buffer ? 100 - this.buffer : 100);
     }
   }
 };

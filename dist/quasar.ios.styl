@@ -1881,14 +1881,12 @@ body.desktop .q-datetime-col-wrapper
     > div
       padding 0 6px
       text-align center
-.q-datetime-range
-  &.space-between
-    > div + div
-      margin-left $datetime-range-space
-  &.full-width
+.q-datetime-range.full-width
     display flex
     > div
       flex 1 1 auto
+    > div + div
+      margin-left $datetime-range-space
 $drawer-width            ?= 260px
 $drawer-font-size        ?= 1rem
 $drawer-icon-font-size   ?= 1.8rem
