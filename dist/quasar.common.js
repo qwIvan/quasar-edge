@@ -3607,7 +3607,7 @@ var DataTable = { render: function render() {
       this.pagination.page = 1;
     },
     format: function format(row, col) {
-      return col.format ? col.format(row[col.field]) : row[col.field];
+      return col.format ? col.format(row[col.field], row) : row[col.field];
     },
     refresh: function refresh(state) {
       var _this = this;
