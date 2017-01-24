@@ -4602,7 +4602,7 @@ var InlineDatetimeIOS = { render: function render() {
 };
 
 var Drawer = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "drawer", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide } }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__openByTouch, expression: "__openByTouch", modifiers: { "horizontal": true } }], staticClass: "drawer-opener touch-only mobile-only", class: { 'fixed-left': !_vm.rightSide, 'fixed-right': _vm.rightSide } }, [_vm._v(" ")]), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "backdrop", staticClass: "drawer-backdrop fullscreen", style: _vm.backdropStyle, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "drawer", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide, active: _vm.active, 'swipe-only': _vm.swipeOnly } }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__openByTouch, expression: "__openByTouch", modifiers: { "horizontal": true } }], staticClass: "drawer-opener touch-only mobile-only", class: { 'fixed-left': !_vm.rightSide, 'fixed-right': _vm.rightSide } }, [_vm._v(" ")]), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "backdrop", staticClass: "drawer-backdrop fullscreen", style: _vm.backdropStyle, on: { "click": function click($event) {
           _vm.setState(false);
         } } }), _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__closeByTouch, expression: "__closeByTouch", modifiers: { "horizontal": true } }], ref: "content", staticClass: "drawer-content", class: { 'left-side': !_vm.rightSide, 'right-side': _vm.rightSide }, style: _vm.nodeStyle }, [_vm._t("default")], 2)]);
   }, staticRenderFns: [],
@@ -4620,6 +4620,7 @@ var Drawer = { render: function render() {
   },
   data: function data() {
     return {
+      active: false,
       opened: false,
       nodePosition: 0,
       backPosition: 0,
@@ -4643,20 +4644,19 @@ var Drawer = { render: function render() {
       return { background: 'rgba(0,0,0,' + this.backPosition + ')' };
     }
   },
+  watch: {
+    active: function active(val) {
+      document.body.classList[val ? 'add' : 'remove']('with-drawer-opened');
+    }
+  },
   methods: {
     __animate: function __animate(done) {
       var _this = this;
 
       var finalPos = void 0;
-      var backdrop = this.$refs.backdrop,
-          complete = function complete() {
+      var complete = function complete() {
         if (!_this.opened) {
-          backdrop.classList.remove('active');
-          if (_this.$quasar.theme === 'ios') {
-            document.body.classList.remove('with-drawer-opened');
-          }
-        } else {
-          window.addEventListener('resize', _this.close);
+          _this.active = false;
         }
         if (typeof done === 'function') {
           done();
@@ -4665,15 +4665,12 @@ var Drawer = { render: function render() {
 
       if (this.$quasar.theme === 'ios') {
         finalPos = this.opened ? (this.rightSide ? -1 : 1) * this.width : 0;
-        if (this.opened) {
-          document.body.classList.add('with-drawer-opened');
-        }
       } else {
         finalPos = this.opened ? 0 : (this.rightSide ? 1 : -1) * this.width;
       }
 
       if (this.opened) {
-        backdrop.classList.add('active');
+        this.active = true;
         if (this.$quasar.platform.has.popstate) {
           if (!window.history.state) {
             window.history.replaceState({ __quasar_drawer: true }, '');
@@ -4687,7 +4684,6 @@ var Drawer = { render: function render() {
           window.addEventListener('popstate', this.__popState);
         }
       } else {
-        window.removeEventListener('resize', this.close);
         if (this.$quasar.platform.has.popstate) {
           window.removeEventListener('popstate', this.__popState);
           if (window.history.state && !window.history.state.__quasar_drawer) {
@@ -4715,22 +4711,17 @@ var Drawer = { render: function render() {
         done: complete
       });
     },
-    __openByTouch: function __openByTouch(event) {
-      if (this.$quasar.platform.is.ios) {
+    __openByTouch: function __openByTouch(evt) {
+      var content = this.$refs.content;
+
+      if (this.$quasar.platform.is.ios || Utils.dom.style(content, 'position') !== 'fixed') {
         return;
       }
 
-      var content = this.$refs.content,
-          backdrop = this.$refs.backdrop;
-
-      if (Utils.dom.style(content, 'position') !== 'fixed') {
-        return;
-      }
-
-      var position = event.distance.x,
+      var position = evt.distance.x,
           percentage = void 0;
 
-      if (event.isFinal) {
+      if (evt.isFinal) {
         this.opened = position > 75;
       }
 
@@ -4743,17 +4734,17 @@ var Drawer = { render: function render() {
         percentage = (this.width - Math.abs(position)) / this.width;
       }
 
-      if (event.isFirst) {
-        backdrop.classList.add('active');
+      if (evt.isFirst) {
+        this.active = true;
       }
       this.nodePosition = position;
       this.backPosition = percentage * this.backdropOpacity;
 
-      if (event.isFinal) {
+      if (evt.isFinal) {
         this.__animate();
       }
     },
-    __closeByTouch: function __closeByTouch(event) {
+    __closeByTouch: function __closeByTouch(evt) {
       var content = this.$refs.content;
       var percentage = void 0,
           position = void 0,
@@ -4764,9 +4755,9 @@ var Drawer = { render: function render() {
       }
 
       initialPosition = (this.rightSide ? -1 : 1) * this.width;
-      position = this.rightSide ? Utils.format.between((event.direction === 'left' ? -1 : 1) * event.distance.x, 0, this.width) : Utils.format.between((event.direction === 'left' ? -1 : 1) * event.distance.x, -this.width, 0);
+      position = this.rightSide ? Utils.format.between((evt.direction === 'left' ? -1 : 1) * evt.distance.x, 0, this.width) : Utils.format.between((evt.direction === 'left' ? -1 : 1) * evt.distance.x, -this.width, 0);
 
-      if (event.isFinal) {
+      if (evt.isFinal) {
         this.opened = Math.abs(position) <= 75;
       }
 
@@ -4780,19 +4771,17 @@ var Drawer = { render: function render() {
       this.nodePosition = position;
       this.backPosition = percentage * this.backdropOpacity;
 
-      if (event.isFinal) {
+      if (evt.isFinal) {
         this.__animate();
       }
     },
     setState: function setState(state, done) {
-      if (!this.swipeOnly && Utils.dom.viewport().width > 920 || typeof state === 'boolean' && this.opened === state) {
-        if (typeof done === 'function') {
-          done();
-        }
+      if (this.active === state || this.active !== this.opened) {
         return;
       }
 
       this.opened = !this.opened;
+      this.active = true;
       this.__animate(done);
     },
     __popState: function __popState() {
@@ -4829,20 +4818,9 @@ var Drawer = { render: function render() {
           _this2.setState(false);
         });
       });
-
-      if (_this2.swipeOnly) {
-        _this2.$el.classList.add('swipe-only');
-      }
-
-      _this2.__eventHandler = function (handler) {
-        _this2.close(handler);
-      };
     });
   },
   beforeDestroy: function beforeDestroy() {
-    if (this.opened && this.$quasar.theme === 'ios') {
-      document.body.classList.remove('with-drawer-opened');
-    }
     this.setState(false);
   }
 };

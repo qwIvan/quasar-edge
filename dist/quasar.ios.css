@@ -3331,22 +3331,9 @@ body.desktop .q-datetime-col-wrapper {
 .q-datetime-range.full-width > div + div {
   margin-left: 10px;
 }
-body.drawer-opened {
-  overflow-x: hidden !important;
-}
-.drawer {
-  position: relative;
-}
-.drawer .list {
-  margin: 0;
-}
 .drawer-backdrop {
   display: none;
-  height: 100vh;
   z-index: 30;
-}
-.drawer-backdrop.active {
-  display: block;
 }
 .drawer-opener {
   z-index: 11;
@@ -3354,6 +3341,8 @@ body.drawer-opened {
   width: 15px;
 }
 .drawer-content {
+  z-index: 30;
+  position: fixed;
   background: #fff;
   top: 0;
   bottom: 0;
@@ -3365,9 +3354,11 @@ body.drawer-opened {
 }
 .drawer-content.left-side {
   left: 0;
+  transform: translateX(-260px);
 }
 .drawer-content.right-side {
   right: 0;
+  transform: translateX(260px);
 }
 body.cordova.platform-ios .drawer-content,
 body.demo-site.within-iframe .drawer-content {
@@ -3381,7 +3372,6 @@ body.with-drawer-opened {
   position: relative;
   margin-bottom: 8px;
   padding: 16px;
-  background-size: 100% 100%, cover;
   font-size: 0.9rem;
 }
 .drawer-header > img {
@@ -3403,36 +3393,27 @@ body.with-drawer-opened {
   margin-bottom: 25px;
   border-radius: 50%;
 }
-@media screen and (max-width: 920px) {
-  .drawer-content {
-    z-index: 30;
-    position: fixed;
-  }
-  .drawer-content.left-side {
-    transform: translateX(-260px);
-  }
-  .drawer-content.right-side {
-    transform: translateX(260px);
-  }
+.drawer {
+  position: relative;
+}
+.drawer .list {
+  margin: 0;
+}
+.drawer.active .drawer-backdrop {
+  display: block;
+}
+.drawer.active .drawer-opener {
+  display: none;
 }
 @media screen and (min-width: 921px) {
   .hide-on-drawer-visible {
     display: none !important;
   }
-  .drawer.swipe-only .drawer-content {
-    z-index: 30;
-    position: fixed;
-  }
-  .drawer.swipe-only .drawer-content.left-side {
-    transform: translateX(-260px);
-  }
-  .drawer.swipe-only .drawer-content.right-side {
-    transform: translateX(260px);
-  }
-  .drawer:not(.swipe-only) {
+  .drawer:not(.active):not(.swipe-only) {
     flex: 0 0 260px;
   }
-  .drawer:not(.swipe-only) .drawer-content {
+  .drawer:not(.active):not(.swipe-only) .drawer-content {
+    z-index: inherit;
     left: 0;
     right: 0;
     position: absolute !important;
@@ -3653,7 +3634,7 @@ body.desktop .q-gallery-slider-quickview img:hover {
 }
 .toolbar {
   padding: 4px 10px;
-  min-height: 40px;
+  min-height: 45px;
   display: flex;
   overflow: hidden;
   flex-direction: row;
@@ -3990,7 +3971,7 @@ body.desktop .layout-footer button:hover i {
 body.cordova.platform-ios .layout-header > .toolbar:first-child,
 body.demo-site.within-iframe .layout-header > .toolbar:first-child {
   padding-top: 20px;
-  min-height: 60px;
+  min-height: 65px;
 }
 body.cordova.platform-ios .layout-header > .toolbar:first-child .toolbar-title,
 body.demo-site.within-iframe .layout-header > .toolbar:first-child .toolbar-title {
