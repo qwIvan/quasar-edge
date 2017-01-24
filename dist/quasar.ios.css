@@ -3605,13 +3605,10 @@ body.desktop .q-gallery-slider-quickview img:hover {
   display: flex;
   flex-direction: column;
 }
-.layout-header > .toolbar {
+.layout-header {
   border-bottom: 1px solid #bdbdbd;
 }
-.layout-header > .toolbar:first-child {
-  align-items: end;
-}
-.layout-footer > .toolbar {
+.layout-footer {
   border-top: 1px solid #bdbdbd;
 }
 .layout-content {
@@ -3634,7 +3631,7 @@ body.desktop .q-gallery-slider-quickview img:hover {
 }
 .toolbar {
   padding: 4px 10px;
-  min-height: 45px;
+  min-height: 48px;
   display: flex;
   overflow: hidden;
   flex-direction: row;
@@ -3971,7 +3968,7 @@ body.desktop .layout-footer button:hover i {
 body.cordova.platform-ios .layout-header > .toolbar:first-child,
 body.demo-site.within-iframe .layout-header > .toolbar:first-child {
   padding-top: 20px;
-  min-height: 65px;
+  min-height: 68px;
 }
 body.cordova.platform-ios .layout-header > .toolbar:first-child .toolbar-title,
 body.demo-site.within-iframe .layout-header > .toolbar:first-child .toolbar-title {
@@ -5350,24 +5347,30 @@ body.desktop .q-search.has-error .q-search-input:hover {
 .q-tab {
   display: flex;
   flex-direction: column;
-  min-height: 61px;
-  padding: 8px 20px;
+  min-height: 49px;
+  padding: 4px 10px;
   cursor: pointer;
   transition: all 0.3s;
   white-space: nowrap;
   user-select: none;
 }
 .q-tab .q-tabs-icon {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
 }
 .q-tab .q-tabs-icon + .q-tab-label {
-  margin: 5px 0 0 0;
+  margin: 0;
 }
 .q-tab.active {
   color: #424242;
 }
 .q-tab:active {
   background: #000;
+}
+@media only screen and (max-width: 600px) {
+  .q-tab.hideIcon .q-tabs-icon,
+  .q-tab.hideLabel .q-tab-label {
+    display: none !important;
+  }
 }
 @media only screen and (max-width: 920px) {
   .q-tabs:not(.scrollable) .q-tabs-scroller,
@@ -5376,14 +5379,13 @@ body.desktop .q-search.has-error .q-search-input:hover {
   }
 }
 .q-tabs {
-  min-height: 61px;
+  min-height: 49px;
   overflow: hidden;
   color: #bdbdbd;
   background: #f4f4f4;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 400;
   transition: color 0.18s ease-in, box-shadow 0.18s ease-in;
-  border-radius: 4px;
   position: relative;
   justify-content: center;
 }
@@ -5399,17 +5401,11 @@ body.desktop .q-search.has-error .q-search-input:hover {
   cursor: pointer;
   color: #fff;
   text-shadow: 0 0 10px #000;
-  font-size: 2.38rem;
+  font-size: 2.1rem;
 }
 .q-tabs .left-scroll.disabled,
 .q-tabs .right-scroll.disabled {
   visibility: hidden;
-}
-.q-tabs .left-scroll {
-  left: 0;
-}
-.q-tabs .right-scroll {
-  right: 0;
 }
 .q-tabs .left-scroll {
   left: 0;
@@ -6039,8 +6035,8 @@ body.desktop .q-search.has-error .q-search-input:hover {
 body.mobile .q-tabs-scroller {
   overflow-y: hidden;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   will-change: scroll-position;
+  -webkit-overflow-scrolling: touch;
 }
 .q-toggle {
   display: inline-block;
