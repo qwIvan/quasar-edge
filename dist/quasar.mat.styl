@@ -491,6 +491,7 @@ input[type='search']::-webkit-search-decoration
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button
   -webkit-appearance none
+$ios-statusbar-height ?= 20px
 $z-marginals      ?= 10
 $z-fab            ?= 20
 $z-drawer         ?= 30
@@ -1996,6 +1997,8 @@ $drawer-header-font-size ?= .9rem
     left 0
   &.right-side
     right 0
+body.cordova.platform-ios .drawer-content
+  padding-top $ios-statusbar-height
 .drawer-header
   overflow hidden
   position relative
@@ -2204,10 +2207,6 @@ $toolbar-padding           ?= 4px 12px
   box-shadow $layout-header-shadow
 .layout-footer
   box-shadow $layout-footer-shadow
-body.desktop
-  .layout-header, .layout-footer
-    button:hover i
-      animation q-rotate .25s ease-out
 .layout-content
   display flex
   flex 1 1 auto
@@ -2271,9 +2270,14 @@ body.desktop
     text-overflow ellipsis
     white-space nowrap
     overflow hidden
-body.cordova.platform-ios .layout-header > .toolbar:first-child
-  padding-top 20px
-  min-height ($layout-toolbar-min-height + 20px)
+body
+  &.desktop
+    .layout-header, .layout-footer
+      button:hover i
+        animation q-rotate .25s ease-out
+  &.cordova.platform-ios .layout-header > .toolbar:first-child
+    padding-top $ios-statusbar-height
+    min-height ($layout-toolbar-min-height + $ios-statusbar-height)
 .layout-padding
   @media only screen and (max-width $layout-small-max)
     padding 1.5rem .5rem

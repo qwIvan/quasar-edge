@@ -3520,6 +3520,9 @@ body.desktop .q-datetime-clock-position:not(.active):hover {
 .drawer-content.right-side {
   right: 0;
 }
+body.cordova.platform-ios .drawer-content {
+  padding-top: 20px;
+}
 .drawer-header {
   overflow: hidden;
   position: relative;
@@ -3775,10 +3778,6 @@ body.desktop .q-gallery-slider-quickview img:hover {
 }
 .layout-footer {
   box-shadow: 0 -3px 6px rgba(0,0,0,0.16), 0 -3px 6px rgba(0,0,0,0.23);
-}
-body.desktop .layout-header button:hover i,
-body.desktop .layout-footer button:hover i {
-  animation: q-rotate 0.25s ease-out;
 }
 .layout-content {
   display: flex;
@@ -4044,6 +4043,10 @@ body.desktop .layout-footer button:hover i {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+body.desktop .layout-header button:hover i,
+body.desktop .layout-footer button:hover i {
+  animation: q-rotate 0.25s ease-out;
 }
 body.cordova.platform-ios .layout-header > .toolbar:first-child {
   padding-top: 20px;

@@ -3369,6 +3369,13 @@ body.drawer-opened {
 .drawer-content.right-side {
   right: 0;
 }
+body.cordova.platform-ios .drawer-content,
+body.demo-site.within-iframe .drawer-content {
+  padding-top: 20px;
+}
+body.with-drawer-opened {
+  overflow: hidden;
+}
 .drawer-header {
   overflow: hidden;
   position: relative;
@@ -3625,10 +3632,6 @@ body.desktop .q-gallery-slider-quickview img:hover {
 }
 .layout-footer > .toolbar {
   border-top: 1px solid #bdbdbd;
-}
-body.desktop .layout-header button:hover i,
-body.desktop .layout-footer button:hover i {
-  animation: q-rotate 0.25s ease-out;
 }
 .layout-content {
   display: flex;
@@ -3980,11 +3983,17 @@ body.desktop .layout-footer button:hover i {
 .toolbar-content.text-right .toolbar-title > div {
   text-align: right;
 }
-body.cordova.platform-ios .layout-header > .toolbar:first-child {
+body.desktop .layout-header button:hover i,
+body.desktop .layout-footer button:hover i {
+  animation: q-rotate 0.25s ease-out;
+}
+body.cordova.platform-ios .layout-header > .toolbar:first-child,
+body.demo-site.within-iframe .layout-header > .toolbar:first-child {
   padding-top: 20px;
   min-height: 60px;
 }
-body.cordova.platform-ios .layout-header > .toolbar:first-child .toolbar-title {
+body.cordova.platform-ios .layout-header > .toolbar:first-child .toolbar-title,
+body.demo-site.within-iframe .layout-header > .toolbar:first-child .toolbar-title {
   padding-top: 20px;
 }
 @media only screen and (max-width: 600px) {

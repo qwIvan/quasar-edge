@@ -4652,6 +4652,9 @@ var Drawer = { render: function render() {
           complete = function complete() {
         if (!_this.opened) {
           backdrop.classList.remove('active');
+          if (_this.$quasar.theme === 'ios') {
+            document.body.classList.remove('with-drawer-opened');
+          }
         } else {
           window.addEventListener('resize', _this.close);
         }
@@ -4662,6 +4665,9 @@ var Drawer = { render: function render() {
 
       if (this.$quasar.theme === 'ios') {
         finalPos = this.opened ? (this.rightSide ? -1 : 1) * this.width : 0;
+        if (this.opened) {
+          document.body.classList.add('with-drawer-opened');
+        }
       } else {
         finalPos = this.opened ? 0 : (this.rightSide ? 1 : -1) * this.width;
       }
@@ -4834,6 +4840,9 @@ var Drawer = { render: function render() {
     });
   },
   beforeDestroy: function beforeDestroy() {
+    if (this.opened && this.$quasar.theme === 'ios') {
+      document.body.classList.remove('with-drawer-opened');
+    }
     this.setState(false);
   }
 };
@@ -5381,7 +5390,6 @@ var Modal = { render: function render() {
         throw new Error('Modal cannot be minimized & maximized simultaneously.');
       }
       if (this.active) {
-        onShow && onShow();
         return;
       }
 
@@ -5446,7 +5454,6 @@ var Modal = { render: function render() {
     },
     close: function close(onClose) {
       if (!this.active) {
-        onClose && onClose();
         return;
       }
 
