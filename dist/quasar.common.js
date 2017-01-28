@@ -7197,6 +7197,9 @@ var State = { render: function render() {
       type: Boolean,
       required: true
     }
+  },
+  beforeCreate: function beforeCreate() {
+    console.warn('[Quasar] State component has been deprecated and will be soon removed. Use Vue v-if directive instead.');
   }
 };
 
