@@ -916,6 +916,7 @@ function getTransformProperties ({selfOrigin}) {
 
 function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset}) {
   let anchor;
+  el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px';
 
   if (event && (!anchorClick || touchPosition)) {
     const {top, left} = position(event);
@@ -935,7 +936,6 @@ function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event,
 
   el.style.top = Math.max(0, targetPosition.top) + 'px';
   el.style.left = Math.max(0, targetPosition.left) + 'px';
-  el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px';
 }
 
 function positionValidator (pos) {
@@ -7063,6 +7063,13 @@ var Tooltip = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
   },
   mounted () {
     this.$nextTick(() => {
+      /*
+        The following is intentional.
+        Fixes a bug in Chrome regarding offsetHeight by requiring browser
+        to calculate this before removing from DOM and using it for first time.
+      */
+      this.$el.offsetHeight;
+
       this.anchorEl = this.$el.parentNode;
       this.anchorEl.removeChild(this.$el);
       this.anchorEl.addEventListener('mouseenter', this.open);

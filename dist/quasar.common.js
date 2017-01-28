@@ -981,6 +981,7 @@ function setPosition(_ref2) {
       offset = _ref2.offset;
 
   var anchor = void 0;
+  el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px';
 
   if (event && (!anchorClick || touchPosition)) {
     var _eventPosition = position(event),
@@ -1002,7 +1003,6 @@ function setPosition(_ref2) {
 
   el.style.top = Math.max(0, targetPosition.top) + 'px';
   el.style.left = Math.max(0, targetPosition.left) + 'px';
-  el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px';
 }
 
 function positionValidator(pos) {
@@ -7758,6 +7758,8 @@ var Tooltip = { render: function render() {
     var _this = this;
 
     this.$nextTick(function () {
+      _this.$el.offsetHeight;
+
       _this.anchorEl = _this.$el.parentNode;
       _this.anchorEl.removeChild(_this.$el);
       _this.anchorEl.addEventListener('mouseenter', _this.open);
