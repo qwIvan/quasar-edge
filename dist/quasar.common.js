@@ -5,7 +5,7 @@
  */
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var moment$1 = _interopDefault(require('moment'));
+var moment = _interopDefault(require('moment'));
 var FastClick = _interopDefault(require('fastclick'));
 
 function getUserAgent() {
@@ -169,7 +169,7 @@ function s4() {
   return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 }
 
-var uid$1 = function () {
+var uid = function () {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
 
@@ -198,7 +198,7 @@ function animate(_ref) {
   });
 }
 
-function start$1(_ref2) {
+function start(_ref2) {
   var name = _ref2.name,
       finalPos = _ref2.finalPos,
       pos = _ref2.pos,
@@ -213,13 +213,13 @@ function start$1(_ref2) {
   if (id) {
     stop(id);
   } else {
-    id = uid$1();
+    id = uid();
   }
   animate({ id: id, finalPos: finalPos, pos: pos, threshold: threshold, factor: factor, done: done, apply: apply });
   return id;
 }
 
-start$1.stop = function (id) {
+start.stop = function (id) {
   var timer = ids[id];
   if (timer) {
     cancelAnimationFrame(timer);
@@ -269,7 +269,7 @@ var colors = Object.freeze({
 
 var now = Date.now;
 
-var debounce$1 = function (fn) {
+var debounce = function (fn) {
   var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 250;
   var immediate = arguments[2];
 
@@ -330,18 +330,18 @@ function offset(el) {
   return { top: top, left: left };
 }
 
-function style$1(el, property) {
+function style(el, property) {
   return window.getComputedStyle(el).getPropertyValue(property);
 }
 
-function height$1(el) {
+function height(el) {
   if (el === window) {
     return viewport().height;
   }
   return parseFloat(window.getComputedStyle(el).getPropertyValue('height'), 10);
 }
 
-function width$1(el) {
+function width(el) {
   if (el === window) {
     return viewport().width;
   }
@@ -437,9 +437,9 @@ function cssTransform(val) {
 
 var dom = Object.freeze({
 	offset: offset,
-	style: style$1,
-	height: height$1,
-	width: width$1,
+	style: style,
+	height: height,
+	width: width,
 	css: css,
 	viewport: viewport,
 	ready: ready,
@@ -491,7 +491,7 @@ function position(e) {
   };
 }
 
-function targetElement$1(e) {
+function targetElement(e) {
   var target = void 0;
   e = getEvent(e);
 
@@ -516,7 +516,7 @@ function getMouseWheelDirection(e) {
 var event = Object.freeze({
 	rightClick: rightClick,
 	position: position,
-	targetElement: targetElement$1,
+	targetElement: targetElement,
 	getMouseWheelDirection: getMouseWheelDirection
 });
 
@@ -609,7 +609,7 @@ function extend() {
   return target;
 }
 
-var filter$1 = function (terms, _ref) {
+var filter = function (terms, _ref) {
   var field = _ref.field,
       list = _ref.list;
 
@@ -636,7 +636,7 @@ function between(val, min, max) {
   return Math.min(max, Math.max(min, val));
 }
 
-var format$1 = Object.freeze({
+var format = Object.freeze({
 	humanStorageSize: humanStorageSize,
 	between: between
 });
@@ -1055,7 +1055,7 @@ var popup = Object.freeze({
 
 var size = void 0;
 
-function width$2() {
+function width$1() {
   if (size) {
     return size;
   }
@@ -1096,49 +1096,49 @@ function width$2() {
 }
 
 var scrollbar = Object.freeze({
-	width: width$2
+	width: width$1
 });
 
-var data$1 = {};
+var data = {};
 
-function add$1(name, el, ctx) {
-  var id = uid$1();
+function add(name, el, ctx) {
+  var id = uid();
   el.dataset['__' + name] = id;
-  if (!data$1[name]) {
-    data$1[name] = {};
+  if (!data[name]) {
+    data[name] = {};
   }
-  data$1[name][id] = ctx;
+  data[name][id] = ctx;
 }
 
-function get$2(name, el) {
+function get$1(name, el) {
   var id = el.dataset['__' + name];
   if (!id) {
     return;
   }
-  if (!data$1[name]) {
+  if (!data[name]) {
     return;
   }
-  var ctx = data$1[name][id];
+  var ctx = data[name][id];
   if (!ctx) {
     return;
   }
   return ctx;
 }
 
-function remove$1(name, el) {
+function remove(name, el) {
   var id = el.dataset['__' + name];
   if (!id) {
     return;
   }
-  if (data$1[name] && data$1[name][id]) {
-    delete data$1[name][id];
+  if (data[name] && data[name][id]) {
+    delete data[name][id];
   }
 }
 
 var store = Object.freeze({
-	add: add$1,
-	get: get$2,
-	remove: remove$1
+	add: add,
+	get: get$1,
+	remove: remove
 });
 
 var throttle = function (fn) {
@@ -1165,21 +1165,21 @@ var throttle = function (fn) {
 };
 
 var Utils = {
-  animate: start$1,
+  animate: start,
   clone: clone,
   colors: colors,
-  debounce: debounce$1,
+  debounce: debounce,
   dom: dom,
   event: event,
   extend: extend,
-  filter: filter$1,
-  format: format$1,
+  filter: filter,
+  format: format,
   openURL: openURL,
   popup: popup,
   scrollbar: scrollbar,
   store: store,
   throttle: throttle,
-  uid: uid$1
+  uid: uid
 };
 
 var transitionDuration = 300;
@@ -1304,7 +1304,7 @@ var types = [{
   defaults: { icon: 'warning', classes: 'bg-warning' }
 }];
 
-function create$1(opts, defaults) {
+function create(opts, defaults) {
   if (!opts) {
     throw new Error('Missing toast options.');
   }
@@ -1322,8 +1322,8 @@ function create$1(opts, defaults) {
 }
 
 types.forEach(function (type) {
-  create$1[type.name] = function (opts) {
-    return create$1(opts, type.defaults);
+  create[type.name] = function (opts) {
+    return create(opts, type.defaults);
   };
 });
 
@@ -1344,7 +1344,7 @@ function install$2(_Vue) {
 }
 
 var Toast = {
-  create: create$1,
+  create: create,
   setDefaults: function setDefaults(opts) {
     if (toast) {
       toast.setDefaults(opts);
@@ -1356,7 +1356,7 @@ var Toast = {
   install: install$2
 };
 
-function set$2(theme) {
+function set$1(theme) {
   var currentTheme = current;
   current = theme;
 
@@ -1371,11 +1371,11 @@ function set$2(theme) {
 var current;
 
 if (typeof __THEME !== 'undefined') {
-  set$2(__THEME);
+  set$1(__THEME);
 }
 
 var theme = Object.freeze({
-	set: set$2,
+	set: set$1,
 	get current () { return current; }
 });
 
@@ -1408,9 +1408,9 @@ function parsePadding(padding) {
 }
 
 function toggleSlide(el, showing, _done) {
-  var store = get$2('slidetoggle', el) || {};
+  var store = get$1('slidetoggle', el) || {};
   function anim() {
-    store.uid = start$1({
+    store.uid = start({
       finalPos: showing ? 100 : 0,
       pos: store.pos !== null ? store.pos : showing ? 0 : 100,
       factor: 10,
@@ -1431,11 +1431,11 @@ function toggleSlide(el, showing, _done) {
         css(el, store.css);
       }
     });
-    add$1('slidetoggle', el, store);
+    add('slidetoggle', el, store);
   }
 
   if (store.uid) {
-    start$1.stop(store.uid);
+    start.stop(store.uid);
     return anim();
   }
 
@@ -1454,7 +1454,7 @@ function toggleSlide(el, showing, _done) {
   anim();
 }
 
-var slide$1 = {
+var slide = {
   enter: function enter(el, done) {
     toggleSlide(el, true, done);
   },
@@ -1463,7 +1463,7 @@ var slide$1 = {
   }
 };
 
-var transitions = { slide: slide$1 };
+var transitions = { slide: slide };
 
 var Transition = {
   functional: true,
@@ -3252,8 +3252,8 @@ var sortMethod = {
   date: function date(a, b) {
     return new Date(a) - new Date(b);
   },
-  moment: function moment(a, b) {
-    return moment$1(a) - moment$1(b);
+  moment: function moment$$1(a, b) {
+    return moment(a) - moment(b);
   },
   boolean: function boolean(a, b) {
     if (a && !b) {
@@ -3631,7 +3631,7 @@ var DataTable = { render: function render() {
   }
 };
 
-var input$1 = {
+var input = {
   type: {
     type: String,
     default: 'date'
@@ -3712,7 +3712,7 @@ var Datetime = { render: function render() {
           }_vm.open($event);
         } } }, [_vm.desktop ? _c('q-popover', { ref: "popup", attrs: { "disable": _vm.disable || _vm.readonly }, on: { "open": function open($event) {
           _vm.__setModel();
-        } } }, [_c('q-inline-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "no-border", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm.model }, on: { "input": function input($event) {
+        } } }, [_c('q-inline-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "no-border", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm.model }, on: { "input": function input$$1($event) {
           _vm.model = $event;
         } } }, [_c('div', { staticClass: "modal-buttons row full-width" }, [!_vm.noClear ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.clearLabel) }, on: { "click": function click($event) {
           _vm.clear();
@@ -3720,7 +3720,7 @@ var Datetime = { render: function render() {
           _vm.close();
         } } }), _vm._v(" "), _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.okLabel) }, on: { "click": function click($event) {
           _vm.close(_vm.__update);
-        } } })])])], 1) : _c('q-modal', { ref: "popup", staticClass: "with-backdrop", class: _vm.classNames, attrs: { "transition": _vm.transition, "position-classes": _vm.position, "content-css": _vm.css } }, [_c('q-inline-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "no-border full-width", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm.model }, on: { "input": function input($event) {
+        } } })])])], 1) : _c('q-modal', { ref: "popup", staticClass: "with-backdrop", class: _vm.classNames, attrs: { "transition": _vm.transition, "position-classes": _vm.position, "content-css": _vm.css } }, [_c('q-inline-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "no-border full-width", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm.model }, on: { "input": function input$$1($event) {
           _vm.model = $event;
         } } }, [_c('div', { staticClass: "modal-buttons row full-width" }, [!_vm.noClear ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.clearLabel) }, on: { "click": function click($event) {
           _vm.clear();
@@ -3735,7 +3735,7 @@ var Datetime = { render: function render() {
       type: String,
       required: true
     }
-  }, input$1),
+  }, input),
   data: function data() {
     var data = Platform.is.desktop ? {} : {
       css: contentCSS[current],
@@ -3762,7 +3762,7 @@ var Datetime = { render: function render() {
         format = 'YYYY-MM-DD HH:mm:ss';
       }
 
-      return this.value ? moment$1(this.value).format(format) : '';
+      return this.value ? moment(this.value).format(format) : '';
     }
   },
   watch: {
@@ -3794,15 +3794,15 @@ var Datetime = { render: function render() {
     },
     __normalizeValue: function __normalizeValue(value) {
       if (this.min) {
-        value = moment$1.max(moment$1(this.min).clone(), value);
+        value = moment.max(moment(this.min).clone(), value);
       }
       if (this.max) {
-        value = moment$1.min(moment$1(this.max).clone(), value);
+        value = moment.min(moment(this.max).clone(), value);
       }
       return value;
     },
     __setModel: function __setModel() {
-      this.model = this.value || this.__normalizeValue(moment$1(this.defaultSelection)).format(this.format);
+      this.model = this.value || this.__normalizeValue(moment(this.defaultSelection)).format(this.format);
     },
     __update: function __update() {
       this.$emit('input', this.model);
@@ -3812,7 +3812,7 @@ var Datetime = { render: function render() {
 
       this.$nextTick(function () {
         if (_this.value) {
-          _this.$emit('input', _this.__normalizeValue(moment$1(_this.value)).format(_this.format));
+          _this.$emit('input', _this.__normalizeValue(moment(_this.value)).format(_this.format));
         }
       });
     }
@@ -3820,9 +3820,9 @@ var Datetime = { render: function render() {
 };
 
 var DatetimeRange = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime-range" }, [_c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.from, expression: "model.from" }], class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.min, "max": _vm.model.to || _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.from }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime-range" }, [_c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.from, expression: "model.from" }], class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.min, "max": _vm.model.to || _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.from }, on: { "input": function input$$1($event) {
           _vm.model.from = $event;
-        } } }), _c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.to, expression: "model.to" }], class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.model.from || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.to }, on: { "input": function input($event) {
+        } } }), _c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.to, expression: "model.to" }], class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.model.from || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.to }, on: { "input": function input$$1($event) {
           _vm.model.to = $event;
         } } })], 1);
   }, staticRenderFns: [],
@@ -3841,7 +3841,7 @@ var DatetimeRange = { render: function render() {
     },
     className: [String, Object],
     css: [String, Object]
-  }, input$1),
+  }, input),
   computed: {
     model: {
       get: function get() {
@@ -3924,12 +3924,12 @@ var InlineDatetimeMaterial = { render: function render() {
     });
     return {
       view: view,
-      date: moment$1(this.value || undefined),
+      date: moment(this.value || undefined),
       dragging: false,
       centerClockPosition: 0,
-      firstDayOfWeek: moment$1.localeData().firstDayOfWeek(),
-      daysList: moment$1.weekdaysShort(true),
-      monthsList: moment$1.months()
+      firstDayOfWeek: moment.localeData().firstDayOfWeek(),
+      daysList: moment.weekdaysShort(true),
+      monthsList: moment.months()
     };
   },
 
@@ -3940,7 +3940,7 @@ var InlineDatetimeMaterial = { render: function render() {
       }
     },
     model: function model(value) {
-      this.date = this.__normalizeValue(moment$1(value || undefined));
+      this.date = this.__normalizeValue(moment(value || undefined));
     },
     min: function min() {
       var _this2 = this;
@@ -3971,18 +3971,18 @@ var InlineDatetimeMaterial = { render: function render() {
   },
   computed: {
     model: {
-      get: function get() {
+      get: function get$$1() {
         return this.value || undefined;
       },
-      set: function set(value) {
+      set: function set$$1(value) {
         this.$emit('input', value);
       }
     },
     pmin: function pmin() {
-      return this.min ? moment$1(this.min) : '';
+      return this.min ? moment(this.min) : '';
     },
     pmax: function pmax() {
-      return this.max ? moment$1(this.max) : '';
+      return this.max ? moment(this.max) : '';
     },
     typeHasDate: function typeHasDate() {
       return this.type === 'date' || this.type === 'datetime';
@@ -4209,10 +4209,10 @@ var InlineDatetimeMaterial = { render: function render() {
     },
     __normalizeValue: function __normalizeValue(value) {
       if (this.pmin) {
-        value = moment$1.max(this.pmin.clone(), value);
+        value = moment.max(this.pmin.clone(), value);
       }
       if (this.pmax) {
-        value = moment$1.min(this.pmax.clone(), value);
+        value = moment.min(this.pmax.clone(), value);
       }
       return value;
     },
@@ -4288,20 +4288,20 @@ var InlineDatetimeIOS = { render: function render() {
       _this.date = _this.__normalizeValue(_this.date);
     });
     return {
-      date: moment$1(this.value || undefined),
+      date: moment(this.value || undefined),
       monthDragOffset: 0,
       dateDragOffset: 0,
       yearDragOffset: 0,
       hourDragOffset: 0,
       minuteDragOffset: 0,
-      monthsList: moment$1.months(),
+      monthsList: moment.months(),
       dragging: false
     };
   },
 
   watch: {
     model: function model(value) {
-      this.date = this.__normalizeValue(moment$1(value || undefined));
+      this.date = this.__normalizeValue(moment(value || undefined));
       this.__updateAllPositions();
     },
     min: function min(value) {
@@ -4331,10 +4331,10 @@ var InlineDatetimeIOS = { render: function render() {
       }
     },
     pmin: function pmin() {
-      return this.min ? moment$1(this.min) : false;
+      return this.min ? moment(this.min) : false;
     },
     pmax: function pmax() {
-      return this.max ? moment$1(this.max) : false;
+      return this.max ? moment(this.max) : false;
     },
     typeHasDate: function typeHasDate() {
       return this.type === 'date' || this.type === 'datetime';
@@ -4577,10 +4577,10 @@ var InlineDatetimeIOS = { render: function render() {
     },
     __normalizeValue: function __normalizeValue(value) {
       if (this.pmin) {
-        value = moment$1.max(this.pmin.clone(), value);
+        value = moment.max(this.pmin.clone(), value);
       }
       if (this.pmax) {
-        value = moment$1.min(this.pmax.clone(), value);
+        value = moment.min(this.pmax.clone(), value);
       }
       return value;
     },
@@ -5934,7 +5934,7 @@ var Popover = { render: function render() {
   }
 };
 
-function width$3(val) {
+function width$2(val) {
   return { width: val + '%' };
 }
 
@@ -5956,13 +5956,13 @@ var Progress = { render: function render() {
       return between(this.buffer || 0, 0, 100 - this.model);
     },
     modelStyle: function modelStyle() {
-      return width$3(this.model);
+      return width$2(this.model);
     },
     bufferStyle: function bufferStyle() {
-      return width$3(this.bufferModel);
+      return width$2(this.bufferModel);
     },
     trackStyle: function trackStyle() {
-      return width$3(this.buffer ? 100 - this.buffer : 100);
+      return width$2(this.buffer ? 100 - this.buffer : 100);
     }
   }
 };
@@ -6186,15 +6186,7 @@ var Radio = { render: function render() {
 };
 
 var Range = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-range non-selectable", class: { disabled: _vm.disable }, on: { "mousedown": function mousedown($event) {
-          $event.preventDefault();_vm.__setActive($event);
-        }, "touchstart": function touchstart($event) {
-          $event.preventDefault();_vm.__setActive($event);
-        }, "touchend": function touchend($event) {
-          $event.preventDefault();_vm.__end($event);
-        }, "touchmove": function touchmove($event) {
-          $event.preventDefault();_vm.__update($event);
-        } } }, [_c('div', { ref: "handle", staticClass: "q-range-handle-container" }, [_c('div', { staticClass: "q-range-track" }), _vm._l((_vm.max - _vm.min) / _vm.step + 1, function (n) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__pan, expression: "__pan", modifiers: { "horizontal": true } }], staticClass: "q-range non-selectable", class: { disabled: _vm.disable }, on: { "click": _vm.__click } }, [_c('div', { ref: "handle", staticClass: "q-range-handle-container" }, [_c('div', { staticClass: "q-range-track" }), _vm._l((_vm.max - _vm.min) / _vm.step + 1, function (n) {
       return _vm.markers ? _c('div', { staticClass: "q-range-mark", style: { left: (n - 1) * 100 * _vm.step / (_vm.max - _vm.min) + '%' } }) : _vm._e();
     }), _c('div', { staticClass: "q-range-track active-track", class: { 'no-transition': _vm.dragging, 'handle-at-minimum': _vm.value === _vm.min }, style: { width: _vm.percentage } }), _c('div', { staticClass: "q-range-handle", class: { dragging: _vm.dragging, 'handle-at-minimum': _vm.value === _vm.min }, style: { left: _vm.percentage } }, [_vm.label || _vm.labelAlways ? _c('div', { staticClass: "q-range-label", class: { 'label-always': _vm.labelAlways } }, [_vm._v(_vm._s(_vm.value))]) : _vm._e()])], 2)]);
   }, staticRenderFns: [],
@@ -6262,11 +6254,26 @@ var Range = { render: function render() {
     }
   },
   methods: {
-    __setActive: function __setActive(event) {
+    __pan: function __pan(event) {
       if (this.disable) {
         return;
       }
-
+      if (event.isFinal) {
+        this.__end(event.evt);
+      } else if (event.isFirst) {
+        this.__setActive(event.evt);
+      } else {
+        this.__update(event.evt);
+      }
+    },
+    __click: function __click(event) {
+      if (this.disable) {
+        return;
+      }
+      this.__setActive(event);
+      this.__end(event);
+    },
+    __setActive: function __setActive(event) {
       var container = this.$refs.handle;
 
       this.dragging = {
@@ -6276,10 +6283,6 @@ var Range = { render: function render() {
       this.__update(event);
     },
     __update: function __update(event) {
-      if (!this.dragging) {
-        return;
-      }
-
       var percentage = Utils.format.between((Utils.event.position(event).left - this.dragging.left) / this.dragging.width, 0, 1),
           model = this.min + percentage * (this.max - this.min),
           modulo = (model - this.min) % this.step;
@@ -6301,16 +6304,6 @@ var Range = { render: function render() {
   },
   created: function created() {
     this.__validateProps();
-    if (Platform.is.desktop) {
-      document.body.addEventListener('mousemove', this.__update);
-      document.body.addEventListener('mouseup', this.__end);
-    }
-  },
-  beforeDestroy: function beforeDestroy() {
-    if (Platform.is.dekstop) {
-      document.body.removeEventListener('mousemove', this.__update);
-      document.body.removeEventListener('mouseup', this.__end);
-    }
   }
 };
 
@@ -8073,7 +8066,7 @@ var install$$1 = function (_Vue) {
   };
 };
 
-var start$2 = function () {
+var start$1 = function () {
   var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
 
   if (Platform.is.cordova && !Platform.within.iframe) {
@@ -8401,14 +8394,14 @@ var ActionSheets = { render: function render() {
 
 var ActionSheet = ModalGenerator(ActionSheets);
 
-function isActive$1() {
+function isActive() {
   return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
 }
 
 function request(target) {
   target = target || document.documentElement;
 
-  if (isActive$1()) {
+  if (isActive()) {
     return;
   }
 
@@ -8435,8 +8428,8 @@ function exit() {
   }
 }
 
-function toggle$1(target) {
-  if (isActive$1()) {
+function toggle(target) {
+  if (isActive()) {
     exit();
   } else {
     request(target);
@@ -8444,13 +8437,13 @@ function toggle$1(target) {
 }
 
 var AppFullscreen = {
-  isActive: isActive$1,
+  isActive: isActive,
   request: request,
   exit: exit,
-  toggle: toggle$1
+  toggle: toggle
 };
 
-var hidden$1 = 'hidden';
+var hidden = 'hidden';
 var appVisibility = 'visible';
 
 function onchange(evt) {
@@ -8471,7 +8464,7 @@ function onchange(evt) {
   if (evt.type in evtMap) {
     state = evtMap[evt.type];
   } else {
-    state = this[hidden$1] ? h : v;
+    state = this[hidden] ? h : v;
   }
 
   appVisibility = state;
@@ -8479,13 +8472,13 @@ function onchange(evt) {
 }
 
 Utils.dom.ready(function () {
-  if (hidden$1 in document) {
+  if (hidden in document) {
     document.addEventListener('visibilitychange', onchange);
-  } else if ((hidden$1 = 'mozHidden') in document) {
+  } else if ((hidden = 'mozHidden') in document) {
     document.addEventListener('mozvisibilitychange', onchange);
-  } else if ((hidden$1 = 'webkitHidden') in document) {
+  } else if ((hidden = 'webkitHidden') in document) {
     document.addEventListener('webkitvisibilitychange', onchange);
-  } else if ((hidden$1 = 'msHidden') in document) {
+  } else if ((hidden = 'msHidden') in document) {
     document.addEventListener('msvisibilitychange', onchange);
   } else if ('onfocusin' in document) {
       document.onfocusin = document.onfocusout = onchange;
@@ -8493,8 +8486,8 @@ Utils.dom.ready(function () {
         window.onpageshow = window.onpagehide = window.onfocus = window.onblur = onchange;
       }
 
-  if (document[hidden$1] !== undefined) {
-    onchange({ type: document[hidden$1] ? 'blur' : 'focus' });
+  if (document[hidden] !== undefined) {
+    onchange({ type: document[hidden] ? 'blur' : 'focus' });
   }
 });
 
@@ -8534,7 +8527,7 @@ function read(string) {
   return string;
 }
 
-function set$3(key, value) {
+function set$2(key, value) {
   var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
   var days = options.expires,
@@ -8548,7 +8541,7 @@ function set$3(key, value) {
   document.cookie = [encode(key), '=', stringifyCookieValue(value), time ? '; expires=' + time.toUTCString() : '', options.path ? '; path=' + options.path : '', options.domain ? '; domain=' + options.domain : '', options.secure ? '; secure' : ''].join('');
 }
 
-function get$3(key) {
+function get$2(key) {
   var result = key ? undefined : {},
       cookies = document.cookie ? document.cookie.split('; ') : [],
       i = 0,
@@ -8573,23 +8566,23 @@ function get$3(key) {
   return result;
 }
 
-function remove$2(key, options) {
-  set$3(key, '', Utils.extend(true, {}, options, {
+function remove$1(key, options) {
+  set$2(key, '', Utils.extend(true, {}, options, {
     expires: -1
   }));
 }
 
-function has$1(key) {
-  return get$3(key) !== undefined;
+function has(key) {
+  return get$2(key) !== undefined;
 }
 
 var Cookies = {
-  get: get$3,
-  set: set$3,
-  has: has$1,
-  remove: remove$2,
+  get: get$2,
+  set: set$2,
+  has: has,
+  remove: remove$1,
   all: function all() {
-    return get$3();
+    return get$2();
   }
 };
 
@@ -8619,7 +8612,7 @@ var appIsInProgress = false;
 var timeout = void 0;
 var props = {};
 
-function isActive$2() {
+function isActive$1() {
   return appIsInProgress;
 }
 
@@ -8685,7 +8678,7 @@ function hide() {
 }
 
 var Loading = {
-  isActive: isActive$2,
+  isActive: isActive$1,
   show: show,
   hide: hide
 };
@@ -8866,7 +8859,7 @@ var SessionStorage = {
 var Quasar = {
   version: version,
   install: install$$1,
-  start: start$2,
+  start: start$1,
   theme: theme,
 
   ActionSheet: ActionSheet,

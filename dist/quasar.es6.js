@@ -5653,7 +5653,7 @@ var Radio = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
   }
 };
 
-var Range = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-range non-selectable",class:{disabled: _vm.disable},on:{"mousedown":function($event){$event.preventDefault();_vm.__setActive($event);},"touchstart":function($event){$event.preventDefault();_vm.__setActive($event);},"touchend":function($event){$event.preventDefault();_vm.__end($event);},"touchmove":function($event){$event.preventDefault();_vm.__update($event);}}},[_c('div',{ref:"handle",staticClass:"q-range-handle-container"},[_c('div',{staticClass:"q-range-track"}),_vm._l((((_vm.max - _vm.min) / _vm.step + 1)),function(n){return (_vm.markers)?_c('div',{staticClass:"q-range-mark",style:({left: (n - 1) * 100 * _vm.step / (_vm.max - _vm.min) + '%'})}):_vm._e()}),_c('div',{staticClass:"q-range-track active-track",class:{'no-transition': _vm.dragging, 'handle-at-minimum': _vm.value === _vm.min},style:({width: _vm.percentage})}),_c('div',{staticClass:"q-range-handle",class:{dragging: _vm.dragging, 'handle-at-minimum': _vm.value === _vm.min},style:({left: _vm.percentage})},[(_vm.label || _vm.labelAlways)?_c('div',{staticClass:"q-range-label",class:{'label-always': _vm.labelAlways}},[_vm._v(_vm._s(_vm.value))]):_vm._e()])],2)])},staticRenderFns: [],
+var Range = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__pan),expression:"__pan",modifiers:{"horizontal":true}}],staticClass:"q-range non-selectable",class:{disabled: _vm.disable},on:{"click":_vm.__click}},[_c('div',{ref:"handle",staticClass:"q-range-handle-container"},[_c('div',{staticClass:"q-range-track"}),_vm._l((((_vm.max - _vm.min) / _vm.step + 1)),function(n){return (_vm.markers)?_c('div',{staticClass:"q-range-mark",style:({left: (n - 1) * 100 * _vm.step / (_vm.max - _vm.min) + '%'})}):_vm._e()}),_c('div',{staticClass:"q-range-track active-track",class:{'no-transition': _vm.dragging, 'handle-at-minimum': _vm.value === _vm.min},style:({width: _vm.percentage})}),_c('div',{staticClass:"q-range-handle",class:{dragging: _vm.dragging, 'handle-at-minimum': _vm.value === _vm.min},style:({left: _vm.percentage})},[(_vm.label || _vm.labelAlways)?_c('div',{staticClass:"q-range-label",class:{'label-always': _vm.labelAlways}},[_vm._v(_vm._s(_vm.value))]):_vm._e()])],2)])},staticRenderFns: [],
   props: {
     value: {
       type: Number,
@@ -5717,11 +5717,28 @@ var Range = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
     }
   },
   methods: {
-    __setActive (event) {
+    __pan (event) {
       if (this.disable) {
         return
       }
-
+      if (event.isFinal) {
+        this.__end(event.evt);
+      }
+      else if (event.isFirst) {
+        this.__setActive(event.evt);
+      }
+      else {
+        this.__update(event.evt);
+      }
+    },
+    __click (event) {
+      if (this.disable) {
+        return
+      }
+      this.__setActive(event);
+      this.__end(event);
+    },
+    __setActive (event) {
       let container = this.$refs.handle;
 
       this.dragging = {
@@ -5731,10 +5748,6 @@ var Range = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
       this.__update(event);
     },
     __update (event) {
-      if (!this.dragging) {
-        return
-      }
-
       let
         percentage = Utils.format.between((Utils.event.position(event).left - this.dragging.left) / this.dragging.width, 0, 1),
         model = this.min + percentage * (this.max - this.min),
@@ -5758,16 +5771,6 @@ var Range = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
   },
   created () {
     this.__validateProps();
-    if (Platform.is.desktop) {
-      document.body.addEventListener('mousemove', this.__update);
-      document.body.addEventListener('mouseup', this.__end);
-    }
-  },
-  beforeDestroy () {
-    if (Platform.is.dekstop) {
-      document.body.removeEventListener('mousemove', this.__update);
-      document.body.removeEventListener('mouseup', this.__end);
-    }
   }
 };
 
