@@ -5207,10 +5207,20 @@ body.desktop .q-progress {
 .q-rating i {
   color: #e0e0e0;
   text-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  cursor: pointer;
+  position: relative;
+  cursor: default;
+}
+.q-rating i + i {
+  margin-left: 0.3rem;
 }
 .q-rating i.active {
   color: #ffeb3b;
+}
+.q-rating i.hovered {
+  transform: scale(1.3);
+}
+.q-rating i.exselected {
+  color: #bdbdbd;
 }
 .q-rating.primary i.active {
   color: #027be3;
@@ -5298,6 +5308,9 @@ body.desktop .q-progress {
 }
 .q-rating.blue-grey i.active {
   color: #607d8b;
+}
+.q-rating.editable i {
+  cursor: pointer;
 }
 .q-search-input-container {
   position: relative;

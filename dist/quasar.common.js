@@ -2620,10 +2620,8 @@ var Chips = { render: function render() {
 };
 
 var Collapsible = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-collapsible" }, [_c('div', { staticClass: "item item-link non-selectable item-collapsible", on: { "click": function click($event) {
-          _vm.__toggleItem();
-        } } }, [_vm.icon ? _c('i', { staticClass: "item-primary", domProps: { "textContent": _vm._s(_vm.icon) } }) : _vm._e(), _vm._v(" "), _vm.img ? _c('img', { staticClass: "item-primary thumbnail", attrs: { "src": _vm.img } }) : _vm._e(), _vm.avatar ? _c('img', { staticClass: "item-primary", attrs: { "src": _vm.avatar } }) : _vm._e(), _c('div', { staticClass: "item-content has-secondary" }, [_c('div', [_vm._v(_vm._s(_vm.label))])]), _c('i', { staticClass: "item-secondary", class: { 'rotate-180': _vm.active }, on: { "click": function click($event) {
-          $event.stopPropagation();_vm.toggle();
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-collapsible" }, [_c('div', { staticClass: "item item-link non-selectable item-collapsible", on: { "click": _vm.__toggleItem } }, [_vm.icon ? _c('i', { staticClass: "item-primary", domProps: { "textContent": _vm._s(_vm.icon) } }) : _vm._e(), _vm._v(" "), _vm.img ? _c('img', { staticClass: "item-primary thumbnail", attrs: { "src": _vm.img } }) : _vm._e(), _vm.avatar ? _c('img', { staticClass: "item-primary", attrs: { "src": _vm.avatar } }) : _vm._e(), _c('div', { staticClass: "item-content has-secondary" }, [_c('div', [_vm._v(_vm._s(_vm.label))])]), _c('i', { staticClass: "item-secondary", class: { 'rotate-180': _vm.active }, on: { "click": function click($event) {
+          $event.stopPropagation();_vm.toggle($event);
         } } }, [_vm._v("keyboard_arrow_down")])]), _c('q-transition', { attrs: { "name": "slide" } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.active, expression: "active" }], staticClass: "q-collapsible-sub-item" }, [_vm._t("default")], 2)])], 1);
   }, staticRenderFns: [],
   props: {
@@ -6560,8 +6558,8 @@ var DoubleRange = { render: function render() {
 };
 
 var Rating = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-rating", class: { disabled: _vm.disable } }, _vm._l(_vm.max, function (index) {
-      return _c('i', { class: { active: !_vm.mouseModel && _vm.model >= index || _vm.mouseModel && _vm.mouseModel >= index }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-rating", class: { disabled: _vm.disable, editable: _vm.editable } }, _vm._l(_vm.max, function (index) {
+      return _c('i', { class: { active: !_vm.mouseModel && _vm.model >= index || _vm.mouseModel && _vm.mouseModel >= index, exselected: _vm.mouseModel && _vm.model >= index && _vm.mouseModel < index, hovered: _vm.mouseModel === index }, on: { "click": function click($event) {
             _vm.set(index);
           }, "mouseover": function mouseover($event) {
             _vm.__setHoverValue(index);
@@ -6584,6 +6582,7 @@ var Rating = { render: function render() {
       type: String,
       default: 'grade'
     },
+    readonly: Boolean,
     disable: Boolean
   },
   data: function data() {
@@ -6602,16 +6601,20 @@ var Rating = { render: function render() {
           this.$emit('input', value);
         }
       }
+    },
+    editable: function editable() {
+      return !this.readonly && !this.disable;
     }
   },
   methods: {
     set: function set(value) {
-      if (!this.disable) {
+      if (this.editable) {
         this.model = Utils.format.between(parseInt(value, 10), 1, this.max);
+        this.mouseModel = 0;
       }
     },
     __setHoverValue: function __setHoverValue(value) {
-      if (!this.disable) {
+      if (this.editable) {
         this.mouseModel = value;
       }
     }
