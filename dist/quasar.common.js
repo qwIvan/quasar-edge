@@ -2619,6 +2619,8 @@ var Chips = { render: function render() {
   }
 };
 
+var eventName = 'q:collapsible:close';
+
 var Collapsible = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-collapsible" }, [_c('div', { staticClass: "item item-link non-selectable item-collapsible", on: { "click": _vm.__toggleItem } }, [_vm.icon ? _c('i', { staticClass: "item-primary", domProps: { "textContent": _vm._s(_vm.icon) } }) : _vm._e(), _vm._v(" "), _vm.img ? _c('img', { staticClass: "item-primary thumbnail", attrs: { "src": _vm.img } }) : _vm._e(), _vm.avatar ? _c('img', { staticClass: "item-primary", attrs: { "src": _vm.avatar } }) : _vm._e(), _c('div', { staticClass: "item-content has-secondary" }, [_c('div', [_vm._v(_vm._s(_vm.label))])]), _c('i', { staticClass: "item-secondary", class: { 'rotate-180': _vm.active }, on: { "click": function click($event) {
           $event.stopPropagation();_vm.toggle($event);
@@ -2644,14 +2646,8 @@ var Collapsible = { render: function render() {
       this.active = value;
     },
     active: function active(value) {
-      var _this = this;
-
-      if (value && this.group && this.group.length > 0) {
-        this.$parent.$children.filter(function (c) {
-          return c !== _this && c.group && c.group === _this.group;
-        }).forEach(function (c) {
-          c.close();
-        });
+      if (value && this.group) {
+        Events.$emit(eventName, this);
       }
     }
   },
@@ -2669,7 +2665,18 @@ var Collapsible = { render: function render() {
       if (!this.iconToggle) {
         this.toggle();
       }
+    },
+    __eventHandler: function __eventHandler(comp) {
+      if (this.group && this !== comp && comp.group === this.group) {
+        this.close();
+      }
     }
+  },
+  created: function created() {
+    Events.$on(eventName, this.__eventHandler);
+  },
+  beforeDestroy: function beforeDestroy() {
+    Events.$off(eventName, this.__eventHandler);
   }
 };
 

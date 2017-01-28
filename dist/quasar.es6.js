@@ -2476,6 +2476,8 @@ var Chips = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
   }
 };
 
+const eventName = 'q:collapsible:close';
+
 var Collapsible = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-collapsible"},[_c('div',{staticClass:"item item-link non-selectable item-collapsible",on:{"click":_vm.__toggleItem}},[(_vm.icon)?_c('i',{staticClass:"item-primary",domProps:{"textContent":_vm._s(_vm.icon)}}):_vm._e(),_vm._v(" "),(_vm.img)?_c('img',{staticClass:"item-primary thumbnail",attrs:{"src":_vm.img}}):_vm._e(),(_vm.avatar)?_c('img',{staticClass:"item-primary",attrs:{"src":_vm.avatar}}):_vm._e(),_c('div',{staticClass:"item-content has-secondary"},[_c('div',[_vm._v(_vm._s(_vm.label))])]),_c('i',{staticClass:"item-secondary",class:{'rotate-180': _vm.active},on:{"click":function($event){$event.stopPropagation();_vm.toggle($event);}}},[_vm._v("keyboard_arrow_down")])]),_c('q-transition',{attrs:{"name":"slide"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.active),expression:"active"}],staticClass:"q-collapsible-sub-item"},[_vm._t("default")],2)])],1)},staticRenderFns: [],
   props: {
     opened: Boolean,
@@ -2496,10 +2498,8 @@ var Collapsible = {render: function(){var _vm=this;var _h=_vm.$createElement;var
       this.active = value;
     },
     active (value) {
-      if (value && this.group && this.group.length > 0) {
-        this.$parent.$children.filter(c => c !== this && c.group && c.group === this.group).forEach(c => {
-          c.close();
-        });
+      if (value && this.group) {
+        Events.$emit(eventName, this);
       }
     }
   },
@@ -2517,7 +2517,18 @@ var Collapsible = {render: function(){var _vm=this;var _h=_vm.$createElement;var
       if (!this.iconToggle) {
         this.toggle();
       }
+    },
+    __eventHandler (comp) {
+      if (this.group && this !== comp && comp.group === this.group) {
+        this.close();
+      }
     }
+  },
+  created () {
+    Events.$on(eventName, this.__eventHandler);
+  },
+  beforeDestroy () {
+    Events.$off(eventName, this.__eventHandler);
   }
 };
 
