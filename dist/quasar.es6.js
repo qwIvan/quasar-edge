@@ -2256,7 +2256,7 @@ var AjaxBar = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
   }
 };
 
-var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',[_vm._t("default",[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"text"},domProps:{"value":_vm._s(_vm.model)},on:{"input":function($event){if($event.target.composing){ return; }_vm.model=$event.target.value;}}})]),_c('q-popover',{ref:"popover",attrs:{"anchor-click":false}},[(_vm.searching)?_c('div',{staticClass:"row justify-center",style:({minWidth: _vm.width, padding: '3px 10px'})},[_c('spinner',{attrs:{"name":"dots","size":40}})],1):_c('div',{staticClass:"list no-border",class:{'item-delimiter': _vm.delimiter},style:(_vm.computedWidth)},_vm._l((_vm.computedResults),function(result,index){return _c('q-list-item',{attrs:{"item":result,"link":"","active":_vm.selectedIndex === index},nativeOn:{"click":function($event){_vm.setValue(result);}}})}))])],2)},staticRenderFns: [],
+var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',[_vm._t("default",[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"text"},domProps:{"value":_vm._s(_vm.model)},on:{"input":function($event){if($event.target.composing){ return; }_vm.model=$event.target.value;}}})]),_c('q-popover',{ref:"popover",attrs:{"anchor-click":false}},[_c('div',{staticClass:"list no-border",class:{'item-delimiter': _vm.delimiter},style:(_vm.computedWidth)},_vm._l((_vm.computedResults),function(result,index){return _c('q-list-item',{attrs:{"item":result,"link":"","active":_vm.selectedIndex === index},nativeOn:{"click":function($event){_vm.setValue(result);}}})}))])],2)},staticRenderFns: [],
   props: {
     value: {
       type: String,
@@ -2317,47 +2317,39 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
   methods: {
     trigger () {
       this.width = Utils.dom.width(this.inputEl) + 'px';
-      this.$nextTick(() => {
-        const searchId = Utils.uid();
-        this.searchId = searchId;
+      const searchId = Utils.uid();
+      this.searchId = searchId;
 
-        if (this.model.length < this.minCharacters) {
+      if (this.model.length < this.minCharacters) {
+        this.searchId = '';
+        this.close();
+        return
+      }
+
+      if (this.staticData) {
+        this.searchId = '';
+        this.results = Utils.filter(this.model, this.staticData);
+        this.$refs.popover.open();
+        return
+      }
+
+      this.$emit('search', this.model, results => {
+        if (results && this.searchId === searchId) {
           this.searchId = '';
-          this.close();
-          return
-        }
-
-        this.$refs.popover.close();
-        setTimeout(() => {
-          if (this.staticData) {
-            this.searchId = '';
-            this.results = Utils.filter(this.model, this.staticData);
-            this.$refs.popover.open();
+          if (this.results === results) {
             return
           }
 
-          this.$refs.popover.open();
-          this.$emit('search', this.model, results => {
-            if (results && this.searchId === searchId) {
-              this.searchId = '';
-
-              if (Array.isArray(results) && results.length > 0) {
-                this.$refs.popover.close();
-                this.$nextTick(() => {
-                  this.results = results;
-                  setTimeout(() => {
-                    if (this.$refs && this.$refs.popover) {
-                      this.$refs.popover.open();
-                    }
-                  }, 10);
-                });
-                return
-              }
-
-              this.close();
+          if (Array.isArray(results) && results.length > 0) {
+            this.results = results;
+            if (this.$refs && this.$refs.popover) {
+              this.$refs.popover.open();
             }
-          });
-        }, 10);
+            return
+          }
+
+          this.close();
+        }
       });
     },
     close () {

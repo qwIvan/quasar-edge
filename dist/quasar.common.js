@@ -2352,7 +2352,7 @@ var Autocomplete = { render: function render() {
           if ($event.target.composing) {
             return;
           }_vm.model = $event.target.value;
-        } } })]), _c('q-popover', { ref: "popover", attrs: { "anchor-click": false } }, [_vm.searching ? _c('div', { staticClass: "row justify-center", style: { minWidth: _vm.width, padding: '3px 10px' } }, [_c('spinner', { attrs: { "name": "dots", "size": 40 } })], 1) : _c('div', { staticClass: "list no-border", class: { 'item-delimiter': _vm.delimiter }, style: _vm.computedWidth }, _vm._l(_vm.computedResults, function (result, index) {
+        } } })]), _c('q-popover', { ref: "popover", attrs: { "anchor-click": false } }, [_c('div', { staticClass: "list no-border", class: { 'item-delimiter': _vm.delimiter }, style: _vm.computedWidth }, _vm._l(_vm.computedResults, function (result, index) {
       return _c('q-list-item', { attrs: { "item": result, "link": "", "active": _vm.selectedIndex === index }, nativeOn: { "click": function click($event) {
             _vm.setValue(result);
           } } });
@@ -2421,47 +2421,39 @@ var Autocomplete = { render: function render() {
       var _this = this;
 
       this.width = Utils.dom.width(this.inputEl) + 'px';
-      this.$nextTick(function () {
-        var searchId = Utils.uid();
-        _this.searchId = searchId;
+      var searchId = Utils.uid();
+      this.searchId = searchId;
 
-        if (_this.model.length < _this.minCharacters) {
+      if (this.model.length < this.minCharacters) {
+        this.searchId = '';
+        this.close();
+        return;
+      }
+
+      if (this.staticData) {
+        this.searchId = '';
+        this.results = Utils.filter(this.model, this.staticData);
+        this.$refs.popover.open();
+        return;
+      }
+
+      this.$emit('search', this.model, function (results) {
+        if (results && _this.searchId === searchId) {
           _this.searchId = '';
-          _this.close();
-          return;
-        }
-
-        _this.$refs.popover.close();
-        setTimeout(function () {
-          if (_this.staticData) {
-            _this.searchId = '';
-            _this.results = Utils.filter(_this.model, _this.staticData);
-            _this.$refs.popover.open();
+          if (_this.results === results) {
             return;
           }
 
-          _this.$refs.popover.open();
-          _this.$emit('search', _this.model, function (results) {
-            if (results && _this.searchId === searchId) {
-              _this.searchId = '';
-
-              if (Array.isArray(results) && results.length > 0) {
-                _this.$refs.popover.close();
-                _this.$nextTick(function () {
-                  _this.results = results;
-                  setTimeout(function () {
-                    if (_this.$refs && _this.$refs.popover) {
-                      _this.$refs.popover.open();
-                    }
-                  }, 10);
-                });
-                return;
-              }
-
-              _this.close();
+          if (Array.isArray(results) && results.length > 0) {
+            _this.results = results;
+            if (_this.$refs && _this.$refs.popover) {
+              _this.$refs.popover.open();
             }
-          });
-        }, 10);
+            return;
+          }
+
+          _this.close();
+        }
       });
     },
     close: function close() {
