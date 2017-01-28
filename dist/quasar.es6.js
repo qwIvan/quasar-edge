@@ -4415,6 +4415,13 @@ var DrawerLink = {render: function(){var _vm=this;var _h=_vm.$createElement;var 
   }
 };
 
+function iosFixNeeded (el) {
+  if (Platform.is.mobile && Platform.is.ios) {
+    const style = window.getComputedStyle(el);
+    return ['fixed', 'absolute'].includes(style.position)
+  }
+}
+
 var Fab = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-fab flex inline justify-center",class:{opened: _vm.opened}},[_c('div',{staticClass:"backdrop animate-fade",style:(_vm.backdropPosition),on:{"click":function($event){_vm.toggle(true);}}}),_c('button',{staticClass:"circular raised",class:_vm.classNames,on:{"click":function($event){_vm.toggle();}}},[_c('i',{staticClass:"q-fab-icon"},[_vm._v(_vm._s(_vm.icon))]),_vm._v(" "),_c('i',{staticClass:"q-fab-active-icon"},[_vm._v(_vm._s(_vm.activeIcon))])]),_c('div',{staticClass:"q-fab-actions flex inline items-center",class:[_vm.direction]},[_vm._t("default")],2)])},staticRenderFns: [],
   props: {
     classNames: {
@@ -4439,7 +4446,8 @@ var Fab = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm.
       backdrop: {
         top: 0,
         left: 0
-      }
+      },
+      mounted: false
     }
   },
   methods: {
@@ -4455,7 +4463,8 @@ var Fab = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm.
     },
     toggle (fromBackdrop) {
       this.opened = !this.opened;
-      if (this.opened) {
+
+      if (iosFixNeeded(this.$el)) {
         this.__repositionBackdrop();
       }
 
@@ -4464,16 +4473,19 @@ var Fab = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm.
       }
     },
     __repositionBackdrop () {
-      if (Platform.is.mobile && Platform.is.ios) {
-        const {top, left} = Utils.dom.offset(this.$el);
-        this.backdrop.top = top;
-        this.backdrop.left = left;
-      }
+      const {top, left} = Utils.dom.offset(this.$el);
+      this.backdrop.top = top;
+      this.backdrop.left = left;
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.mounted = true;
+    });
   },
   computed: {
     backdropPosition () {
-      if (Platform.is.mobile && Platform.is.ios) {
+      if (this.mounted && iosFixNeeded(this.$el)) {
         return Utils.dom.cssTransform(`translate3d(${-this.backdrop.left}px, ${-this.backdrop.top}px, 0)`)
       }
     }

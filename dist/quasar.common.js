@@ -4834,6 +4834,13 @@ var DrawerLink = { render: function render() {
   }
 };
 
+function iosFixNeeded(el) {
+  if (Platform.is.mobile && Platform.is.ios) {
+    var style = window.getComputedStyle(el);
+    return ['fixed', 'absolute'].includes(style.position);
+  }
+}
+
 var Fab = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-fab flex inline justify-center", class: { opened: _vm.opened } }, [_c('div', { staticClass: "backdrop animate-fade", style: _vm.backdropPosition, on: { "click": function click($event) {
           _vm.toggle(true);
@@ -4864,7 +4871,8 @@ var Fab = { render: function render() {
       backdrop: {
         top: 0,
         left: 0
-      }
+      },
+      mounted: false
     };
   },
 
@@ -4881,7 +4889,8 @@ var Fab = { render: function render() {
     },
     toggle: function toggle(fromBackdrop) {
       this.opened = !this.opened;
-      if (this.opened) {
+
+      if (iosFixNeeded(this.$el)) {
         this.__repositionBackdrop();
       }
 
@@ -4890,19 +4899,25 @@ var Fab = { render: function render() {
       }
     },
     __repositionBackdrop: function __repositionBackdrop() {
-      if (Platform.is.mobile && Platform.is.ios) {
-        var _Utils$dom$offset = Utils.dom.offset(this.$el),
-            top = _Utils$dom$offset.top,
-            left = _Utils$dom$offset.left;
+      var _Utils$dom$offset = Utils.dom.offset(this.$el),
+          top = _Utils$dom$offset.top,
+          left = _Utils$dom$offset.left;
 
-        this.backdrop.top = top;
-        this.backdrop.left = left;
-      }
+      this.backdrop.top = top;
+      this.backdrop.left = left;
     }
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$nextTick(function () {
+      _this.mounted = true;
+    });
+  },
+
   computed: {
     backdropPosition: function backdropPosition() {
-      if (Platform.is.mobile && Platform.is.ios) {
+      if (this.mounted && iosFixNeeded(this.$el)) {
         return Utils.dom.cssTransform('translate3d(' + -this.backdrop.left + 'px, ' + -this.backdrop.top + 'px, 0)');
       }
     }
