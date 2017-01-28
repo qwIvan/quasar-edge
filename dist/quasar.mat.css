@@ -391,7 +391,6 @@ button.push:not(.circular) {
 }
 button.primary {
   background: #027be3;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.primary:active:not(.disabled) {
@@ -419,7 +418,6 @@ button.primary.push {
 }
 button.secondary {
   background: #26a69a;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.secondary:active:not(.disabled) {
@@ -447,7 +445,6 @@ button.secondary.push {
 }
 button.tertiary {
   background: #555;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.tertiary:active:not(.disabled) {
@@ -475,7 +472,6 @@ button.tertiary.push {
 }
 button.positive {
   background: #21ba45;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.positive:active:not(.disabled) {
@@ -503,7 +499,6 @@ button.positive.push {
 }
 button.negative {
   background: #db2828;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.negative:active:not(.disabled) {
@@ -531,7 +526,6 @@ button.negative.push {
 }
 button.warning {
   background: #f2c037;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.warning:active:not(.disabled) {
@@ -559,7 +553,6 @@ button.warning.push {
 }
 button.info {
   background: #31ccec;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.info:active:not(.disabled) {
@@ -587,8 +580,6 @@ button.info.push {
 }
 button.light {
   background: #f4f4f4;
-  text-shadow: 0 0 2px #000;
-  text-shadow: none;
 }
 button.light:active:not(.disabled) {
   background: #dcdcdc !important;
@@ -607,7 +598,6 @@ button.light.push {
 }
 button.dark {
   background: #333;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.dark:active:not(.disabled) {
@@ -635,8 +625,6 @@ button.dark.push {
 }
 button.white {
   background: #fff;
-  text-shadow: 0 0 2px #000;
-  text-shadow: none;
 }
 button.white:active:not(.disabled) {
   background: #e6e6e6 !important;
@@ -655,7 +643,6 @@ button.white.push {
 }
 button.red {
   background: #f44336;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.red:active:not(.disabled) {
@@ -683,7 +670,6 @@ button.red.push {
 }
 button.pink {
   background: #e91e63;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.pink:active:not(.disabled) {
@@ -711,7 +697,6 @@ button.pink.push {
 }
 button.purple {
   background: #9c27b0;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.purple:active:not(.disabled) {
@@ -739,7 +724,6 @@ button.purple.push {
 }
 button.deep-purple {
   background: #673ab7;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.deep-purple:active:not(.disabled) {
@@ -767,7 +751,6 @@ button.deep-purple.push {
 }
 button.indigo {
   background: #3f51b5;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.indigo:active:not(.disabled) {
@@ -795,7 +778,6 @@ button.indigo.push {
 }
 button.blue {
   background: #2196f3;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.blue:active:not(.disabled) {
@@ -823,7 +805,6 @@ button.blue.push {
 }
 button.light-blue {
   background: #03a9f4;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.light-blue:active:not(.disabled) {
@@ -851,7 +832,6 @@ button.light-blue.push {
 }
 button.cyan {
   background: #00bcd4;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.cyan:active:not(.disabled) {
@@ -879,7 +859,6 @@ button.cyan.push {
 }
 button.teal {
   background: #009688;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.teal:active:not(.disabled) {
@@ -907,7 +886,6 @@ button.teal.push {
 }
 button.green {
   background: #4caf50;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.green:active:not(.disabled) {
@@ -935,7 +913,6 @@ button.green.push {
 }
 button.light-green {
   background: #8bc34a;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.light-green:active:not(.disabled) {
@@ -963,7 +940,6 @@ button.light-green.push {
 }
 button.lime {
   background: #cddc39;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.lime:active:not(.disabled) {
@@ -991,7 +967,6 @@ button.lime.push {
 }
 button.yellow {
   background: #ffeb3b;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.yellow:active:not(.disabled) {
@@ -1019,7 +994,6 @@ button.yellow.push {
 }
 button.amber {
   background: #ffc107;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.amber:active:not(.disabled) {
@@ -1047,7 +1021,6 @@ button.amber.push {
 }
 button.orange {
   background: #ff9800;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.orange:active:not(.disabled) {
@@ -1075,7 +1048,6 @@ button.orange.push {
 }
 button.deep-orange {
   background: #ff5722;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.deep-orange:active:not(.disabled) {
@@ -1103,7 +1075,6 @@ button.deep-orange.push {
 }
 button.brown {
   background: #795548;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.brown:active:not(.disabled) {
@@ -1131,7 +1102,6 @@ button.brown.push {
 }
 button.grey {
   background: #9e9e9e;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.grey:active:not(.disabled) {
@@ -1159,7 +1129,6 @@ button.grey.push {
 }
 button.blue-grey {
   background: #607d8b;
-  text-shadow: 0 0 2px #000;
   color: #fff;
 }
 button.blue-grey:active:not(.disabled) {
@@ -1195,7 +1164,6 @@ button.glossy:active:not(.disabled) {
 button.clear,
 button.outline {
   background: transparent;
-  text-shadow: none;
 }
 button.clear:active:not(.disabled),
 button.outline:active:not(.disabled) {
