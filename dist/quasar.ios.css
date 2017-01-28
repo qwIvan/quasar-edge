@@ -3604,6 +3604,7 @@ body.desktop .q-gallery-slider-quickview img:hover {
   width: 100vw;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 .layout-header {
   border-bottom: 1px solid #bdbdbd;
