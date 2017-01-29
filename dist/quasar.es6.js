@@ -7062,6 +7062,9 @@ var Tooltip = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
       this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl);
       this.scrollTarget.addEventListener('scroll', this.close);
       window.addEventListener('resize', this.__debouncedUpdatePosition);
+      if (Platform.is.mobile) {
+        document.body.addEventListener('click', this.close, true);
+      }
       this.__updatePosition();
     },
     close () {
@@ -7070,6 +7073,9 @@ var Tooltip = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
         this.scrollTarget.removeEventListener('scroll', this.close);
         window.removeEventListener('resize', this.__debouncedUpdatePosition);
         document.body.removeChild(this.$el);
+        if (Platform.is.mobile) {
+          document.body.removeEventListener('click', this.close, true);
+        }
       }
     },
     __updatePosition () {
@@ -7099,17 +7105,27 @@ var Tooltip = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
 
       this.anchorEl = this.$el.parentNode;
       this.anchorEl.removeChild(this.$el);
-      this.anchorEl.addEventListener('mouseenter', this.open);
-      this.anchorEl.addEventListener('focus', this.open);
-      this.anchorEl.addEventListener('mouseleave', this.close);
-      this.anchorEl.addEventListener('blur', this.close);
+      if (Platform.is.mobile) {
+        this.anchorEl.addEventListener('click', this.open);
+      }
+      else {
+        this.anchorEl.addEventListener('mouseenter', this.open);
+        this.anchorEl.addEventListener('focus', this.open);
+        this.anchorEl.addEventListener('mouseleave', this.close);
+        this.anchorEl.addEventListener('blur', this.close);
+      }
     });
   },
   beforeDestroy () {
-    this.anchorEl.removeEventListener('mouseenter', this.open);
-    this.anchorEl.removeEventListener('focus', this.open);
-    this.anchorEl.removeEventListener('mouseleave', this.close);
-    this.anchorEl.removeEventListener('blur', this.close);
+    if (Platform.is.mobile) {
+      this.anchorEl.removeEventListener('click', this.open);
+    }
+    else {
+      this.anchorEl.removeEventListener('mouseenter', this.open);
+      this.anchorEl.removeEventListener('click', this.open);
+      this.anchorEl.removeEventListener('mouseleave', this.close);
+      this.anchorEl.removeEventListener('blur', this.close);
+    }
     this.close();
   }
 };
