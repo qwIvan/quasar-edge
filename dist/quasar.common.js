@@ -5853,15 +5853,22 @@ var Popover = { render: function render() {
       return Utils.popup.parsePosition(this.self);
     }
   },
-  mounted: function mounted() {
+  created: function created() {
     var _this = this;
 
+    this.__debouncedUpdatePosition = Utils.debounce(function () {
+      _this.__updatePosition();
+    }, 70);
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
     this.$nextTick(function () {
-      _this.anchorEl = _this.$el.parentNode;
-      _this.anchorEl.removeChild(_this.$el);
-      if (_this.anchorClick) {
-        _this.anchorEl.classList.add('cursor-pointer');
-        _this.anchorEl.addEventListener('click', _this.toggle);
+      _this2.anchorEl = _this2.$el.parentNode;
+      _this2.anchorEl.removeChild(_this2.$el);
+      if (_this2.anchorClick) {
+        _this2.anchorEl.classList.add('cursor-pointer');
+        _this2.anchorEl.addEventListener('click', _this2.toggle);
       }
     });
   },
@@ -5881,7 +5888,7 @@ var Popover = { render: function render() {
       }
     },
     open: function open(event) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.disable || this.opened) {
         return;
@@ -5895,22 +5902,23 @@ var Popover = { render: function render() {
       document.body.click();
       document.body.appendChild(this.$el);
       EscapeKey.register(function () {
-        _this2.close();
+        _this3.close();
       });
       this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl);
       this.scrollTarget.addEventListener('scroll', this.close);
+      window.addEventListener('resize', this.__debouncedUpdatePosition);
       if (this.fit) {
         this.$el.style.minWidth = Utils.dom.width(this.anchorEl) + 'px';
       }
       this.__updatePosition(event);
       this.timer = setTimeout(function () {
-        _this2.timer = null;
-        document.addEventListener('click', _this2.close, true);
-        _this2.$emit('open');
+        _this3.timer = null;
+        document.addEventListener('click', _this3.close, true);
+        _this3.$emit('open');
       }, 1);
     },
     close: function close(fn) {
-      var _this3 = this;
+      var _this4 = this;
 
       if (!this.opened || this.progress || fn && fn.target && this.$el.contains(fn.target)) {
         return;
@@ -5919,14 +5927,15 @@ var Popover = { render: function render() {
       clearTimeout(this.timer);
       document.removeEventListener('click', this.close, true);
       this.scrollTarget.removeEventListener('scroll', this.close);
+      window.removeEventListener('resize', this.__debouncedUpdatePosition);
       EscapeKey.pop();
       this.progress = true;
 
       setTimeout(function () {
-        _this3.opened = false;
-        _this3.progress = false;
-        document.body.removeChild(_this3.$el);
-        _this3.$emit('close');
+        _this4.opened = false;
+        _this4.progress = false;
+        document.body.removeChild(_this4.$el);
+        _this4.$emit('close');
         if (typeof fn === 'function') {
           fn();
         }
@@ -7748,6 +7757,20 @@ var Tooltip = { render: function render() {
       }
       this.opened = true;
       document.body.appendChild(this.$el);
+      this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl);
+      this.scrollTarget.addEventListener('scroll', this.close);
+      window.addEventListener('resize', this.__debouncedUpdatePosition);
+      this.__updatePosition();
+    },
+    close: function close() {
+      if (this.opened) {
+        this.opened = false;
+        this.scrollTarget.removeEventListener('scroll', this.close);
+        window.removeEventListener('resize', this.__debouncedUpdatePosition);
+        document.body.removeChild(this.$el);
+      }
+    },
+    __updatePosition: function __updatePosition() {
       Utils.popup.setPosition({
         el: this.$el,
         offset: this.offset,
@@ -7756,26 +7779,27 @@ var Tooltip = { render: function render() {
         selfOrigin: this.selfOrigin,
         maxHeight: this.maxHeight
       });
-    },
-    close: function close() {
-      if (this.opened) {
-        this.opened = false;
-        document.body.removeChild(this.$el);
-      }
     }
   },
-  mounted: function mounted() {
+  created: function created() {
     var _this = this;
 
-    this.$nextTick(function () {
-      _this.$el.offsetHeight;
+    this.__debouncedUpdatePosition = Utils.debounce(function () {
+      _this.__updatePosition();
+    }, 70);
+  },
+  mounted: function mounted() {
+    var _this2 = this;
 
-      _this.anchorEl = _this.$el.parentNode;
-      _this.anchorEl.removeChild(_this.$el);
-      _this.anchorEl.addEventListener('mouseenter', _this.open);
-      _this.anchorEl.addEventListener('focus', _this.open);
-      _this.anchorEl.addEventListener('mouseleave', _this.close);
-      _this.anchorEl.addEventListener('blur', _this.close);
+    this.$nextTick(function () {
+      _this2.$el.offsetHeight;
+
+      _this2.anchorEl = _this2.$el.parentNode;
+      _this2.anchorEl.removeChild(_this2.$el);
+      _this2.anchorEl.addEventListener('mouseenter', _this2.open);
+      _this2.anchorEl.addEventListener('focus', _this2.open);
+      _this2.anchorEl.addEventListener('mouseleave', _this2.close);
+      _this2.anchorEl.addEventListener('blur', _this2.close);
     });
   },
   beforeDestroy: function beforeDestroy() {
