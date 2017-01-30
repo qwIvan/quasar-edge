@@ -6069,7 +6069,7 @@ body.mobile .q-tabs-scroller {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 4.25px;
+  left: 5.75px;
   transition: all 0.3s ease;
 }
 .q-toggle div {
@@ -6110,7 +6110,7 @@ body.mobile .q-tabs-scroller {
 }
 .q-toggle input:checked ~ i {
   color: #027be3;
-  transform: translateX(13.5px);
+  transform: translateX(11.5px);
 }
 .q-toggle.primary input:checked + div:before {
   background: #027be3;
