@@ -1174,6 +1174,8 @@ var Utils = {
   extend: extend,
   filter: filter,
   format: format,
+  noop: function noop() {},
+
   openURL: openURL,
   popup: popup,
   scrollbar: scrollbar,
@@ -2896,7 +2898,7 @@ var I18n = {
 };
 
 var TablePagination = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end" }, [_c('div', [_vm._v(_vm._s(_vm.labels.rows)), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.rowsPerPage, expression: "pagination.rowsPerPage" }], staticClass: "text-right", attrs: { "type": "radio", "options": _vm.pagination.options }, domProps: { "value": _vm.pagination.rowsPerPage }, on: { "input": [function ($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end" }, [_c('div', [_vm._v(_vm._s(_vm.labels.rows)), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.rowsPerPage, expression: "pagination.rowsPerPage" }], staticClass: "text-right", attrs: { "type": "list", "options": _vm.pagination.options }, domProps: { "value": _vm.pagination.rowsPerPage }, on: { "input": [function ($event) {
           _vm.pagination.rowsPerPage = $event;
         }, _vm.resetPage] } })], 1), _vm.entries > 0 ? _c('div', [_vm._v(_vm._s(_vm.start) + " - " + _vm._s(_vm.end) + " / " + _vm._s(_vm.entries))]) : _vm._e(), _vm.pagination.rowsPerPage > 0 ? _c('q-pagination', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.page, expression: "pagination.page" }], attrs: { "max": _vm.max }, domProps: { "value": _vm.pagination.page }, on: { "input": function input($event) {
           _vm.pagination.page = $event;
