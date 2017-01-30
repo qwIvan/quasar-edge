@@ -2520,7 +2520,9 @@ var Autocomplete = { render: function render() {
 };
 
 var Checkbox = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { staticClass: "q-checkbox", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm.model }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', { staticClass: "q-checkbox cursor-pointer", class: { disabled: _vm.disable }, on: { "click": function click($event) {
+          $event.stopPropagation();$event.preventDefault();_vm.toggle($event);
+        } } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm.model }, on: { "click": [function ($event) {
           var $$a = _vm.model,
               $$el = $event.target,
               $$c = $$el.checked ? true : false;if (Array.isArray($$a)) {
@@ -2533,7 +2535,9 @@ var Checkbox = { render: function render() {
           } else {
             _vm.model = $$c;
           }
-        } } }), _c('div')]);
+        }, function ($event) {
+          $event.stopPropagation();
+        }], "change": _vm.__change } }), _c('div')]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -2549,6 +2553,18 @@ var Checkbox = { render: function render() {
       },
       set: function set(value) {
         this.$emit('input', value);
+      }
+    }
+  },
+  methods: {
+    toggle: function toggle() {
+      if (!this.disable) {
+        this.model = !this.model;
+      }
+    },
+    __change: function __change(e) {
+      if (this.$quasar.platform.is.ios) {
+        this.toggle();
       }
     }
   }
@@ -6185,9 +6201,13 @@ var PullToRefresh = { render: function render() {
 };
 
 var Radio = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { staticClass: "q-radio", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "radio", "disabled": _vm.disable }, domProps: { "value": _vm.val, "checked": _vm._q(_vm.model, _vm.val) }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', { staticClass: "q-radio cursor-pointer", class: { disabled: _vm.disable }, on: { "click": function click($event) {
+          $event.stopPropagation();$event.preventDefault();_vm.select($event);
+        } } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "radio", "disabled": _vm.disable }, domProps: { "value": _vm.val, "checked": _vm._q(_vm.model, _vm.val) }, on: { "click": [function ($event) {
           _vm.model = _vm.val;
-        } } }), _c('div')]);
+        }, function ($event) {
+          $event.stopPropagation();
+        }], "change": _vm.__change } }), _c('div')]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -6204,8 +6224,20 @@ var Radio = { render: function render() {
         return this.value;
       },
       set: function set(value) {
-        this.$emit('input', value);
+        if (value !== this.value) {
+          this.$emit('input', value);
+        }
       }
+    }
+  },
+  methods: {
+    select: function select() {
+      if (!this.disable) {
+        this.model = this.val;
+      }
+    },
+    __change: function __change(e) {
+      this.model = this.val;
     }
   }
 };
@@ -7659,7 +7691,9 @@ var Tabs = { render: function render() {
 };
 
 var Toggle = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', { directives: [{ name: "touch-swipe", rawName: "v-touch-swipe.horizontal", value: _vm.__toggle, expression: "__toggle", modifiers: { "horizontal": true } }], staticClass: "q-toggle", class: { disabled: _vm.disable } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm.model }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', { directives: [{ name: "touch-swipe", rawName: "v-touch-swipe.horizontal", value: _vm.__swipe, expression: "__swipe", modifiers: { "horizontal": true } }], staticClass: "q-toggle cursor-pointer", class: { disabled: _vm.disable }, on: { "click": function click($event) {
+          $event.stopPropagation();$event.preventDefault();_vm.toggle($event);
+        } } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm.model }, on: { "click": [function ($event) {
           var $$a = _vm.model,
               $$el = $event.target,
               $$c = $$el.checked ? true : false;if (Array.isArray($$a)) {
@@ -7672,7 +7706,9 @@ var Toggle = { render: function render() {
           } else {
             _vm.model = $$c;
           }
-        } } }), _c('div'), _vm.icon ? _c('i', [_vm._v(_vm._s(_vm.icon))]) : _vm._e()]);
+        }, function ($event) {
+          $event.stopPropagation();
+        }], "change": _vm.__change } }), _c('div'), _vm.icon ? _c('i', [_vm._v(_vm._s(_vm.icon))]) : _vm._e()]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -7688,12 +7724,24 @@ var Toggle = { render: function render() {
         return this.value;
       },
       set: function set(value) {
-        this.$emit('input', value);
+        if (value !== this.value) {
+          this.$emit('input', value);
+        }
       }
     }
   },
   methods: {
-    __toggle: function __toggle(evt) {
+    toggle: function toggle() {
+      if (!this.disable) {
+        this.model = !this.model;
+      }
+    },
+    __change: function __change(e) {
+      if (this.$quasar.platform.is.ios) {
+        this.toggle();
+      }
+    },
+    __swipe: function __swipe(evt) {
       if (!this.disable) {
         if (this.model && evt.direction === 'left') {
           this.model = false;

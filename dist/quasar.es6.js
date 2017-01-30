@@ -2413,7 +2413,7 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
   }
 };
 
-var Checkbox = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"q-checkbox",class:{disabled: _vm.disable}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"checkbox","disabled":_vm.disable},domProps:{"checked":Array.isArray(_vm.model)?_vm._i(_vm.model,null)>-1:(_vm.model)},on:{"click":function($event){var $$a=_vm.model,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$c){$$i<0&&(_vm.model=$$a.concat($$v));}else{$$i>-1&&(_vm.model=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.model=$$c;}}}}),_c('div')])},staticRenderFns: [],
+var Checkbox = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"q-checkbox cursor-pointer",class:{disabled: _vm.disable},on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.toggle($event);}}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"checkbox","disabled":_vm.disable},domProps:{"checked":Array.isArray(_vm.model)?_vm._i(_vm.model,null)>-1:(_vm.model)},on:{"click":[function($event){var $$a=_vm.model,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$c){$$i<0&&(_vm.model=$$a.concat($$v));}else{$$i>-1&&(_vm.model=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.model=$$c;}},function($event){$event.stopPropagation();}],"change":_vm.__change}}),_c('div')])},staticRenderFns: [],
   props: {
     value: {
       type: Boolean,
@@ -2428,6 +2428,18 @@ var Checkbox = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
       },
       set (value) {
         this.$emit('input', value);
+      }
+    }
+  },
+  methods: {
+    toggle () {
+      if (!this.disable) {
+        this.model = !this.model;
+      }
+    },
+    __change (e) {
+      if (this.$quasar.platform.is.ios) {
+        this.toggle();
       }
     }
   }
@@ -5654,7 +5666,7 @@ var PullToRefresh = {render: function(){var _vm=this;var _h=_vm.$createElement;v
   }
 };
 
-var Radio = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"q-radio",class:{disabled: _vm.disable}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"radio","disabled":_vm.disable},domProps:{"value":_vm.val,"checked":_vm._q(_vm.model,_vm.val)},on:{"click":function($event){_vm.model=_vm.val;}}}),_c('div')])},staticRenderFns: [],
+var Radio = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"q-radio cursor-pointer",class:{disabled: _vm.disable},on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.select($event);}}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"radio","disabled":_vm.disable},domProps:{"value":_vm.val,"checked":_vm._q(_vm.model,_vm.val)},on:{"click":[function($event){_vm.model=_vm.val;},function($event){$event.stopPropagation();}],"change":_vm.__change}}),_c('div')])},staticRenderFns: [],
   props: {
     value: {
       required: true
@@ -5670,8 +5682,20 @@ var Radio = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
         return this.value
       },
       set (value) {
-        this.$emit('input', value);
+        if (value !== this.value) {
+          this.$emit('input', value);
+        }
       }
+    }
+  },
+  methods: {
+    select () {
+      if (!this.disable) {
+        this.model = this.val;
+      }
+    },
+    __change (e) {
+      this.model = this.val;
     }
   }
 };
@@ -6975,7 +6999,7 @@ var Tabs = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm
   }
 };
 
-var Toggle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{directives:[{name:"touch-swipe",rawName:"v-touch-swipe.horizontal",value:(_vm.__toggle),expression:"__toggle",modifiers:{"horizontal":true}}],staticClass:"q-toggle",class:{disabled: _vm.disable}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"checkbox","disabled":_vm.disable},domProps:{"checked":Array.isArray(_vm.model)?_vm._i(_vm.model,null)>-1:(_vm.model)},on:{"click":function($event){var $$a=_vm.model,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$c){$$i<0&&(_vm.model=$$a.concat($$v));}else{$$i>-1&&(_vm.model=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.model=$$c;}}}}),_c('div'),(_vm.icon)?_c('i',[_vm._v(_vm._s(_vm.icon))]):_vm._e()])},staticRenderFns: [],
+var Toggle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{directives:[{name:"touch-swipe",rawName:"v-touch-swipe.horizontal",value:(_vm.__swipe),expression:"__swipe",modifiers:{"horizontal":true}}],staticClass:"q-toggle cursor-pointer",class:{disabled: _vm.disable},on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.toggle($event);}}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"checkbox","disabled":_vm.disable},domProps:{"checked":Array.isArray(_vm.model)?_vm._i(_vm.model,null)>-1:(_vm.model)},on:{"click":[function($event){var $$a=_vm.model,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$c){$$i<0&&(_vm.model=$$a.concat($$v));}else{$$i>-1&&(_vm.model=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.model=$$c;}},function($event){$event.stopPropagation();}],"change":_vm.__change}}),_c('div'),(_vm.icon)?_c('i',[_vm._v(_vm._s(_vm.icon))]):_vm._e()])},staticRenderFns: [],
   props: {
     value: {
       type: Boolean,
@@ -6990,12 +7014,24 @@ var Toggle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
         return this.value
       },
       set (value) {
-        this.$emit('input', value);
+        if (value !== this.value) {
+          this.$emit('input', value);
+        }
       }
     }
   },
   methods: {
-    __toggle (evt) {
+    toggle () {
+      if (!this.disable) {
+        this.model = !this.model;
+      }
+    },
+    __change (e) {
+      if (this.$quasar.platform.is.ios) {
+        this.toggle();
+      }
+    },
+    __swipe (evt) {
       if (!this.disable) {
         if (this.model && evt.direction === 'left') {
           this.model = false;
