@@ -2923,7 +2923,7 @@ $slider-ovelay-color     ?= rgba(0, 0, 0, .3)
 $slider-opacity          ?= .6
 $slider-opacity-active   ?= 1
 $slider-button-size      ?= 1.5rem
-$slider-dots-size        ?= .8rem
+$slider-dots-size        ?= .9rem
 .q-slider
   overflow hidden
   &.fullscreen
@@ -2986,11 +2986,11 @@ $slider-dots-size        ?= .8rem
   right 0
   margin 0
   opacity $slider-opacity
-  padding 1rem .5rem 1.2rem
+  padding .5rem .8rem
   transition opacity .3s
   i
     cursor pointer
-    margin 0 .5rem
+    padding 5px
     font-size $slider-button-size
   .q-slider-dots i
     font-size $slider-dots-size
@@ -3007,7 +3007,6 @@ $tabs-min-height              ?= 47px
 $tabs-font-size               ?= .95rem
 $tabs-icon-font-size          ?= 1.5rem
 $tabs-font-weight             ?= 500
-$tabs-label-margin            ?= 0 0 0 5px
 $tabs-text-transform          ?= uppercase
 $tabs-border-bottom           ?= 2px solid transparent
 $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
@@ -3024,8 +3023,6 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
   user-select none
   .q-tabs-icon
     font-size $tabs-icon-font-size
-  .q-tabs-icon + .q-tab-label
-    margin $tabs-label-margin
   &.active
     color $tabs-active-color
     border-bottom $tabs-active-border-bottom
@@ -5079,6 +5076,12 @@ flex-media-query($type)
   margin 0 !important
 .no-padding
   padding 0 !important
+.no-border
+  border 0 !important
+.no-border-radius
+  border-radius 0 !important
+.no-box-shadow
+  box-shadow none !important
 .ellipsis
   text-overflow ellipsis
   white-space nowrap

@@ -5948,16 +5948,16 @@ body.desktop .q-search.has-error .q-search-input:hover {
   right: 0;
   margin: 0;
   opacity: 0.6;
-  padding: 1rem 0.5rem 1.2rem;
+  padding: 0.5rem 0.8rem;
   transition: opacity 0.3s;
 }
 .q-slider-toolbar i {
   cursor: pointer;
-  margin: 0 0.5rem;
+  padding: 5px;
   font-size: 1.5rem;
 }
 .q-slider-toolbar .q-slider-dots i {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 .q-spinner {
   vertical-align: middle;
@@ -5979,9 +5979,6 @@ body.desktop .q-search.has-error .q-search-input:hover {
 }
 .q-tab .q-tabs-icon {
   font-size: 1.5rem;
-}
-.q-tab .q-tabs-icon + .q-tab-label {
-  margin: 0 0 0 5px;
 }
 .q-tab.active {
   color: #fff;
@@ -12550,6 +12547,15 @@ label {
 }
 .no-padding {
   padding: 0 !important;
+}
+.no-border {
+  border: 0 !important;
+}
+.no-border-radius {
+  border-radius: 0 !important;
+}
+.no-box-shadow {
+  box-shadow: none !important;
 }
 .ellipsis {
   text-overflow: ellipsis;

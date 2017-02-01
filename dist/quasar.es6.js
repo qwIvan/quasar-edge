@@ -4958,9 +4958,7 @@ var Modal = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
         return
       }
 
-      this.$el.parentNode.removeChild(this.$el);
       document.body.appendChild(this.$el);
-
       document.body.classList.add('with-modal');
       EscapeKey.register(() => {
         if (this.noEscDismiss) {
@@ -6395,7 +6393,7 @@ var DialogSelect = {render: function(){var _vm=this;var _h=_vm.$createElement;va
   }
 };
 
-var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-slider",class:{fullscreen: _vm.inFullscreen}},[_c('div',{staticClass:"q-slider-inner"},[_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__pan),expression:"__pan",modifiers:{"horizontal":true}}],ref:"track",staticClass:"q-slider-track",class:{'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar},style:(_vm.trackPosition)},[_vm._t("slide")],2),(_vm.arrows)?_c('div',{staticClass:"q-slider-left-button row items-center justify-center",class:{hidden: _vm.slide === 0}},[_c('i',{on:{"click":function($event){_vm.goToSlide(_vm.slide - 1);}}},[_vm._v("keyboard_arrow_left")])]):_vm._e(),(_vm.arrows)?_c('div',{staticClass:"q-slider-right-button row items-center justify-center",class:{hidden: _vm.slide === _vm.slidesNumber - 1},on:{"click":function($event){_vm.goToSlide(_vm.slide + 1);}}},[_c('i',[_vm._v("keyboard_arrow_right")])]):_vm._e(),(_vm.toolbar)?_c('div',{staticClass:"q-slider-toolbar row items-center justify-end"},[_c('div',{staticClass:"q-slider-dots auto row items-center justify-center"},_vm._l((_vm.slidesNumber),function(n){return (_vm.dots)?_c('i',{domProps:{"textContent":_vm._s((n - 1) !== _vm.slide ? 'panorama_fish_eye' : 'lens')},on:{"click":function($event){_vm.goToSlide(n - 1);}}}):_vm._e()})),_c('div',{staticClass:"row items-center"},[_vm._t("action"),(_vm.fullscreen)?_c('i',{on:{"click":function($event){_vm.toggleFullscreen();}}},[_c('span',{directives:[{name:"show",rawName:"v-show",value:(!_vm.inFullscreen),expression:"!inFullscreen"}]},[_vm._v("fullscreen")]),_vm._v(" "),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.inFullscreen),expression:"inFullscreen"}]},[_vm._v("fullscreen_exit")])]):_vm._e()],2)]):_vm._e(),_vm._t("default")],2)])},staticRenderFns: [],
+var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-slider",class:{fullscreen: _vm.inFullscreen}},[_c('div',{staticClass:"q-slider-inner"},[_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__pan),expression:"__pan",modifiers:{"horizontal":true}}],ref:"track",staticClass:"q-slider-track",class:{'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar},style:(_vm.trackPosition)},[_vm._t("slide")],2),(_vm.arrows)?_c('div',{staticClass:"q-slider-left-button row items-center justify-center",class:{hidden: _vm.slide === 0}},[_c('i',{on:{"click":function($event){_vm.goToSlide(_vm.slide - 1);}}},[_vm._v("keyboard_arrow_left")])]):_vm._e(),(_vm.arrows)?_c('div',{staticClass:"q-slider-right-button row items-center justify-center",class:{hidden: _vm.slide === _vm.slidesNumber - 1},on:{"click":function($event){_vm.goToSlide(_vm.slide + 1);}}},[_c('i',[_vm._v("keyboard_arrow_right")])]):_vm._e(),(_vm.toolbar)?_c('div',{staticClass:"q-slider-toolbar row items-center justify-end"},[_c('div',{staticClass:"q-slider-dots auto row items-center justify-center"},_vm._l((_vm.slidesNumber),function(n){return (_vm.dots)?_c('i',{domProps:{"textContent":_vm._s((n - 1) !== _vm.slide ? 'panorama_fish_eye' : 'lens')},on:{"click":function($event){_vm.goToSlide(n - 1);}}}):_vm._e()})),_c('div',{staticClass:"row items-center"},[_vm._t("action"),(_vm.fullscreen)?_c('i',{on:{"click":_vm.toggleFullscreen}},[_c('span',{directives:[{name:"show",rawName:"v-show",value:(!_vm.inFullscreen),expression:"!inFullscreen"}]},[_vm._v("fullscreen")]),_vm._v(" "),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.inFullscreen),expression:"inFullscreen"}]},[_vm._v("fullscreen_exit")])]):_vm._e()],2)]):_vm._e(),_vm._t("default")],2)])},staticRenderFns: [],
   props: {
     arrows: Boolean,
     dots: Boolean,
@@ -6471,7 +6469,7 @@ var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
     toggleFullscreen () {
       if (this.inFullscreen) {
         if (!Platform.has.popstate) {
-          this.inFullscreen = false;
+          this.__setFullscreen(false);
         }
         else {
           window.history.go(-1);
@@ -6479,15 +6477,30 @@ var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
         return
       }
 
-      this.inFullscreen = true;
+      this.__setFullscreen(true);
       if (Platform.has.popstate) {
         window.history.pushState({}, '');
         window.addEventListener('popstate', this.__popState);
       }
     },
+    __setFullscreen (state) {
+      if (this.inFullscreen === state) {
+        return
+      }
+
+      if (state) {
+        this.container.replaceChild(this.fillerNode, this.$el);
+        document.body.appendChild(this.$el);
+        this.inFullscreen = true;
+        return
+      }
+
+      this.inFullscreen = false;
+      this.container.replaceChild(this.$el, this.fillerNode);
+    },
     __popState () {
       if (this.inFullscreen) {
-        this.inFullscreen = false;
+        this.__setFullscreen(false);
       }
       window.removeEventListener('popstate', this.__popState);
     },
@@ -6497,6 +6510,8 @@ var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
   },
   mounted () {
     this.$nextTick(() => {
+      this.fillerNode = document.createElement('span');
+      this.container = this.$el.parentNode;
       this.slidesNumber = this.$refs.track.children.length;
     });
   },

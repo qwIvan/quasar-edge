@@ -5427,9 +5427,7 @@ var Modal = { render: function render() {
         return;
       }
 
-      this.$el.parentNode.removeChild(this.$el);
       document.body.appendChild(this.$el);
-
       document.body.classList.add('with-modal');
       EscapeKey.register(function () {
         if (_this.noEscDismiss) {
@@ -7022,9 +7020,7 @@ var Slider = { render: function render() {
       return _vm.dots ? _c('i', { domProps: { "textContent": _vm._s(n - 1 !== _vm.slide ? 'panorama_fish_eye' : 'lens') }, on: { "click": function click($event) {
             _vm.goToSlide(n - 1);
           } } }) : _vm._e();
-    })), _c('div', { staticClass: "row items-center" }, [_vm._t("action"), _vm.fullscreen ? _c('i', { on: { "click": function click($event) {
-          _vm.toggleFullscreen();
-        } } }, [_c('span', { directives: [{ name: "show", rawName: "v-show", value: !_vm.inFullscreen, expression: "!inFullscreen" }] }, [_vm._v("fullscreen")]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.inFullscreen, expression: "inFullscreen" }] }, [_vm._v("fullscreen_exit")])]) : _vm._e()], 2)]) : _vm._e(), _vm._t("default")], 2)]);
+    })), _c('div', { staticClass: "row items-center" }, [_vm._t("action"), _vm.fullscreen ? _c('i', { on: { "click": _vm.toggleFullscreen } }, [_c('span', { directives: [{ name: "show", rawName: "v-show", value: !_vm.inFullscreen, expression: "!inFullscreen" }] }, [_vm._v("fullscreen")]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.inFullscreen, expression: "inFullscreen" }] }, [_vm._v("fullscreen_exit")])]) : _vm._e()], 2)]) : _vm._e(), _vm._t("default")], 2)]);
   }, staticRenderFns: [],
   props: {
     arrows: Boolean,
@@ -7097,22 +7093,37 @@ var Slider = { render: function render() {
     toggleFullscreen: function toggleFullscreen() {
       if (this.inFullscreen) {
         if (!Platform.has.popstate) {
-          this.inFullscreen = false;
+          this.__setFullscreen(false);
         } else {
           window.history.go(-1);
         }
         return;
       }
 
-      this.inFullscreen = true;
+      this.__setFullscreen(true);
       if (Platform.has.popstate) {
         window.history.pushState({}, '');
         window.addEventListener('popstate', this.__popState);
       }
     },
+    __setFullscreen: function __setFullscreen(state) {
+      if (this.inFullscreen === state) {
+        return;
+      }
+
+      if (state) {
+        this.container.replaceChild(this.fillerNode, this.$el);
+        document.body.appendChild(this.$el);
+        this.inFullscreen = true;
+        return;
+      }
+
+      this.inFullscreen = false;
+      this.container.replaceChild(this.$el, this.fillerNode);
+    },
     __popState: function __popState() {
       if (this.inFullscreen) {
-        this.inFullscreen = false;
+        this.__setFullscreen(false);
       }
       window.removeEventListener('popstate', this.__popState);
     },
@@ -7124,6 +7135,8 @@ var Slider = { render: function render() {
     var _this2 = this;
 
     this.$nextTick(function () {
+      _this2.fillerNode = document.createElement('span');
+      _this2.container = _this2.$el.parentNode;
       _this2.slidesNumber = _this2.$refs.track.children.length;
     });
   },
