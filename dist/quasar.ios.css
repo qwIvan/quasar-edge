@@ -3419,6 +3419,12 @@ body.with-drawer-opened {
     position: absolute !important;
     transform: translateX(0) !important;
   }
+  .drawer:not(.active):not(.swipe-only) .drawer-content.left-side {
+    border-right: 1px solid #bdbdbd;
+  }
+  .drawer:not(.active):not(.swipe-only) .drawer-content.right-side {
+    border-left: 1px solid #bdbdbd;
+  }
 }
 .q-fab {
   height: 67.2px;
@@ -5369,35 +5375,23 @@ body.desktop .q-search.has-error .q-search-input:hover {
   white-space: nowrap;
   user-select: none;
 }
-.q-tab .q-tabs-icon {
-  font-size: 1.5rem;
-}
-.q-tab .q-tabs-icon + .q-tab-label {
-  margin: 0;
-}
 .q-tab.active {
   color: #424242;
 }
 .q-tab:active {
   background: #000;
 }
-@media only screen and (max-width: 600px) {
-  .q-tab.hideIcon .q-tabs-icon,
-  .q-tab.hideLabel .q-tab-label {
-    display: none !important;
-  }
+.q-tabs-icon {
+  font-size: 1.5rem;
 }
-@media only screen and (max-width: 920px) {
-  .q-tabs:not(.scrollable) .q-tabs-scroller,
-  .q-tabs:not(.scrollable) .q-tab {
-    flex: 1 1 auto;
-  }
+.q-tabs-icon + .q-tab-label {
+  margin: 0;
 }
 .q-tabs {
-  min-height: 49px;
   overflow: hidden;
   color: #bdbdbd;
   background: #f4f4f4;
+  min-height: 49px;
   font-size: 0.9rem;
   font-weight: 400;
   transition: color 0.18s ease-in, box-shadow 0.18s ease-in;
@@ -6052,6 +6046,32 @@ body.mobile .q-tabs-scroller {
   overflow-x: auto;
   will-change: scroll-position;
   -webkit-overflow-scrolling: touch;
+}
+@media only screen and (max-width: 600px) {
+  .q-tab.hideIcon .q-tabs-icon,
+  .q-tab.hideLabel .q-tab-label {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 920px) {
+  .q-tabs:not(.scrollable) .q-tabs-scroller,
+  .q-tabs:not(.scrollable) .q-tab {
+    flex: 1 1 auto;
+  }
+}
+@media only screen and (min-width: 921px) {
+  .q-tab,
+  .q-tabs {
+    min-height: 68px;
+  }
+  .q-tabs-icon {
+    font-size: 2rem;
+  }
+  .q-tabs {
+    min-height: 68px;
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
 }
 .q-toggle {
   display: inline-block;
