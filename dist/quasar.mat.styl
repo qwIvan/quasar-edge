@@ -1962,11 +1962,12 @@ for $pos in 0..12
       border-width 1px 1px 1px 0
       border-style solid
       border-color $grey-4
-$drawer-width            ?= 280px
-$drawer-font-size        ?= 1rem
-$drawer-icon-font-size   ?= 1.8rem
-$drawer-background       ?= white
-$drawer-header-font-size ?= .9rem
+$drawer-width                  ?= 280px
+$drawer-font-size              ?= 1rem
+$drawer-icon-font-size         ?= 1.8rem
+$drawer-background             ?= white
+$drawer-header-font-size       ?= .9rem
+$drawer-screen-width-threshold ?= $layout-big-min
 .drawer-backdrop
   display none
   z-index $z-drawer
@@ -2024,7 +2025,7 @@ body.cordova.platform-ios .drawer-content
       display block
     .drawer-opener
       display none
-@media screen and (min-width: $layout-big-min)
+@media screen and (min-width $drawer-screen-width-threshold)
   .hide-on-drawer-visible
     display none !important
   .drawer:not(.active):not(.swipe-only)
