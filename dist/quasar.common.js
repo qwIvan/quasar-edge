@@ -2349,6 +2349,11 @@ var AjaxBar = { render: function render() {
   }
 };
 
+function prevent(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
 var Autocomplete = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', [_vm._t("default", [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "text" }, domProps: { "value": _vm._s(_vm.model) }, on: { "input": function input($event) {
           if ($event.target.composing) {
@@ -2373,12 +2378,11 @@ var Autocomplete = { render: function render() {
       type: Number,
       default: 6
     },
-    delay: {
+    debounce: {
       type: Number,
       default: 500
     },
     staticData: Object,
-    setWidth: Boolean,
     delimiter: Boolean
   },
   data: function data() {
@@ -2386,18 +2390,22 @@ var Autocomplete = { render: function render() {
       searchId: '',
       results: [],
       selectedIndex: -1,
-      width: 0
+      width: 0,
+      timer: null,
+      avoidTrigger: false
     };
   },
 
-  watch: {
-    delay: function delay(val) {
-      this.__updateDelay(val);
-    }
-  },
   computed: {
     model: {
       get: function get() {
+        if (!this.avoidTrigger) {
+          if (document.activeElement === this.inputEl) {
+            this.__delayTrigger();
+          }
+        } else {
+          this.avoidTrigger = false;
+        }
         return this.value;
       },
       set: function set(val) {
@@ -2410,9 +2418,7 @@ var Autocomplete = { render: function render() {
       }
     },
     computedWidth: function computedWidth() {
-      if (this.setWidth) {
-        return { minWidth: this.width };
-      }
+      return { minWidth: this.width };
     },
     searching: function searching() {
       return this.searchId.length > 0;
@@ -2435,27 +2441,35 @@ var Autocomplete = { render: function render() {
       if (this.staticData) {
         this.searchId = '';
         this.results = Utils.filter(this.model, this.staticData);
+        if (this.$quasar.platform.is.desktop) {
+          this.selectedIndex = 0;
+        }
         this.$refs.popover.open();
         return;
       }
 
       this.$emit('search', this.model, function (results) {
-        if (results && _this.searchId === searchId) {
-          _this.searchId = '';
-          if (_this.results === results) {
-            return;
-          }
-
-          if (Array.isArray(results) && results.length > 0) {
-            _this.results = results;
-            if (_this.$refs && _this.$refs.popover) {
-              _this.$refs.popover.open();
-            }
-            return;
-          }
-
-          _this.close();
+        if (!results || _this.searchId !== searchId) {
+          return;
         }
+
+        _this.searchId = '';
+        if (_this.results === results) {
+          return;
+        }
+
+        if (Array.isArray(results) && results.length > 0) {
+          _this.results = results;
+          if (_this.$refs && _this.$refs.popover) {
+            if (_this.$quasar.platform.is.desktop) {
+              _this.selectedIndex = 0;
+            }
+            _this.$refs.popover.open();
+          }
+          return;
+        }
+
+        _this.close();
       });
     },
     close: function close() {
@@ -2464,38 +2478,51 @@ var Autocomplete = { render: function render() {
       this.selectedIndex = -1;
     },
     setValue: function setValue(result) {
+      this.avoidTrigger = true;
       this.model = result.value;
       this.$emit('selected', result);
       this.close();
     },
     move: function move(offset) {
-      this.selectedIndex = Utils.format.between(this.selectedIndex + offset, -1, this.computedResults.length - 1);
+      var size = this.computedResults.length;
+      var index = (this.selectedIndex + offset) % this.computedResults.length;
+      if (index < 0) {
+        index = size + index;
+      }
+      this.selectedIndex = index;
     },
     setCurrentSelection: function setCurrentSelection() {
       if (this.selectedIndex >= 0) {
         this.setValue(this.results[this.selectedIndex]);
       }
     },
-    __updateDelay: function __updateDelay() {
-      this.inputEl.removeEventListener('input', this.delayedTrigger);
-      this.delayedTrigger = this.delay ? Utils.debounce(this.trigger, this.delay) : this.trigger;
-      this.inputEl.addEventListener('input', this.delayedTrigger);
+    __delayTrigger: function __delayTrigger() {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(this.trigger, this.staticData ? 0 : this.debounce);
     },
-    handleKeydown: function handleKeydown(e) {
+    __handleKeypress: function __handleKeypress(e) {
       switch (e.keyCode || e.which) {
         case 38:
-          this.move(-1);
+          this.__moveCursor(-1, e);
           break;
         case 40:
-          if (!this.$refs.popover.opened) {
-            this.trigger();
-          } else {
-            this.move(1);
-          }
+          this.__moveCursor(1, e);
           break;
         case 13:
           this.setCurrentSelection();
+          prevent(e);
           break;
+        default:
+          this.close();
+      }
+    },
+    __moveCursor: function __moveCursor(offset, e) {
+      prevent(e);
+
+      if (!this.$refs.popover.opened) {
+        this.trigger();
+      } else {
+        this.move(offset);
       }
     }
   },
@@ -2508,14 +2535,13 @@ var Autocomplete = { render: function render() {
         console.error('Autocomplete needs to contain one input field in its slot.');
         return;
       }
-      _this2.__updateDelay();
-      _this2.inputEl.addEventListener('keydown', _this2.handleKeydown);
+      _this2.inputEl.addEventListener('keydown', _this2.__handleKeypress);
     });
   },
   beforeDestroy: function beforeDestroy() {
+    clearTimeout(this.timer);
+    this.inputEl.removeEventListener('keydown', this.__handleKeypress);
     this.close();
-    this.inputEl.removeEventListener('input', this.delayedTrigger);
-    this.inputEl.removeEventListener('keydown', this.handleKeydown);
   }
 };
 
@@ -5874,8 +5900,8 @@ var Popover = { render: function render() {
   created: function created() {
     var _this = this;
 
-    this.__debouncedUpdatePosition = Utils.debounce(function () {
-      _this.__updatePosition();
+    this.__debouncedPositionUpdate = Utils.debounce(function () {
+      _this.reposition();
     }, 70);
   },
   mounted: function mounted() {
@@ -5908,7 +5934,11 @@ var Popover = { render: function render() {
     open: function open(event) {
       var _this3 = this;
 
-      if (this.disable || this.opened) {
+      if (this.disable) {
+        return;
+      }
+      if (this.opened) {
+        this.reposition();
         return;
       }
       if (event) {
@@ -5924,11 +5954,11 @@ var Popover = { render: function render() {
       });
       this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl);
       this.scrollTarget.addEventListener('scroll', this.close);
-      window.addEventListener('resize', this.__debouncedUpdatePosition);
+      window.addEventListener('resize', this.__debouncedPositionUpdate);
       if (this.fit) {
         this.$el.style.minWidth = Utils.dom.width(this.anchorEl) + 'px';
       }
-      this.__updatePosition(event);
+      this.reposition(event);
       this.timer = setTimeout(function () {
         _this3.timer = null;
         document.addEventListener('click', _this3.close, true);
@@ -5945,7 +5975,7 @@ var Popover = { render: function render() {
       clearTimeout(this.timer);
       document.removeEventListener('click', this.close, true);
       this.scrollTarget.removeEventListener('scroll', this.close);
-      window.removeEventListener('resize', this.__debouncedUpdatePosition);
+      window.removeEventListener('resize', this.__debouncedPositionUpdate);
       EscapeKey.pop();
       this.progress = true;
 
@@ -5959,17 +5989,21 @@ var Popover = { render: function render() {
         }
       }, 1);
     },
-    __updatePosition: function __updatePosition(event) {
-      Utils.popup.setPosition({
-        event: event,
-        el: this.$el,
-        offset: this.offset,
-        anchorEl: this.anchorEl,
-        anchorOrigin: this.anchorOrigin,
-        selfOrigin: this.selfOrigin,
-        maxHeight: this.maxHeight,
-        anchorClick: this.anchorClick,
-        touchPosition: this.touchPosition
+    reposition: function reposition(event) {
+      var _this5 = this;
+
+      this.$nextTick(function () {
+        Utils.popup.setPosition({
+          event: event,
+          el: _this5.$el,
+          offset: _this5.offset,
+          anchorEl: _this5.anchorEl,
+          anchorOrigin: _this5.anchorOrigin,
+          selfOrigin: _this5.selfOrigin,
+          maxHeight: _this5.maxHeight,
+          anchorClick: _this5.anchorClick,
+          touchPosition: _this5.touchPosition
+        });
       });
     }
   }
@@ -6707,15 +6741,11 @@ var Search = { render: function render() {
   data: function data() {
     return {
       focused: false,
-      hasText: this.value.length > 0
+      hasText: this.value.length > 0,
+      timer: null
     };
   },
 
-  watch: {
-    debounce: function debounce(value) {
-      this.__createDebouncedTrigger(value);
-    }
-  },
   computed: {
     model: {
       get: function get() {
@@ -6723,8 +6753,19 @@ var Search = { render: function render() {
         return this.value;
       },
       set: function set(value) {
+        var _this = this;
+
         this.hasText = value.length > 0;
-        this.__update(value);
+        clearTimeout(this.timer);
+        if (this.value !== value) {
+          if (!this.hasText) {
+            this.$emit('input', '');
+            return;
+          }
+          this.timer = setTimeout(function () {
+            _this.$emit('input', value);
+          }, this.debounce);
+        }
       }
     },
     centered: function centered() {
@@ -6734,17 +6775,8 @@ var Search = { render: function render() {
   methods: {
     clear: function clear() {
       if (!this.disable && !this.readonly) {
-        this.$emit('input', '');
+        this.model = '';
       }
-    },
-    __createDebouncedTrigger: function __createDebouncedTrigger(debounce) {
-      var _this = this;
-
-      this.__update = Utils.debounce(function (value) {
-        if (_this.value !== value) {
-          _this.$emit('input', value);
-        }
-      }, debounce);
     },
     focus: function focus() {
       if (!this.disable && !this.readonly) {
@@ -6755,8 +6787,8 @@ var Search = { render: function render() {
       this.focused = false;
     }
   },
-  created: function created() {
-    this.__createDebouncedTrigger(this.debounce);
+  beforeDestroy: function beforeDestroy() {
+    clearTimeout(this.timer);
   }
 };
 

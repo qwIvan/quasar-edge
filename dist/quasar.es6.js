@@ -2257,6 +2257,11 @@ var AjaxBar = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
   }
 };
 
+function prevent (e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
 var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',[_vm._t("default",[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],attrs:{"type":"text"},domProps:{"value":_vm._s(_vm.model)},on:{"input":function($event){if($event.target.composing){ return; }_vm.model=$event.target.value;}}})]),_c('q-popover',{ref:"popover",attrs:{"anchor-click":false}},[_c('div',{staticClass:"list no-border",class:{'item-delimiter': _vm.delimiter},style:(_vm.computedWidth)},_vm._l((_vm.computedResults),function(result,index){return _c('q-list-item',{attrs:{"item":result,"link":"","active":_vm.selectedIndex === index},nativeOn:{"click":function($event){_vm.setValue(result);}}})}))])],2)},staticRenderFns: [],
   props: {
     value: {
@@ -2271,12 +2276,11 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
       type: Number,
       default: 6
     },
-    delay: {
+    debounce: {
       type: Number,
       default: 500
     },
     staticData: Object,
-    setWidth: Boolean,
     delimiter: Boolean
   },
   data () {
@@ -2284,17 +2288,22 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
       searchId: '',
       results: [],
       selectedIndex: -1,
-      width: 0
-    }
-  },
-  watch: {
-    delay (val) {
-      this.__updateDelay(val);
+      width: 0,
+      timer: null,
+      avoidTrigger: false
     }
   },
   computed: {
     model: {
       get () {
+        if (!this.avoidTrigger) {
+          if (document.activeElement === this.inputEl) {
+            this.__delayTrigger();
+          }
+        }
+        else {
+          this.avoidTrigger = false;
+        }
         return this.value
       },
       set (val) {
@@ -2307,9 +2316,7 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
       }
     },
     computedWidth () {
-      if (this.setWidth) {
-        return {minWidth: this.width}
-      }
+      return {minWidth: this.width}
     },
     searching () {
       return this.searchId.length > 0
@@ -2330,27 +2337,35 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
       if (this.staticData) {
         this.searchId = '';
         this.results = Utils.filter(this.model, this.staticData);
+        if (this.$quasar.platform.is.desktop) {
+          this.selectedIndex = 0;
+        }
         this.$refs.popover.open();
         return
       }
 
       this.$emit('search', this.model, results => {
-        if (results && this.searchId === searchId) {
-          this.searchId = '';
-          if (this.results === results) {
-            return
-          }
-
-          if (Array.isArray(results) && results.length > 0) {
-            this.results = results;
-            if (this.$refs && this.$refs.popover) {
-              this.$refs.popover.open();
-            }
-            return
-          }
-
-          this.close();
+        if (!results || this.searchId !== searchId) {
+          return
         }
+
+        this.searchId = '';
+        if (this.results === results) {
+          return
+        }
+
+        if (Array.isArray(results) && results.length > 0) {
+          this.results = results;
+          if (this.$refs && this.$refs.popover) {
+            if (this.$quasar.platform.is.desktop) {
+              this.selectedIndex = 0;
+            }
+            this.$refs.popover.open();
+          }
+          return
+        }
+
+        this.close();
       });
     },
     close () {
@@ -2359,39 +2374,52 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
       this.selectedIndex = -1;
     },
     setValue (result) {
+      this.avoidTrigger = true;
       this.model = result.value;
       this.$emit('selected', result);
       this.close();
     },
     move (offset) {
-      this.selectedIndex = Utils.format.between(this.selectedIndex + offset, -1, this.computedResults.length - 1);
+      const size = this.computedResults.length;
+      let index = (this.selectedIndex + offset) % this.computedResults.length;
+      if (index < 0) {
+        index = size + index;
+      }
+      this.selectedIndex = index;
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0) {
         this.setValue(this.results[this.selectedIndex]);
       }
     },
-    __updateDelay () {
-      this.inputEl.removeEventListener('input', this.delayedTrigger);
-      this.delayedTrigger = this.delay ? Utils.debounce(this.trigger, this.delay) : this.trigger;
-      this.inputEl.addEventListener('input', this.delayedTrigger);
+    __delayTrigger () {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(this.trigger, this.staticData ? 0 : this.debounce);
     },
-    handleKeydown (e) {
+    __handleKeypress (e) {
       switch (e.keyCode || e.which) {
         case 38: // up
-          this.move(-1);
+          this.__moveCursor(-1, e);
           break
         case 40: // down
-          if (!this.$refs.popover.opened) {
-            this.trigger();
-          }
-          else {
-            this.move(1);
-          }
+          this.__moveCursor(1, e);
           break
         case 13: // enter
           this.setCurrentSelection();
+          prevent(e);
           break
+        default:
+          this.close();
+      }
+    },
+    __moveCursor (offset, e) {
+      prevent(e);
+
+      if (!this.$refs.popover.opened) {
+        this.trigger();
+      }
+      else {
+        this.move(offset);
       }
     }
   },
@@ -2402,14 +2430,13 @@ var Autocomplete = {render: function(){var _vm=this;var _h=_vm.$createElement;va
         console.error('Autocomplete needs to contain one input field in its slot.');
         return
       }
-      this.__updateDelay();
-      this.inputEl.addEventListener('keydown', this.handleKeydown);
+      this.inputEl.addEventListener('keydown', this.__handleKeypress);
     });
   },
   beforeDestroy () {
+    clearTimeout(this.timer);
+    this.inputEl.removeEventListener('keydown', this.__handleKeypress);
     this.close();
-    this.inputEl.removeEventListener('input', this.delayedTrigger);
-    this.inputEl.removeEventListener('keydown', this.handleKeydown);
   }
 };
 
@@ -5355,8 +5382,8 @@ var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
     }
   },
   created () {
-    this.__debouncedUpdatePosition = Utils.debounce(() => {
-      this.__updatePosition();
+    this.__debouncedPositionUpdate = Utils.debounce(() => {
+      this.reposition();
     }, 70);
   },
   mounted () {
@@ -5385,7 +5412,11 @@ var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
       }
     },
     open (event) {
-      if (this.disable || this.opened) {
+      if (this.disable) {
+        return
+      }
+      if (this.opened) {
+        this.reposition();
         return
       }
       if (event) {
@@ -5399,11 +5430,11 @@ var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
       EscapeKey.register(() => { this.close(); });
       this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl);
       this.scrollTarget.addEventListener('scroll', this.close);
-      window.addEventListener('resize', this.__debouncedUpdatePosition);
+      window.addEventListener('resize', this.__debouncedPositionUpdate);
       if (this.fit) {
         this.$el.style.minWidth = Utils.dom.width(this.anchorEl) + 'px';
       }
-      this.__updatePosition(event);
+      this.reposition(event);
       this.timer = setTimeout(() => {
         this.timer = null;
         document.addEventListener('click', this.close, true);
@@ -5418,7 +5449,7 @@ var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
       clearTimeout(this.timer);
       document.removeEventListener('click', this.close, true);
       this.scrollTarget.removeEventListener('scroll', this.close);
-      window.removeEventListener('resize', this.__debouncedUpdatePosition);
+      window.removeEventListener('resize', this.__debouncedPositionUpdate);
       EscapeKey.pop();
       this.progress = true;
 
@@ -5436,17 +5467,19 @@ var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
         }
       }, 1);
     },
-    __updatePosition (event) {
-      Utils.popup.setPosition({
-        event,
-        el: this.$el,
-        offset: this.offset,
-        anchorEl: this.anchorEl,
-        anchorOrigin: this.anchorOrigin,
-        selfOrigin: this.selfOrigin,
-        maxHeight: this.maxHeight,
-        anchorClick: this.anchorClick,
-        touchPosition: this.touchPosition
+    reposition (event) {
+      this.$nextTick(() => {
+        Utils.popup.setPosition({
+          event,
+          el: this.$el,
+          offset: this.offset,
+          anchorEl: this.anchorEl,
+          anchorOrigin: this.anchorOrigin,
+          selfOrigin: this.selfOrigin,
+          maxHeight: this.maxHeight,
+          anchorClick: this.anchorClick,
+          touchPosition: this.touchPosition
+        });
       });
     }
   }
@@ -6135,12 +6168,8 @@ var Search = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
   data () {
     return {
       focused: false,
-      hasText: this.value.length > 0
-    }
-  },
-  watch: {
-    debounce (value) {
-      this.__createDebouncedTrigger(value);
+      hasText: this.value.length > 0,
+      timer: null
     }
   },
   computed: {
@@ -6151,7 +6180,16 @@ var Search = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       },
       set (value) {
         this.hasText = value.length > 0;
-        this.__update(value);
+        clearTimeout(this.timer);
+        if (this.value !== value) {
+          if (!this.hasText) {
+            this.$emit('input', '');
+            return
+          }
+          this.timer = setTimeout(() => {
+            this.$emit('input', value);
+          }, this.debounce);
+        }
       }
     },
     centered () {
@@ -6161,15 +6199,8 @@ var Search = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
   methods: {
     clear () {
       if (!this.disable && !this.readonly) {
-        this.$emit('input', '');
+        this.model = '';
       }
-    },
-    __createDebouncedTrigger (debounce) {
-      this.__update = Utils.debounce(value => {
-        if (this.value !== value) {
-          this.$emit('input', value);
-        }
-      }, debounce);
     },
     focus () {
       if (!this.disable && !this.readonly) {
@@ -6180,8 +6211,8 @@ var Search = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
       this.focused = false;
     }
   },
-  created () {
-    this.__createDebouncedTrigger(this.debounce);
+  beforeDestroy () {
+    clearTimeout(this.timer);
   }
 };
 
