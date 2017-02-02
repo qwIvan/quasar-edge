@@ -11,7 +11,7 @@ $toolbar-color                 ?= white
 $toolbar-background            ?= $primary
 $toolbar-active-color          ?= $primary
 $toolbar-faded-color           ?= composite-color($primary)
-if $typography-font-family == 'Roboto' && $quasar-dont-import-fonts != true
+if $typography-font-family == 'Roboto' && $quasar-dont-import-fonts != true && $quasar-dont-import-roboto != true
   @font-face
     font-family 'Roboto'
     font-weight 200
@@ -1723,7 +1723,7 @@ $datatable-font-size ?= 85%
     &:not(.responsive) th
       border-bottom 2px solid $grey-5 !important
 .q-data-table-toolbar
-  padding 5px 10px
+  padding .25rem .5rem
   font-weight 300
   &.upper-toolbar
     min-height 50px
@@ -1732,8 +1732,7 @@ $datatable-font-size ?= 85%
   > div:not(:first-of-type):not(:last-of-type)
     margin 0 30px
   input, .q-picker-textfield
-    &, &:hover
-      border-bottom transparent
+    border-bottom 0 !important
   .q-search
     width auto
     margin 0 15px 0 0
@@ -5159,7 +5158,7 @@ $icon-font-style     ?= normal
 $icon-text-transform ?= none
 $icon-letter-spacing ?= normal
 if $icon-font-family == 'Material Icons'
-  if $quasar-dont-import-fonts != true
+  if $quasar-dont-import-fonts != true && $quasar-dont-import-material-icons != true
     @font-face
       font-family 'Material Icons'
       font-style normal

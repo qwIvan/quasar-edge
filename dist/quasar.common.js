@@ -792,7 +792,7 @@ var Dialog$1 = { render: function render() {
     var _this3 = this;
 
     this.$refs.dialog.open(function () {
-      if (!_this3.$quasar.platform.is.desktop) {
+      if (!_this3.$q.platform.is.desktop) {
         return;
       }
 
@@ -2441,7 +2441,7 @@ var Autocomplete = { render: function render() {
       if (this.staticData) {
         this.searchId = '';
         this.results = Utils.filter(this.model, this.staticData);
-        if (this.$quasar.platform.is.desktop) {
+        if (this.$q.platform.is.desktop) {
           this.selectedIndex = 0;
         }
         this.$refs.popover.open();
@@ -2461,7 +2461,7 @@ var Autocomplete = { render: function render() {
         if (Array.isArray(results) && results.length > 0) {
           _this.results = results;
           if (_this.$refs && _this.$refs.popover) {
-            if (_this.$quasar.platform.is.desktop) {
+            if (_this.$q.platform.is.desktop) {
               _this.selectedIndex = 0;
             }
             _this.$refs.popover.open();
@@ -2589,7 +2589,7 @@ var Checkbox = { render: function render() {
       }
     },
     __change: function __change(e) {
-      if (this.$quasar.platform.is.ios) {
+      if (this.$q.platform.is.ios) {
         this.toggle();
       }
     }
@@ -4673,7 +4673,7 @@ var Drawer = { render: function render() {
   computed: {
     nodeStyle: function nodeStyle() {
       var css = Utils.dom.cssTransform('translateX(' + this.nodePosition + 'px)');
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         if (this.layoutContainer) {
           Utils.dom.css(this.layoutContainer, css);
         }
@@ -4704,7 +4704,7 @@ var Drawer = { render: function render() {
         }
       };
 
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         finalPos = this.opened ? (this.rightSide ? -1 : 1) * this.width : 0;
       } else {
         finalPos = this.opened ? 0 : (this.rightSide ? 1 : -1) * this.width;
@@ -4712,7 +4712,7 @@ var Drawer = { render: function render() {
 
       if (this.opened) {
         this.active = true;
-        if (this.$quasar.platform.has.popstate) {
+        if (this.$q.platform.has.popstate) {
           if (!window.history.state) {
             window.history.replaceState({ __quasar_drawer: true }, '');
           } else {
@@ -4725,7 +4725,7 @@ var Drawer = { render: function render() {
           window.addEventListener('popstate', this.__popState);
         }
       } else {
-        if (this.$quasar.platform.has.popstate) {
+        if (this.$q.platform.has.popstate) {
           window.removeEventListener('popstate', this.__popState);
           if (window.history.state && !window.history.state.__quasar_drawer) {
             window.history.go(-1);
@@ -4755,7 +4755,7 @@ var Drawer = { render: function render() {
     __openByTouch: function __openByTouch(evt) {
       var content = this.$refs.content;
 
-      if (this.$quasar.platform.is.ios || Utils.dom.style(content, 'position') !== 'fixed') {
+      if (this.$q.platform.is.ios || Utils.dom.style(content, 'position') !== 'fixed') {
         return;
       }
 
@@ -4766,7 +4766,7 @@ var Drawer = { render: function render() {
         this.opened = position > 75;
       }
 
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         position = Math.min(position, this.width);
         percentage = 1.0 - (this.width - Math.abs(position)) / this.width;
         position = (this.rightSide ? -1 : 1) * position;
@@ -4802,7 +4802,7 @@ var Drawer = { render: function render() {
         this.opened = Math.abs(position) <= 75;
       }
 
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         position = initialPosition + position;
         percentage = (this.rightSide ? -1 : 1) * position / this.width;
       } else {
@@ -4826,7 +4826,7 @@ var Drawer = { render: function render() {
       this.__animate(done);
     },
     __popState: function __popState() {
-      if (this.$quasar.platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
+      if (this.$q.platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
         this.setState(false);
       }
     },
@@ -4847,7 +4847,7 @@ var Drawer = { render: function render() {
       var content = _this2.$refs.content;
       _this2.width = Utils.dom.width(content);
 
-      if (_this2.$quasar.theme === 'ios') {
+      if (_this2.$q.theme === 'ios') {
         _this2.layoutContainer = _this2.$el.closest('.layout') || document.getElementById('q-app');
       } else {
         _this2.nodePosition = _this2.width * (_this2.rightSide ? 1 : -1);
@@ -5253,7 +5253,7 @@ var Knob = { render: function render() {
 };
 
 var Layout = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "layout" }, [_c('div', { staticClass: "layout-header" }, [_vm._t("header"), _vm.$quasar.theme !== 'ios' ? _vm._t("navigation") : _vm._e()], 2), _c('div', { staticClass: "layout-content" }, [_vm._t("default")], 2), _c('div', { staticClass: "layout-footer" }, [_vm._t("footer"), _vm.$quasar.theme === 'ios' ? _vm._t("navigation") : _vm._e()], 2)]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "layout" }, [_c('div', { staticClass: "layout-header" }, [_vm._t("header"), _vm.$q.theme !== 'ios' ? _vm._t("navigation") : _vm._e()], 2), _c('div', { staticClass: "layout-content" }, [_vm._t("default")], 2), _c('div', { staticClass: "layout-footer" }, [_vm._t("footer"), _vm.$q.theme === 'ios' ? _vm._t("navigation") : _vm._e()], 2)]);
   }, staticRenderFns: [] };
 
 var ListItem = { render: function render() {
@@ -5411,7 +5411,7 @@ var Modal = { render: function render() {
     },
     modalCss: function modalCss() {
       if (this.position) {
-        return Utils.extend({}, positionCSS[this.$quasar.theme], additionalCSS(this.$quasar.theme, this.position), this.contentCss);
+        return Utils.extend({}, positionCSS[this.$q.theme], additionalCSS(this.$q.theme, this.position), this.contentCss);
       }
       return this.contentCss;
     }
@@ -6704,13 +6704,13 @@ var Rating = { render: function render() {
 };
 
 var Search = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-search", class: { 'q-search-centered': _vm.centered, disabled: _vm.disable, readonly: _vm.readonly } }, [_c('div', { staticClass: "q-search-input-container" }, [_c('button', { staticClass: "q-search-icon" }, [_c('i', { staticClass: "on-left" }, [_vm._v(_vm._s(_vm.icon))]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.$quasar.theme === 'ios' && _vm.isEmpty, expression: "$quasar.theme === 'ios' && isEmpty" }] }, [_vm._v(_vm._s(_vm.placeholder))])]), _vm._v(" "), _vm.numeric ? _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "number", "placeholder": _vm.$quasar.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": _vm.focus, "blur": [_vm.blur, function ($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-search", class: { 'q-search-centered': _vm.centered, disabled: _vm.disable, readonly: _vm.readonly } }, [_c('div', { staticClass: "q-search-input-container" }, [_c('button', { staticClass: "q-search-icon" }, [_c('i', { staticClass: "on-left" }, [_vm._v(_vm._s(_vm.icon))]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.$q.theme === 'ios' && _vm.isEmpty, expression: "$q.theme === 'ios' && isEmpty" }] }, [_vm._v(_vm._s(_vm.placeholder))])]), _vm._v(" "), _vm.numeric ? _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "number", "placeholder": _vm.$q.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": _vm.focus, "blur": [_vm.blur, function ($event) {
           _vm.$forceUpdate();
         }], "input": function input($event) {
           if ($event.target.composing) {
             return;
           }_vm.model = _vm._n($event.target.value);
-        } } }) : _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "text", "placeholder": _vm.$quasar.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": _vm.focus, "blur": _vm.blur, "input": function input($event) {
+        } } }) : _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "text", "placeholder": _vm.$q.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": _vm.focus, "blur": _vm.blur, "input": function input($event) {
           if ($event.target.composing) {
             return;
           }_vm.model = $event.target.value;
@@ -7787,7 +7787,7 @@ var Toggle = { render: function render() {
       }
     },
     __change: function __change(e) {
-      if (this.$quasar.platform.is.ios) {
+      if (this.$q.platform.is.ios) {
         this.toggle();
       }
     },
@@ -8216,10 +8216,11 @@ var install$$1 = function (_Vue) {
   registerComponents(_Vue);
   install$2(_Vue);
 
-  _Vue.prototype.$quasar = {
+  _Vue.prototype.$q = {
     version: version,
     platform: Platform,
-    theme: current
+    theme: current,
+    events: Events
   };
 };
 
@@ -8440,7 +8441,7 @@ if (Platform.is.mobile && !Platform.is.cordova) {
 var ActionSheets = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-modal', { ref: "dialog", attrs: { "position": "bottom", "content-css": _vm.contentCss }, on: { "close": function close($event) {
           _vm.__dismiss();
-        } } }, [_vm.$quasar.theme === 'mat' ? _vm._m(0) : _vm._e(), _vm.$quasar.theme === 'ios' ? _vm._m(1) : _vm._e()]);
+        } } }, [_vm.$q.theme === 'mat' ? _vm._m(0) : _vm._e(), _vm.$q.theme === 'ios' ? _vm._m(1) : _vm._e()]);
   }, staticRenderFns: [function () {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_vm.title ? _c('div', { staticClass: "modal-header", domProps: { "innerHTML": _vm._s(_vm.title) } }) : _vm._e(), _c('div', { staticClass: "modal-scroll" }, [_vm.gallery ? _c('div', { staticClass: "q-action-sheet-gallery row wrap items-center justify-center" }, _vm._l(_vm.actions, function (button) {
       return _c('div', { staticClass: "cursor-pointer column inline items-center justify-center", class: button.classes, attrs: { "tabindex": "0" }, on: { "click": function click($event) {
@@ -8510,7 +8511,7 @@ var ActionSheets = { render: function render() {
       return this.buttons[this.buttons.length - 1];
     },
     contentCss: function contentCss() {
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         return { backgroundColor: 'transparent' };
       }
     }

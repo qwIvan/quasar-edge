@@ -3089,7 +3089,7 @@ label {
   border-bottom: 2px solid #bdbdbd !important;
 }
 .q-data-table-toolbar {
-  padding: 5px 10px;
+  padding: 0.25rem 0.5rem;
   font-weight: 300;
 }
 .q-data-table-toolbar.upper-toolbar {
@@ -3102,10 +3102,8 @@ label {
   margin: 0 30px;
 }
 .q-data-table-toolbar input,
-.q-data-table-toolbar .q-picker-textfield,
-.q-data-table-toolbar input:hover,
-.q-data-table-toolbar .q-picker-textfield:hover {
-  border-bottom: transparent;
+.q-data-table-toolbar .q-picker-textfield {
+  border-bottom: 0 !important;
 }
 .q-data-table-toolbar .q-search {
   width: auto;
