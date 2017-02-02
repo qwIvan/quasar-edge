@@ -6704,23 +6704,24 @@ var Rating = { render: function render() {
 };
 
 var Search = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-search", class: { 'q-search-centered': _vm.centered, disabled: _vm.disable, readonly: _vm.readonly } }, [_c('div', { staticClass: "q-search-input-container" }, [_c('button', { staticClass: "q-search-icon" }, [_c('i', [_vm._v(_vm._s(_vm.icon))]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.$quasar.theme === 'ios' && this.value === '' && !_vm.hasText, expression: "$quasar.theme === 'ios' && this.value === '' && !hasText" }] }, [_vm._v(_vm._s(_vm.placeholder))])]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "text", "placeholder": _vm.$quasar.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": function focus($event) {
-          _vm.focus();
-        }, "blur": function blur($event) {
-          _vm.blur();
-        }, "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-search", class: { 'q-search-centered': _vm.centered, disabled: _vm.disable, readonly: _vm.readonly } }, [_c('div', { staticClass: "q-search-input-container" }, [_c('button', { staticClass: "q-search-icon" }, [_c('i', { staticClass: "on-left" }, [_vm._v(_vm._s(_vm.icon))]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.$quasar.theme === 'ios' && _vm.isEmpty, expression: "$quasar.theme === 'ios' && isEmpty" }] }, [_vm._v(_vm._s(_vm.placeholder))])]), _vm._v(" "), _vm.numeric ? _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "number", "placeholder": _vm.$quasar.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": _vm.focus, "blur": [_vm.blur, function ($event) {
+          _vm.$forceUpdate();
+        }], "input": function input($event) {
+          if ($event.target.composing) {
+            return;
+          }_vm.model = _vm._n($event.target.value);
+        } } }) : _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "text", "placeholder": _vm.$quasar.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": _vm.focus, "blur": _vm.blur, "input": function input($event) {
           if ($event.target.composing) {
             return;
           }_vm.model = $event.target.value;
-        } } }), _vm._v(" "), _c('button', { staticClass: "q-search-clear", class: { hidden: this.model === '' }, on: { "click": function click($event) {
-          _vm.clear();
-        } } }, [_c('i', { staticClass: "mat-only" }, [_vm._v("clear")]), _vm._v(" "), _c('i', { staticClass: "ios-only" }, [_vm._v("cancel")])])])]);
+        } } }), _vm._v(" "), _c('button', { staticClass: "q-search-clear", class: { hidden: this.model === '' }, on: { "click": _vm.clear } }, [_c('i', { staticClass: "mat-only" }, [_vm._v("clear")]), _vm._v(" "), _c('i', { staticClass: "ios-only" }, [_vm._v("cancel")])])])]);
   }, staticRenderFns: [],
   props: {
     value: {
-      type: String,
+      type: [String, Number],
       default: ''
     },
+    numeric: Boolean,
     debounce: {
       type: Number,
       default: 300
@@ -6739,45 +6740,49 @@ var Search = { render: function render() {
   data: function data() {
     return {
       focused: false,
-      hasText: this.value.length > 0,
-      timer: null
+      timer: null,
+      isEmpty: !this.value && this.value !== 0
     };
   },
 
   computed: {
     model: {
       get: function get() {
-        this.hasText = this.value.length > 0;
+        this.isEmpty = !this.value && this.value !== 0;
         return this.value;
       },
       set: function set(value) {
         var _this = this;
 
-        this.hasText = value.length > 0;
         clearTimeout(this.timer);
-        if (this.value !== value) {
-          if (!this.hasText) {
-            this.$emit('input', '');
-            return;
-          }
-          this.timer = setTimeout(function () {
-            _this.$emit('input', value);
-          }, this.debounce);
+        this.isEmpty = !value && value !== 0;
+        if (this.value === value) {
+          return;
         }
+        if (this.isEmpty) {
+          this.$emit('input', '');
+          return;
+        }
+        this.timer = setTimeout(function () {
+          _this.$emit('input', value);
+        }, this.debounce);
       }
     },
     centered: function centered() {
       return !this.focused && this.value === '';
+    },
+    editable: function editable() {
+      return !this.disable && !this.readonly;
     }
   },
   methods: {
     clear: function clear() {
-      if (!this.disable && !this.readonly) {
+      if (this.editable) {
         this.model = '';
       }
     },
     focus: function focus() {
-      if (!this.disable && !this.readonly) {
+      if (this.editable) {
         this.focused = true;
       }
     },
