@@ -1695,8 +1695,11 @@ $checkbox-tick-height     = (.55 * $checkbox-size)
     margin-bottom 0
 .q-collapsible.router-link-active > .item
   @extend .item.router-link-active
+$datatable-border    ?= 1px solid $grey-4
+$datatable-font-size ?= 85%
 .q-data-table
-  font-size 85%
+  font-size $datatable-font-size
+  border $datatable-border
   table
     width 100%
     table-layout fixed

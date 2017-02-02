@@ -3055,6 +3055,7 @@ label {
 }
 .q-data-table {
   font-size: 85%;
+  border: 1px solid #e0e0e0;
 }
 .q-data-table table {
   width: 100%;
