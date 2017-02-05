@@ -2378,7 +2378,7 @@ var Autocomplete = { render: function render() {
       type: Number,
       default: 6
     },
-    debounce: {
+    delay: {
       type: Number,
       default: 500
     },
@@ -2498,7 +2498,7 @@ var Autocomplete = { render: function render() {
     },
     __delayTrigger: function __delayTrigger() {
       clearTimeout(this.timer);
-      this.timer = setTimeout(this.trigger, this.staticData ? 0 : this.debounce);
+      this.timer = setTimeout(this.trigger, this.staticData ? 0 : this.delay);
     },
     __handleKeypress: function __handleKeypress(e) {
       switch (e.keyCode || e.which) {
