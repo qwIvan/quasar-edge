@@ -2843,7 +2843,7 @@ var ColumnSelection = {
 };
 
 var TableFilter = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row auto items-center" }, [_c('q-search', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.terms, expression: "filtering.terms" }], staticClass: "auto", domProps: { "value": _vm.filtering.terms }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row auto items-center" }, [_c('q-search', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.terms, expression: "filtering.terms" }], staticClass: "auto", attrs: { "placeholder": _vm.labels.search }, domProps: { "value": _vm.filtering.terms }, on: { "input": function input($event) {
           _vm.filtering.terms = $event;
         } } }), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.field, expression: "filtering.field" }], staticClass: "text-right", attrs: { "type": "list", "options": _vm.filterFields }, domProps: { "value": _vm.filtering.field }, on: { "input": function input($event) {
           _vm.filtering.field = $event;
@@ -2914,7 +2914,14 @@ var Filter = {
 var _labels = {
   columns: 'Columns',
   allCols: 'All Columns',
-  rows: 'Rows'
+  rows: 'Rows',
+  selected: {
+    singular: 'item selected.',
+    plural: 'items selected.'
+  },
+  clear: 'Clear',
+  search: 'Search',
+  all: 'All'
 };
 
 var I18n = {
@@ -2986,45 +2993,61 @@ function parseOptions$1(opts) {
 
 var Pagination = {
   data: function data() {
-    var cfg = this.config.pagination,
-        rowsPerPage = 0,
-        options = defaultOptions;
-
-    if (cfg) {
-      if (cfg.rowsPerPage) {
-        rowsPerPage = cfg.rowsPerPage;
-      }
-      if (cfg.options) {
-        options = parseOptions$1(cfg.options);
-      }
-    }
-
     return {
-      pagination: {
+      _pagination: {
         page: 1,
         entries: 0,
-        options: options,
-        rowsPerPage: rowsPerPage
+        rowsPerPage: null
       }
     };
   },
 
-  watch: {
-    'config.pagination': {
-      deep: true,
-      handler: function handler(cfg) {
-        if (cfg === false) {
-          this.pagination.rowsPerPage = 0;
-          return;
-        }
-        if (typeof cfg.rowsPerPage !== 'undefined' && cfg.rowsPerPage !== this.pagination.rowsPerPage) {
-          this.pagination.rowsPerPage = cfg.rowsPerPage;
-        }
+  computed: {
+    pagination: function pagination() {
+      var self = this,
+          cfg = this.config.pagination,
+          options = defaultOptions;
+
+      if (cfg) {
         if (cfg.options) {
-          this.pagination.options = parseOptions$1(cfg.options);
+          options = parseOptions$1(cfg.options);
         }
       }
-    },
+
+      options[0].label = this.labels.all;
+
+      return {
+        get page() {
+          return self.$data._pagination.page;
+        },
+        set page(page) {
+          self.$data._pagination.page = page;
+        },
+        get entries() {
+          return self.$data._pagination.entries;
+        },
+        set entries(entries) {
+          self.$data._pagination.entries = entries;
+        },
+        get rowsPerPage() {
+          var rowsPerPage = self.$data._pagination.rowsPerPage;
+          if (rowsPerPage == null) {
+            if (cfg && typeof cfg.rowsPerPage !== 'undefined') {
+              rowsPerPage = cfg.rowsPerPage;
+            } else {
+              rowsPerPage = 0;
+            }
+          }
+          return rowsPerPage;
+        },
+        set rowsPerPage(rowsPerPage) {
+          self.$data._pagination.rowsPerPage = rowsPerPage;
+        },
+        options: options
+      };
+    }
+  },
+  watch: {
     'pagination.page': function paginationPage() {
       this.$refs.body.scrollTop = 0;
     }
@@ -3521,9 +3544,9 @@ var TableContent = { render: function render() {
 var DataTable = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table" }, [_vm.hasToolbar && _vm.toolbar === '' ? [_c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_vm.config.title ? _c('div', { staticClass: "q-data-table-title ellipsis auto", domProps: { "innerHTML": _vm._s(_vm.config.title) } }) : _vm._e(), _c('div', { staticClass: "row items-end" }, [_vm.config.refresh && !_vm.refreshing ? _c('button', { staticClass: "primary clear", on: { "click": _vm.refresh } }, [_c('i', [_vm._v("refresh")])]) : _vm._e(), _vm._v(" "), _vm.refreshing ? _c('button', { staticClass: "disabled" }, [_c('i', { staticClass: "animate-spin-reverse" }, [_vm._v("cached")])]) : _vm._e(), _vm.config.columnPicker ? _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.columnSelection, expression: "columnSelection" }], staticClass: "text-right", staticStyle: { "margin-left": "10px" }, attrs: { "type": "toggle", "options": _vm.columnSelectionOptions, "static-label": _vm.labels.columns }, domProps: { "value": _vm.columnSelection }, on: { "input": function input($event) {
           _vm.columnSelection = $event;
-        } } }) : _vm._e()], 1)])] : _vm._e(), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbar === 'selection', expression: "toolbar === 'selection'" }], staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" }, [_c('div', { staticClass: "auto" }, [_vm._v(_vm._s(_vm.rowsSelected) + " item"), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.rowsSelected > 1, expression: "rowsSelected > 1" }] }, [_vm._v("s")]), _vm._v(" selected. "), _c('button', { staticClass: "primary clear small", on: { "click": function click($event) {
+        } } }) : _vm._e()], 1)])] : _vm._e(), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbar === 'selection', expression: "toolbar === 'selection'" }], staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" }, [_c('div', { staticClass: "auto" }, [_vm._v(_vm._s(_vm.rowsSelected) + " "), _vm.rowsSelected === 1 ? _c('span', [_vm._v(_vm._s(_vm.labels.selected.singular))]) : _c('span', [_vm._v(_vm._s(_vm.labels.selected.plural))]), _vm._v(" "), _c('button', { staticClass: "primary clear small", on: { "click": function click($event) {
           _vm.clearSelection();
-        } } }, [_vm._v("Clear")])]), _c('div', [_vm._t("selection", null, { rows: _vm.selectedRows })], 2)]), _vm.filteringCols.length ? _c('table-filter', { attrs: { "filtering": _vm.filtering, "columns": _vm.filteringCols, "labels": _vm.labels } }) : _vm._e(), _vm.responsive ? [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('div', { staticStyle: { "overflow": "auto" }, style: _vm.bodyStyle }, [_c('table', { ref: "body", staticClass: "q-table horizontal-delimiter responsive" }, [_c('tbody', _vm._l(_vm.rows, function (row, index) {
+        } } }, [_vm._v(_vm._s(_vm.labels.clear))])]), _c('div', [_vm._t("selection", null, { rows: _vm.selectedRows })], 2)]), _vm.filteringCols.length ? _c('table-filter', { attrs: { "filtering": _vm.filtering, "columns": _vm.filteringCols, "labels": _vm.labels } }) : _vm._e(), _vm.responsive ? [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('div', { staticStyle: { "overflow": "auto" }, style: _vm.bodyStyle }, [_c('table', { ref: "body", staticClass: "q-table horizontal-delimiter responsive" }, [_c('tbody', _vm._l(_vm.rows, function (row, index) {
       return _c('tr', [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: _vm.rowSelection[index], expression: "rowSelection[index]" }], domProps: { "value": _vm.rowSelection[index] }, on: { "input": function input($event) {
             var $$exp = _vm.rowSelection,
                 $$idx = index;if (!Array.isArray($$exp)) {
@@ -4014,10 +4037,10 @@ var InlineDatetimeMaterial = { render: function render() {
   },
   computed: {
     model: {
-      get: function get$$1() {
+      get: function get() {
         return this.value || undefined;
       },
-      set: function set$$1(value) {
+      set: function set(value) {
         this.$emit('input', value);
       }
     },
@@ -4089,20 +4112,12 @@ var InlineDatetimeMaterial = { render: function render() {
       return this.pmax ? this.pmax.date() : this.daysInMonth;
     },
     daysInterval: function daysInterval() {
-      var _this4 = this;
-
       var max = !this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year() ? 0 : this.daysInMonth - this.pmax.date();
       if (this.beforeMinDays || max) {
-        var _ret = function () {
-          var min = _this4.beforeMinDays ? _this4.beforeMinDays + 1 : 1;
-          return {
-            v: Array.apply(null, { length: _this4.daysInMonth - min - max + 1 }).map(function (day, index) {
-              return index + min;
-            })
-          };
-        }();
-
-        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+        var min = this.beforeMinDays ? this.beforeMinDays + 1 : 1;
+        return Array.apply(null, { length: this.daysInMonth - min - max + 1 }).map(function (day, index) {
+          return index + min;
+        });
       }
       return this.daysInMonth;
     },
@@ -5796,13 +5811,11 @@ var Parallax = { render: function render() {
       bottom = top + this.height;
 
       if (bottom > containerTop && top < containerBottom) {
-        (function () {
-          var percentScrolled = (containerBottom - top) / (_this.height + containerHeight);
-          var imageOffset = Math.round((_this.imageHeight - _this.height) * percentScrolled * _this.speed);
-          requestAnimationFrame(function () {
-            _this.$refs.img.style.transform = 'translate3D(-50%,' + imageOffset + 'px, 0)';
-          });
-        })();
+        var percentScrolled = (containerBottom - top) / (this.height + containerHeight);
+        var imageOffset = Math.round((this.imageHeight - this.height) * percentScrolled * this.speed);
+        requestAnimationFrame(function () {
+          _this.$refs.img.style.transform = 'translate3D(-50%,' + imageOffset + 'px, 0)';
+        });
       }
     }
   },
@@ -7996,6 +8009,12 @@ var Uploader = { render: function render() {
       type: String,
       required: true
     },
+    additionalFields: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
     buttonClass: {
       type: String,
       default: 'primary'
@@ -8104,6 +8123,9 @@ var Uploader = { render: function render() {
       try {
         form.append('Content-Type', file.type || 'application/octet-stream');
         form.append('file', file);
+        this.additionalFields.forEach(function (field) {
+          form.append(field.name, field.value);
+        });
       } catch (e) {
         return;
       }
