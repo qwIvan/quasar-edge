@@ -2726,10 +2726,19 @@ var ContextMenuDesktop = { render: function render() {
     close: function close() {
       this.$refs.popover.close();
     },
-    __open: function __open(event) {
-      if (!this.disable) {
-        this.$refs.popover.open(event);
+    __open: function __open(evt) {
+      var _this = this;
+
+      if (this.disable) {
+        return;
       }
+      this.close();
+      evt.preventDefault();
+      evt.stopPropagation();
+
+      setTimeout(function () {
+        _this.$refs.popover.open(evt);
+      }, 100);
     }
   },
   mounted: function mounted() {
@@ -2737,7 +2746,7 @@ var ContextMenuDesktop = { render: function render() {
     this.target.addEventListener('contextmenu', this.__open);
   },
   beforeDestroy: function beforeDestroy() {
-    this.target.removeEventListener('contexmenu', this.handler);
+    this.target.removeEventListener('contexmenu', this.__open);
   }
 };
 

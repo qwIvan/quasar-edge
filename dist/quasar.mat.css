@@ -3719,10 +3719,11 @@ body.desktop .q-gallery-slider-quickview img:hover {
   right: 0;
   bottom: 0;
   left: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 .layout > .q-tabs {
   border-radius: 0 !important;
