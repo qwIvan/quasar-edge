@@ -211,7 +211,7 @@ function start(_ref2) {
 
   var id = name;
   if (id) {
-    stop(id);
+    start.stop(id);
   } else {
     id = uid();
   }
