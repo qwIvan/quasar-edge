@@ -5357,7 +5357,7 @@ var PickerTextfield = {render: function(){var _vm=this;var _h=_vm.$createElement
   }
 };
 
-var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-popover animate-scale",style:(_vm.transformCSS),on:{"click":function($event){$event.stopPropagation();}}},[_vm._t("default")],2)},staticRenderFns: [],
+var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-popover animate-scale",style:(_vm.transformCSS),on:{"click":function($event){$event.stopPropagation();}}},[_c('div',{staticStyle:{"max-height":"50vh"}},[_vm._t("default")],2)])},staticRenderFns: [],
   props: {
     anchor: {
       type: String,
