@@ -3543,7 +3543,7 @@ var Datetime = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
       return value
     },
     __setModel () {
-      this.model = this.value || this.__normalizeValue(moment(this.defaultSelection)).format(this.format);
+      this.model = this.value || this.__normalizeValue(moment(this.defaultSelection)).format();
     },
     __update () {
       this.$emit('input', this.model);

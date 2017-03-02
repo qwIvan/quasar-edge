@@ -3877,7 +3877,7 @@ var Datetime = { render: function render() {
       return value;
     },
     __setModel: function __setModel() {
-      this.model = this.value || this.__normalizeValue(moment(this.defaultSelection)).format(this.format);
+      this.model = this.value || this.__normalizeValue(moment(this.defaultSelection)).format();
     },
     __update: function __update() {
       this.$emit('input', this.model);
