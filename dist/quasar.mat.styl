@@ -2218,6 +2218,7 @@ $toolbar-padding           ?= 4px 12px
   color $toolbar-color
   background $toolbar-background
   z-index $z-marginals
+  flex-shrink 0
 .toolbar
   padding $toolbar-padding
   min-height $layout-toolbar-min-height
@@ -2656,8 +2657,8 @@ $radio-size         ?= $generic-input-size
 $radio-border-width ?= $generic-input-border-width
 .q-radio
   display inline-block
-  height $checkbox-size
-  width $checkbox-size
+  height $radio-size
+  width $radio-size
   vertical-align middle
   input
     display none !important

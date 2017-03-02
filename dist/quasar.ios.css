@@ -3636,6 +3636,7 @@ body.desktop .q-gallery-slider-quickview img:hover {
   color: #424242;
   background: #f4f4f4;
   z-index: 10;
+  flex-shrink: 0;
 }
 .toolbar {
   padding: 4px 10px;
