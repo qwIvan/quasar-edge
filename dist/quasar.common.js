@@ -981,7 +981,7 @@ function setPosition(_ref2) {
       offset = _ref2.offset;
 
   var anchor = void 0;
-  el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px';
+  el.style.maxHeight = this.maxHeight || '65vh';
 
   if (event && (!anchorClick || touchPosition)) {
     var _eventPosition = position(event),
@@ -5873,7 +5873,7 @@ var PickerTextfield = { render: function render() {
 var Popover = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-popover animate-scale", style: _vm.transformCSS, on: { "click": function click($event) {
           $event.stopPropagation();
-        } } }, [_c('div', { staticStyle: { "max-height": "50vh" } }, [_vm._t("default")], 2)]);
+        } } }, [_vm._t("default")], 2);
   }, staticRenderFns: [],
   props: {
     anchor: {

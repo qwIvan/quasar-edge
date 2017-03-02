@@ -916,7 +916,7 @@ function getTransformProperties ({selfOrigin}) {
 
 function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset}) {
   let anchor;
-  el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px';
+  el.style.maxHeight = this.maxHeight || '65vh'; 
 
   if (event && (!anchorClick || touchPosition)) {
     const {top, left} = position(event);
@@ -5357,7 +5357,7 @@ var PickerTextfield = {render: function(){var _vm=this;var _h=_vm.$createElement
   }
 };
 
-var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-popover animate-scale",style:(_vm.transformCSS),on:{"click":function($event){$event.stopPropagation();}}},[_c('div',{staticStyle:{"max-height":"50vh"}},[_vm._t("default")],2)])},staticRenderFns: [],
+var Popover = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-popover animate-scale",style:(_vm.transformCSS),on:{"click":function($event){$event.stopPropagation();}}},[_vm._t("default")],2)},staticRenderFns: [],
   props: {
     anchor: {
       type: String,
