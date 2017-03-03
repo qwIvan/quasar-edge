@@ -688,7 +688,7 @@ var Dialog$1 = { render: function render() {
           } } })], 1) : _vm._e(), el.type === 'chips' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-chips', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], domProps: { "value": el.model }, on: { "input": function input($event) {
             el.model = $event;
           } } })], 1) : _vm._e(), _vm._l(el.items, function (radio) {
-        return el.type === 'radio' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], attrs: { "val": radio.value }, domProps: { "value": el.model }, on: { "input": function input($event) {
+        return el.type === 'radio' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], attrs: { "val": radio.value, "disable": radio.disabled }, domProps: { "value": el.model }, on: { "input": function input($event) {
               el.model = $event;
             } } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(radio.label) } })]) : _vm._e();
       }), _vm._l(el.items, function (checkbox) {
