@@ -692,11 +692,11 @@ var Dialog$1 = { render: function render() {
               el.model = $event;
             } } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(radio.label) } })]) : _vm._e();
       }), _vm._l(el.items, function (checkbox) {
-        return el.type === 'checkbox' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: checkbox.model, expression: "checkbox.model" }], domProps: { "value": checkbox.model }, on: { "input": function input($event) {
+        return el.type === 'checkbox' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: checkbox.model, expression: "checkbox.model" }], attrs: { "disable": checkbox.disabled }, domProps: { "value": checkbox.model }, on: { "input": function input($event) {
               checkbox.model = $event;
             } } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(checkbox.label) } })]) : _vm._e();
       }), _vm._l(el.items, function (toggle) {
-        return el.type === 'toggle' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-content has-secondary", domProps: { "innerHTML": _vm._s(toggle.label) } }), _c('div', { staticClass: "item-secondary" }, [_c('q-toggle', { directives: [{ name: "model", rawName: "v-model", value: toggle.model, expression: "toggle.model" }], domProps: { "value": toggle.model }, on: { "input": function input($event) {
+        return el.type === 'toggle' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-content has-secondary", domProps: { "innerHTML": _vm._s(toggle.label) } }), _c('div', { staticClass: "item-secondary" }, [_c('q-toggle', { directives: [{ name: "model", rawName: "v-model", value: toggle.model, expression: "toggle.model" }], attrs: { "disable": toggle.disabled }, domProps: { "value": toggle.model }, on: { "input": function input($event) {
               toggle.model = $event;
             } } })], 1)]) : _vm._e();
       }), el.type === 'rating' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-rating', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], style: { fontSize: el.size || '2rem' }, attrs: { "max": el.max, "icon": el.icon }, domProps: { "value": el.model }, on: { "input": function input($event) {
