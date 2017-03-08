@@ -7158,13 +7158,17 @@ var Slider = { render: function render() {
       Utils.animate.stop(this.animUid);
     }
   },
+  beforeUpdate: function beforeUpdate() {
+    if (this.slidesNumber !== this.$slots.slide.length) {
+      this.slidesNumber = this.$slots.slide.length;
+    }
+  },
   mounted: function mounted() {
     var _this2 = this;
 
     this.$nextTick(function () {
       _this2.fillerNode = document.createElement('span');
       _this2.container = _this2.$el.parentNode;
-      _this2.slidesNumber = _this2.$refs.track.children.length;
     });
   },
   beforeDestroy: function beforeDestroy() {
