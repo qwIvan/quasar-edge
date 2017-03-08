@@ -671,36 +671,36 @@ var Dialog$1 = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-modal', { ref: "dialog", staticClass: "minimized", attrs: { "no-backdrop-dismiss": _vm.noBackdropDismiss, "no-esc-dismiss": _vm.noEscDismiss }, on: { "close": function close($event) {
           _vm.__dismiss();
         } } }, [_c('div', { staticClass: "modal-header", domProps: { "innerHTML": _vm._s(_vm.title || '') } }), _vm.message ? _c('div', { staticClass: "modal-body modal-scroll", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _vm._e(), _vm.form ? _c('div', { staticClass: "modal-body modal-scroll" }, [_vm._l(_vm.form, function (el) {
-      return [el.type === 'heading' ? _c('h6', { domProps: { "innerHTML": _vm._s(el.label) } }) : _vm._e(), el.type === 'textbox' ? _c('div', { staticClass: "floating-label", staticStyle: { "margin-bottom": "10px" } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], staticClass: "full-width", attrs: { "type": "text", "placeholder": el.placeholder, "required": "", "tabindex": "0" }, domProps: { "value": _vm._s(el.model) }, on: { "input": function input($event) {
+      return [el.type === 'heading' ? _c('h6', { domProps: { "innerHTML": _vm._s(el.label) } }) : _vm._e(), el.type === 'textbox' ? _c('div', { staticClass: "floating-label", staticStyle: { "margin-bottom": "10px" } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], staticClass: "full-width", attrs: { "type": "text", "placeholder": el.placeholder, "required": "", "tabindex": "0" }, domProps: { "value": el.model }, on: { "input": function input($event) {
             if ($event.target.composing) {
               return;
             }el.model = $event.target.value;
-          } } }), _c('label', { domProps: { "innerHTML": _vm._s(el.label) } })]) : _vm._e(), el.type === 'password' ? _c('div', { staticClass: "floating-label", staticStyle: { "margin-bottom": "10px" } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], staticClass: "full-width", attrs: { "type": "password", "placeholder": el.placeholder, "required": "", "tabindex": "0" }, domProps: { "value": _vm._s(el.model) }, on: { "input": function input($event) {
+          } } }), _c('label', { domProps: { "innerHTML": _vm._s(el.label) } })]) : _vm._e(), el.type === 'password' ? _c('div', { staticClass: "floating-label", staticStyle: { "margin-bottom": "10px" } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], staticClass: "full-width", attrs: { "type": "password", "placeholder": el.placeholder, "required": "", "tabindex": "0" }, domProps: { "value": el.model }, on: { "input": function input($event) {
             if ($event.target.composing) {
               return;
             }el.model = $event.target.value;
-          } } }), _c('label', { domProps: { "innerHTML": _vm._s(el.label) } })]) : _vm._e(), el.type === 'textarea' ? _c('div', { staticClass: "floating-label", staticStyle: { "margin-bottom": "10px" } }, [_c('textarea', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], staticClass: "full-width", attrs: { "type": "text", "placeholder": el.placeholder, "required": "", "tabindex": "0" }, domProps: { "value": _vm._s(el.model) }, on: { "input": function input($event) {
+          } } }), _c('label', { domProps: { "innerHTML": _vm._s(el.label) } })]) : _vm._e(), el.type === 'textarea' ? _c('div', { staticClass: "floating-label", staticStyle: { "margin-bottom": "10px" } }, [_c('textarea', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], staticClass: "full-width", attrs: { "type": "text", "placeholder": el.placeholder, "required": "", "tabindex": "0" }, domProps: { "value": el.model }, on: { "input": function input($event) {
             if ($event.target.composing) {
               return;
             }el.model = $event.target.value;
-          } } }), _c('label', { domProps: { "innerHTML": _vm._s(el.label) } })]) : _vm._e(), el.type === 'numeric' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-numeric', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], attrs: { "min": el.min, "max": el.max, "step": el.step, "tabindex": "0" }, domProps: { "value": el.model }, on: { "input": function input($event) {
-            el.model = $event;
-          } } })], 1) : _vm._e(), el.type === 'chips' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-chips', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], domProps: { "value": el.model }, on: { "input": function input($event) {
-            el.model = $event;
+          } } }), _c('label', { domProps: { "innerHTML": _vm._s(el.label) } })]) : _vm._e(), el.type === 'numeric' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-numeric', { attrs: { "min": el.min, "max": el.max, "step": el.step, "tabindex": "0" }, model: { value: el.model, callback: function callback($$v) {
+            el.model = $$v;
+          } } })], 1) : _vm._e(), el.type === 'chips' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-chips', { model: { value: el.model, callback: function callback($$v) {
+            el.model = $$v;
           } } })], 1) : _vm._e(), _vm._l(el.items, function (radio) {
-        return el.type === 'radio' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], attrs: { "val": radio.value, "disable": radio.disabled }, domProps: { "value": el.model }, on: { "input": function input($event) {
-              el.model = $event;
+        return el.type === 'radio' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { attrs: { "val": radio.value, "disable": radio.disabled }, model: { value: el.model, callback: function callback($$v) {
+              el.model = $$v;
             } } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(radio.label) } })]) : _vm._e();
       }), _vm._l(el.items, function (checkbox) {
-        return el.type === 'checkbox' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: checkbox.model, expression: "checkbox.model" }], attrs: { "disable": checkbox.disabled }, domProps: { "value": checkbox.model }, on: { "input": function input($event) {
-              checkbox.model = $event;
+        return el.type === 'checkbox' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-checkbox', { attrs: { "disable": checkbox.disabled }, model: { value: checkbox.model, callback: function callback($$v) {
+              checkbox.model = $$v;
             } } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(checkbox.label) } })]) : _vm._e();
       }), _vm._l(el.items, function (toggle) {
-        return el.type === 'toggle' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-content has-secondary", domProps: { "innerHTML": _vm._s(toggle.label) } }), _c('div', { staticClass: "item-secondary" }, [_c('q-toggle', { directives: [{ name: "model", rawName: "v-model", value: toggle.model, expression: "toggle.model" }], attrs: { "disable": toggle.disabled }, domProps: { "value": toggle.model }, on: { "input": function input($event) {
-              toggle.model = $event;
+        return el.type === 'toggle' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-content has-secondary", domProps: { "innerHTML": _vm._s(toggle.label) } }), _c('div', { staticClass: "item-secondary" }, [_c('q-toggle', { attrs: { "disable": toggle.disabled }, model: { value: toggle.model, callback: function callback($$v) {
+              toggle.model = $$v;
             } } })], 1)]) : _vm._e();
-      }), el.type === 'rating' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-rating', { directives: [{ name: "model", rawName: "v-model", value: el.model, expression: "el.model" }], style: { fontSize: el.size || '2rem' }, attrs: { "max": el.max, "icon": el.icon }, domProps: { "value": el.model }, on: { "input": function input($event) {
-            el.model = $event;
+      }), el.type === 'rating' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-rating', { style: { fontSize: el.size || '2rem' }, attrs: { "max": el.max, "icon": el.icon }, model: { value: el.model, callback: function callback($$v) {
+            el.model = $$v;
           } } })], 1) : _vm._e()];
     })], 2) : _vm._e(), _vm.progress ? _c('div', { staticClass: "modal-body" }, [_c('q-progress', { staticClass: "primary stripe animate", class: { indeterminate: _vm.progress.indeterminate }, attrs: { "percentage": _vm.progress.model } }), !_vm.progress.indeterminate ? _c('span', [_vm._v(_vm._s(_vm.progress.model) + " %")]) : _vm._e()], 1) : _vm._e(), _vm.buttons ? _c('div', { staticClass: "modal-buttons", class: { row: !_vm.stackButtons, column: _vm.stackButtons } }, _vm._l(_vm.buttons, function (button) {
       return _c('button', { class: button.classes || 'primary clear', style: button.style, attrs: { "tabindex": "0" }, domProps: { "innerHTML": _vm._s(typeof button === 'string' ? button : button.label) }, on: { "click": function click($event) {
@@ -2355,12 +2355,12 @@ function prevent(e) {
 }
 
 var Autocomplete = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', [_vm._t("default", [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "text" }, domProps: { "value": _vm._s(_vm.model) }, on: { "input": function input($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', [_vm._t("default", [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "text" }, domProps: { "value": _vm.model }, on: { "input": function input($event) {
           if ($event.target.composing) {
             return;
           }_vm.model = $event.target.value;
         } } })]), _c('q-popover', { ref: "popover", attrs: { "anchor-click": false } }, [_c('div', { staticClass: "list no-border", class: { 'item-delimiter': _vm.delimiter }, style: _vm.computedWidth }, _vm._l(_vm.computedResults, function (result, index) {
-      return _c('q-list-item', { attrs: { "item": result, "link": "", "active": _vm.selectedIndex === index }, nativeOn: { "click": function click($event) {
+      return _c('q-list-item', { key: result, attrs: { "item": result, "link": "", "active": _vm.selectedIndex === index }, nativeOn: { "click": function click($event) {
             _vm.setValue(result);
           } } });
     }))])], 2);
@@ -2548,7 +2548,9 @@ var Autocomplete = { render: function render() {
 var Checkbox = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', { staticClass: "q-checkbox cursor-pointer", class: { disabled: _vm.disable }, on: { "click": function click($event) {
           $event.stopPropagation();$event.preventDefault();_vm.toggle($event);
-        } } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm.model }, on: { "click": [function ($event) {
+        } } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm.model }, on: { "click": function click($event) {
+          $event.stopPropagation();
+        }, "change": _vm.__change, "__c": function __c($event) {
           var $$a = _vm.model,
               $$el = $event.target,
               $$c = $$el.checked ? true : false;if (Array.isArray($$a)) {
@@ -2561,9 +2563,7 @@ var Checkbox = { render: function render() {
           } else {
             _vm.model = $$c;
           }
-        }, function ($event) {
-          $event.stopPropagation();
-        }], "change": _vm.__change } }), _c('div')]);
+        } } }), _c('div')]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -2601,9 +2601,9 @@ var Chips = { render: function render() {
       return _c('span', { key: index, staticClass: "chip label bg-light text-grey-9" }, [_vm._v(_vm._s(label) + " "), _c('i', { staticClass: "on-right", on: { "click": function click($event) {
             _vm.remove(index);
           } } }, [_vm._v("close")])]);
-    }), _c('div', { staticClass: "q-chips-input chip label text-grey-9" }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.input, expression: "input" }], ref: "input", staticClass: "no-style", attrs: { "type": "text", "disabled": _vm.disable, "placeholder": _vm.placeholder, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.input) }, on: { "keyup": function keyup($event) {
+    }), _c('div', { staticClass: "q-chips-input chip label text-grey-9" }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.input, expression: "input" }], ref: "input", staticClass: "no-style", attrs: { "type": "text", "disabled": _vm.disable, "placeholder": _vm.placeholder, "tabindex": "0" }, domProps: { "value": _vm.input }, on: { "keyup": function keyup($event) {
           if (_vm._k($event.keyCode, "enter", 13)) {
-            return;
+            return null;
           }_vm.add();
         }, "focus": function focus($event) {
           _vm.active = true;
@@ -2852,10 +2852,10 @@ var ColumnSelection = {
 };
 
 var TableFilter = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row auto items-center" }, [_c('q-search', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.terms, expression: "filtering.terms" }], staticClass: "auto", attrs: { "placeholder": _vm.labels.search }, domProps: { "value": _vm.filtering.terms }, on: { "input": function input($event) {
-          _vm.filtering.terms = $event;
-        } } }), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.filtering.field, expression: "filtering.field" }], staticClass: "text-right", attrs: { "type": "list", "options": _vm.filterFields }, domProps: { "value": _vm.filtering.field }, on: { "input": function input($event) {
-          _vm.filtering.field = $event;
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row auto items-center" }, [_c('q-search', { staticClass: "auto", attrs: { "placeholder": _vm.labels.search }, model: { value: _vm.filtering.terms, callback: function callback($$v) {
+          _vm.filtering.terms = $$v;
+        } } }), _c('q-select', { staticClass: "text-right", attrs: { "type": "list", "options": _vm.filterFields }, model: { value: _vm.filtering.field, callback: function callback($$v) {
+          _vm.filtering.field = $$v;
         } } })], 1);
   }, staticRenderFns: [],
   props: ['filtering', 'columns', 'labels'],
@@ -2956,10 +2956,10 @@ var I18n = {
 };
 
 var TablePagination = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end" }, [_c('div', [_vm._v(_vm._s(_vm.labels.rows)), _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.rowsPerPage, expression: "pagination.rowsPerPage" }], staticClass: "text-right", attrs: { "type": "list", "options": _vm.pagination.options }, domProps: { "value": _vm.pagination.rowsPerPage }, on: { "input": [function ($event) {
-          _vm.pagination.rowsPerPage = $event;
-        }, _vm.resetPage] } })], 1), _vm.entries > 0 ? _c('div', [_vm._v(_vm._s(_vm.start) + " - " + _vm._s(_vm.end) + " / " + _vm._s(_vm.entries))]) : _vm._e(), _vm.pagination.rowsPerPage > 0 ? _c('q-pagination', { directives: [{ name: "model", rawName: "v-model", value: _vm.pagination.page, expression: "pagination.page" }], attrs: { "max": _vm.max }, domProps: { "value": _vm.pagination.page }, on: { "input": function input($event) {
-          _vm.pagination.page = $event;
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end" }, [_c('div', [_vm._v(_vm._s(_vm.labels.rows)), _c('q-select', { staticClass: "text-right", attrs: { "type": "list", "options": _vm.pagination.options }, on: { "input": _vm.resetPage }, model: { value: _vm.pagination.rowsPerPage, callback: function callback($$v) {
+          _vm.pagination.rowsPerPage = $$v;
+        } } })], 1), _vm.entries > 0 ? _c('div', [_vm._v(_vm._s(_vm.start) + " - " + _vm._s(_vm.end) + " / " + _vm._s(_vm.entries))]) : _vm._e(), _vm.pagination.rowsPerPage > 0 ? _c('q-pagination', { attrs: { "max": _vm.max }, model: { value: _vm.pagination.page, callback: function callback($$v) {
+          _vm.pagination.page = $$v;
         } } }) : _vm._e()], 1);
   }, staticRenderFns: [],
   props: ['pagination', 'entries', 'labels'],
@@ -3551,24 +3551,24 @@ var TableContent = { render: function render() {
 };
 
 var DataTable = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table" }, [_vm.hasToolbar && _vm.toolbar === '' ? [_c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_vm.config.title ? _c('div', { staticClass: "q-data-table-title ellipsis auto", domProps: { "innerHTML": _vm._s(_vm.config.title) } }) : _vm._e(), _c('div', { staticClass: "row items-end" }, [_vm.config.refresh && !_vm.refreshing ? _c('button', { staticClass: "primary clear", on: { "click": _vm.refresh } }, [_c('i', [_vm._v("refresh")])]) : _vm._e(), _vm._v(" "), _vm.refreshing ? _c('button', { staticClass: "disabled" }, [_c('i', { staticClass: "animate-spin-reverse" }, [_vm._v("cached")])]) : _vm._e(), _vm.config.columnPicker ? _c('q-select', { directives: [{ name: "model", rawName: "v-model", value: _vm.columnSelection, expression: "columnSelection" }], staticClass: "text-right", staticStyle: { "margin-left": "10px" }, attrs: { "type": "toggle", "options": _vm.columnSelectionOptions, "static-label": _vm.labels.columns }, domProps: { "value": _vm.columnSelection }, on: { "input": function input($event) {
-          _vm.columnSelection = $event;
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table" }, [_vm.hasToolbar && _vm.toolbar === '' ? [_c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_vm.config.title ? _c('div', { staticClass: "q-data-table-title ellipsis auto", domProps: { "innerHTML": _vm._s(_vm.config.title) } }) : _vm._e(), _c('div', { staticClass: "row items-end" }, [_vm.config.refresh && !_vm.refreshing ? _c('button', { staticClass: "primary clear", on: { "click": _vm.refresh } }, [_c('i', [_vm._v("refresh")])]) : _vm._e(), _vm._v(" "), _vm.refreshing ? _c('button', { staticClass: "disabled" }, [_c('i', { staticClass: "animate-spin-reverse" }, [_vm._v("cached")])]) : _vm._e(), _vm.config.columnPicker ? _c('q-select', { staticClass: "text-right", staticStyle: { "margin-left": "10px" }, attrs: { "type": "toggle", "options": _vm.columnSelectionOptions, "static-label": _vm.labels.columns }, model: { value: _vm.columnSelection, callback: function callback($$v) {
+          _vm.columnSelection = $$v;
         } } }) : _vm._e()], 1)])] : _vm._e(), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbar === 'selection', expression: "toolbar === 'selection'" }], staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" }, [_c('div', { staticClass: "auto" }, [_vm._v(_vm._s(_vm.rowsSelected) + " "), _vm.rowsSelected === 1 ? _c('span', [_vm._v(_vm._s(_vm.labels.selected.singular))]) : _c('span', [_vm._v(_vm._s(_vm.labels.selected.plural))]), _vm._v(" "), _c('button', { staticClass: "primary clear small", on: { "click": function click($event) {
           _vm.clearSelection();
         } } }, [_vm._v(_vm._s(_vm.labels.clear))])]), _c('div', [_vm._t("selection", null, { rows: _vm.selectedRows })], 2)]), _vm.filteringCols.length ? _c('table-filter', { attrs: { "filtering": _vm.filtering, "columns": _vm.filteringCols, "labels": _vm.labels } }) : _vm._e(), _vm.responsive ? [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('div', { staticStyle: { "overflow": "auto" }, style: _vm.bodyStyle }, [_c('table', { ref: "body", staticClass: "q-table horizontal-delimiter responsive" }, [_c('tbody', _vm._l(_vm.rows, function (row, index) {
-      return _c('tr', [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: _vm.rowSelection[index], expression: "rowSelection[index]" }], domProps: { "value": _vm.rowSelection[index] }, on: { "input": function input($event) {
+      return _c('tr', [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { model: { value: _vm.rowSelection[index], callback: function callback($$v) {
             var $$exp = _vm.rowSelection,
                 $$idx = index;if (!Array.isArray($$exp)) {
-              _vm.rowSelection[index] = $event;
+              _vm.rowSelection[index] = $$v;
             } else {
-              $$exp.splice($$idx, 1, $event);
+              $$exp.splice($$idx, 1, $$v);
             }
-          } } }) : _c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: _vm.rowSelection[0], expression: "rowSelection[0]" }], attrs: { "val": index }, domProps: { "value": _vm.rowSelection[0] }, on: { "input": function input($event) {
+          } } }) : _c('q-radio', { attrs: { "val": index }, model: { value: _vm.rowSelection[0], callback: function callback($$v) {
             var $$exp = _vm.rowSelection,
                 $$idx = 0;if (!Array.isArray($$exp)) {
-              _vm.rowSelection[0] = $event;
+              _vm.rowSelection[0] = $$v;
             } else {
-              $$exp.splice($$idx, 1, $event);
+              $$exp.splice($$idx, 1, $$v);
             }
           } } })], 1) : _vm._e(), _vm._l(_vm.cols, function (col) {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]), attrs: { "data-th": col.label } }, [_vm._t('col-' + col.field, [_c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } })], { row: row, col: col, data: row[col.field] })], 2);
@@ -3578,19 +3578,19 @@ var DataTable = { render: function render() {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [_vm._t('col-' + col.field, [_c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } })], { row: row, col: col, data: row[col.field] })], 2);
       }), _vm.rightStickyColumns ? _c('td', { attrs: { "colspan": _vm.rightStickyColumns } }) : _vm._e()], 2);
     }))], 1), !_vm.message && (_vm.leftStickyColumns || _vm.config.selection) ? [_c('div', { ref: "stickyLeft", staticClass: "q-data-table-sticky-left", style: { bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "no-header": !_vm.hasHeader, "sticky-cols": _vm.leftStickyColumns, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row, index) {
-      return _c('tr', { style: _vm.rowStyle }, [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { directives: [{ name: "model", rawName: "v-model", value: _vm.rowSelection[index], expression: "rowSelection[index]" }], domProps: { "value": _vm.rowSelection[index] }, on: { "input": function input($event) {
+      return _c('tr', { style: _vm.rowStyle }, [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { model: { value: _vm.rowSelection[index], callback: function callback($$v) {
             var $$exp = _vm.rowSelection,
                 $$idx = index;if (!Array.isArray($$exp)) {
-              _vm.rowSelection[index] = $event;
+              _vm.rowSelection[index] = $$v;
             } else {
-              $$exp.splice($$idx, 1, $event);
+              $$exp.splice($$idx, 1, $$v);
             }
-          } } }) : _c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: _vm.rowSelection[0], expression: "rowSelection[0]" }], attrs: { "val": index }, domProps: { "value": _vm.rowSelection[0] }, on: { "input": function input($event) {
+          } } }) : _c('q-radio', { attrs: { "val": index }, model: { value: _vm.rowSelection[0], callback: function callback($$v) {
             var $$exp = _vm.rowSelection,
                 $$idx = 0;if (!Array.isArray($$exp)) {
-              _vm.rowSelection[0] = $event;
+              _vm.rowSelection[0] = $$v;
             } else {
-              $$exp.splice($$idx, 1, $event);
+              $$exp.splice($$idx, 1, $$v);
             }
           } } })], 1) : _vm._e(), _vm._l(_vm.leftCols, function (col) {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [_vm._t('col-' + col.field, [_c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } })], { row: row, col: col, data: row[col.field] })], 2);
@@ -3783,20 +3783,20 @@ var Datetime = { render: function render() {
           _vm.__open($event);
         }, "keydown": function keydown($event) {
           if (_vm._k($event.keyCode, "enter", 13)) {
-            return;
+            return null;
           }_vm.open($event);
         } } }, [_vm.desktop ? _c('q-popover', { ref: "popup", attrs: { "disable": _vm.disable || _vm.readonly }, on: { "open": function open($event) {
           _vm.__setModel();
-        } } }, [_c('q-inline-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "no-border", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm.model }, on: { "input": function input$$1($event) {
-          _vm.model = $event;
+        } } }, [_c('q-inline-datetime', { staticClass: "no-border", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, model: { value: _vm.model, callback: function callback($$v) {
+          _vm.model = $$v;
         } } }, [_c('div', { staticClass: "modal-buttons row full-width" }, [!_vm.noClear ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.clearLabel) }, on: { "click": function click($event) {
           _vm.clear();
         } } }) : _vm._e(), _c('div', { staticClass: "auto" }), _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.cancelLabel) }, on: { "click": function click($event) {
           _vm.close();
         } } }), _vm._v(" "), _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.okLabel) }, on: { "click": function click($event) {
           _vm.close(_vm.__update);
-        } } })])])], 1) : _c('q-modal', { ref: "popup", staticClass: "with-backdrop", class: _vm.classNames, attrs: { "transition": _vm.transition, "position-classes": _vm.position, "content-css": _vm.css } }, [_c('q-inline-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "no-border full-width", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm.model }, on: { "input": function input$$1($event) {
-          _vm.model = $event;
+        } } })])])], 1) : _c('q-modal', { ref: "popup", staticClass: "with-backdrop", class: _vm.classNames, attrs: { "transition": _vm.transition, "position-classes": _vm.position, "content-css": _vm.css } }, [_c('q-inline-datetime', { staticClass: "no-border full-width", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, model: { value: _vm.model, callback: function callback($$v) {
+          _vm.model = $$v;
         } } }, [_c('div', { staticClass: "modal-buttons row full-width" }, [!_vm.noClear ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.clearLabel) }, on: { "click": function click($event) {
           _vm.clear();
         } } }) : _vm._e(), _c('div', { staticClass: "auto" }), _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.cancelLabel) }, on: { "click": function click($event) {
@@ -3895,10 +3895,10 @@ var Datetime = { render: function render() {
 };
 
 var DatetimeRange = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime-range" }, [_c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.from, expression: "model.from" }], class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.min, "max": _vm.model.to || _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.from }, on: { "input": function input$$1($event) {
-          _vm.model.from = $event;
-        } } }), _c('q-datetime', { directives: [{ name: "model", rawName: "v-model", value: _vm.model.to, expression: "model.to" }], class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.model.from || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, domProps: { "value": _vm.model.to }, on: { "input": function input$$1($event) {
-          _vm.model.to = $event;
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime-range" }, [_c('q-datetime', { class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.min, "max": _vm.model.to || _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, model: { value: _vm.model.from, callback: function callback($$v) {
+          _vm.model.from = $$v;
+        } } }), _c('q-datetime', { class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.model.from || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, model: { value: _vm.model.to, callback: function callback($$v) {
+          _vm.model.to = $$v;
         } } })], 1);
   }, staticRenderFns: [],
   props: extend({
@@ -5007,7 +5007,7 @@ var SmallFab = { render: function render() {
 
 var Gallery = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-gallery" }, _vm._l(_vm.src, function (img, index) {
-      return _c('div', { key: index, style: { width: _vm.width } }, [_c('img', { attrs: { "src": img } })]);
+      return _c('div', { key: img, style: { width: _vm.width } }, [_c('img', { attrs: { "src": img } })]);
     }));
   }, staticRenderFns: [],
   props: {
@@ -5024,13 +5024,13 @@ var Gallery = { render: function render() {
 
 var GallerySlider = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-slider', { ref: "slider", staticClass: "text-white bg-black q-gallery-slider", attrs: { "arrows": "", "fullscreen": "" }, on: { "slide": _vm.__updateCurrentSlide } }, [_vm._l(_vm.src, function (img, index) {
-      return _c('div', { key: index, staticClass: "no-padding flex items-center justify-center", slot: "slide" }, [_c('div', { staticClass: "full-width" }, [_c('img', { attrs: { "src": img } })])]);
+      return _c('div', { key: img, staticClass: "no-padding flex items-center justify-center", slot: "slide" }, [_c('div', { staticClass: "full-width" }, [_c('img', { attrs: { "src": img } })])]);
     }), _c('div', { staticClass: "q-gallery-slider-overlay", class: { active: _vm.quickView }, on: { "click": function click($event) {
           _vm.toggleQuickView();
         } } }), _c('i', { on: { "click": function click($event) {
           _vm.toggleQuickView();
         } }, slot: "action" }, [_vm._v("view_carousel")]), _c('div', { staticClass: "q-gallery-slider-quickview", class: { active: _vm.quickView } }, _vm._l(_vm.src, function (img, index) {
-      return _c('div', { key: index }, [_c('img', { class: { active: _vm.currentSlide === index }, attrs: { "src": img }, on: { "click": function click($event) {
+      return _c('div', { key: img }, [_c('img', { class: { active: _vm.currentSlide === index }, attrs: { "src": img }, on: { "click": function click($event) {
             _vm.__selectImage(index);
           } } })]);
     }))], 2);
@@ -5545,23 +5545,23 @@ var Modal = { render: function render() {
 var Numeric = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-numeric textfield row inline items-center", class: { disabled: _vm.disable, readonly: _vm.readonly, 'has-error': _vm.hasError } }, [_c('i', { on: { "click": function click($event) {
           _vm.__setByOffset(-1);
-        } } }, [_vm._v("remove")]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model.number", value: _vm.model, expression: "model", modifiers: { "number": true } }], staticClass: "no-style auto q-input-field", style: { width: _vm.width }, attrs: { "type": "number", "pattern": "[0-9]*", "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0", "step": _vm.step, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm._s(_vm.model) }, on: { "blur": [_vm.__updateValue, function ($event) {
+        } } }, [_vm._v("remove")]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model.number", value: _vm.model, expression: "model", modifiers: { "number": true } }], staticClass: "no-style auto q-input-field", style: { width: _vm.width }, attrs: { "type": "number", "pattern": "[0-9]*", "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0", "step": _vm.step, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm.model }, on: { "blur": [_vm.__updateValue, function ($event) {
           _vm.$forceUpdate();
         }], "keydown": [function ($event) {
           if (_vm._k($event.keyCode, "up", 38)) {
-            return;
+            return null;
           }_vm.__updateValue($event);
         }, function ($event) {
           if (_vm._k($event.keyCode, "down", 40)) {
-            return;
+            return null;
           }_vm.__updateValue($event);
         }, function ($event) {
           if (_vm._k($event.keyCode, "enter", 13)) {
-            return;
+            return null;
           }_vm.__updateValue($event);
         }, function ($event) {
           if (_vm._k($event.keyCode, "esc", 27)) {
-            return;
+            return null;
           }_vm.model = _vm.value;
         }], "input": function input($event) {
           if ($event.target.composing) {
@@ -5669,7 +5669,7 @@ var Pagination$1 = { render: function render() {
           _vm.set(_vm.min);
         } } }, [_c('i', [_vm._v("first_page")])]), _vm._v(" "), _c('button', { staticClass: "primary clear small", class: { disabled: _vm.value === _vm.min }, on: { "click": function click($event) {
           _vm.setByOffset(-1);
-        } } }, [_c('i', [_vm._v("keyboard_arrow_left")])]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model.number.lazy", value: _vm.newPage, expression: "newPage", modifiers: { "number": true, "lazy": true } }], ref: "input", style: { width: _vm.inputPlaceholder.length * 10 + 'px' }, attrs: { "type": "number", "pattern": "[0-9]*", "placeholder": _vm.inputPlaceholder, "disabled": _vm.disable, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.newPage) }, on: { "change": function change($event) {
+        } } }, [_c('i', [_vm._v("keyboard_arrow_left")])]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model.number.lazy", value: _vm.newPage, expression: "newPage", modifiers: { "number": true, "lazy": true } }], ref: "input", style: { width: _vm.inputPlaceholder.length * 10 + 'px' }, attrs: { "type": "number", "pattern": "[0-9]*", "placeholder": _vm.inputPlaceholder, "disabled": _vm.disable, "tabindex": "0" }, domProps: { "value": _vm.newPage }, on: { "change": function change($event) {
           _vm.newPage = _vm._n($event.target.value);
         }, "blur": function blur($event) {
           _vm.$forceUpdate();
@@ -6257,11 +6257,11 @@ var PullToRefresh = { render: function render() {
 var Radio = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', { staticClass: "q-radio cursor-pointer", class: { disabled: _vm.disable }, on: { "click": function click($event) {
           $event.stopPropagation();$event.preventDefault();_vm.select($event);
-        } } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "radio", "disabled": _vm.disable }, domProps: { "value": _vm.val, "checked": _vm._q(_vm.model, _vm.val) }, on: { "click": [function ($event) {
-          _vm.model = _vm.val;
-        }, function ($event) {
+        } } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "radio", "disabled": _vm.disable }, domProps: { "value": _vm.val, "checked": _vm._q(_vm.model, _vm.val) }, on: { "click": function click($event) {
           $event.stopPropagation();
-        }], "change": _vm.__change } }), _c('div')]);
+        }, "change": _vm.__change, "__c": function __c($event) {
+          _vm.model = _vm.val;
+        } } }), _c('div')]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -6726,13 +6726,13 @@ var Rating = { render: function render() {
 };
 
 var Search = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-search", class: { 'q-search-centered': _vm.centered, disabled: _vm.disable, readonly: _vm.readonly } }, [_c('div', { staticClass: "q-search-input-container" }, [_c('button', { staticClass: "q-search-icon" }, [_c('i', { staticClass: "on-left" }, [_vm._v(_vm._s(_vm.icon))]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.$q.theme === 'ios' && _vm.isEmpty, expression: "$q.theme === 'ios' && isEmpty" }] }, [_vm._v(_vm._s(_vm.placeholder))])]), _vm._v(" "), _vm.numeric ? _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "number", "pattern": "[0-9]*", "placeholder": _vm.$q.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": _vm.focus, "blur": [_vm.blur, function ($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-search", class: { 'q-search-centered': _vm.centered, disabled: _vm.disable, readonly: _vm.readonly } }, [_c('div', { staticClass: "q-search-input-container" }, [_c('button', { staticClass: "q-search-icon" }, [_c('i', { staticClass: "on-left" }, [_vm._v(_vm._s(_vm.icon))]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.$q.theme === 'ios' && _vm.isEmpty, expression: "$q.theme === 'ios' && isEmpty" }] }, [_vm._v(_vm._s(_vm.placeholder))])]), _vm._v(" "), _vm.numeric ? _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "number", "pattern": "[0-9]*", "placeholder": _vm.$q.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm.model }, on: { "focus": _vm.focus, "blur": [_vm.blur, function ($event) {
           _vm.$forceUpdate();
         }], "input": function input($event) {
           if ($event.target.composing) {
             return;
-          }_vm.model = _vm._n($event.target.value);
-        } } }) : _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "text", "placeholder": _vm.$q.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm._s(_vm.model) }, on: { "focus": _vm.focus, "blur": _vm.blur, "input": function input($event) {
+          }_vm.model = $event.target.value;
+        } } }) : _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], staticClass: "q-search-input no-style", attrs: { "type": "text", "placeholder": _vm.$q.theme === 'mat' ? _vm.placeholder : '', "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0" }, domProps: { "value": _vm.model }, on: { "focus": _vm.focus, "blur": _vm.blur, "input": function input($event) {
           if ($event.target.composing) {
             return;
           }_vm.model = $event.target.value;
@@ -6820,22 +6820,22 @@ var Search = { render: function render() {
 var Select = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue }, nativeOn: { "keydown": function keydown($event) {
           if (_vm._k($event.keyCode, "enter", 13)) {
-            return;
+            return null;
           }_vm.open($event);
         } } }, [_c('q-popover', { ref: "popover", attrs: { "disable": _vm.disable || _vm.readonly, "fit": "" } }, [_c('div', { staticClass: "q-select-popover list highlight" }, [_vm._l(_vm.options, function (radio) {
-      return _vm.type === 'radio' ? _c('label', { staticClass: "item", on: { "click": _vm.close } }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "val": radio.value }, domProps: { "value": _vm.model }, on: { "input": function input($event) {
-            _vm.model = $event;
+      return _vm.type === 'radio' ? _c('label', { key: radio, staticClass: "item", on: { "click": _vm.close } }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { attrs: { "val": radio.value }, model: { value: _vm.model, callback: function callback($$v) {
+            _vm.model = $$v;
           } } })], 1), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(radio.label) } })])]) : _vm._e();
     }), _vm.type === 'list' ? _c('div', { staticClass: "list no-border highlight", class: { 'item-delimiter': _vm.delimiter }, staticStyle: { "min-width": "100px" } }, _vm._l(_vm.options, function (opt) {
-      return _c('q-list-item', { attrs: { "item": opt, "link": "", "active": _vm.model === opt.value }, nativeOn: { "click": function click($event) {
+      return _c('q-list-item', { key: opt, attrs: { "item": opt, "link": "", "active": _vm.model === opt.value }, nativeOn: { "click": function click($event) {
             _vm.__setAndClose(opt.value);
           } } });
     })) : _vm._e(), _vm._l(_vm.options, function (checkbox, index) {
-      return _vm.type === 'checkbox' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-checkbox', { attrs: { "value": _vm.optModel[index] }, on: { "input": function input($event) {
+      return _vm.type === 'checkbox' ? _c('label', { key: checkbox, staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-checkbox', { attrs: { "value": _vm.optModel[index] }, on: { "input": function input($event) {
             _vm.toggleValue(checkbox.value);
           } } })], 1), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(checkbox.label) } })])]) : _vm._e();
     }), _vm._l(_vm.options, function (toggle, index) {
-      return _vm.type === 'toggle' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-content has-secondary" }, [_c('div', { domProps: { "innerHTML": _vm._s(toggle.label) } })]), _c('div', { staticClass: "item-secondary" }, [_c('q-toggle', { attrs: { "value": _vm.optModel[index] }, on: { "input": function input($event) {
+      return _vm.type === 'toggle' ? _c('label', { key: toggle, staticClass: "item" }, [_c('div', { staticClass: "item-content has-secondary" }, [_c('div', { domProps: { "innerHTML": _vm._s(toggle.label) } })]), _c('div', { staticClass: "item-secondary" }, [_c('q-toggle', { attrs: { "value": _vm.optModel[index] }, on: { "input": function input($event) {
             _vm.toggleValue(toggle.value);
           } } })], 1)]) : _vm._e();
     })], 2)])], 1);
@@ -6939,7 +6939,7 @@ var DialogSelect = { render: function render() {
           _vm.pick($event);
         }, "keydown": function keydown($event) {
           if (_vm._k($event.keyCode, "enter", 13)) {
-            return;
+            return null;
           }_vm.pick($event);
         } } });
   }, staticRenderFns: [],
@@ -7765,7 +7765,9 @@ var Tabs = { render: function render() {
 var Toggle = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('span', { directives: [{ name: "touch-swipe", rawName: "v-touch-swipe.horizontal", value: _vm.__swipe, expression: "__swipe", modifiers: { "horizontal": true } }], staticClass: "q-toggle cursor-pointer", class: { disabled: _vm.disable }, on: { "click": function click($event) {
           $event.stopPropagation();$event.preventDefault();_vm.toggle($event);
-        } } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm.model }, on: { "click": [function ($event) {
+        } } }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.model, expression: "model" }], attrs: { "type": "checkbox", "disabled": _vm.disable }, domProps: { "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm.model }, on: { "click": function click($event) {
+          $event.stopPropagation();
+        }, "change": _vm.__change, "__c": function __c($event) {
           var $$a = _vm.model,
               $$el = $event.target,
               $$c = $$el.checked ? true : false;if (Array.isArray($$a)) {
@@ -7778,9 +7780,7 @@ var Toggle = { render: function render() {
           } else {
             _vm.model = $$c;
           }
-        }, function ($event) {
-          $event.stopPropagation();
-        }], "change": _vm.__change } }), _c('div'), _vm.icon ? _c('i', [_vm._v(_vm._s(_vm.icon))]) : _vm._e()]);
+        } } }), _c('div'), _vm.icon ? _c('i', [_vm._v(_vm._s(_vm.icon))]) : _vm._e()]);
   }, staticRenderFns: [],
   props: {
     value: {
@@ -7949,7 +7949,7 @@ var Tooltip = { render: function render() {
 
 var QTreeItem = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('li', { staticClass: "q-tree-item" }, [_c('div', { class: { 'q-tree-expandable-item': _vm.isExpandable, 'q-tree-link': _vm.model.handler }, on: { "click": _vm.toggle } }, [_vm.model.icon ? _c('i', [_vm._v(_vm._s(_vm.model.icon))]) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "q-tree-label" }, [_vm._v(_vm._s(_vm.model.title))]), _vm._v(" "), _vm.isExpandable ? _c('span', { domProps: { "innerHTML": _vm._s(_vm.model.expanded ? _vm.contractHtml : _vm.expandHtml) } }) : _vm._e()]), _c('q-transition', { attrs: { "name": "slide" } }, [_c('ul', { directives: [{ name: "show", rawName: "v-show", value: _vm.isExpandable && _vm.model.expanded, expression: "isExpandable && model.expanded" }] }, _vm._l(_vm.model.children, function (item) {
-      return _c('q-tree-item', { attrs: { "model": item, "contract-html": _vm.contractHtml, "expand-html": _vm.expandHtml } });
+      return _c('q-tree-item', { key: item, attrs: { "model": item, "contract-html": _vm.contractHtml, "expand-html": _vm.expandHtml } });
     }))])], 1);
   }, staticRenderFns: [],
   name: 'q-tree-item',
@@ -7975,7 +7975,7 @@ var QTreeItem = { render: function render() {
 
 var Tree = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-tree" }, [_c('ul', _vm._l(_vm.model, function (item) {
-      return _c('q-tree-item', { attrs: { "model": item, "contract-html": _vm.contractHtml, "expand-html": _vm.expandHtml } });
+      return _c('q-tree-item', { key: item, attrs: { "model": item, "contract-html": _vm.contractHtml, "expand-html": _vm.expandHtml } });
     }))]);
   }, staticRenderFns: [],
   props: {
@@ -8479,7 +8479,7 @@ var ActionSheets = { render: function render() {
             _vm.close(button.handler);
           }, "keydown": function keydown($event) {
             if (_vm._k($event.keyCode, "enter", 13)) {
-              return;
+              return null;
             }_vm.close(button.handler);
           } } }, [button.icon ? _c('i', [_vm._v(_vm._s(button.icon))]) : _vm._e(), _vm._v(" "), button.avatar ? _c('img', { staticClass: "avatar", attrs: { "src": button.avatar } }) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(button.label))])]);
     })) : _c('div', { staticClass: "list no-border" }, _vm._l(_vm.actions, function (button) {
@@ -8487,14 +8487,14 @@ var ActionSheets = { render: function render() {
             _vm.close(button.handler);
           }, "keydown": function keydown($event) {
             if (_vm._k($event.keyCode, "enter", 13)) {
-              return;
+              return null;
             }_vm.close(button.handler);
           } } }, [button.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(button.icon))]) : _vm._e(), _vm._v(" "), button.avatar ? _c('img', { staticClass: "item-primary", attrs: { "src": button.avatar } }) : _vm._e(), _c('div', { staticClass: "item-content inset" }, [_vm._v(_vm._s(button.label))])]);
     }))]), _vm.dismiss ? _c('div', { staticClass: "list no-border" }, [_c('div', { staticClass: "item item-link", class: _vm.dismiss.classes, attrs: { "tabindex": "0" }, on: { "click": function click($event) {
           _vm.close();
         }, "keydown": function keydown($event) {
           if (_vm._k($event.keyCode, "enter", 13)) {
-            return;
+            return null;
           }_vm.close();
         } } }, [_vm.dismiss.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(_vm.dismiss.icon))]) : _vm._e(), _c('div', { staticClass: "item-content inset" }, [_vm._v(_vm._s(_vm.dismiss.label))])])]) : _vm._e()]);
   }, function () {
@@ -8503,7 +8503,7 @@ var ActionSheets = { render: function render() {
             _vm.close(button.handler);
           }, "keydown": function keydown($event) {
             if (_vm._k($event.keyCode, "enter", 13)) {
-              return;
+              return null;
             }_vm.close(button.handler);
           } } }, [button.icon ? _c('i', [_vm._v(_vm._s(button.icon))]) : _vm._e(), _vm._v(" "), button.avatar ? _c('img', { staticClass: "avatar", attrs: { "src": button.avatar } }) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(button.label))])]);
     })) : _c('div', { staticClass: "list no-border" }, _vm._l(_vm.actions, function (button) {
@@ -8511,14 +8511,14 @@ var ActionSheets = { render: function render() {
             _vm.close(button.handler);
           }, "keydown": function keydown($event) {
             if (_vm._k($event.keyCode, "enter", 13)) {
-              return;
+              return null;
             }_vm.close(button.handler);
           } } }, [button.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(button.icon))]) : _vm._e(), _vm._v(" "), button.avatar ? _c('img', { staticClass: "item-primary", attrs: { "src": button.avatar } }) : _vm._e(), _c('div', { staticClass: "item-content inset" }, [_vm._v(_vm._s(button.label))])]);
     }))])]), _vm.dismiss ? _c('div', { staticClass: "q-action-sheet" }, [_c('div', { staticClass: "item item-link", class: _vm.dismiss.classes, attrs: { "tabindex": "0" }, on: { "click": function click($event) {
           _vm.close();
         }, "keydown": function keydown($event) {
           if (_vm._k($event.keyCode, "enter", 13)) {
-            return;
+            return null;
           }_vm.close();
         } } }, [_c('div', { staticClass: "item-content row justify-center" }, [_vm._v(_vm._s(_vm.dismiss.label))])])]) : _vm._e()]);
   }],
