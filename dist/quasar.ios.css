@@ -3269,9 +3269,9 @@ body.desktop .q-datetime-col-wrapper {
   width: 37px;
 }
 .q-datetime-item {
+  font-size: 85%;
   height: 36px;
   line-height: 36px;
-  padding: 0 6px;
   color: rgba(0,0,0,0.87);
   position: absolute;
   white-space: nowrap;
@@ -3950,6 +3950,9 @@ body.desktop .q-gallery-slider-quickview img:hover {
   overflow: hidden;
   font-size: 0.95rem;
   text-align: center;
+}
+.toolbar-title i {
+  line-height: 1;
 }
 .toolbar-content {
   flex: 1;

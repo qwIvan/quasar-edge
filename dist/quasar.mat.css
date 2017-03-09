@@ -3982,6 +3982,9 @@ body.desktop .q-gallery-slider-quickview img:hover {
 .toolbar > button:active:not(.disabled) {
   color: #027be3;
 }
+.toolbar i {
+  line-height: 1;
+}
 .toolbar-content {
   flex: 1;
   min-width: 0;

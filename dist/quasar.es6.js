@@ -3768,7 +3768,7 @@ var InlineDatetimeMaterial = {render: function(){var _vm=this;var _h=_vm.$create
       }
     },
     editable () {
-      return !this.disabled && !this.readonly
+      return !this.disable && !this.readonly
     }
   },
   methods: {
@@ -4057,7 +4057,7 @@ var InlineDatetimeIOS = {render: function(){var _vm=this;var _h=_vm.$createEleme
       return this.__colStyle(82 - (this.minute + this.minuteDragOffset) * 36)
     },
     editable () {
-      return !this.disabled && !this.readonly
+      return !this.disable && !this.readonly
     }
   },
   methods: {
