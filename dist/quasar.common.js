@@ -1,5 +1,5 @@
 /*!
- * Quasar Framework v0.13.3
+ * Quasar Framework v0.13.4
  * (c) 2017 Razvan Stoenescu
  * Released under the MIT License.
  */
@@ -1381,7 +1381,7 @@ var theme = Object.freeze({
 	get current () { return current; }
 });
 
-var version = "0.13.3";
+var version = "0.13.4";
 
 function getHeight(el, style$$1) {
   var initial = {
