@@ -7098,10 +7098,17 @@ var Slider = { render: function render() {
         delete this.initialPosition;
       }
     },
+    __getSlidesNumber: function __getSlidesNumber() {
+      return this.$slots.slide ? this.$slots.slide.length : 0;
+    },
     goToSlide: function goToSlide(slide, noAnimation) {
       var _this = this;
 
-      this.slide = Utils.format.between(slide, 0, this.slidesNumber - 1);
+      if (this.slidesNumber === 0) {
+        this.position = 0;
+        return;
+      }
+      this.slide = Utils.format.between(slide, 0, Math.max(0, this.slidesNumber - 1));
       var pos = -this.slide * 100;
       if (noAnimation) {
         this.stopAnimation();
@@ -7159,8 +7166,10 @@ var Slider = { render: function render() {
     }
   },
   beforeUpdate: function beforeUpdate() {
-    if (this.$slots.slide && this.slidesNumber !== this.$slots.slide.length) {
-      this.slidesNumber = this.$slots.slide.length;
+    var slides = this.__getSlidesNumber();
+    if (slides !== this.slidesNumber) {
+      this.slidesNumber = slides;
+      this.goToSlide(this.slide);
     }
   },
   mounted: function mounted() {
@@ -7169,6 +7178,7 @@ var Slider = { render: function render() {
     this.$nextTick(function () {
       _this2.fillerNode = document.createElement('span');
       _this2.container = _this2.$el.parentNode;
+      _this2.slidesNumber = _this2.__getSlidesNumber();
     });
   },
   beforeDestroy: function beforeDestroy() {

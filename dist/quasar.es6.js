@@ -6478,8 +6478,15 @@ var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
         delete this.initialPosition;
       }
     },
+    __getSlidesNumber () {
+      return this.$slots.slide ? this.$slots.slide.length : 0
+    },
     goToSlide (slide, noAnimation) {
-      this.slide = Utils.format.between(slide, 0, this.slidesNumber - 1);
+      if (this.slidesNumber === 0) {
+        this.position = 0;
+        return
+      }
+      this.slide = Utils.format.between(slide, 0, Math.max(0, this.slidesNumber - 1));
       const pos = -this.slide * 100;
       if (noAnimation) {
         this.stopAnimation();
@@ -6490,7 +6497,7 @@ var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
         name: this.animUid,
         pos: this.position,
         finalPos: pos,
-        apply: (pos) => {
+        apply: pos => {
           this.position = pos;
         }
       });
@@ -6538,14 +6545,17 @@ var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_
     }
   },
   beforeUpdate () {
-    if (this.$slots.slide && this.slidesNumber !== this.$slots.slide.length) {
-      this.slidesNumber = this.$slots.slide.length;
+    const slides = this.__getSlidesNumber();
+    if (slides !== this.slidesNumber) {
+      this.slidesNumber = slides;
+      this.goToSlide(this.slide);
     }
   },
   mounted () {
     this.$nextTick(() => {
       this.fillerNode = document.createElement('span');
       this.container = this.$el.parentNode;
+      this.slidesNumber = this.__getSlidesNumber();
     });
   },
   beforeDestroy () {
