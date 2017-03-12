@@ -1,5 +1,5 @@
 /*
- * Quasar Framework v0.13.5
+ * Quasar Framework v0.13.6
  * (c) 2017 Razvan Stoenescu
  * Released under the MIT License.
  */
@@ -5914,6 +5914,13 @@ body.desktop .q-search.has-error .q-search-input:hover {
 }
 .q-slider-track.with-toolbar > div {
   padding-bottom: 3.3rem;
+}
+.q-slider-track.infinite-left > div:nth-last-child(2) {
+  order: -1000;
+  margin-left: -100%;
+}
+.q-slider-track.infinite-right > div:nth-child(2) {
+  order: 1000;
 }
 .q-slider-left-button,
 .q-slider-right-button {

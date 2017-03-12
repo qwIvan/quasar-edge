@@ -1,5 +1,5 @@
 /*!
- * Quasar Framework v0.13.5
+ * Quasar Framework v0.13.6
  * (c) 2017 Razvan Stoenescu
  * Released under the MIT License.
  */
@@ -633,12 +633,31 @@ function humanStorageSize(bytes) {
 }
 
 function between(val, min, max) {
+  if (max <= min) {
+    return min;
+  }
   return Math.min(max, Math.max(min, val));
+}
+
+function normalizeToInterval(val, min, max) {
+  if (max <= min) {
+    return min;
+  }
+
+  var size = max - min + 1;
+
+  var index = val % size;
+  if (index < min) {
+    index = size + index;
+  }
+
+  return index;
 }
 
 var format = Object.freeze({
 	humanStorageSize: humanStorageSize,
-	between: between
+	between: between,
+	normalizeToInterval: normalizeToInterval
 });
 
 var ModalGenerator = function (VueComponent) {
@@ -1381,7 +1400,7 @@ var theme = Object.freeze({
 	get current () { return current; }
 });
 
-var version = "0.13.5";
+var version = "0.13.6";
 
 function getHeight(el, style$$1) {
   var initial = {
@@ -2484,12 +2503,7 @@ var Autocomplete = { render: function render() {
       this.close();
     },
     move: function move(offset) {
-      var size = this.computedResults.length;
-      var index = (this.selectedIndex + offset) % this.computedResults.length;
-      if (index < 0) {
-        index = size + index;
-      }
-      this.selectedIndex = index;
+      this.selectedIndex = Utils.format.normalizeToInterval(this.selectedIndex + offset, 0, this.computedResults.length - 1);
     },
     setCurrentSelection: function setCurrentSelection() {
       if (this.selectedIndex >= 0) {
@@ -7039,11 +7053,7 @@ var DialogSelect = { render: function render() {
 };
 
 var Slider = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-slider", class: { fullscreen: _vm.inFullscreen } }, [_c('div', { staticClass: "q-slider-inner" }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__pan, expression: "__pan", modifiers: { "horizontal": true } }], ref: "track", staticClass: "q-slider-track", class: { 'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar }, style: _vm.trackPosition }, [_vm._t("slide")], 2), _vm.arrows ? _c('div', { staticClass: "q-slider-left-button row items-center justify-center", class: { hidden: _vm.slide === 0 } }, [_c('i', { on: { "click": function click($event) {
-          _vm.goToSlide(_vm.slide - 1);
-        } } }, [_vm._v("keyboard_arrow_left")])]) : _vm._e(), _vm.arrows ? _c('div', { staticClass: "q-slider-right-button row items-center justify-center", class: { hidden: _vm.slide === _vm.slidesNumber - 1 }, on: { "click": function click($event) {
-          _vm.goToSlide(_vm.slide + 1);
-        } } }, [_c('i', [_vm._v("keyboard_arrow_right")])]) : _vm._e(), _vm.toolbar ? _c('div', { staticClass: "q-slider-toolbar row items-center justify-end" }, [_c('div', { staticClass: "q-slider-dots auto row items-center justify-center" }, _vm._l(_vm.slidesNumber, function (n) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-slider", class: { fullscreen: _vm.inFullscreen } }, [_c('div', { directives: [{ name: "touch-pan", rawName: "v-touch-pan.horizontal", value: _vm.__pan, expression: "__pan", modifiers: { "horizontal": true } }], staticClass: "q-slider-inner" }, [_c('div', { ref: "track", staticClass: "q-slider-track", class: { 'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar, 'infinite-left': _vm.infiniteLeft, 'infinite-right': _vm.infiniteRight }, style: _vm.trackPosition }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.infiniteRight, expression: "infiniteRight" }] }), _vm._t("slide"), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.infiniteLeft, expression: "infiniteLeft" }] })], 2), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.arrows && _vm.canGoToPrevious, expression: "arrows && canGoToPrevious" }], staticClass: "q-slider-left-button row items-center justify-center" }, [_c('i', { on: { "click": _vm.previous } }, [_vm._v("keyboard_arrow_left")])]), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.arrows && _vm.canGoToNext, expression: "arrows && canGoToNext" }], staticClass: "q-slider-right-button row items-center justify-center", on: { "click": _vm.next } }, [_c('i', [_vm._v("keyboard_arrow_right")])]), _vm.toolbar ? _c('div', { staticClass: "q-slider-toolbar row items-center justify-end" }, [_c('div', { staticClass: "q-slider-dots auto row items-center justify-center" }, _vm._l(_vm.slidesNumber, function (n) {
       return _vm.dots ? _c('i', { domProps: { "textContent": _vm._s(n - 1 !== _vm.slide ? 'panorama_fish_eye' : 'lens') }, on: { "click": function click($event) {
             _vm.goToSlide(n - 1);
           } } }) : _vm._e();
@@ -7053,21 +7063,31 @@ var Slider = { render: function render() {
     arrows: Boolean,
     dots: Boolean,
     fullscreen: Boolean,
-    actions: Boolean
+    infinite: Boolean,
+    actions: Boolean,
+    animation: {
+      type: Boolean,
+      default: true
+    },
+    autoplay: [Number, Boolean]
   },
   data: function data() {
     return {
       position: 0,
       slide: 0,
+      positionSlide: 0,
       slidesNumber: 0,
       inFullscreen: false,
-      animUid: Utils.uid()
+      animUid: uid()
     };
   },
 
   watch: {
-    slide: function slide(value) {
-      this.$emit('slide', value);
+    autoplay: function autoplay() {
+      this.__planAutoPlay();
+    },
+    infinite: function infinite() {
+      this.__planAutoPlay();
     }
   },
   computed: {
@@ -7075,52 +7095,115 @@ var Slider = { render: function render() {
       return this.dots || this.fullscreen || this.actions;
     },
     trackPosition: function trackPosition() {
-      return Utils.dom.cssTransform('translateX(' + this.position + '%)');
+      return cssTransform('translateX(' + this.position + '%)');
+    },
+    infiniteRight: function infiniteRight() {
+      return this.infinite && this.slidesNumber > 1 && this.positionSlide >= this.slidesNumber;
+    },
+    infiniteLeft: function infiniteLeft() {
+      return this.infinite && this.slidesNumber > 1 && this.positionSlide < 0;
+    },
+    canGoToPrevious: function canGoToPrevious() {
+      return this.infinite ? this.slidesNumber > 1 : this.slide > 0;
+    },
+    canGoToNext: function canGoToNext() {
+      return this.infinite ? this.slidesNumber > 1 : this.slide < this.slidesNumber - 1;
     }
   },
   methods: {
     __pan: function __pan(event) {
+      var _this = this;
+
+      if (this.infinite && this.animationInProgress) {
+        return;
+      }
       if (!this.hasOwnProperty('initialPosition')) {
         this.initialPosition = this.position;
-        this.stopAnimation();
+        this.__cleanup();
       }
 
       var delta = (event.direction === 'left' ? -1 : 1) * event.distance.x;
 
-      if (this.slide === 0 && delta > 0 || this.slide === this.slidesNumber - 1 && delta < 0) {
+      if (this.infinite && this.slidesNumber < 2 || !this.infinite && (this.slide === 0 && delta > 0 || this.slide === this.slidesNumber - 1 && delta < 0)) {
         delta = delta / 10;
       }
 
       this.position = this.initialPosition + delta / this.$refs.track.offsetWidth * 100;
+      this.positionSlide = event.direction === 'left' ? this.slide + 1 : this.slide - 1;
 
       if (event.isFinal) {
-        this.goToSlide(event.distance.x < 100 ? this.slide : event.direction === 'left' ? this.slide + 1 : this.slide - 1);
-        delete this.initialPosition;
+        this.goToSlide(event.distance.x < 100 ? this.slide : this.positionSlide, function () {
+          delete _this.initialPosition;
+        });
       }
     },
     __getSlidesNumber: function __getSlidesNumber() {
       return this.$slots.slide ? this.$slots.slide.length : 0;
     },
-    goToSlide: function goToSlide(slide, noAnimation) {
-      var _this = this;
+    previous: function previous(done) {
+      if (this.canGoToPrevious) {
+        this.goToSlide(this.slide - 1, done);
+      }
+    },
+    next: function next(done) {
+      if (this.canGoToNext) {
+        this.goToSlide(this.slide + 1, done);
+      }
+    },
+    goToSlide: function goToSlide(slide, done) {
+      var _this2 = this;
 
-      if (this.slidesNumber === 0) {
-        this.position = 0;
-        return;
+      this.__cleanup();
+
+      var finish = function finish() {
+        _this2.$emit('slide', _this2.slide);
+        _this2.__planAutoPlay();
+        if (typeof done === 'function') {
+          done();
+        }
+      };
+
+      if (this.slidesNumber < 2) {
+        this.slide = 0;
+        this.positionSlide = 0;
+      } else {
+        if (!this.hasOwnProperty('initialPosition')) {
+          this.position = -this.slide * 100;
+        }
+
+        if (this.infinite) {
+          this.slide = normalizeToInterval(slide, 0, this.slidesNumber - 1);
+          this.positionSlide = normalizeToInterval(slide, -1, this.slidesNumber);
+        } else {
+          this.slide = between(slide, 0, this.slidesNumber - 1);
+          this.positionSlide = this.slide;
+        }
       }
-      this.slide = Utils.format.between(slide, 0, Math.max(0, this.slidesNumber - 1));
-      var pos = -this.slide * 100;
-      if (noAnimation) {
-        this.stopAnimation();
+
+      var pos = -this.positionSlide * 100;
+
+      if (!this.animation) {
         this.position = pos;
+        finish();
         return;
       }
-      Utils.animate({
+
+      this.animationInProgress = true;
+
+      start({
         name: this.animUid,
         pos: this.position,
         finalPos: pos,
         apply: function apply(pos) {
-          _this.position = pos;
+          _this2.position = pos;
+        },
+        done: function done() {
+          if (_this2.infinite) {
+            _this2.position = -_this2.slide * 100;
+            _this2.positionSlide = _this2.slide;
+          }
+          _this2.animationInProgress = false;
+          finish();
         }
       });
     },
@@ -7162,7 +7245,22 @@ var Slider = { render: function render() {
       window.removeEventListener('popstate', this.__popState);
     },
     stopAnimation: function stopAnimation() {
-      Utils.animate.stop(this.animUid);
+      start.stop(this.animUid);
+      this.animationInProgress = false;
+    },
+    __cleanup: function __cleanup() {
+      this.stopAnimation();
+      clearTimeout(this.timer);
+    },
+    __planAutoPlay: function __planAutoPlay() {
+      var _this3 = this;
+
+      this.$nextTick(function () {
+        if (_this3.autoplay) {
+          clearTimeout(_this3.timer);
+          _this3.timer = setTimeout(_this3.next, typeof _this3.autoplay === 'number' ? _this3.autoplay : 5000);
+        }
+      });
     }
   },
   beforeUpdate: function beforeUpdate() {
@@ -7173,16 +7271,17 @@ var Slider = { render: function render() {
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this4 = this;
 
     this.$nextTick(function () {
-      _this2.fillerNode = document.createElement('span');
-      _this2.container = _this2.$el.parentNode;
-      _this2.slidesNumber = _this2.__getSlidesNumber();
+      _this4.fillerNode = document.createElement('span');
+      _this4.container = _this4.$el.parentNode;
+      _this4.slidesNumber = _this4.__getSlidesNumber();
+      _this4.__planAutoPlay();
     });
   },
   beforeDestroy: function beforeDestroy() {
-    this.stopAnimation();
+    this.__cleanup();
   }
 };
 
