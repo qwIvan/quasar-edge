@@ -1,5 +1,5 @@
 /*!
- * Quasar Framework v0.13.6
+ * Quasar Framework v0.13.7
  * (c) 2017 Razvan Stoenescu
  * Released under the MIT License.
  */
@@ -1328,7 +1328,7 @@ var theme = Object.freeze({
 	get current () { return current; }
 });
 
-var version = "0.13.6";
+var version = "0.13.7";
 
 function getHeight (el, style$$1) {
   let initial = {
@@ -4596,11 +4596,35 @@ var Gallery = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
   }
 };
 
-var GallerySlider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('q-slider',{ref:"slider",staticClass:"text-white bg-black q-gallery-slider",attrs:{"arrows":"","fullscreen":""},on:{"slide":_vm.__updateCurrentSlide}},[_vm._l((_vm.src),function(img,index){return _c('div',{key:img,staticClass:"no-padding flex items-center justify-center",slot:"slide"},[_c('div',{staticClass:"full-width"},[_c('img',{attrs:{"src":img}})])])}),_c('div',{staticClass:"q-gallery-slider-overlay",class:{active: _vm.quickView},on:{"click":function($event){_vm.toggleQuickView();}}}),_c('i',{on:{"click":function($event){_vm.toggleQuickView();}},slot:"action"},[_vm._v("view_carousel")]),_c('div',{staticClass:"q-gallery-slider-quickview",class:{active: _vm.quickView}},_vm._l((_vm.src),function(img,index){return _c('div',{key:img},[_c('img',{class:{active: _vm.currentSlide === index},attrs:{"src":img},on:{"click":function($event){_vm.__selectImage(index);}}})])}))],2)},staticRenderFns: [],
+var sliderMixin = {
+  props: {
+    arrows: Boolean,
+    dots: Boolean,
+    fullscreen: Boolean,
+    infinite: Boolean,
+    actions: Boolean,
+    animation: {
+      type: Boolean,
+      default: true
+    },
+    autoplay: [Number, Boolean]
+  }
+};
+
+var GallerySlider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('q-slider',{ref:"slider",staticClass:"text-white bg-black q-gallery-slider",attrs:{"dots":_vm.dots,"arrows":_vm.arrows,"fullscreen":_vm.fullscreen,"infinite":_vm.infinite,"actions":"","animation":_vm.animation,"autoplay":_vm.autoplay},on:{"slide":_vm.__updateCurrentSlide}},[_vm._l((_vm.src),function(img,index){return _c('div',{key:img,staticClass:"no-padding flex items-center justify-center",slot:"slide"},[_c('div',{staticClass:"full-width"},[_c('img',{attrs:{"src":img}})])])}),_c('div',{staticClass:"q-gallery-slider-overlay",class:{active: _vm.quickView},on:{"click":function($event){_vm.toggleQuickView();}}}),_c('i',{on:{"click":function($event){_vm.toggleQuickView();}},slot:"action"},[_vm._v("view_carousel")]),_c('div',{staticClass:"q-gallery-slider-quickview",class:{active: _vm.quickView}},_vm._l((_vm.src),function(img,index){return _c('div',{key:img},[_c('img',{class:{active: _vm.currentSlide === index},attrs:{"src":img},on:{"click":function($event){_vm.__selectImage(index);}}})])}))],2)},staticRenderFns: [],
+  mixins: [sliderMixin],
   props: {
     src: {
       type: Array,
       required: true
+    },
+    arrows: {
+      type: Boolean,
+      default: true
+    },
+    actions: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -6441,18 +6465,7 @@ var DialogSelect = {render: function(){var _vm=this;var _h=_vm.$createElement;va
 };
 
 var Slider = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-slider",class:{fullscreen: _vm.inFullscreen}},[_c('div',{directives:[{name:"touch-pan",rawName:"v-touch-pan.horizontal",value:(_vm.__pan),expression:"__pan",modifiers:{"horizontal":true}}],staticClass:"q-slider-inner"},[_c('div',{ref:"track",staticClass:"q-slider-track",class:{'with-arrows': _vm.arrows, 'with-toolbar': _vm.toolbar, 'infinite-left': _vm.infiniteLeft, 'infinite-right': _vm.infiniteRight},style:(_vm.trackPosition)},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.infiniteRight),expression:"infiniteRight"}]}),_vm._t("slide"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.infiniteLeft),expression:"infiniteLeft"}]})],2),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.arrows && _vm.canGoToPrevious),expression:"arrows && canGoToPrevious"}],staticClass:"q-slider-left-button row items-center justify-center"},[_c('i',{on:{"click":_vm.previous}},[_vm._v("keyboard_arrow_left")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.arrows && _vm.canGoToNext),expression:"arrows && canGoToNext"}],staticClass:"q-slider-right-button row items-center justify-center",on:{"click":_vm.next}},[_c('i',[_vm._v("keyboard_arrow_right")])]),(_vm.toolbar)?_c('div',{staticClass:"q-slider-toolbar row items-center justify-end"},[_c('div',{staticClass:"q-slider-dots auto row items-center justify-center"},_vm._l((_vm.slidesNumber),function(n){return (_vm.dots)?_c('i',{domProps:{"textContent":_vm._s((n - 1) !== _vm.slide ? 'panorama_fish_eye' : 'lens')},on:{"click":function($event){_vm.goToSlide(n - 1);}}}):_vm._e()})),_c('div',{staticClass:"row items-center"},[_vm._t("action"),(_vm.fullscreen)?_c('i',{on:{"click":_vm.toggleFullscreen}},[_c('span',{directives:[{name:"show",rawName:"v-show",value:(!_vm.inFullscreen),expression:"!inFullscreen"}]},[_vm._v("fullscreen")]),_vm._v(" "),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.inFullscreen),expression:"inFullscreen"}]},[_vm._v("fullscreen_exit")])]):_vm._e()],2)]):_vm._e(),_vm._t("default")],2)])},staticRenderFns: [],
-  props: {
-    arrows: Boolean,
-    dots: Boolean,
-    fullscreen: Boolean,
-    infinite: Boolean,
-    actions: Boolean,
-    animation: {
-      type: Boolean,
-      default: true
-    },
-    autoplay: [Number, Boolean]
-  },
+  mixins: [sliderMixin],
   data () {
     return {
       position: 0,

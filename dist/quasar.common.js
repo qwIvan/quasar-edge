@@ -1,5 +1,5 @@
 /*!
- * Quasar Framework v0.13.6
+ * Quasar Framework v0.13.7
  * (c) 2017 Razvan Stoenescu
  * Released under the MIT License.
  */
@@ -1400,7 +1400,7 @@ var theme = Object.freeze({
 	get current () { return current; }
 });
 
-var version = "0.13.6";
+var version = "0.13.7";
 
 function getHeight(el, style$$1) {
   var initial = {
@@ -5036,8 +5036,23 @@ var Gallery = { render: function render() {
   }
 };
 
+var sliderMixin = {
+  props: {
+    arrows: Boolean,
+    dots: Boolean,
+    fullscreen: Boolean,
+    infinite: Boolean,
+    actions: Boolean,
+    animation: {
+      type: Boolean,
+      default: true
+    },
+    autoplay: [Number, Boolean]
+  }
+};
+
 var GallerySlider = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-slider', { ref: "slider", staticClass: "text-white bg-black q-gallery-slider", attrs: { "arrows": "", "fullscreen": "" }, on: { "slide": _vm.__updateCurrentSlide } }, [_vm._l(_vm.src, function (img, index) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-slider', { ref: "slider", staticClass: "text-white bg-black q-gallery-slider", attrs: { "dots": _vm.dots, "arrows": _vm.arrows, "fullscreen": _vm.fullscreen, "infinite": _vm.infinite, "actions": "", "animation": _vm.animation, "autoplay": _vm.autoplay }, on: { "slide": _vm.__updateCurrentSlide } }, [_vm._l(_vm.src, function (img, index) {
       return _c('div', { key: img, staticClass: "no-padding flex items-center justify-center", slot: "slide" }, [_c('div', { staticClass: "full-width" }, [_c('img', { attrs: { "src": img } })])]);
     }), _c('div', { staticClass: "q-gallery-slider-overlay", class: { active: _vm.quickView }, on: { "click": function click($event) {
           _vm.toggleQuickView();
@@ -5049,10 +5064,19 @@ var GallerySlider = { render: function render() {
           } } })]);
     }))], 2);
   }, staticRenderFns: [],
+  mixins: [sliderMixin],
   props: {
     src: {
       type: Array,
       required: true
+    },
+    arrows: {
+      type: Boolean,
+      default: true
+    },
+    actions: {
+      type: Boolean,
+      default: true
     }
   },
   data: function data() {
@@ -7059,18 +7083,7 @@ var Slider = { render: function render() {
           } } }) : _vm._e();
     })), _c('div', { staticClass: "row items-center" }, [_vm._t("action"), _vm.fullscreen ? _c('i', { on: { "click": _vm.toggleFullscreen } }, [_c('span', { directives: [{ name: "show", rawName: "v-show", value: !_vm.inFullscreen, expression: "!inFullscreen" }] }, [_vm._v("fullscreen")]), _vm._v(" "), _c('span', { directives: [{ name: "show", rawName: "v-show", value: _vm.inFullscreen, expression: "inFullscreen" }] }, [_vm._v("fullscreen_exit")])]) : _vm._e()], 2)]) : _vm._e(), _vm._t("default")], 2)]);
   }, staticRenderFns: [],
-  props: {
-    arrows: Boolean,
-    dots: Boolean,
-    fullscreen: Boolean,
-    infinite: Boolean,
-    actions: Boolean,
-    animation: {
-      type: Boolean,
-      default: true
-    },
-    autoplay: [Number, Boolean]
-  },
+  mixins: [sliderMixin],
   data: function data() {
     return {
       position: 0,
