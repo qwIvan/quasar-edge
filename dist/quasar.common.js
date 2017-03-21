@@ -8139,6 +8139,10 @@ var Uploader = { render: function render() {
     })], 2)]);
   }, staticRenderFns: [],
   props: {
+    name: {
+      type: String,
+      default: 'file'
+    },
     headers: Object,
     url: {
       type: String,
@@ -8257,7 +8261,7 @@ var Uploader = { render: function render() {
 
       try {
         form.append('Content-Type', file.type || 'application/octet-stream');
-        form.append('file', file);
+        form.append(this.name, file);
         this.additionalFields.forEach(function (field) {
           form.append(field.name, field.value);
         });

@@ -7433,6 +7433,10 @@ var Tree = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm
 
 var Uploader = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"q-uploader"},[_c('input',{ref:"file",attrs:{"type":"file","accept":_vm.extensions,"multiple":_vm.multiple},on:{"change":_vm.__add}}),(_vm.uploading)?_c('div',[_c('span',{staticClass:"chip label bg-light q-uploader-progress"},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.computedLabel.uploading)}}),_c('spinner',{attrs:{"size":15}}),_vm._v(_vm._s(_vm.progress)+"%")],1)]):_c('div',{staticClass:"group"},[_c('button',{class:_vm.buttonClass,attrs:{"disabled":_vm.addButtonDisabled},domProps:{"innerHTML":_vm._s(_vm.computedLabel.add)},on:{"click":function($event){_vm.$refs.file.click();}}}),_vm._v(" "),(!_vm.hideUploadButton)?_c('button',{class:_vm.buttonClass,attrs:{"disabled":_vm.files.length === 0},domProps:{"innerHTML":_vm._s(_vm.computedLabel.upload)},on:{"click":_vm.upload}}):_vm._e()]),_c('div',{staticClass:"row wrap items-center group"},[_vm._l((_vm.images),function(img){return _c('div',{key:img.name,staticClass:"card"},[_c('div',{staticClass:"card-title"},[_vm._v(_vm._s(img.name))]),_c('div',{staticClass:"card-media"},[_c('img',{attrs:{"src":img.src}})]),_c('div',{staticClass:"card-content"},[_c('div',{staticClass:"row items-center"},[_c('span',{staticClass:"text-faded"},[_vm._v(_vm._s(img.__file.__size))]),_c('div',{staticClass:"auto"}),_c('button',{directives:[{name:"show",rawName:"v-show",value:(!_vm.uploading),expression:"!uploading"}],staticClass:"primary clear small",domProps:{"innerHTML":_vm._s(_vm.computedLabel.remove)},on:{"click":function($event){_vm.__remove(img.name);}}})])]),(img.__file.__progress)?_c('q-progress',{attrs:{"percentage":img.__file.__progress}}):_vm._e(),(img.__file.__failed)?_c('div',{staticClass:"q-uploader-failed",domProps:{"innerHTML":_vm._s(_vm.computedLabel.failed)}}):_vm._e()],1)}),_vm._l((_vm.otherFiles),function(file){return _c('div',{key:file.name,staticClass:"card"},[_c('div',{staticClass:"card-title"},[_vm._v(_vm._s(file.name))]),_c('div',{staticClass:"card-content"},[_c('div',{staticClass:"row items-center"},[_c('span',{staticClass:"text-faded"},[_vm._v(_vm._s(file.__size))]),_c('div',{staticClass:"auto"}),_c('button',{directives:[{name:"show",rawName:"v-show",value:(!_vm.uploading),expression:"!uploading"}],staticClass:"primary clear small",domProps:{"innerHTML":_vm._s(_vm.computedLabel.remove)},on:{"click":function($event){_vm.__remove(file.name);}}})])]),(file.__progress)?_c('q-progress',{attrs:{"percentage":file.__progress}}):_vm._e(),(file.__failed)?_c('div',{staticClass:"q-uploader-failed",domProps:{"innerHTML":_vm._s(_vm.computedLabel.failed)}}):_vm._e()],1)})],2)])},staticRenderFns: [],
   props: {
+    name: {
+      type: String,
+      default: 'file'
+    },
     headers: Object,
     url: {
       type: String,
@@ -7532,7 +7536,7 @@ var Uploader = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
 
       try {
         form.append('Content-Type', file.type || 'application/octet-stream');
-        form.append('file', file);
+        form.append(this.name, file);
         this.additionalFields.forEach(field => {
           form.append(field.name, field.value);
         });
