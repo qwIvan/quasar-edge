@@ -8240,6 +8240,7 @@ var Uploader = { render: function render() {
         return !file.type.startsWith('image');
       }));
       this.files = this.files.concat(files);
+      this.$refs.file.value = '';
     },
     __remove: function __remove(name, done, response) {
       this.$emit(done ? 'upload' : 'remove', name, response);
