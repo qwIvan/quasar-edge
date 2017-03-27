@@ -8241,8 +8241,8 @@ var Uploader = { render: function render() {
       }));
       this.files = this.files.concat(files);
     },
-    __remove: function __remove(name, done) {
-      this.$emit(done ? 'upload' : 'remove', name);
+    __remove: function __remove(name, done, response) {
+      this.$emit(done ? 'upload' : 'remove', name, response);
       this.images = this.images.filter(function (file) {
         return file.name !== name;
       });
@@ -8286,7 +8286,7 @@ var Uploader = { render: function render() {
             return;
           }
           if (xhr.status && xhr.status < 400) {
-            _this2.__remove(file.name, true);
+            _this2.__remove(file.name, true, xhr.response);
             resolve(file);
           } else {
             file.__failed = true;

@@ -7524,8 +7524,8 @@ var Uploader = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
       this.otherFiles = this.otherFiles.concat(files.filter(file => !file.type.startsWith('image')));
       this.files = this.files.concat(files);
     },
-    __remove (name, done) {
-      this.$emit(done ? 'upload' : 'remove', name);
+    __remove (name, done, response) {
+      this.$emit(done ? 'upload' : 'remove', name, response);
       this.images = this.images.filter(file => file.name !== name);
       this.otherFiles = this.otherFiles.filter(file => file.name !== name);
       this.files = this.files.filter(file => file.name !== name);
@@ -7562,7 +7562,7 @@ var Uploader = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
             return
           }
           if (xhr.status && xhr.status < 400) {
-            this.__remove(file.name, true);
+            this.__remove(file.name, true, xhr.response);
             resolve(file);
           }
           else {
