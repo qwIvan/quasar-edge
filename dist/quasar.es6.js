@@ -2547,10 +2547,12 @@ var Collapsible = {render: function(){var _vm=this;var _h=_vm.$createElement;var
     opened (value) {
       this.active = value;
     },
-    active (value) {
-      if (value && this.group) {
+    active (val) {
+      if (val && this.group) {
         Events.$emit(eventName, this);
       }
+
+      this.$emit(val ? 'open' : 'close');
     }
   },
   methods: {
