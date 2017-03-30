@@ -8851,18 +8851,17 @@ function read(string) {
   return string;
 }
 
-function set$2(key, value) {
-  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+function set$2(key, val) {
+  var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-  var days = options.expires,
-      time = void 0;
+  var time = opts.expires;
 
-  if (typeof options.expires === 'number') {
+  if (typeof opts.expires === 'number') {
     time = new Date();
-    time.setMilliseconds(time.getMilliseconds() + days * 864e+5);
+    time.setMilliseconds(time.getMilliseconds() + opts.expires * 864e+5);
   }
 
-  document.cookie = [encode(key), '=', stringifyCookieValue(value), time ? '; expires=' + time.toUTCString() : '', options.path ? '; path=' + options.path : '', options.domain ? '; domain=' + options.domain : '', options.secure ? '; secure' : ''].join('');
+  document.cookie = [encode(key), '=', stringifyCookieValue(val), time ? '; expires=' + time.toUTCString() : '', opts.path ? '; path=' + opts.path : '', opts.domain ? '; domain=' + opts.domain : '', opts.secure ? '; secure' : ''].join('');
 }
 
 function get$2(key) {
