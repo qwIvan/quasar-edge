@@ -706,23 +706,23 @@ var Dialog$1 = { render: function render() {
             }el.model = $event.target.value;
           } } }), _c('label', { domProps: { "innerHTML": _vm._s(el.label) } })]) : _vm._e(), el.type === 'numeric' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-numeric', { attrs: { "min": el.min, "max": el.max, "step": el.step, "tabindex": "0" }, model: { value: el.model, callback: function callback($$v) {
             el.model = $$v;
-          } } })], 1) : _vm._e(), el.type === 'chips' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-chips', { model: { value: el.model, callback: function callback($$v) {
+          }, expression: "el.model" } })], 1) : _vm._e(), el.type === 'chips' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-chips', { model: { value: el.model, callback: function callback($$v) {
             el.model = $$v;
-          } } })], 1) : _vm._e(), _vm._l(el.items, function (radio) {
+          }, expression: "el.model" } })], 1) : _vm._e(), _vm._l(el.items, function (radio) {
         return el.type === 'radio' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { attrs: { "val": radio.value, "disable": radio.disabled }, model: { value: el.model, callback: function callback($$v) {
               el.model = $$v;
-            } } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(radio.label) } })]) : _vm._e();
+            }, expression: "el.model" } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(radio.label) } })]) : _vm._e();
       }), _vm._l(el.items, function (checkbox) {
         return el.type === 'checkbox' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-primary" }, [_c('q-checkbox', { attrs: { "disable": checkbox.disabled }, model: { value: checkbox.model, callback: function callback($$v) {
               checkbox.model = $$v;
-            } } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(checkbox.label) } })]) : _vm._e();
+            }, expression: "checkbox.model" } })], 1), _c('div', { staticClass: "item-content", domProps: { "innerHTML": _vm._s(checkbox.label) } })]) : _vm._e();
       }), _vm._l(el.items, function (toggle) {
         return el.type === 'toggle' ? _c('label', { staticClass: "item" }, [_c('div', { staticClass: "item-content has-secondary", domProps: { "innerHTML": _vm._s(toggle.label) } }), _c('div', { staticClass: "item-secondary" }, [_c('q-toggle', { attrs: { "disable": toggle.disabled }, model: { value: toggle.model, callback: function callback($$v) {
               toggle.model = $$v;
-            } } })], 1)]) : _vm._e();
+            }, expression: "toggle.model" } })], 1)]) : _vm._e();
       }), el.type === 'rating' ? _c('div', { staticStyle: { "margin-bottom": "10px" } }, [_c('label', { domProps: { "innerHTML": _vm._s(el.label) } }), _c('q-rating', { style: { fontSize: el.size || '2rem' }, attrs: { "max": el.max, "icon": el.icon }, model: { value: el.model, callback: function callback($$v) {
             el.model = $$v;
-          } } })], 1) : _vm._e()];
+          }, expression: "el.model" } })], 1) : _vm._e()];
     })], 2) : _vm._e(), _vm.progress ? _c('div', { staticClass: "modal-body" }, [_c('q-progress', { staticClass: "primary stripe animate", class: { indeterminate: _vm.progress.indeterminate }, attrs: { "percentage": _vm.progress.model } }), !_vm.progress.indeterminate ? _c('span', [_vm._v(_vm._s(_vm.progress.model) + " %")]) : _vm._e()], 1) : _vm._e(), _vm.buttons ? _c('div', { staticClass: "modal-buttons", class: { row: !_vm.stackButtons, column: _vm.stackButtons } }, _vm._l(_vm.buttons, function (button) {
       return _c('button', { class: button.classes || 'primary clear', style: button.style, attrs: { "tabindex": "0" }, domProps: { "innerHTML": _vm._s(typeof button === 'string' ? button : button.label) }, on: { "click": function click($event) {
             _vm.trigger(button.handler, button.preventClose);
@@ -2380,7 +2380,7 @@ var Autocomplete = { render: function render() {
           if ($event.target.composing) {
             return;
           }_vm.model = $event.target.value;
-        } } })]), _c('q-popover', { ref: "popover", attrs: { "anchor-click": false } }, [_c('div', { staticClass: "list no-border", class: { 'item-delimiter': _vm.delimiter }, style: _vm.computedWidth }, _vm._l(_vm.computedResults, function (result, index) {
+        } } })]), _c('q-popover', { ref: "popover", attrs: { "anchor-click": false }, on: { "close": _vm.popclose, "open": _vm.popopen } }, [_c('div', { staticClass: "list no-border", class: { 'item-delimiter': _vm.delimiter }, style: _vm.computedWidth }, _vm._l(_vm.computedResults, function (result, index) {
       return _c('q-list-item', { key: result, attrs: { "item": result, "link": "", "active": _vm.selectedIndex === index }, nativeOn: { "click": function click($event) {
             _vm.setValue(result);
           } } });
@@ -2446,6 +2446,12 @@ var Autocomplete = { render: function render() {
     }
   },
   methods: {
+    popopen: function popopen() {
+      this.$emit('open');
+    },
+    popclose: function popclose() {
+      this.$emit('close');
+    },
     trigger: function trigger() {
       var _this = this;
 
@@ -2618,7 +2624,7 @@ var Chips = { render: function render() {
             _vm.remove(index);
           } } }, [_vm._v("close")])]);
     }), _c('div', { staticClass: "q-chips-input chip label text-grey-9" }, [_c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.input, expression: "input" }], ref: "input", staticClass: "no-style", attrs: { "type": "text", "disabled": _vm.disable, "placeholder": _vm.placeholder, "tabindex": "0" }, domProps: { "value": _vm.input }, on: { "keyup": function keyup($event) {
-          if (_vm._k($event.keyCode, "enter", 13)) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
             return null;
           }_vm.add();
         }, "focus": function focus($event) {
@@ -2872,9 +2878,9 @@ var ColumnSelection = {
 var TableFilter = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar upper-toolbar row auto items-center" }, [_c('q-search', { staticClass: "auto", attrs: { "placeholder": _vm.labels.search }, model: { value: _vm.filtering.terms, callback: function callback($$v) {
           _vm.filtering.terms = $$v;
-        } } }), _c('q-select', { staticClass: "text-right", attrs: { "type": "list", "options": _vm.filterFields }, model: { value: _vm.filtering.field, callback: function callback($$v) {
+        }, expression: "filtering.terms" } }), _c('q-select', { staticClass: "text-right", attrs: { "type": "list", "options": _vm.filterFields }, model: { value: _vm.filtering.field, callback: function callback($$v) {
           _vm.filtering.field = $$v;
-        } } })], 1);
+        }, expression: "filtering.field" } })], 1);
   }, staticRenderFns: [],
   props: ['filtering', 'columns', 'labels'],
   computed: {
@@ -2976,9 +2982,9 @@ var I18n = {
 var TablePagination = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end" }, [_c('div', [_vm._v(_vm._s(_vm.labels.rows)), _c('q-select', { staticClass: "text-right", attrs: { "type": "list", "options": _vm.pagination.options }, on: { "input": _vm.resetPage }, model: { value: _vm.pagination.rowsPerPage, callback: function callback($$v) {
           _vm.pagination.rowsPerPage = $$v;
-        } } })], 1), _vm.entries > 0 ? _c('div', [_vm._v(_vm._s(_vm.start) + " - " + _vm._s(_vm.end) + " / " + _vm._s(_vm.entries))]) : _vm._e(), _vm.pagination.rowsPerPage > 0 ? _c('q-pagination', { attrs: { "max": _vm.max }, model: { value: _vm.pagination.page, callback: function callback($$v) {
+        }, expression: "pagination.rowsPerPage" } })], 1), _vm.entries > 0 ? _c('div', [_vm._v(_vm._s(_vm.start) + " - " + _vm._s(_vm.end) + " / " + _vm._s(_vm.entries))]) : _vm._e(), _vm.pagination.rowsPerPage > 0 ? _c('q-pagination', { attrs: { "max": _vm.max }, model: { value: _vm.pagination.page, callback: function callback($$v) {
           _vm.pagination.page = $$v;
-        } } }) : _vm._e()], 1);
+        }, expression: "pagination.page" } }) : _vm._e()], 1);
   }, staticRenderFns: [],
   props: ['pagination', 'entries', 'labels'],
   watch: {
@@ -3571,7 +3577,7 @@ var TableContent = { render: function render() {
 var DataTable = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-data-table" }, [_vm.hasToolbar && _vm.toolbar === '' ? [_c('div', { staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" }, [_vm.config.title ? _c('div', { staticClass: "q-data-table-title ellipsis auto", domProps: { "innerHTML": _vm._s(_vm.config.title) } }) : _vm._e(), _c('div', { staticClass: "row items-end" }, [_vm.config.refresh && !_vm.refreshing ? _c('button', { staticClass: "primary clear", on: { "click": _vm.refresh } }, [_c('i', [_vm._v("refresh")])]) : _vm._e(), _vm._v(" "), _vm.refreshing ? _c('button', { staticClass: "disabled" }, [_c('i', { staticClass: "animate-spin-reverse" }, [_vm._v("cached")])]) : _vm._e(), _vm.config.columnPicker ? _c('q-select', { staticClass: "text-right", staticStyle: { "margin-left": "10px" }, attrs: { "type": "toggle", "options": _vm.columnSelectionOptions, "static-label": _vm.labels.columns }, model: { value: _vm.columnSelection, callback: function callback($$v) {
           _vm.columnSelection = $$v;
-        } } }) : _vm._e()], 1)])] : _vm._e(), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbar === 'selection', expression: "toolbar === 'selection'" }], staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" }, [_c('div', { staticClass: "auto" }, [_vm._v(_vm._s(_vm.rowsSelected) + " "), _vm.rowsSelected === 1 ? _c('span', [_vm._v(_vm._s(_vm.labels.selected.singular))]) : _c('span', [_vm._v(_vm._s(_vm.labels.selected.plural))]), _vm._v(" "), _c('button', { staticClass: "primary clear small", on: { "click": function click($event) {
+        }, expression: "columnSelection" } }) : _vm._e()], 1)])] : _vm._e(), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.toolbar === 'selection', expression: "toolbar === 'selection'" }], staticClass: "q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" }, [_c('div', { staticClass: "auto" }, [_vm._v(_vm._s(_vm.rowsSelected) + " "), _vm.rowsSelected === 1 ? _c('span', [_vm._v(_vm._s(_vm.labels.selected.singular))]) : _c('span', [_vm._v(_vm._s(_vm.labels.selected.plural))]), _vm._v(" "), _c('button', { staticClass: "primary clear small", on: { "click": function click($event) {
           _vm.clearSelection();
         } } }, [_vm._v(_vm._s(_vm.labels.clear))])]), _c('div', [_vm._t("selection", null, { rows: _vm.selectedRows })], 2)]), _vm.filteringCols.length ? _c('table-filter', { attrs: { "filtering": _vm.filtering, "columns": _vm.filteringCols, "labels": _vm.labels } }) : _vm._e(), _vm.responsive ? [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('div', { staticStyle: { "overflow": "auto" }, style: _vm.bodyStyle }, [_c('table', { ref: "body", staticClass: "q-table horizontal-delimiter responsive" }, [_c('tbody', _vm._l(_vm.rows, function (row, index) {
       return _c('tr', [_vm.config.selection ? _c('td', [_vm.config.selection === 'multiple' ? _c('q-checkbox', { model: { value: _vm.rowSelection[index], callback: function callback($$v) {
@@ -3581,14 +3587,14 @@ var DataTable = { render: function render() {
             } else {
               $$exp.splice($$idx, 1, $$v);
             }
-          } } }) : _c('q-radio', { attrs: { "val": index }, model: { value: _vm.rowSelection[0], callback: function callback($$v) {
+          }, expression: "rowSelection[index]" } }) : _c('q-radio', { attrs: { "val": index }, model: { value: _vm.rowSelection[0], callback: function callback($$v) {
             var $$exp = _vm.rowSelection,
                 $$idx = 0;if (!Array.isArray($$exp)) {
               _vm.rowSelection[0] = $$v;
             } else {
               $$exp.splice($$idx, 1, $$v);
             }
-          } } })], 1) : _vm._e(), _vm._l(_vm.cols, function (col) {
+          }, expression: "rowSelection[0]" } })], 1) : _vm._e(), _vm._l(_vm.cols, function (col) {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]), attrs: { "data-th": col.label } }, [_vm._t('col-' + col.field, [_c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } })], { row: row, col: col, data: row[col.field] })], 2);
       })], 2);
     }))])])] : _c('div', { staticClass: "q-data-table-container", on: { "mousewheel": _vm.mouseWheel, "dommousescroll": _vm.mouseWheel } }, [_vm.hasHeader ? _c('div', { ref: "head", staticClass: "q-data-table-head", style: { marginRight: _vm.scroll.vert } }, [_c('table-content', { attrs: { "head": "", "cols": _vm.cols, "sorting": _vm.sorting, "scroll": _vm.scroll, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1) : _vm._e(), _c('div', { ref: "body", staticClass: "q-data-table-body", style: _vm.bodyStyle, on: { "scroll": _vm.scrollHandler } }, [_vm.message ? _c('div', { staticClass: "q-data-table-message row items-center justify-center", domProps: { "innerHTML": _vm._s(_vm.message) } }) : _c('table-content', { attrs: { "cols": _vm.cols, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row) {
@@ -3603,14 +3609,14 @@ var DataTable = { render: function render() {
             } else {
               $$exp.splice($$idx, 1, $$v);
             }
-          } } }) : _c('q-radio', { attrs: { "val": index }, model: { value: _vm.rowSelection[0], callback: function callback($$v) {
+          }, expression: "rowSelection[index]" } }) : _c('q-radio', { attrs: { "val": index }, model: { value: _vm.rowSelection[0], callback: function callback($$v) {
             var $$exp = _vm.rowSelection,
                 $$idx = 0;if (!Array.isArray($$exp)) {
               _vm.rowSelection[0] = $$v;
             } else {
               $$exp.splice($$idx, 1, $$v);
             }
-          } } })], 1) : _vm._e(), _vm._l(_vm.leftCols, function (col) {
+          }, expression: "rowSelection[0]" } })], 1) : _vm._e(), _vm._l(_vm.leftCols, function (col) {
         return _c('td', { class: _vm.formatClass(col, row[col.field]), style: _vm.formatStyle(col, row[col.field]) }, [_vm._t('col-' + col.field, [_c('span', { domProps: { "innerHTML": _vm._s(_vm.format(row, col)) } })], { row: row, col: col, data: row[col.field] })], 2);
       })], 2);
     }))], 1), _vm.hasHeader ? _c('div', { staticClass: "q-data-table-sticky-left", style: { bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "head": "", "sticky-cols": _vm.leftStickyColumns, "scroll": _vm.scroll, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection }, on: { "sort": _vm.setSortField } })], 1) : _vm._e()] : _vm._e(), !_vm.message && _vm.rightStickyColumns ? [_c('div', { ref: "stickyRight", staticClass: "q-data-table-sticky-right", style: { right: _vm.scroll.vert, bottom: _vm.scroll.horiz } }, [_c('table-sticky', { attrs: { "no-header": !_vm.hasHeader, "right": "", "sticky-cols": _vm.rightStickyColumns, "cols": _vm.cols, "sorting": _vm.sorting, "selection": _vm.config.selection } }, _vm._l(_vm.rows, function (row) {
@@ -3800,14 +3806,14 @@ var Datetime = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue }, nativeOn: { "click": function click($event) {
           _vm.__open($event);
         }, "keydown": function keydown($event) {
-          if (_vm._k($event.keyCode, "enter", 13)) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
             return null;
           }_vm.open($event);
         } } }, [_vm.desktop ? _c('q-popover', { ref: "popup", attrs: { "disable": _vm.disable || _vm.readonly }, on: { "open": function open($event) {
           _vm.__setModel();
         } } }, [_c('q-inline-datetime', { staticClass: "no-border", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, model: { value: _vm.model, callback: function callback($$v) {
           _vm.model = $$v;
-        } } }, [_c('div', { staticClass: "modal-buttons row full-width" }, [!_vm.noClear ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.clearLabel) }, on: { "click": function click($event) {
+        }, expression: "model" } }, [_c('div', { staticClass: "modal-buttons row full-width" }, [!_vm.noClear ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.clearLabel) }, on: { "click": function click($event) {
           _vm.clear();
         } } }) : _vm._e(), _c('div', { staticClass: "auto" }), _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.cancelLabel) }, on: { "click": function click($event) {
           _vm.close();
@@ -3815,7 +3821,7 @@ var Datetime = { render: function render() {
           _vm.close(_vm.__update);
         } } })])])], 1) : _c('q-modal', { ref: "popup", staticClass: "with-backdrop", class: _vm.classNames, attrs: { "transition": _vm.transition, "position-classes": _vm.position, "content-css": _vm.css } }, [_c('q-inline-datetime', { staticClass: "no-border full-width", attrs: { "type": _vm.type, "min": _vm.min, "max": _vm.max }, model: { value: _vm.model, callback: function callback($$v) {
           _vm.model = $$v;
-        } } }, [_c('div', { staticClass: "modal-buttons row full-width" }, [!_vm.noClear ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.clearLabel) }, on: { "click": function click($event) {
+        }, expression: "model" } }, [_c('div', { staticClass: "modal-buttons row full-width" }, [!_vm.noClear ? _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.clearLabel) }, on: { "click": function click($event) {
           _vm.clear();
         } } }) : _vm._e(), _c('div', { staticClass: "auto" }), _c('button', { staticClass: "primary clear", domProps: { "innerHTML": _vm._s(_vm.cancelLabel) }, on: { "click": function click($event) {
           _vm.close();
@@ -3915,9 +3921,9 @@ var Datetime = { render: function render() {
 var DatetimeRange = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "q-datetime-range" }, [_c('q-datetime', { class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.min, "max": _vm.model.to || _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, model: { value: _vm.model.from, callback: function callback($$v) {
           _vm.model.from = $$v;
-        } } }), _c('q-datetime', { class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.model.from || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, model: { value: _vm.model.to, callback: function callback($$v) {
+        }, expression: "model.from" } }), _c('q-datetime', { class: _vm.className, style: _vm.css, attrs: { "default-selection": _vm.defaultSelection, "type": _vm.type, "min": _vm.model.from || _vm.min, "max": _vm.max, "format": _vm.format, "no-clear": _vm.noClear, "clear-label": _vm.clearLabel, "ok-label": _vm.okLabel, "cancel-label": _vm.cancelLabel, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "readonly": _vm.readonly, "disable": _vm.disable }, model: { value: _vm.model.to, callback: function callback($$v) {
           _vm.model.to = $$v;
-        } } })], 1);
+        }, expression: "model.to" } })], 1);
   }, staticRenderFns: [],
   props: extend({
     value: {
@@ -5590,19 +5596,19 @@ var Numeric = { render: function render() {
         } } }, [_vm._v("remove")]), _vm._v(" "), _c('input', { directives: [{ name: "model", rawName: "v-model.number", value: _vm.model, expression: "model", modifiers: { "number": true } }], staticClass: "no-style auto q-input-field", style: { width: _vm.width }, attrs: { "type": "number", "pattern": "[0-9]*", "disabled": _vm.disable, "readonly": _vm.readonly, "tabindex": "0", "step": _vm.step, "min": _vm.min, "max": _vm.max }, domProps: { "value": _vm.model }, on: { "blur": [_vm.__updateValue, function ($event) {
           _vm.$forceUpdate();
         }], "keydown": [function ($event) {
-          if (_vm._k($event.keyCode, "up", 38)) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "up", 38)) {
             return null;
           }_vm.__updateValue($event);
         }, function ($event) {
-          if (_vm._k($event.keyCode, "down", 40)) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "down", 40)) {
             return null;
           }_vm.__updateValue($event);
         }, function ($event) {
-          if (_vm._k($event.keyCode, "enter", 13)) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
             return null;
           }_vm.__updateValue($event);
         }, function ($event) {
-          if (_vm._k($event.keyCode, "esc", 27)) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27)) {
             return null;
           }_vm.model = _vm.value;
         }], "input": function input($event) {
@@ -6848,10 +6854,12 @@ var Search = { render: function render() {
     focus: function focus() {
       if (this.editable) {
         this.focused = true;
+        this.$emit('focus');
       }
     },
     blur: function blur() {
       this.focused = false;
+      this.$emit('blur');
     }
   },
   beforeDestroy: function beforeDestroy() {
@@ -6861,13 +6869,13 @@ var Search = { render: function render() {
 
 var Select = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue }, nativeOn: { "keydown": function keydown($event) {
-          if (_vm._k($event.keyCode, "enter", 13)) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
             return null;
           }_vm.open($event);
         } } }, [_c('q-popover', { ref: "popover", attrs: { "disable": _vm.disable || _vm.readonly, "fit": "" } }, [_c('div', { staticClass: "q-select-popover list highlight" }, [_vm._l(_vm.options, function (radio) {
       return _vm.type === 'radio' ? _c('label', { key: radio, staticClass: "item", on: { "click": _vm.close } }, [_c('div', { staticClass: "item-primary" }, [_c('q-radio', { attrs: { "val": radio.value }, model: { value: _vm.model, callback: function callback($$v) {
             _vm.model = $$v;
-          } } })], 1), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(radio.label) } })])]) : _vm._e();
+          }, expression: "model" } })], 1), _c('div', { staticClass: "item-content" }, [_c('div', { domProps: { "innerHTML": _vm._s(radio.label) } })])]) : _vm._e();
     }), _vm.type === 'list' ? _c('div', { staticClass: "list no-border highlight", class: { 'item-delimiter': _vm.delimiter }, staticStyle: { "min-width": "100px" } }, _vm._l(_vm.options, function (opt) {
       return _c('q-list-item', { key: opt, attrs: { "item": opt, "link": "", "active": _vm.model === opt.value }, nativeOn: { "click": function click($event) {
             _vm.__setAndClose(opt.value);
@@ -6980,7 +6988,7 @@ var DialogSelect = { render: function render() {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('q-picker-textfield', { attrs: { "disable": _vm.disable, "readonly": _vm.readonly, "label": _vm.label, "placeholder": _vm.placeholder, "static-label": _vm.staticLabel, "value": _vm.actualValue }, nativeOn: { "click": function click($event) {
           _vm.pick($event);
         }, "keydown": function keydown($event) {
-          if (_vm._k($event.keyCode, "enter", 13)) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
             return null;
           }_vm.pick($event);
         } } });
@@ -8613,7 +8621,7 @@ var ActionSheets = { render: function render() {
       return _c('div', { staticClass: "cursor-pointer column inline items-center justify-center", class: button.classes, attrs: { "tabindex": "0" }, on: { "click": function click($event) {
             _vm.close(button.handler);
           }, "keydown": function keydown($event) {
-            if (_vm._k($event.keyCode, "enter", 13)) {
+            if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
               return null;
             }_vm.close(button.handler);
           } } }, [button.icon ? _c('i', [_vm._v(_vm._s(button.icon))]) : _vm._e(), _vm._v(" "), button.avatar ? _c('img', { staticClass: "avatar", attrs: { "src": button.avatar } }) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(button.label))])]);
@@ -8621,14 +8629,14 @@ var ActionSheets = { render: function render() {
       return _c('div', { staticClass: "item item-link", class: button.classes, attrs: { "tabindex": "0" }, on: { "click": function click($event) {
             _vm.close(button.handler);
           }, "keydown": function keydown($event) {
-            if (_vm._k($event.keyCode, "enter", 13)) {
+            if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
               return null;
             }_vm.close(button.handler);
           } } }, [button.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(button.icon))]) : _vm._e(), _vm._v(" "), button.avatar ? _c('img', { staticClass: "item-primary", attrs: { "src": button.avatar } }) : _vm._e(), _c('div', { staticClass: "item-content inset" }, [_vm._v(_vm._s(button.label))])]);
     }))]), _vm.dismiss ? _c('div', { staticClass: "list no-border" }, [_c('div', { staticClass: "item item-link", class: _vm.dismiss.classes, attrs: { "tabindex": "0" }, on: { "click": function click($event) {
           _vm.close();
         }, "keydown": function keydown($event) {
-          if (_vm._k($event.keyCode, "enter", 13)) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
             return null;
           }_vm.close();
         } } }, [_vm.dismiss.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(_vm.dismiss.icon))]) : _vm._e(), _c('div', { staticClass: "item-content inset" }, [_vm._v(_vm._s(_vm.dismiss.label))])])]) : _vm._e()]);
@@ -8637,7 +8645,7 @@ var ActionSheets = { render: function render() {
       return _c('div', { staticClass: "cursor-pointer column inline items-center justify-center", class: button.classes, attrs: { "tabindex": "0" }, on: { "click": function click($event) {
             _vm.close(button.handler);
           }, "keydown": function keydown($event) {
-            if (_vm._k($event.keyCode, "enter", 13)) {
+            if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
               return null;
             }_vm.close(button.handler);
           } } }, [button.icon ? _c('i', [_vm._v(_vm._s(button.icon))]) : _vm._e(), _vm._v(" "), button.avatar ? _c('img', { staticClass: "avatar", attrs: { "src": button.avatar } }) : _vm._e(), _vm._v(" "), _c('span', [_vm._v(_vm._s(button.label))])]);
@@ -8645,14 +8653,14 @@ var ActionSheets = { render: function render() {
       return _c('div', { staticClass: "item item-link", class: button.classes, attrs: { "tabindex": "0" }, on: { "click": function click($event) {
             _vm.close(button.handler);
           }, "keydown": function keydown($event) {
-            if (_vm._k($event.keyCode, "enter", 13)) {
+            if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
               return null;
             }_vm.close(button.handler);
           } } }, [button.icon ? _c('i', { staticClass: "item-primary" }, [_vm._v(_vm._s(button.icon))]) : _vm._e(), _vm._v(" "), button.avatar ? _c('img', { staticClass: "item-primary", attrs: { "src": button.avatar } }) : _vm._e(), _c('div', { staticClass: "item-content inset" }, [_vm._v(_vm._s(button.label))])]);
     }))])]), _vm.dismiss ? _c('div', { staticClass: "q-action-sheet" }, [_c('div', { staticClass: "item item-link", class: _vm.dismiss.classes, attrs: { "tabindex": "0" }, on: { "click": function click($event) {
           _vm.close();
         }, "keydown": function keydown($event) {
-          if (_vm._k($event.keyCode, "enter", 13)) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) {
             return null;
           }_vm.close();
         } } }, [_c('div', { staticClass: "item-content row justify-center" }, [_vm._v(_vm._s(_vm.dismiss.label))])])]) : _vm._e()]);
@@ -8851,17 +8859,18 @@ function read(string) {
   return string;
 }
 
-function set$2(key, val) {
-  var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+function set$2(key, value) {
+  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-  var time = opts.expires;
+  var days = options.expires,
+      time = void 0;
 
-  if (typeof opts.expires === 'number') {
+  if (typeof options.expires === 'number') {
     time = new Date();
-    time.setMilliseconds(time.getMilliseconds() + opts.expires * 864e+5);
+    time.setMilliseconds(time.getMilliseconds() + days * 864e+5);
   }
 
-  document.cookie = [encode(key), '=', stringifyCookieValue(val), time ? '; expires=' + time.toUTCString() : '', opts.path ? '; path=' + opts.path : '', opts.domain ? '; domain=' + opts.domain : '', opts.secure ? '; secure' : ''].join('');
+  document.cookie = [encode(key), '=', stringifyCookieValue(value), time ? '; expires=' + time.toUTCString() : '', options.path ? '; path=' + options.path : '', options.domain ? '; domain=' + options.domain : '', options.secure ? '; secure' : ''].join('');
 }
 
 function get$2(key) {
